@@ -1,0 +1,137 @@
+/* just define css variables */
+.windows {
+    --backdrop-filter: blur(8px) saturate(0.8);
+    /* change this color into whatever you like */
+    --background-color: rgba(26, 26, 26, 0.4);
+    --transition: 300ms;
+}
+
+/* Title Bar */
+.window-title {
+    transition: var(--transition);
+}
+
+.window-icon {
+    transition: var(--transition);
+}
+
+/* Action Label */
+.action-label.codicon {
+    transition: var(--transition);
+}
+
+/* Editor Panel */
+.split-view-view.visible {
+    transition: var(--transition);
+}
+
+.monaco-hover {
+    backdrop-filter: var(--backdrop-filter);
+    background-color: var(--background-color) !important;
+}
+
+.monaco-editor .tree {
+    backdrop-filter: var(--backdrop-filter);
+    background-color: var(--background-color) !important;
+}
+
+.monaco-editor .details {
+    backdrop-filter: var(--backdrop-filter);
+    background-color: var(--background-color) !important;
+}
+
+.editor-widget.suggest-widget {
+    backdrop-filter: none;
+    background-color: transparent !important;
+}
+
+/* Command Panel */
+.quick-input-widget {
+    backdrop-filter: var(--backdrop-filter);
+    background-color: var(--background-color) !important;
+}
+
+.monaco-list-rows {
+    background-color: transparent !important;
+}
+
+.monaco-list-rows .monaco-list-row {
+    transition: var(--transition);
+    outline: none !important;
+}
+
+/* Input Box */
+.monaco-inputbox.idle {
+    background-color: transparent !important;
+}
+
+.monaco-inputbox.idle .wrapper {
+    background-color: transparent;
+}
+
+.monaco-inputbox.idle .mirror {
+    background-color: transparent;
+}
+
+/* Menu */
+.monaco-menu .monaco-action-bar {
+    backdrop-filter: var(--backdrop-filter);
+    background-color: var(--background-color) !important;
+}
+
+.separator {
+    border-bottom-color: rgba(255, 255, 255, 0.4) !important;
+}
+
+/* Search & Replace */
+.editor-widget {
+    backdrop-filter: var(--backdrop-filter);
+    background-color: var(--background-color) !important;
+}
+
+/* Notification Panel */
+.notifications-center-header {
+    backdrop-filter: var(--backdrop-filter);
+    background-color: var(--background-color) !important;
+}
+
+.notifications-list-container {
+    backdrop-filter: var(--backdrop-filter);
+    background-color: var(--background-color) !important;
+}
+
+.notification-toast {
+    background-color: transparent !important;
+    transition: var(--transition);
+}
+
+/* Feedback Form */
+.feedback-form {
+    backdrop-filter: var(--backdrop-filter);
+    background-color: var(--background-color) !important;
+}
+
+/* Minimap */
+.minimap {
+    backdrop-filter: var(--backdrop-filter);
+}
+
+.minimap canvas {
+    opacity: 0.4;
+    transition: var(--transition);
+}
+
+.minimap:hover canvas {
+    opacity: 1;
+    transition: var(--transition);
+}
+
+/* Vertical Scroll Bar */
+.scrollbar.horizontal {
+    backdrop-filter: var(--backdrop-filter);
+}
+
+/* Setting Page */
+.setting-item-contents.settings-row-inner-container {
+    transition: var(--transition);
+}
