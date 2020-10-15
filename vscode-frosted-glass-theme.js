@@ -30,7 +30,7 @@ onloadComplete = () => {
 			let parent = e.querySelector(".monaco-menu");
 			e.querySelectorAll(".actions-container li").forEach(menuItem => {
 				// position:absolute will be invalid if drop-filter is set on menu
-				// so I just move sub menu below parent instead of <ul>
+				// so I just move sub menu below .monaco-menu instead of <ul>
 				proxyAll(menuItem, parent);
 			});
 		})
