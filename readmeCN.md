@@ -1,5 +1,11 @@
 ## vscode 毛玻璃主题
 为你的vscode带来类似Mac OS或是Windows的acrylic material效果的菜单！
+## 预览图
+![CodeHover](image/CodeHover.jpg)
+![ContextMenu](image/ContextMenu.jpg)
+![MenuBar](image/MenuBar.jpg)
+![SearchBar](image/SearchBar.jpg)
+![CommandPanel](image/CommandPanel.jpg)
 ## 安装
 * 安装Custom CSS and JS Loader拓展
 * git clone本repo
