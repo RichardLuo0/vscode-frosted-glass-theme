@@ -135,3 +135,9 @@
 .setting-item-contents.settings-row-inner-container {
     transition: var(--transition);
 }
+
+/* Breadcrumbs Picker */
+.monaco-breadcrumbs-picker > div:nth-child(2) {
+    backdrop-filter: var(--backdrop-filter);
+    background-color: var(--background-color) !important;
+}

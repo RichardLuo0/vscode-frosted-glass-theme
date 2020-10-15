@@ -6,7 +6,7 @@ Bring frosted glass menu (like windows acrylic or mac os) to your vscode!
 * In settings, add
     ```
     "vscode_custom_css.imports":[ 
-        "file:///your/path/to/vscode-frosted-glass-theme.css"
+        "file:///your/path/to/vscode-frosted-glass-theme.css",
         "file:///your/path/to/vscode-frosted-glass-theme.js"
     ]
     ```
@@ -14,6 +14,6 @@ Bring frosted glass menu (like windows acrylic or mac os) to your vscode!
 * Type in "reload custom css and js", press enter, then restart according to instruction
 * It should be working. You should have seen translucent effect on menu
 * You can change menu color by modifying "--background-color" in css
-## Known issus
+## Known issues
 * Some sub menu may not display normally.
 * Sometimes UI interface may be dislocation, try comment out "--transition" in css 

@@ -6,7 +6,7 @@
 * 在设置中添加
     ```
     "vscode_custom_css.imports":[ 
-        "file:///your/path/to/vscode-frosted-glass-theme.css"
+        "file:///your/path/to/vscode-frosted-glass-theme.css",
         "file:///your/path/to/vscode-frosted-glass-theme.js"
     ]
     ```
