@@ -1,7 +1,7 @@
 onloadComplete = () => {
 	// proxy function of src
 	function proxy(src, functionName, newFunction, modifyFunction) {
-		let oldFunction = src[functionName];
+		let oldFunction = src.__proto__[functionName];
 		src[functionName] = function () {
 			if (!(newFunction && newFunction.call(this, ...arguments))) {
 				let temp = oldFunction.call(this, ...arguments);
@@ -26,14 +26,19 @@ onloadComplete = () => {
 	}
 
 	function fixMenu(menuContainer) {
-		proxy(menuContainer, "appendChild", (e) => {
+		function fix(e) {
 			let parent = e.querySelector(".monaco-menu");
+			if (!parent) return;
 			e.querySelectorAll(".actions-container li").forEach(menuItem => {
 				// position:absolute will be invalid if drop-filter is set on menu
-				// so I just move sub menu below .monaco-menu instead of <ul>
+				// so I just move sub menu below .monaco-menu instead of <ul>	
 				proxyAll(menuItem, parent);
 			});
-		})
+		}
+		// if menu has existed, fix it now, otherwise, wait for appendChild
+		if (menuContainer.childElementCount <= 0)
+			proxy(menuContainer, "appendChild", fix);
+		else fix(menuContainer);
 	}
 
 	function hasChildWithTagName(e, tagName) {
@@ -44,7 +49,7 @@ onloadComplete = () => {
 		return false;
 	}
 
-	// fix menu bar sub menu
+	// fix top bar menu
 	let menus = document.querySelectorAll(".menubar-menu-button");
 	menus.forEach(menu => {
 		proxy(menu, "appendChild", menuContainer => {
@@ -56,20 +61,28 @@ onloadComplete = () => {
 	let oldAttachShadow = Element.prototype.attachShadow;
 	Element.prototype.attachShadow = function () {
 		let e = oldAttachShadow.call(this, ...arguments);
-		let oldAppendChild = e.appendChild;
+		let oldAppendChild = e.__proto__.appendChild;
 		e.appendChild = function (menuContainer) {
-			if (!hasChildWithTagName(e, "LINK")) {
-				// copy style from document into shadowDOM
-				for (const child of document.body.children) {
-					if (child.tagName === "LINK")
-						oldAppendChild.call(this, child.cloneNode());
+			if (menuContainer.tagName !== "SLOT") {
+				if (!hasChildWithTagName(e, "LINK")) {
+					// copy style from document into shadowDOM
+					for (const child of document.body.children)
+						if (child.tagName === "LINK")
+							oldAppendChild.call(this, child.cloneNode());
 				}
+				fixMenu(menuContainer);
 			}
-			fixMenu(menuContainer);
-			oldAppendChild.call(this, ...arguments);
+			return oldAppendChild.call(this, ...arguments);
 		}
 		return e;
 	};
+
+	// fix side bar menu
+	let contextView = document.querySelector(".context-view");
+	proxy(contextView, "appendChild", (e) => {
+		if (e.classList.contains("monaco-scrollable-element"))
+			fixMenu(e);
+	})
 }
 
 window.onload = () => {
