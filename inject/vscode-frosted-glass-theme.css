@@ -1,7 +1,7 @@
 /* just define css variables */
+/* change those variables into whatever you like */
 .windows {
     --backdrop-filter: blur(8px) saturate(0.8);
-    /* change this color into whatever you like */
     --background-color: rgba(255, 255, 255, 0.4);
     --transition: 300ms;
 }

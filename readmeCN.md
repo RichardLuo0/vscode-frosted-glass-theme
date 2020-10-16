@@ -6,9 +6,13 @@
 ![MenuBar](image/MenuBar.jpg)
 ![SearchBar](image/SearchBar.jpg)
 ![CommandPanel](image/CommandPanel.jpg)
-## 安装
+## 直接安装
+* 从vscode插件商店搜索Frosted Glass Theme安装
+* 打开命令面板，输入“Enable Frosted Glass Theme”，回车
+* 你可以在vscode中改变部分设置
+## 通过Custom CSS and JS Loader拓展安装
 * 安装"Custom CSS and JS Loader"拓展
-* git clone本repo
+* 下载本仓库inject文件夹下的文件
 * 在设置中添加
     ```
     "vscode_custom_css.imports":[ 
@@ -23,3 +27,5 @@
 ## 已知问题
 * 部分子菜单无法显示
 * 有时候界面可能会发生错位，如果发生请注释掉css中--transition
+## 感谢
+[be5invis/vscode-custom-css](https://github.com/be5invis/vscode-custom-css)

@@ -1,14 +1,18 @@
 ## vscode-frosted-glass-theme
 Bring frosted glass menu (like windows acrylic or mac os) to your vscode!
 ## Preview
-![CodeHover](image/CodeHover.jpg)
-![ContextMenu](image/ContextMenu.jpg)
-![MenuBar](image/MenuBar.jpg)
-![SearchBar](image/SearchBar.jpg)
-![CommandPanel](image/CommandPanel.jpg)
-## Installation
+![CodeHover](https://raw.githubusercontent.com/RichardLuo0/vscode-frosted-glass-theme/master/image/CodeHover.jpg)
+![ContextMenu](https://raw.githubusercontent.com/RichardLuo0/vscode-frosted-glass-theme/master/image/ContextMenu.jpg)
+![MenuBar](https://raw.githubusercontent.com/RichardLuo0/vscode-frosted-glass-theme/master/image/MenuBar.jpg)
+![SearchBar](https://raw.githubusercontent.com/RichardLuo0/vscode-frosted-glass-theme/master/image/SearchBar.jpg)
+![CommandPanel](https://raw.githubusercontent.com/RichardLuo0/vscode-frosted-glass-theme/master/image/CodeHover.jpg)
+## Direct Install
+* In microsoft vscode marketplace， search for "Frosted Glass Theme", install
+* Open command panel, type in "Enable Frosted Glass Theme", press enter
+* You can change some settings in vscode settings
+## Install with Custom CSS and JS Loader
 * Install "Custom CSS and JS Loader" extension
-* git clone this repo
+* Download files in inject/ folder in this repo
 * In settings, add
     ```
     "vscode_custom_css.imports":[ 
@@ -23,3 +27,5 @@ Bring frosted glass menu (like windows acrylic or mac os) to your vscode!
 ## Known issues
 * Some sub menu may not display normally.
 * Sometimes UI interface may be dislocation, try comment out "--transition" in css 
+## Thanks
+[be5invis/vscode-custom-css](https://github.com/be5invis/vscode-custom-css)

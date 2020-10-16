@@ -1,3 +1,5 @@
+let delay = 3000;
+
 onloadComplete = () => {
 	// proxy function of src
 	function proxy(src, functionName, newFunction, modifyFunction) {
@@ -88,5 +90,5 @@ onloadComplete = () => {
 window.onload = () => {
 	// I have no idea when will vscode loaded completely
 	// So I just make a 3 seconds delay
-	setTimeout(onloadComplete, 3000);
+	setTimeout(onloadComplete, delay);
 }
