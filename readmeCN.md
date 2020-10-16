@@ -9,7 +9,8 @@
 ## 直接安装
 * 从vscode插件商店搜索Frosted Glass Theme安装
 * 打开命令面板，输入“Enable Frosted Glass Theme”，回车
-* 你可以在vscode中改变部分设置
+* **你可以在vscode中改变部分设置，每次更改设置，请执行“Update Frosted Glass Theme”来应用**
+* **每次vscode更新，你都必须重新启用Frosted Glass Theme**
 ## 通过Custom CSS and JS Loader拓展安装
 * 安装"Custom CSS and JS Loader"拓展
 * 下载本仓库inject文件夹下的文件
