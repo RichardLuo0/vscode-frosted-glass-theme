@@ -1,7 +1,11 @@
 {
 	"name": "frosted-glass-theme",
 	"displayName": "Frosted Glass Theme",
-	"icon": "https://raw.githubusercontent.com/RichardLuo0/vscode-frosted-glass-theme/master/icon/icon.png",
+	"icon": "icon/icon.png",
+	"galleryBanner": {
+		"color": "indigo",
+		"theme": "dark"
+	},
 	"publisher": "RichardLuo",
 	"description": "Bring frosted glass menu (like windows acrylic or mac os) to your vscode!",
 	"version": "0.0.1",

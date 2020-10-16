@@ -10,4 +10,3 @@ vsc-extension-quickstart.md
 **/*.map
 **/*.ts
 image/**
-icon/**
