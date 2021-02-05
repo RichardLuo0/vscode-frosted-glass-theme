@@ -6,7 +6,7 @@ import { msg } from "./msg";
 import File from "./File";
 
 const appDir = require.main ? path.dirname(require.main.filename) : undefined;
-if (appDir == undefined) throw "appDir is not found";
+if (appDir === undefined) throw new Error("appDir is not found");
 const base = path.join(appDir, "vs", "code");
 const htmlFile = path.join(
     base,
@@ -14,7 +14,7 @@ const htmlFile = path.join(
     "workbench",
     "workbench.html"
 );
-const BackupFilePath = (uuid: any) =>
+const backupFilePath = (uuid: any) =>
     path.join(
         base,
         "electron-browser",
@@ -34,7 +34,7 @@ export default class InjectCSSandJS {
         const uuidSession = v4();
         const c = fs
             .createReadStream(htmlFile)
-            .pipe(fs.createWriteStream(BackupFilePath(uuidSession)));
+            .pipe(fs.createWriteStream(backupFilePath(uuidSession)));
         c.on("finish", () => this.performPatch(uuidSession));
     }
 
@@ -47,7 +47,7 @@ export default class InjectCSSandJS {
             const backupUuid = this.getBackupUuid(htmlFile);
             if (!backupUuid) return this.uninstallComplete(true, false);
 
-            const backupPath = BackupFilePath(backupUuid);
+            const backupPath = backupFilePath(backupUuid);
             fs.stat(backupPath, (errBak, statsBak) => {
                 if (errBak) {
                     this.uninstallComplete(true, false);
@@ -120,7 +120,7 @@ export default class InjectCSSandJS {
     }
 
     protected restoreBak(backupFilePath: string, willReinstall: boolean) {
-        fs.unlink(htmlFile, err => {
+        fs.unlink(htmlFile, (err) => {
             if (err) {
                 window.showInformationMessage(msg.admin);
                 return;

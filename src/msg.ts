@@ -6,7 +6,7 @@ export const msg = {
         "See README for more detail.",
     disabled:
         "Frosted glass theme disabled and reverted to default. Restart to take effect.",
-    already_disabled: "Frosted glass theme already disabled.",
+    alreadyDisabled: "Frosted glass theme already disabled.",
     somethingWrong: "Something went wrong: ",
     restartIde: "Restart Visual Studio Code",
     notfound: "Frosted glass theme not found.",

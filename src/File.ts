@@ -23,7 +23,7 @@ export default class File {
     }
 
     openInVSCode() {
-        workspace.openTextDocument(Uri.parse(this.path)).then(doc => {
+        workspace.openTextDocument(Uri.parse(this.path)).then((doc) => {
             window.showTextDocument(doc);
         });
     }

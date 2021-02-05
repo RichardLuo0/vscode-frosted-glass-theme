@@ -21,6 +21,7 @@ export function activate(context: ExtensionContext) {
         let configureID = {
             "frosted-glass-theme.backdropFilter": /(--backdrop-filter: ).*?;/,
             "frosted-glass-theme.backgroundColor": /(--background-color: ).*?;/,
+            "frosted-glass-theme.transition":  /(--transition: ).*?;/
         };
         let configuration = workspace.getConfiguration();
         for (const key in configureID) {

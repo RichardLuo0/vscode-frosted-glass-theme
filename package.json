@@ -58,6 +58,11 @@
 					"default": "rgba(255, 255, 255, 0.4)",
 					"description": "Config menu background color"
 				},
+				"frosted-glass-theme.transition": {
+					"type": "string",
+					"default": "300ms",
+					"description": "Config css transition"
+				},
 				"frosted-glass-theme.jsDelay": {
 					"type": "number",
 					"default": 3000,
