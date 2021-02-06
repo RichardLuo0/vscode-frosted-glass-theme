@@ -9,20 +9,20 @@ onloadComplete = () => {
 				let temp = oldFunction.call(this, ...arguments);
 				return modifyFunction ? modifyFunction(temp) : temp;
 			}
-		}
+		};
 	}
 
 	// proxy dom operation on src element
 	function proxyAll(src, parent) {
-		src.appendChild = e => {
+		src.append = e => {
 			parent.appendChild(e);
 			// DOM.isAncestor will always return true
 			Object.defineProperty(e, "parentNode", {
 				get() {
 					return src;
 				}
-			})
-		}
+			});
+		};
 		src.removeChild = e => parent.removeChild(e);
 		src.replaceChild = e => parent.replaceChild(e);
 	}
@@ -56,8 +56,8 @@ onloadComplete = () => {
 	menus.forEach(menu => {
 		proxy(menu, "appendChild", menuContainer => {
 			fixMenu(menuContainer);
-		})
-	})
+		});
+	});
 
 	// fix context menu which is wrapped into shadow dom
 	let oldAttachShadow = Element.prototype.attachShadow;
@@ -75,7 +75,7 @@ onloadComplete = () => {
 				fixMenu(menuContainer);
 			}
 			return oldAppendChild.call(this, ...arguments);
-		}
+		};
 		return e;
 	};
 
@@ -84,11 +84,11 @@ onloadComplete = () => {
 	proxy(contextView, "appendChild", (e) => {
 		if (e.classList.contains("monaco-scrollable-element"))
 			fixMenu(e);
-	})
-}
+	});
+};
 
 window.onload = () => {
 	// I have no idea when will vscode loaded completely
 	// So I just make a 3 seconds delay
 	setTimeout(onloadComplete, delay);
-}
+};
