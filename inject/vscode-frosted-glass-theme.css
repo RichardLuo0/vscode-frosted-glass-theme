@@ -21,11 +21,7 @@ body {
 }
 
 /* Editor Panel */
-.split-view-view.visible {
-    transition: var(--transition);
-}
-
-.monaco-hover {
+.suggest-details {
     backdrop-filter: var(--backdrop-filter);
     background-color: var(--background-color) !important;
 }
@@ -56,7 +52,6 @@ body {
 }
 
 .monaco-list-rows .monaco-list-row {
-    transition: var(--transition);
     outline: none !important;
 }
 
