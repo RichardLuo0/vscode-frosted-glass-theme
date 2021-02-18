@@ -21,6 +21,11 @@ body {
 }
 
 /* Editor Panel */
+.monaco-hover {
+    backdrop-filter: var(--backdrop-filter);
+    background-color: var(--background-color) !important;
+}
+
 .suggest-details {
     backdrop-filter: var(--backdrop-filter);
     background-color: var(--background-color) !important;
