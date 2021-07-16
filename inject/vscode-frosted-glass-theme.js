@@ -3,6 +3,7 @@ let delay = 3000;
 onloadComplete = () => {
 	// proxy function of src
 	function proxy(src, functionName, newFunction, modifyFunction) {
+		if (!src) return;
 		let oldFunction = src.__proto__[functionName];
 		src[functionName] = function () {
 			if (!(newFunction && newFunction.call(this, ...arguments))) {

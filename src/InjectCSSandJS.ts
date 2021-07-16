@@ -1,5 +1,6 @@
 import path = require("path");
 import fs = require("fs");
+import Url = require("url");
 import { v4 } from "uuid";
 import { window } from "vscode";
 import { msg } from "./msg";
@@ -14,12 +15,12 @@ const htmlFile = path.join(
     "workbench",
     "workbench.html"
 );
-const backupFilePath = (uuid: any) =>
+const backupFilePath = (uuid: string) =>
     path.join(
         base,
         "electron-browser",
         "workbench",
-        `workbench.${uuid}.bak-custom-css`
+        `workbench.${uuid}.bak-frosted-glass`
     );
 
 export default class InjectCSSandJS {
@@ -29,49 +30,62 @@ export default class InjectCSSandJS {
         this.imports = imports;
     }
 
-    public inject() {
-        this.deleteBackupFiles();
+    public async inject() {
         const uuidSession = v4();
-        const c = fs
-            .createReadStream(htmlFile)
-            .pipe(fs.createWriteStream(backupFilePath(uuidSession)));
-        c.on("finish", () => this.performPatch(uuidSession));
+        await this.createBackup(uuidSession);
+        await this.performPatch(uuidSession);
     }
 
-    public restore() {
-        fs.stat(htmlFile, (errHtml, statsHtml) => {
-            if (errHtml)
-                return window.showInformationMessage(
-                    msg.somethingWrong + errHtml
+    public async restore() {
+        const backupUuid = await this.getBackupUuid();
+        if (!backupUuid) return;
+        const backupPath = backupFilePath(backupUuid);
+        await this.restoreBackup(backupPath);
+        await this.deleteBackupFiles();
+    }
+
+    protected async getBackupUuid() {
+        if (fs.existsSync(htmlFile)) {
+            const htmlContent = await fs.promises.readFile(htmlFile, "utf-8");
+            const m = htmlContent.match(
+                /<!-- !! VSCODE-FROSTED-GLASS-THEME-SESSION-ID ([0-9a-fA-F-]+) !! -->/
+            );
+            if (!m) return null;
+            else return m[1];
+        }
+    }
+
+    protected async createBackup(uuidSession: string) {
+        try {
+            const backupUuid = await this.getBackupUuid();
+            if (!backupUuid)
+                await fs.promises.copyFile(
+                    htmlFile,
+                    backupFilePath(uuidSession)
                 );
-            const backupUuid = this.getBackupUuid(htmlFile);
-            if (!backupUuid) return this.uninstallComplete(true, false);
-
-            const backupPath = backupFilePath(backupUuid);
-            fs.stat(backupPath, (errBak, statsBak) => {
-                if (errBak) {
-                    this.uninstallComplete(true, false);
-                } else {
-                    this.restoreBak(backupPath, false);
-                }
-            });
-        });
+            else {
+                fs.promises.rename(
+                    backupFilePath(backupUuid),
+                    backupFilePath(uuidSession)
+                );
+            }
+        } catch (e) {
+            window.showInformationMessage(msg.admin);
+            throw e;
+        }
     }
 
-    protected getBackupUuid(htmlFile: string) {
-        const htmlContent = fs.readFileSync(htmlFile, "utf-8");
-        const m = htmlContent.match(
-            /<!-- !! VSCODE-FROSTED-GLASS-THEME-SESSION-ID ([0-9a-fA-F-]+) !! -->/
-        );
-        if (!m) return null;
-        else return m[1];
-    }
-
-    protected performPatch(uuidSession: string) {
+    protected async performPatch(uuidSession: string) {
         let html = fs.readFileSync(htmlFile, "utf-8");
         html = this.clearExistingPatches(html);
 
-        const injectHTML = this.computeInjectedHTML();
+        let injectHTML;
+        try {
+            injectHTML = await this.computeInjectedHTML();
+        } catch (e) {
+            window.showWarningMessage(msg.somethingWrong + e);
+            throw e;
+        }
 
         html = html.replace(
             /(<\/html>)/,
@@ -80,7 +94,12 @@ export default class InjectCSSandJS {
                 injectHTML +
                 "<!-- !! VSCODE-FROSTED-GLASS-THEME-END !! -->\n</html>"
         );
-        fs.writeFileSync(htmlFile, html, "utf-8");
+        try {
+            await fs.promises.writeFile(htmlFile, html, "utf-8");
+        } catch (e) {
+            window.showInformationMessage(msg.admin);
+            throw e;
+        }
     }
 
     protected clearExistingPatches(html: string) {
@@ -95,51 +114,49 @@ export default class InjectCSSandJS {
         return html;
     }
 
-    protected computeInjectedHTML() {
-        return this.imports.map(this.computeInjectedHTMLItem).join("");
+    protected async computeInjectedHTML() {
+        let res = "";
+        for (const item of this.imports) {
+            const imp = await this.computeInjectedHTMLItem(item);
+            if (imp) res += imp;
+        }
+        return res;
     }
 
-    protected computeInjectedHTMLItem(f: File) {
+    protected async computeInjectedHTMLItem(f: File) {
         if (!f) return "";
-        let x = f.path;
+        let url = f.path;
 
-        if (/^((file:.*\.js)|(data:.*javascript|js.*))$/.test(x))
-            return '<script src="' + x + '"></script>\n';
+        let parsed = new Url.URL(url);
+        const ext = path.extname(parsed.pathname);
 
-        if (/^((file:.*\.css)|(data:.*css.*))$/.test(x))
-            return '<link rel="stylesheet" href="' + x + '"/>\n';
-    }
+        url = url
+            .replace("file:///", "vscode-file://vscode-app/")
+            .replace(/\\/g, "/");
 
-    protected uninstallComplete(succeeded: boolean, willReinstall: boolean) {
-        if (!succeeded) return;
-        if (willReinstall) {
-            this.inject();
-        } else {
-            this.deleteBackupFiles();
+        switch (ext) {
+            case ".js":
+                return `<script src="${url}"></script>\n`;
+            case ".css":
+                return `<link rel="stylesheet" href="${url}"/>\n`;
+            default:
+                break;
         }
     }
 
-    protected restoreBak(backupFilePath: string, willReinstall: boolean) {
-        fs.unlink(htmlFile, (err) => {
-            if (err) {
-                window.showInformationMessage(msg.admin);
-                return;
-            }
-            const c = fs
-                .createReadStream(backupFilePath)
-                .pipe(fs.createWriteStream(htmlFile));
-            c.on("finish", () => {
-                this.uninstallComplete(true, willReinstall);
-            });
-        });
+    protected async restoreBackup(backupFilePath: string) {
+        if (fs.existsSync(backupFilePath)) {
+            await fs.promises.unlink(htmlFile);
+            await fs.promises.copyFile(backupFilePath, htmlFile);
+        }
     }
 
-    protected deleteBackupFiles() {
+    protected async deleteBackupFiles() {
         const htmlDir = path.dirname(htmlFile);
         const htmlDirItems = fs.readdirSync(htmlDir);
         for (const item of htmlDirItems) {
-            if (item.endsWith(".bak-custom-css"))
-                fs.unlinkSync(path.join(htmlDir, item));
+            if (item.endsWith(".bak-frosted-glass"))
+                await fs.promises.unlink(path.join(htmlDir, item));
         }
     }
 }

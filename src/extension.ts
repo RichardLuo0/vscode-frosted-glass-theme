@@ -18,15 +18,15 @@ export function activate(context: ExtensionContext) {
     }
 
     function updateConfiguration() {
-        let configureID = {
+        let configureID: Record<string, RegExp> = {
             "frosted-glass-theme.backdropFilter": /(--backdrop-filter: ).*?;/,
             "frosted-glass-theme.backgroundColor": /(--background-color: ).*?;/,
-            "frosted-glass-theme.transition":  /(--transition: ).*?;/
+            "frosted-glass-theme.transition": /(--transition: ).*?;/,
         };
         let configuration = workspace.getConfiguration();
         for (const key in configureID) {
             cssFile.modify(
-                (configureID as any)[key],
+                configureID[key],
                 "$1" + configuration.get(key) + ";"
             );
         }
@@ -38,22 +38,34 @@ export function activate(context: ExtensionContext) {
 
     let enableTheme = commands.registerCommand(
         "frosted-glass-theme.enableTheme",
-        () => {
+        async () => {
             updateConfiguration();
-            injection.inject();
-            window
-                .showInformationMessage(msg.enabled, { title: msg.restartIde })
-                .then(reloadWindow);
+            try {
+                await injection.inject();
+                window
+                    .showInformationMessage(msg.enabled, {
+                        title: msg.restartIde,
+                    })
+                    .then(reloadWindow);
+            } catch (e) {
+                console.error(e);
+            }
         }
     );
 
     let disableTheme = commands.registerCommand(
         "frosted-glass-theme.disableTheme",
-        () => {
-            injection.restore();
-            window
-                .showInformationMessage(msg.disabled, { title: msg.restartIde })
-                .then(reloadWindow);
+        async () => {
+            try {
+                await injection.restore();
+                window
+                    .showInformationMessage(msg.disabled, {
+                        title: msg.restartIde,
+                    })
+                    .then(reloadWindow);
+            } catch (e) {
+                console.error(e);
+            }
         }
     );
 
