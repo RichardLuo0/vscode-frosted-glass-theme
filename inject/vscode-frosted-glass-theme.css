@@ -126,8 +126,8 @@ body {
     transition: var(--transition);
 }
 
-/* Vertical Scroll Bar */
-.scrollbar.horizontal {
+/* Scroll Bar */
+.slider {
     backdrop-filter: var(--backdrop-filter);
 }
 
@@ -138,6 +138,12 @@ body {
 
 /* Breadcrumbs Picker */
 .monaco-breadcrumbs-picker > div:nth-child(2) {
+    backdrop-filter: var(--backdrop-filter);
+    background-color: var(--background-color) !important;
+}
+
+/* Debug Tool Bar */
+.debug-toolbar {
     backdrop-filter: var(--backdrop-filter);
     background-color: var(--background-color) !important;
 }
