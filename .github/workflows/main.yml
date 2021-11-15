@@ -24,15 +24,16 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+      
       - uses: actions/setup-node@v1
         with:
-          node-version: 12
-      - name: Publish VS Code Extension
-      # You may pin to the exact commit or the version.
-      # uses: HaaLeo/publish-vscode-extension@aae4c55fd9e724685834ff0a9488ad57c8f3ecf1
-        uses: HaaLeo/publish-vscode-extension@v0
-        with:
-            # Personal access token
-            pat: ${{ secrets.VS_MARKETPLACE_TOKEN }}
-            # Use the registry API at this base URL
-            registryUrl: https://marketplace.visualstudio.com
+          node-version: 14
+
+      - name: Install the dependencies
+        run: npm i
+
+      - name: Install vsce
+        run: npm i -g vsce
+
+      - name: Publish
+        run: vsce publish -p ${{ secrets.VS_MARKETPLACE_TOKEN }}
