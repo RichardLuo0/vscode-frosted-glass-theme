@@ -1,5 +1,11 @@
 # Change Log
 
+## [0.5.5]
+- Minor change on sub menu problem
+
+## [0.5.4]
+- Add debug tool & slider transparency
+
 ## [0.5.3]
 - fix vscode 1.58 cors
 

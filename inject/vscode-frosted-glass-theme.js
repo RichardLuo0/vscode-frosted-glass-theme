@@ -55,9 +55,11 @@ onloadComplete = () => {
 	// fix top bar menu
 	let menus = document.querySelectorAll(".menubar-menu-button");
 	menus.forEach(menu => {
-		proxy(menu, "appendChild", menuContainer => {
+		let fixFunction = menuContainer => {
 			fixMenu(menuContainer);
-		});
+		};
+		proxy(menu, "append", fixFunction);
+		proxy(menu, "appendChild", fixFunction);
 	});
 
 	// fix context menu which is wrapped into shadow dom
