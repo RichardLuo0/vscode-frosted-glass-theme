@@ -25,7 +25,7 @@
     ```
 * shift + ctrl + p 呼出命令面板
 * 输入reload custom css and js, 回车，根据提示重启vscode
-* 应该已经生效，应该可以看到菜单变成毛玻璃的效果
+* 应该已经生效，可以看到菜单变成毛玻璃的效果
 * 你可以根据自己的主题修改vscode-frosted-glass-theme.css文件中--background-color来修改菜单的颜色
 ## 已知问题
 * 部分子菜单无法显示

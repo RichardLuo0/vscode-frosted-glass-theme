@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.5.6]
+- Proxy menu bar children change to avoid menu bar update
+
 ## [0.5.5]
 - Minor change on sub menu problem
 

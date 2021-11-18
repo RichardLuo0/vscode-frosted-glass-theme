@@ -8,7 +8,7 @@
 	},
 	"publisher": "RichardLuo",
 	"description": "Bring frosted glass menu (like windows acrylic or mac os) to your vscode!",
-	"version": "0.5.5",
+	"version": "0.5.6",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/RichardLuo0/vscode-frosted-glass-theme"
@@ -65,7 +65,7 @@
 				},
 				"frosted-glass-theme.jsDelay": {
 					"type": "number",
-					"default": 3000,
+					"default": 1000,
 					"description": "Js would be executed after specific delay (ms)"
 				}
 			}

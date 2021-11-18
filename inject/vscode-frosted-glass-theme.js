@@ -1,9 +1,10 @@
-let delay = 3000;
+let delay = 1000;
 
 onloadComplete = () => {
 	// proxy function of src
 	function proxy(src, functionName, newFunction, modifyFunction) {
 		if (!src) return;
+		if (src[functionName]._hiddenTag) return;
 		let oldFunction = src.__proto__[functionName];
 		src[functionName] = function () {
 			if (!(newFunction && newFunction.call(this, ...arguments))) {
@@ -11,6 +12,7 @@ onloadComplete = () => {
 				return modifyFunction ? modifyFunction(temp) : temp;
 			}
 		};
+		src[functionName]._hiddenTag = true;
 	}
 
 	// proxy dom operation on src element
@@ -53,14 +55,16 @@ onloadComplete = () => {
 	}
 
 	// fix top bar menu
-	let menus = document.querySelectorAll(".menubar-menu-button");
-	menus.forEach(menu => {
-		let fixFunction = menuContainer => {
-			fixMenu(menuContainer);
-		};
-		proxy(menu, "append", fixFunction);
-		proxy(menu, "appendChild", fixFunction);
-	});
+	function fixMenuBotton(menu) {
+		proxy(menu, "append", fixMenu);
+		proxy(menu, "appendChild", fixMenu);
+	}
+	let menuBar = document.querySelector(".menubar");
+	let menus = menuBar.querySelectorAll(".menubar-menu-button");
+	menus.forEach(fixMenuBotton);
+	proxy(menuBar, "append", fixMenuBotton);
+	proxy(menuBar, "appendChild", fixMenuBotton);
+	proxy(menuBar, "insertBefore", fixMenuBotton);
 
 	// fix context menu which is wrapped into shadow dom
 	let oldAttachShadow = Element.prototype.attachShadow;
