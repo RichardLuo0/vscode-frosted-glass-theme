@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.5.7]
+- Set scrollable-element to transparent
+
 ## [0.5.6]
 - Proxy menu bar children change to avoid menu bar update
 

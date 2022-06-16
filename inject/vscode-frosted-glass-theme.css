@@ -79,8 +79,8 @@ body {
     background-color: var(--background-color) !important;
 }
 
-.separator {
-    border-bottom-color: rgba(255, 255, 255, 0.4) !important;
+.monaco-scrollable-element {
+    background-color: transparent !important;
 }
 
 /* Search & Replace */

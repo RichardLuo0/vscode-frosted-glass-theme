@@ -96,6 +96,6 @@ onloadComplete = () => {
 
 window.onload = () => {
 	// I have no idea when will vscode loaded completely
-	// So I just make a 3 seconds delay
+	// So I just make a 1 seconds delay
 	setTimeout(onloadComplete, delay);
 };
