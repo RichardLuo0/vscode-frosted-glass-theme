@@ -9,19 +9,15 @@ import File from "./File";
 const appDir = require.main ? path.dirname(require.main.filename) : undefined;
 if (appDir === undefined) throw new Error("appDir is not found");
 const base = path.join(appDir, "vs", "code");
-const htmlFile = path.join(
-    base,
-    "electron-browser",
-    "workbench",
-    "workbench.html"
-);
-const backupFilePath = (uuid: string) =>
-    path.join(
-        base,
-        "electron-browser",
-        "workbench",
-        `workbench.${uuid}.bak-frosted-glass`
-    );
+let baseDir = path.join(base, "electron-sandbox", "workbench");
+let htmlFile = path.join(baseDir, "workbench.html");
+// Since VS Code 1.70.0, the file is in electron-sandbox/workbench/workbench.html
+if (!fs.existsSync(htmlFile)) {
+    baseDir = path.join(base, "electron-browser", "workbench");
+    htmlFile = path.join(baseDir, "workbench.html");
+}
+let backupFilePath = (uuid: string) =>
+    path.join(base, `workbench.${uuid}.bak-frosted-glass`);
 
 export default class InjectCSSandJS {
     private imports: File[];
