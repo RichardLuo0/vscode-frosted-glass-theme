@@ -46,7 +46,13 @@ export function activate(context: ExtensionContext) {
                     .showInformationMessage(msg.enabled, {
                         title: msg.restartIde,
                     })
-                    .then(reloadWindow);
+                    .then(function (selection) {
+                        if (
+                            selection != undefined &&
+                            selection.title == msg.restartIde
+                        )
+                            reloadWindow();
+                    });
             } catch (e) {
                 console.error(e);
             }
@@ -62,7 +68,13 @@ export function activate(context: ExtensionContext) {
                     .showInformationMessage(msg.disabled, {
                         title: msg.restartIde,
                     })
-                    .then(reloadWindow);
+                    .then(function (selection) {
+                        if (
+                            selection != undefined &&
+                            selection.title == msg.restartIde
+                        )
+                            reloadWindow();
+                    });
             } catch (e) {
                 console.error(e);
             }
@@ -75,7 +87,13 @@ export function activate(context: ExtensionContext) {
             updateConfiguration();
             window
                 .showInformationMessage(msg.enabled, { title: msg.restartIde })
-                .then(reloadWindow);
+                .then(function (selection) {
+                    if (
+                        selection != undefined &&
+                        selection.title == msg.restartIde
+                    )
+                        reloadWindow();
+                });
         }
     );
 
