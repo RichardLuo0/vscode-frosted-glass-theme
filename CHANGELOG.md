@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.5.9]
+- Close message box will no longer trigger window reload
+
 ## [0.5.8]
 - Since VS Code 1.70.0, the HTML file is in electron-sandbox/workbench/workbench.html
 
