@@ -9,7 +9,7 @@
 ## 直接安装
 * 从vscode插件商店搜索Frosted Glass Theme安装
 * 打开命令面板，输入“Enable Frosted Glass Theme”，回车
-* **你可以在vscode中改变部分设置，每次更改设置，请执行“Update Frosted Glass Theme”来应用**
+* **你可以在vscode中改变部分设置，每次更改设置，请执行“Apply Frosted Glass Theme Configuration”来应用**
 * **每次vscode更新，你都必须重新启用Frosted Glass Theme**
 ### 对于linux用户
 在linux下大部分菜单由系统托管，我没法修改这部分菜单。但是你还是能看到在由vscode生成的菜单上的效果

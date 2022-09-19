@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.5.10]
+- Add debug-hover-widget
+- Change "Update Frosted Glass Theme" to "Apply Frosted Glass Theme Configuration"
+
 ## [0.5.9]
 - Close message box will no longer trigger window reload
 

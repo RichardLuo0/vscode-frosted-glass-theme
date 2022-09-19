@@ -147,3 +147,9 @@ body {
     backdrop-filter: var(--backdrop-filter);
     background-color: var(--background-color) !important;
 }
+
+/* Debug Hover Widget */
+.debug-hover-widget {
+    backdrop-filter: var(--backdrop-filter);
+    background-color: var(--background-color) !important;
+}
