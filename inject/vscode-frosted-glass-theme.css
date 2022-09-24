@@ -83,6 +83,11 @@ body {
     background-color: transparent !important;
 }
 
+.monaco-scrollable-element .invisible {
+    opacity: 0 !important;
+    pointer-events: none;
+}
+
 /* Search & Replace */
 .editor-widget {
     backdrop-filter: var(--backdrop-filter);
@@ -114,6 +119,7 @@ body {
 /* Minimap */
 .minimap {
     backdrop-filter: var(--backdrop-filter);
+    background-color: var(--background-color);
 }
 
 .minimap canvas {
