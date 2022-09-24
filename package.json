@@ -50,7 +50,7 @@
 			"properties": {
 				"frosted-glass-theme.backdropFilter": {
 					"type": "string",
-					"default": "blur(8px) saturate(0.8)",
+					"default": "blur(16px) contrast(80%)",
 					"description": "Config menu backdrop filter"
 				},
 				"frosted-glass-theme.backgroundColor": {

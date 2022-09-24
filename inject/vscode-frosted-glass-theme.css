@@ -1,7 +1,7 @@
 /* just define css variables */
 /* change those variables into whatever you like */
 body {
-    --backdrop-filter: blur(8px) saturate(0.8);
+    --backdrop-filter: blur(16px) contrast(80%);
     --background-color: rgba(255, 255, 255, 0.4);
     --transition: 300ms;
 }
