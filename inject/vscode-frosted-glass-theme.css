@@ -159,3 +159,9 @@ body {
     backdrop-filter: var(--backdrop-filter);
     background-color: var(--background-color) !important;
 }
+
+/* Code Action Widget */
+.codeActionWidget {
+    backdrop-filter: var(--backdrop-filter);
+    background-color: var(--background-color) !important;
+}
