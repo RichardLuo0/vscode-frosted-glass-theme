@@ -1,5 +1,13 @@
 # Change Log
 
+## [0.5.12]
+- 682a9cc: feat: add code action widget
+- 24ac65b: chore: change extensionKind; change README.md …
+
+## [0.5.11]
+- 452e4ee: fix: incorrect menu scrollbar visibility
+- ca1f370: fix: change backdrop filter for better visual
+
 ## [0.5.10]
 - Add debug-hover-widget
 - Change "Update Frosted Glass Theme" to "Apply Frosted Glass Theme Configuration"
