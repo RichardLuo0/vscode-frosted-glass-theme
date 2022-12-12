@@ -19,6 +19,9 @@
 	"categories": [
 		"Themes"
 	],
+	"extensionKind": [
+		"ui"
+	],
 	"activationEvents": [
 		"onCommand:frosted-glass-theme.enableTheme",
 		"onCommand:frosted-glass-theme.disableTheme",

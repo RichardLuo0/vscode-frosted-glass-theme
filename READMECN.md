@@ -13,7 +13,7 @@
 * **每次vscode更新，你都必须重新启用Frosted Glass Theme**
 ### 对于linux用户
 在linux下大部分菜单由系统托管，我没法修改这部分菜单。但是你还是能看到在由vscode生成的菜单上的效果
-## 通过Custom CSS and JS Loader拓展安装
+## 或者通过Custom CSS and JS Loader拓展安装
 * 安装"Custom CSS and JS Loader"拓展
 * 下载本仓库inject文件夹下的文件
 * 在设置中添加

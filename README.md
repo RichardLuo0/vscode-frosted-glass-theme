@@ -13,7 +13,7 @@ Bring frosted glass menu (like windows acrylic or mac os) to your vscode!
 * **Every time vscode update itself, you have to re-enable Frosted Glass Theme**
 ### For linux user
 In linux, most menus are managed by system, which I can not access. However, you can still enjoy many small menus which is managed by vscode
-## Install with Custom CSS and JS Loader extension
+## Or install with Custom CSS and JS Loader extension
 * Install "Custom CSS and JS Loader" extension
 * Download files in inject/ folder in this repo
 * In settings, add
