@@ -1,11 +1,11 @@
 ## vscode-frosted-glass-theme
 Bring frosted glass menu (like windows acrylic or mac os) to your vscode!
 ## Preview
-![CodeHover](https://raw.githubusercontent.com/RichardLuo0/vscode-frosted-glass-theme/master/image/CodeHover.jpg)
-![ContextMenu](https://raw.githubusercontent.com/RichardLuo0/vscode-frosted-glass-theme/master/image/ContextMenu.jpg)
-![MenuBar](https://raw.githubusercontent.com/RichardLuo0/vscode-frosted-glass-theme/master/image/MenuBar.jpg)
-![SearchBar](https://raw.githubusercontent.com/RichardLuo0/vscode-frosted-glass-theme/master/image/SearchBar.jpg)
-![CommandPanel](https://raw.githubusercontent.com/RichardLuo0/vscode-frosted-glass-theme/master/image/CodeHover.jpg)
+![CodeHover](image/CodeHover.jpg) \
+![ContextMenu](image/ContextMenu.jpg) \
+![MenuBar](image/MenuBar.jpg) \
+![SearchBar](image/SearchBar.jpg) \
+![CommandPanel](image/CommandPanel.jpg)
 ## Direct Install
 * In microsoft vscode marketplace, search for "Frosted Glass Theme", install
 * Open command panel, type in "Enable Frosted Glass Theme", press enter

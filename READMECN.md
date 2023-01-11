@@ -1,10 +1,10 @@
 ## vscode 毛玻璃主题
 为你的vscode带来类似Mac OS或是Windows的acrylic material效果的菜单！
 ## 预览图
-![CodeHover](image/CodeHover.jpg)
-![ContextMenu](image/ContextMenu.jpg)
-![MenuBar](image/MenuBar.jpg)
-![SearchBar](image/SearchBar.jpg)
+![CodeHover](image/CodeHover.jpg) \
+![ContextMenu](image/ContextMenu.jpg) \
+![MenuBar](image/MenuBar.jpg) \
+![SearchBar](image/SearchBar.jpg) \
 ![CommandPanel](image/CommandPanel.jpg)
 ## 直接安装
 * 从vscode插件商店搜索Frosted Glass Theme安装
