@@ -43,7 +43,7 @@ export function activate(context: ExtensionContext) {
             try {
                 await injection.inject();
                 window
-                    .showInformationMessage(msg.enabled, {
+                    .showInformationMessage(msg.applied, {
                         title: msg.restartIde,
                     })
                     .then(function (selection) {

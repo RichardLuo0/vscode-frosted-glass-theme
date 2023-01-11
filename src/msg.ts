@@ -4,6 +4,10 @@ export const msg = {
         "Frosted glass theme enabled. Restart to take effect. " +
         "If Code complains about it is corrupted, CLICK DON'T SHOW AGAIN. " +
         "See README for more detail.",
+    applied:
+        "Changes has been applied. Restart to take effect. " +
+        "If Code complains about it is corrupted, CLICK DON'T SHOW AGAIN. " +
+        "See README for more detail.",
     disabled:
         "Frosted glass theme disabled and reverted to default. Restart to take effect.",
     alreadyDisabled: "Frosted glass theme already disabled.",
