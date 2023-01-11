@@ -81,8 +81,8 @@ export function activate(context: ExtensionContext) {
         }
     );
 
-    let updateTheme = commands.registerCommand(
-        "frosted-glass-theme.updateTheme",
+    let applyConfig = commands.registerCommand(
+        "frosted-glass-theme.applyConfig",
         () => {
             updateConfiguration();
             window
@@ -106,7 +106,7 @@ export function activate(context: ExtensionContext) {
 
     context.subscriptions.push(enableTheme);
     context.subscriptions.push(disableTheme);
-    context.subscriptions.push(updateTheme);
+    context.subscriptions.push(applyConfig);
     context.subscriptions.push(openCSS);
 }
 

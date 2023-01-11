@@ -25,7 +25,7 @@
 	"activationEvents": [
 		"onCommand:frosted-glass-theme.enableTheme",
 		"onCommand:frosted-glass-theme.disableTheme",
-		"onCommand:frosted-glass-theme.updateTheme",
+		"onCommand:frosted-glass-theme.applyConfig",
 		"onCommand:frosted-glass-theme.openCSS"
 	],
 	"main": "./out/extension.js",
@@ -40,7 +40,7 @@
 				"title": "Disable Frosted Glass Theme"
 			},
 			{
-				"command": "frosted-glass-theme.updateTheme",
+				"command": "frosted-glass-theme.applyConfig",
 				"title": "Apply Frosted Glass Theme Configuration"
 			},
 			{
