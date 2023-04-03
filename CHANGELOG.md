@@ -1,5 +1,12 @@
 # Change Log
 
+## [0.5.13]
+- c082642: fix: depth 2 menu not displaying
+- 84b8d74: chore: rename command to "Frosted Glass Theme: xxx"
+- c461e1e: build: remove .github folder in final product
+- 9679e55: docs: fix: images in README may be misplaced
+- 21d0606: fix: misleading text saying its enabled
+
 ## [0.5.12]
 - 682a9cc: feat: add code action widget
 - 24ac65b: chore: change extensionKind; change README.md …
