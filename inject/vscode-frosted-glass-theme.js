@@ -25,6 +25,8 @@ onloadComplete = () => {
 					return src;
 				}
 			});
+			// fix new sub menu
+			fixMenu(e);
 		};
 		src.removeChild = e => parent.removeChild(e);
 		src.replaceChild = e => parent.replaceChild(e);
