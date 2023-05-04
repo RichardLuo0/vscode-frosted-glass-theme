@@ -165,3 +165,14 @@ body {
     backdrop-filter: var(--backdrop-filter);
     background-color: var(--background-color) !important;
 }
+
+.action-widget {
+    backdrop-filter: var(--backdrop-filter);
+    background-color: var(--background-color) !important;
+}
+
+/* Rename box */
+.rename-box {
+    backdrop-filter: var(--backdrop-filter);
+    background-color: var(--background-color) !important;
+}
