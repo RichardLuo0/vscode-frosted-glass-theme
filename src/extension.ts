@@ -18,15 +18,23 @@ export function activate(context: ExtensionContext) {
     }
 
     function updateConfiguration() {
-        let configureID: Record<string, RegExp> = {
-            "frosted-glass-theme.backdropFilter": /(--backdrop-filter: ).*?;/,
-            "frosted-glass-theme.backgroundColor": /(--background-color: ).*?;/,
-            "frosted-glass-theme.transition": /(--transition: ).*?;/,
-        };
+        let configureID: Map<string, RegExp> = new Map();
+        configureID.set(
+            "frosted-glass-theme.backdropFilter",
+            /(--backdrop-filter: ).*?;/
+        );
+        configureID.set(
+            "frosted-glass-theme.backgroundColor",
+            /(--background-color: ).*?;/
+        );
+        configureID.set(
+            "frosted-glass-theme.transition",
+            /(--transition: ).*?;/
+        );
         let configuration = workspace.getConfiguration();
         for (const key in configureID) {
             cssFile.modify(
-                configureID[key],
+                configureID.get(key)!,
                 "$1" + configuration.get(key) + ";"
             );
         }
