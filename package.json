@@ -64,12 +64,7 @@
 				"frosted-glass-theme.transition": {
 					"type": "string",
 					"default": "300ms",
-					"description": "Config css transition"
-				},
-				"frosted-glass-theme.jsDelay": {
-					"type": "number",
-					"default": 1000,
-					"description": "Js would be executed after specific delay (ms)"
+					"description": "CSS transition"
 				}
 			}
 		}
@@ -84,14 +79,14 @@
 		"package": "vsce package"
 	},
 	"devDependencies": {
-		"@types/node": "^18.15.11",
-		"@types/uuid": "^9.0.1",
+		"@types/node": "^20.4.8",
+		"@types/uuid": "^9.0.2",
 		"@types/vscode": "1.50.0",
-		"@typescript-eslint/eslint-plugin": "^5.57.0",
-		"@typescript-eslint/parser": "^5.57.0",
-		"@vscode/test-electron": "^2.3.0",
-		"eslint": "^8.37.0",
-		"typescript": "^5.0.3"
+		"@typescript-eslint/eslint-plugin": "^6.2.1",
+		"@typescript-eslint/parser": "^6.2.1",
+		"@vscode/test-electron": "^2.3.4",
+		"eslint": "^8.46.0",
+		"typescript": "^5.1.6"
 	},
 	"dependencies": {
 		"uuid": "^9.0.0"

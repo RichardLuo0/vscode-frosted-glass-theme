@@ -1,103 +1,111 @@
-let delay = 1000;
-
-onloadComplete = () => {
+(function () {
 	// proxy function of src
-	function proxy(src, functionName, newFunction, modifyFunction) {
+	function proxy(src, functionName, before, after) {
 		if (!src) return;
 		if (src[functionName]._hiddenTag) return;
 		let oldFunction = src.__proto__[functionName];
 		src[functionName] = function () {
-			if (!(newFunction && newFunction.call(this, ...arguments))) {
+			if (!(before && before.call(this, ...arguments))) {
 				let temp = oldFunction.call(this, ...arguments);
-				return modifyFunction ? modifyFunction(temp) : temp;
+				return after ? after(temp) : temp;
 			}
 		};
 		src[functionName]._hiddenTag = true;
 	}
 
-	// proxy dom operation on src element
-	function proxyAll(src, parent) {
-		src.append = e => {
-			parent.appendChild(e);
-			// DOM.isAncestor will always return true
-			Object.defineProperty(e, "parentNode", {
-				get() {
-					return src;
-				}
-			});
-			// fix new sub menu
-			fixMenu(e);
-		};
-		src.removeChild = e => parent.removeChild(e);
-		src.replaceChild = e => parent.replaceChild(e);
-	}
-
-	function fixMenu(menuContainer) {
-		function fix(e) {
-			let parent = e.querySelector(".monaco-menu");
-			if (!parent) return;
-			e.querySelectorAll(".actions-container li").forEach(menuItem => {
-				// position:absolute will be invalid if drop-filter is set on menu
-				// so I just move sub menu below .monaco-menu instead of <ul>	
-				proxyAll(menuItem, parent);
-			});
+	fixEverything = () => {
+		// proxy dom operation on src element
+		function proxyDOM(src, parent) {
+			src.append = e => {
+				parent.appendChild(e);
+				// DOM.isAncestor will always return true
+				Object.defineProperty(e, "parentNode", {
+					get() {
+						return src;
+					}
+				});
+				// fix new sub menu
+				fixMenu(e);
+			};
+			src.removeChild = e => parent.removeChild(e);
+			src.replaceChild = e => parent.replaceChild(e);
 		}
-		// if menu has existed, fix it now, otherwise, wait for appendChild
-		if (menuContainer.childElementCount <= 0)
-			proxy(menuContainer, "appendChild", fix);
-		else fix(menuContainer);
-	}
 
-	function hasChildWithTagName(e, tagName) {
-		for (const child of e.children) {
-			if (child.tagName === tagName)
-				return true;
-		}
-		return false;
-	}
-
-	// fix top bar menu
-	function fixMenuBotton(menu) {
-		proxy(menu, "append", fixMenu);
-		proxy(menu, "appendChild", fixMenu);
-	}
-	let menuBar = document.querySelector(".menubar");
-	let menus = menuBar.querySelectorAll(".menubar-menu-button");
-	menus.forEach(fixMenuBotton);
-	proxy(menuBar, "append", fixMenuBotton);
-	proxy(menuBar, "appendChild", fixMenuBotton);
-	proxy(menuBar, "insertBefore", fixMenuBotton);
-
-	// fix context menu which is wrapped into shadow dom
-	let oldAttachShadow = Element.prototype.attachShadow;
-	Element.prototype.attachShadow = function () {
-		let e = oldAttachShadow.call(this, ...arguments);
-		let oldAppendChild = e.__proto__.appendChild;
-		e.appendChild = function (menuContainer) {
-			if (menuContainer.tagName !== "SLOT") {
-				if (!hasChildWithTagName(e, "LINK")) {
-					// copy style from document into shadowDOM
-					for (const child of document.body.children)
-						if (child.tagName === "LINK")
-							oldAppendChild.call(this, child.cloneNode());
-				}
-				fixMenu(menuContainer);
+		function fixMenu(menuContainer) {
+			function fix(e) {
+				let parent = e.querySelector(".monaco-menu");
+				if (!parent) return;
+				e.querySelectorAll(".actions-container li").forEach(menuItem => {
+					// position:absolute will be invalid if drop-filter is set on menu
+					// so I just move sub menu below .monaco-menu instead of <ul>	
+					proxyDOM(menuItem, parent);
+				});
 			}
-			return oldAppendChild.call(this, ...arguments);
+			// if menu has existed, fix it now, otherwise, wait for appendChild
+			if (menuContainer.childElementCount <= 0)
+				proxy(menuContainer, "appendChild", fix);
+			else fix(menuContainer);
+		}
+
+		function hasChildWithTagName(e, tagName) {
+			for (const child of e.children) {
+				if (child.tagName === tagName)
+					return true;
+			}
+			return false;
+		}
+
+		// fix top bar menu
+		function fixMenuBotton(menu) {
+			proxy(menu, "append", fixMenu);
+			proxy(menu, "appendChild", fixMenu);
+		}
+		let menuBar = document.querySelector(".menubar");
+		let menus = menuBar.querySelectorAll(".menubar-menu-button");
+		menus.forEach(fixMenuBotton);
+		proxy(menuBar, "append", fixMenuBotton);
+		proxy(menuBar, "appendChild", fixMenuBotton);
+		proxy(menuBar, "insertBefore", fixMenuBotton);
+
+		// fix context menu which is wrapped into shadow dom
+		let oldAttachShadow = Element.prototype.attachShadow;
+		Element.prototype.attachShadow = function () {
+			let e = oldAttachShadow.call(this, ...arguments);
+			proxy(e, "appendChild", (menuContainer) => {
+				if (menuContainer.tagName !== "SLOT") {
+					if (!hasChildWithTagName(e, "LINK")) {
+						// copy style from document into shadowDOM
+						for (const child of document.body.children)
+							if (child.tagName === "LINK")
+								HTMLElement.prototype.appendChild.call(e, child.cloneNode());
+					}
+					fixMenu(menuContainer);
+				}
+			});
+			return e;
 		};
-		return e;
+
+		// fix side bar menu
+		let contextView = document.querySelector(".context-view");
+		proxy(contextView, "appendChild", (e) => {
+			if (e.classList.contains("monaco-scrollable-element"))
+				fixMenu(e);
+		});
 	};
 
-	// fix side bar menu
-	let contextView = document.querySelector(".context-view");
-	proxy(contextView, "appendChild", (e) => {
-		if (e.classList.contains("monaco-scrollable-element"))
-			fixMenu(e);
+	let isFixed = false;
+	proxy(document.body, "appendChild", (e) => {
+		function onAppended() {
+			if (!isFixed
+				&& e.firstChild?.className === "monaco-grid-view"
+				&& e.lastChild?.className === "context-view") {
+				setupColor();
+				fixEverything();
+				isFixed = true;
+			}
+			return e;
+		}
+		proxy(e, "prepend", undefined, onAppended);
+		proxy(e, "appendChild", undefined, onAppended);
 	});
-};
-
-window.onload = () => {
-	// I have no idea when will vscode loaded completely
-	// So I just make a 1 seconds delay
-	setTimeout(onloadComplete, delay);
-};
+})();
