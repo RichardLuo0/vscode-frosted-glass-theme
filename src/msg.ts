@@ -5,8 +5,8 @@ export const msg = {
         "If Code complains about it is corrupted, CLICK DON'T SHOW AGAIN. " +
         "See README for more detail.",
     applied:
-        "Changes has been applied. Restart to take effect. " +
-        "If Code complains about it is corrupted, CLICK DON'T SHOW AGAIN. " +
+        "Changes have been applied. Plz do a manual restart. " +
+        "\"Developer: Reload Window\" sometimes does not work. " +
         "See README for more detail.",
     disabled:
         "Frosted glass theme disabled and reverted to default. Restart to take effect.",
