@@ -1,4 +1,10 @@
-import { commands, ExtensionContext, window, workspace } from "vscode";
+import {
+    commands,
+    ExtensionContext,
+    window,
+    workspace,
+    WorkspaceConfiguration,
+} from "vscode";
 import InjectCSSandJS from "./InjectCSSandJS";
 import { msg } from "./msg";
 import path = require("path");
@@ -17,52 +23,62 @@ export function activate(context: ExtensionContext) {
         commands.executeCommand("workbench.action.reloadWindow");
     }
 
-    function updateConfiguration() {
-        let configureID: Map<string, RegExp> = new Map();
-        configureID.set(
-            "frosted-glass-theme.backdropFilter",
-            /(--backdrop-filter: ).*?;/
-        );
-        configureID.set(
+    function generateBackgroundColor(
+        configuration: WorkspaceConfiguration
+    ): string {
+        const backgroundColor = configuration.get<string>(
             "frosted-glass-theme.backgroundColor",
-            /(--background-color: ).*?;/
+            ""
         );
-        configureID.set(
-            "frosted-glass-theme.transition",
-            /(--transition: ).*?;/
-        );
+        return backgroundColor;
+    }
+
+    function updateConfiguration() {
         let configuration = workspace.getConfiguration();
-        for (const key in configureID) {
-            cssFile.modify(
-                configureID.get(key)!,
-                "$1" + configuration.get(key) + ";"
-            );
-        }
-        jsFile.modify(
-            /(let delay = ).*?;/,
-            "$1" + configuration.get("frosted-glass-theme.jsDelay") + ";"
-        );
+        cssFile
+            .editor()
+            .replace(
+                /(--backdrop-filter: ).*?;/,
+                "$1" +
+                    configuration.get(
+                        "frosted-glass-theme.backdropFilter",
+                        ""
+                    ) +
+                    ";"
+            )
+            .replace(
+                /(--transition: ).*?;/,
+                "$1" +
+                    configuration.get("frosted-glass-theme.transition", "") +
+                    ";"
+            )
+            .replace(
+                /(--background-color: ).*?;/,
+                "$1" + generateBackgroundColor(configuration) + ";"
+            )
+            .apply();
     }
 
     let enableTheme = commands.registerCommand(
         "frosted-glass-theme.enableTheme",
         async () => {
-            updateConfiguration();
             try {
+                updateConfiguration();
                 await injection.inject();
                 window
                     .showInformationMessage(msg.applied, {
                         title: msg.restartIde,
                     })
-                    .then(function (selection) {
+                    .then((selection) => {
                         if (
                             selection != undefined &&
-                            selection.title == msg.restartIde
+                            selection.title === msg.restartIde
                         )
                             reloadWindow();
                     });
             } catch (e) {
                 console.error(e);
+                window.showErrorMessage(msg.somethingWrong + e);
             }
         }
     );
@@ -76,15 +92,16 @@ export function activate(context: ExtensionContext) {
                     .showInformationMessage(msg.disabled, {
                         title: msg.restartIde,
                     })
-                    .then(function (selection) {
+                    .then((selection) => {
                         if (
                             selection != undefined &&
-                            selection.title == msg.restartIde
+                            selection.title === msg.restartIde
                         )
                             reloadWindow();
                     });
             } catch (e) {
                 console.error(e);
+                window.showErrorMessage(msg.somethingWrong + e);
             }
         }
     );
@@ -92,24 +109,18 @@ export function activate(context: ExtensionContext) {
     let applyConfig = commands.registerCommand(
         "frosted-glass-theme.applyConfig",
         () => {
-            updateConfiguration();
-            window
-                .showInformationMessage(msg.enabled, { title: msg.restartIde })
-                .then(function (selection) {
-                    if (
-                        selection != undefined &&
-                        selection.title == msg.restartIde
-                    )
-                        reloadWindow();
-                });
+            try {
+                updateConfiguration();
+                window.showInformationMessage(msg.applied);
+            } catch (e) {
+                console.error(e);
+                window.showErrorMessage(msg.somethingWrong + e);
+            }
         }
     );
 
-    let openCSS = commands.registerCommand(
-        "frosted-glass-theme.openCSS",
-        () => {
-            cssFile.openInVSCode();
-        }
+    let openCSS = commands.registerCommand("frosted-glass-theme.openCSS", () =>
+        cssFile.openInVSCode()
     );
 
     context.subscriptions.push(enableTheme);
