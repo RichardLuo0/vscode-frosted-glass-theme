@@ -30,6 +30,18 @@ export function activate(context: ExtensionContext) {
             "frosted-glass-theme.backgroundColor",
             ""
         );
+        const backgroundOpacity = configuration.get<number>(
+            "frosted-glass-theme.backgroundOpacity",
+            0.4
+        );
+        jsFile
+            .editor()
+            .replace(
+                /(const useThemeColor = ).*?;/,
+                "$1" + (backgroundColor.length === 0) + ";"
+            )
+            .replace(/(const opacity = ).*?;/, "$1" + backgroundOpacity + ";")
+            .apply();
         return backgroundColor;
     }
 

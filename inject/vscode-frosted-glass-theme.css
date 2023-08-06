@@ -1,8 +1,8 @@
 /* just define css variables */
-/* change those variables into whatever you like */
-body {
-    --backdrop-filter: blur(16px) contrast(80%);
-    --background-color: rgba(255, 255, 255, 0.4);
+/* change these variables into whatever you like */
+:root {
+    --backdrop-filter: blur(30px);
+    --background-color: ;
     --transition: 300ms;
 }
 
@@ -23,33 +23,23 @@ body {
 /* Editor Panel */
 .monaco-hover {
     backdrop-filter: var(--backdrop-filter);
-    background-color: var(--background-color) !important;
+    /* background-color: var(--background-color) !important; */
 }
 
-.suggest-details {
+.monaco-editor .suggest-details {
     backdrop-filter: var(--backdrop-filter);
-    background-color: var(--background-color) !important;
+    /* background-color: var(--background-color) !important; */
 }
 
 .monaco-editor .tree {
     backdrop-filter: var(--backdrop-filter);
-    background-color: var(--background-color) !important;
-}
-
-.monaco-editor .details {
-    backdrop-filter: var(--backdrop-filter);
-    background-color: var(--background-color) !important;
-}
-
-.editor-widget.suggest-widget {
-    backdrop-filter: none;
-    background-color: transparent !important;
+    /* background-color: var(--background-color) !important; */
 }
 
 /* Command Panel */
 .quick-input-widget {
     backdrop-filter: var(--backdrop-filter);
-    background-color: var(--background-color) !important;
+    /* background-color: var(--background-color) !important; */
 }
 
 .monaco-list-rows {
@@ -76,11 +66,7 @@ body {
 /* Menu */
 .monaco-menu .monaco-action-bar {
     backdrop-filter: var(--backdrop-filter);
-    background-color: var(--background-color) !important;
-}
-
-.monaco-scrollable-element {
-    background-color: transparent !important;
+    /* background-color: var(--background-color) !important; */
 }
 
 .monaco-scrollable-element .invisible {
@@ -91,18 +77,18 @@ body {
 /* Search & Replace */
 .editor-widget {
     backdrop-filter: var(--backdrop-filter);
-    background-color: var(--background-color) !important;
+    background-color: var(--vscode-menu-background) !important;
 }
 
 /* Notification Panel */
 .notifications-center-header {
     backdrop-filter: var(--backdrop-filter);
-    background-color: var(--background-color) !important;
+    background-color: var(--vscode-menu-background) !important;
 }
 
 .notifications-list-container {
     backdrop-filter: var(--backdrop-filter);
-    background-color: var(--background-color) !important;
+    /* background-color: var(--background-color) !important; */
 }
 
 .notification-toast {
@@ -113,13 +99,13 @@ body {
 /* Feedback Form */
 .feedback-form {
     backdrop-filter: var(--backdrop-filter);
-    background-color: var(--background-color) !important;
+    /* background-color: var(--background-color) !important; */
 }
 
 /* Minimap */
 .minimap {
     backdrop-filter: var(--backdrop-filter);
-    background-color: var(--background-color);
+    background-color: var(--vscode-menu-background);
 }
 
 .minimap canvas {
@@ -145,34 +131,29 @@ body {
 /* Breadcrumbs Picker */
 .monaco-breadcrumbs-picker > div:nth-child(2) {
     backdrop-filter: var(--backdrop-filter);
-    background-color: var(--background-color) !important;
+    background-color: var(--vscode-menu-background) !important;
 }
 
 /* Debug Tool Bar */
 .debug-toolbar {
     backdrop-filter: var(--backdrop-filter);
-    background-color: var(--background-color) !important;
+    background-color: var(--vscode-menu-background) !important;
 }
 
 /* Debug Hover Widget */
 .debug-hover-widget {
     backdrop-filter: var(--backdrop-filter);
-    background-color: var(--background-color) !important;
+    background-color: var(--vscode-menu-background) !important;
 }
 
 /* Code Action Widget */
-.codeActionWidget {
-    backdrop-filter: var(--backdrop-filter);
-    background-color: var(--background-color) !important;
-}
-
 .action-widget {
     backdrop-filter: var(--backdrop-filter);
-    background-color: var(--background-color) !important;
+    background-color: var(--vscode-menu-background) !important;
 }
 
 /* Rename box */
 .rename-box {
     backdrop-filter: var(--backdrop-filter);
-    background-color: var(--background-color) !important;
+    background-color: var(--vscode-menu-background) !important;
 }

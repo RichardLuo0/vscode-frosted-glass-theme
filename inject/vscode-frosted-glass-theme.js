@@ -1,4 +1,35 @@
 (function () {
+	const useThemeColor = true;
+	const opacity = 0.4;
+
+	function setupColor() {
+		const colorList = [
+			"--vscode-editorHoverWidget-background",
+			"--vscode-editorSuggestWidget-background",
+			"--vscode-peekViewResult-background",
+			"--vscode-quickInput-background",
+			"--vscode-menu-background",
+			"--vscode-editorWidget-background",
+			"--vscode-notifications-background",
+			"--vscode-debugToolBar-background",
+			"--vscode-editorHoverWidget-statusBarBackground"
+		];
+		const monacoWorkbench = document.body.querySelector(".monaco-workbench");
+		if (useThemeColor) {
+			const alpha = Math.round(opacity * 255).toString(16);
+			const monacoWorkbenchStyle = window.getComputedStyle(monacoWorkbench);
+			for (const color of colorList) {
+				monacoWorkbench.style
+					.setProperty(color, monacoWorkbenchStyle.getPropertyValue(color)
+						+ alpha);
+			}
+		} else {
+			for (const color of colorList) {
+				monacoWorkbench.style.setProperty(color, "var(--background-color)");
+			}
+		}
+	}
+
 	// proxy function of src
 	function proxy(src, functionName, before, after) {
 		if (!src) return;

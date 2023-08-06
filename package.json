@@ -22,12 +22,7 @@
 	"extensionKind": [
 		"ui"
 	],
-	"activationEvents": [
-		"onCommand:frosted-glass-theme.enableTheme",
-		"onCommand:frosted-glass-theme.disableTheme",
-		"onCommand:frosted-glass-theme.applyConfig",
-		"onCommand:frosted-glass-theme.openCSS"
-	],
+	"activationEvents": [],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
@@ -53,13 +48,18 @@
 			"properties": {
 				"frosted-glass-theme.backdropFilter": {
 					"type": "string",
-					"default": "blur(16px) contrast(80%)",
-					"description": "Config menu backdrop filter"
+					"default": "blur(30px)",
+					"description": "Menu backdrop filter"
 				},
 				"frosted-glass-theme.backgroundColor": {
 					"type": "string",
-					"default": "rgba(255, 255, 255, 0.4)",
-					"description": "Config menu background color"
+					"default": "",
+					"description": "Menu background color. Use css color. This will overwrite backgroundOpacity. Leave this blank to use backgroundOpacity"
+				},
+				"frosted-glass-theme.backgroundOpacity": {
+					"type": "number",
+					"default": 0.4,
+					"description": "Menu background opacity. This will blend into your theme color"
 				},
 				"frosted-glass-theme.transition": {
 					"type": "string",
