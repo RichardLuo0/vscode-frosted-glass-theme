@@ -1,5 +1,11 @@
 # Change Log
 
+## [0.6.0]
+- fadee5f: chore: change msg text: "Developer: Reload Window" sometimes does not work
+- 52ee849: feat: allow extracting color from current theme
+- 508612a: refactor: move to editor() pattern
+- 81f6131: perf: no longer rely on timeout
+
 ## [0.5.13]
 - c082642: fix: depth 2 menu not displaying
 - 84b8d74: chore: rename command to "Frosted Glass Theme: xxx"
