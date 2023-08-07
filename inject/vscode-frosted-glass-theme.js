@@ -2,6 +2,25 @@
 	const useThemeColor = true;
 	const opacity = 0.4;
 
+	function applyAlpha(color, alpha) {
+		color = color.trim();
+		if (color.length < 7) throw new Error("incorrect color format");
+		return color.length === 7 ? color + alpha : color.substring(0, 7) + alpha;
+	}
+
+	function getStyleSheetList(ownerNode) {
+		for (let styleSheetList of document.styleSheets) {
+			if (styleSheetList.ownerNode === ownerNode) {
+				return styleSheetList;
+			}
+		}
+	}
+
+	let _contributedColorTheme;
+	function getContributedColorTheme() {
+		return _contributedColorTheme ?? (_contributedColorTheme = document.querySelector("head > style.contributedColorTheme"));
+	}
+
 	function setupColor() {
 		const colorList = [
 			"--vscode-editorHoverWidget-background",
@@ -17,16 +36,24 @@
 		const monacoWorkbench = document.body.querySelector(".monaco-workbench");
 		if (useThemeColor) {
 			const alpha = Math.round(opacity * 255).toString(16);
-			const monacoWorkbenchStyle = window.getComputedStyle(monacoWorkbench);
+			const monacoWorkbenchCSSRule = getStyleSheetList(getContributedColorTheme()).cssRules;
+			const cssVariablesStyle = monacoWorkbenchCSSRule[monacoWorkbenchCSSRule.length - 1].style;
 			for (const color of colorList) {
 				monacoWorkbench.style
-					.setProperty(color, monacoWorkbenchStyle.getPropertyValue(color)
-						+ alpha);
+					.setProperty(color, applyAlpha(cssVariablesStyle.getPropertyValue(color), alpha));
 			}
 		} else {
 			for (const color of colorList) {
 				monacoWorkbench.style.setProperty(color, "var(--background-color)");
 			}
+		}
+	}
+
+	function observeThemeColorChange() {
+		setupColor();
+		if (useThemeColor) {
+			let observer = new MutationObserver(setupColor);
+			observer.observe(getContributedColorTheme(), { characterData: false, attributes: false, childList: true, subtree: false });
 		}
 	}
 
@@ -91,7 +118,7 @@
 			proxy(menu, "append", fixMenu);
 			proxy(menu, "appendChild", fixMenu);
 		}
-		let menuBar = document.querySelector(".menubar");
+		let menuBar = document.querySelector("#workbench\\.parts\\.titlebar > div > div.titlebar-left > div.menubar");
 		let menus = menuBar.querySelectorAll(".menubar-menu-button");
 		menus.forEach(fixMenuBotton);
 		proxy(menuBar, "append", fixMenuBotton);
@@ -117,7 +144,7 @@
 		};
 
 		// fix side bar menu
-		let contextView = document.querySelector(".context-view");
+		let contextView = document.querySelector("body > .monaco-workbench > .context-view");
 		proxy(contextView, "appendChild", (e) => {
 			if (e.classList.contains("monaco-scrollable-element"))
 				fixMenu(e);
@@ -130,7 +157,7 @@
 			if (!isFixed
 				&& e.firstChild?.className === "monaco-grid-view"
 				&& e.lastChild?.className === "context-view") {
-				setupColor();
+				observeThemeColorChange();
 				fixEverything();
 				isFixed = true;
 			}

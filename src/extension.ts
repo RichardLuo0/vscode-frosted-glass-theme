@@ -11,13 +11,13 @@ import path = require("path");
 import File from "./File";
 
 export function activate(context: ExtensionContext) {
-    let cssFile = new File(
+    const cssFile = new File(
         path.resolve(`${__dirname}/../inject/vscode-frosted-glass-theme.css`)
     );
-    let jsFile = new File(
+    const jsFile = new File(
         path.resolve(`${__dirname}/../inject/vscode-frosted-glass-theme.js`)
     );
-    let injection = new InjectCSSandJS([cssFile, jsFile]);
+    const injection = new InjectCSSandJS([cssFile, jsFile]);
 
     function reloadWindow() {
         commands.executeCommand("workbench.action.reloadWindow");
@@ -46,7 +46,7 @@ export function activate(context: ExtensionContext) {
     }
 
     function updateConfiguration() {
-        let configuration = workspace.getConfiguration();
+        const configuration = workspace.getConfiguration();
         cssFile
             .editor()
             .replace(
@@ -71,7 +71,7 @@ export function activate(context: ExtensionContext) {
             .apply();
     }
 
-    let enableTheme = commands.registerCommand(
+    const enableTheme = commands.registerCommand(
         "frosted-glass-theme.enableTheme",
         async () => {
             try {
@@ -95,7 +95,7 @@ export function activate(context: ExtensionContext) {
         }
     );
 
-    let disableTheme = commands.registerCommand(
+    const disableTheme = commands.registerCommand(
         "frosted-glass-theme.disableTheme",
         async () => {
             try {
@@ -118,7 +118,7 @@ export function activate(context: ExtensionContext) {
         }
     );
 
-    let applyConfig = commands.registerCommand(
+    const applyConfig = commands.registerCommand(
         "frosted-glass-theme.applyConfig",
         () => {
             try {
@@ -131,14 +131,12 @@ export function activate(context: ExtensionContext) {
         }
     );
 
-    let openCSS = commands.registerCommand("frosted-glass-theme.openCSS", () =>
-        cssFile.openInVSCode()
+    const openCSS = commands.registerCommand(
+        "frosted-glass-theme.openCSS",
+        cssFile.openInVSCode
     );
 
-    context.subscriptions.push(enableTheme);
-    context.subscriptions.push(disableTheme);
-    context.subscriptions.push(applyConfig);
-    context.subscriptions.push(openCSS);
+    context.subscriptions.push(enableTheme, disableTheme, applyConfig, openCSS);
 }
 
 export function deactivate() {}

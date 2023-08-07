@@ -16,7 +16,7 @@ if (!fs.existsSync(htmlFile)) {
     baseDir = path.join(base, "electron-browser", "workbench");
     htmlFile = path.join(baseDir, "workbench.html");
 }
-let backupFilePath = (uuid: string) =>
+const backupFilePath = (uuid: string) =>
     path.join(base, `workbench.${uuid}.bak-frosted-glass`);
 
 export default class InjectCSSandJS {
@@ -123,7 +123,7 @@ export default class InjectCSSandJS {
         if (!f) return "";
         let url = f.path;
 
-        let parsed = new Url.URL(url);
+        const parsed = new Url.URL(url);
         const ext = path.extname(parsed.pathname);
 
         url = url
