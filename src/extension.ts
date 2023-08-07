@@ -133,7 +133,7 @@ export function activate(context: ExtensionContext) {
 
     const openCSS = commands.registerCommand(
         "frosted-glass-theme.openCSS",
-        cssFile.openInVSCode
+        () => cssFile.openInVSCode()
     );
 
     context.subscriptions.push(enableTheme, disableTheme, applyConfig, openCSS);
