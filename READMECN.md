@@ -21,7 +21,6 @@
 * 根据"Custom CSS and JS Loader"拓展页面上的指示安装
 * 你可以根据自己的主题修改vscode-frosted-glass-theme.css文件中--background-color来修改菜单的颜色
 ## 已知问题
-* 部分子菜单无法显示
 * 有时候界面可能会发生错位，如果发生请注释掉css中--transition
 ## 感谢
 * [be5invis/vscode-custom-css](https://github.com/be5invis/vscode-custom-css)

@@ -1,159 +1,159 @@
 /* just define css variables */
 /* change these variables into whatever you like */
 :root {
-    --backdrop-filter: blur(30px);
-    --background-color: ;
-    --transition: 300ms;
+  --backdrop-filter: blur(30px);
+  --background-color: ;
+  --transition: 300ms;
 }
 
 /* Title Bar */
 .window-title {
-    transition: var(--transition);
+  transition: var(--transition);
 }
 
 .window-icon {
-    transition: var(--transition);
+  transition: var(--transition);
 }
 
 /* Action Label */
 .action-label.codicon {
-    transition: var(--transition);
+  transition: var(--transition);
 }
 
 /* Editor Panel */
 .monaco-hover {
-    backdrop-filter: var(--backdrop-filter);
-    /* background-color: var(--background-color) !important; */
+  backdrop-filter: var(--backdrop-filter);
+  /* background-color: var(--background-color) !important; */
 }
 
 .monaco-editor .suggest-details {
-    backdrop-filter: var(--backdrop-filter);
-    /* background-color: var(--background-color) !important; */
+  backdrop-filter: var(--backdrop-filter);
+  /* background-color: var(--background-color) !important; */
 }
 
 .monaco-editor .tree {
-    backdrop-filter: var(--backdrop-filter);
-    /* background-color: var(--background-color) !important; */
+  backdrop-filter: var(--backdrop-filter);
+  /* background-color: var(--background-color) !important; */
 }
 
 /* Command Panel */
 .quick-input-widget {
-    backdrop-filter: var(--backdrop-filter);
-    /* background-color: var(--background-color) !important; */
+  backdrop-filter: var(--backdrop-filter);
+  /* background-color: var(--background-color) !important; */
 }
 
 .monaco-list-rows {
-    background-color: transparent !important;
+  background-color: transparent !important;
 }
 
 .monaco-list-rows .monaco-list-row {
-    outline: none !important;
+  outline: none !important;
 }
 
 /* Input Box */
 .monaco-inputbox.idle {
-    background-color: transparent !important;
+  background-color: transparent !important;
 }
 
 .monaco-inputbox.idle .wrapper {
-    background-color: transparent;
+  background-color: transparent;
 }
 
 .monaco-inputbox.idle .mirror {
-    background-color: transparent;
+  background-color: transparent;
 }
 
 /* Menu */
 .monaco-menu .monaco-action-bar {
-    backdrop-filter: var(--backdrop-filter);
-    /* background-color: var(--background-color) !important; */
+  backdrop-filter: var(--backdrop-filter);
+  /* background-color: var(--background-color) !important; */
 }
 
 .monaco-scrollable-element .invisible {
-    opacity: 0 !important;
-    pointer-events: none;
+  opacity: 0 !important;
+  pointer-events: none;
 }
 
 /* Search & Replace */
 .editor-widget {
-    backdrop-filter: var(--backdrop-filter);
-    background-color: var(--vscode-menu-background) !important;
+  backdrop-filter: var(--backdrop-filter);
+  background-color: var(--vscode-menu-background) !important;
 }
 
 /* Notification Panel */
 .notifications-center-header {
-    backdrop-filter: var(--backdrop-filter);
-    background-color: var(--vscode-menu-background) !important;
+  backdrop-filter: var(--backdrop-filter);
+  background-color: var(--vscode-menu-background) !important;
 }
 
 .notifications-list-container {
-    backdrop-filter: var(--backdrop-filter);
-    /* background-color: var(--background-color) !important; */
+  backdrop-filter: var(--backdrop-filter);
+  /* background-color: var(--background-color) !important; */
 }
 
 .notification-toast {
-    background-color: transparent !important;
-    transition: var(--transition);
+  background-color: transparent !important;
+  transition: var(--transition);
 }
 
 /* Feedback Form */
 .feedback-form {
-    backdrop-filter: var(--backdrop-filter);
-    /* background-color: var(--background-color) !important; */
+  backdrop-filter: var(--backdrop-filter);
+  /* background-color: var(--background-color) !important; */
 }
 
 /* Minimap */
 .minimap {
-    backdrop-filter: var(--backdrop-filter);
-    background-color: var(--vscode-menu-background);
+  backdrop-filter: var(--backdrop-filter);
+  background-color: var(--vscode-menu-background);
 }
 
 .minimap canvas {
-    opacity: 0.4;
-    transition: var(--transition);
+  opacity: 0.4;
+  transition: var(--transition);
 }
 
 .minimap:hover canvas {
-    opacity: 1;
-    transition: var(--transition);
+  opacity: 1;
+  transition: var(--transition);
 }
 
 /* Scroll Bar */
 .slider {
-    backdrop-filter: var(--backdrop-filter);
+  backdrop-filter: var(--backdrop-filter);
 }
 
 /* Setting Page */
 .setting-item-contents.settings-row-inner-container {
-    transition: var(--transition);
+  transition: var(--transition);
 }
 
 /* Breadcrumbs Picker */
 .monaco-breadcrumbs-picker > div:nth-child(2) {
-    backdrop-filter: var(--backdrop-filter);
-    background-color: var(--vscode-menu-background) !important;
+  backdrop-filter: var(--backdrop-filter);
+  background-color: var(--vscode-menu-background) !important;
 }
 
 /* Debug Tool Bar */
 .debug-toolbar {
-    backdrop-filter: var(--backdrop-filter);
-    background-color: var(--vscode-menu-background) !important;
+  backdrop-filter: var(--backdrop-filter);
+  background-color: var(--vscode-menu-background) !important;
 }
 
 /* Debug Hover Widget */
 .debug-hover-widget {
-    backdrop-filter: var(--backdrop-filter);
-    background-color: var(--vscode-menu-background) !important;
+  backdrop-filter: var(--backdrop-filter);
+  background-color: var(--vscode-menu-background) !important;
 }
 
 /* Code Action Widget */
 .action-widget {
-    backdrop-filter: var(--backdrop-filter);
-    background-color: var(--vscode-menu-background) !important;
+  backdrop-filter: var(--backdrop-filter);
+  background-color: var(--vscode-menu-background) !important;
 }
 
 /* Rename box */
 .rename-box {
-    backdrop-filter: var(--backdrop-filter);
-    background-color: var(--vscode-menu-background) !important;
+  backdrop-filter: var(--backdrop-filter);
+  background-color: var(--vscode-menu-background) !important;
 }
