@@ -9,7 +9,7 @@
   }
 
   function getStyleSheetList(ownerNode) {
-    for (let styleSheetList of document.styleSheets) {
+    for (const styleSheetList of document.styleSheets) {
       if (styleSheetList.ownerNode === ownerNode) {
         return styleSheetList;
       }
@@ -33,7 +33,7 @@
       "--vscode-debugToolBar-background",
       "--vscode-editorHoverWidget-statusBarBackground"
     ];
-    const monacoWorkbench = document.body.querySelector(".monaco-workbench");
+    const monacoWorkbench = document.querySelector("body > .monaco-workbench");
     if (useThemeColor) {
       const alpha = Math.round(opacity * 255).toString(16);
       const monacoWorkbenchCSSRule = getStyleSheetList(getContributedColorTheme()).cssRules;
@@ -52,7 +52,7 @@
   function observeThemeColorChange() {
     setupColor();
     if (useThemeColor) {
-      let observer = new MutationObserver(setupColor);
+      const observer = new MutationObserver(setupColor);
       observer.observe(getContributedColorTheme(), { characterData: false, attributes: false, childList: true, subtree: false });
     }
   }
@@ -61,10 +61,10 @@
   function proxy(src, functionName, before, after) {
     if (!src) return;
     if (src[functionName]._hiddenTag) return;
-    let oldFunction = src.__proto__[functionName];
+    const oldFunction = src[functionName];
     src[functionName] = function () {
       if (!(before && before.call(this, ...arguments))) {
-        let temp = oldFunction.call(this, ...arguments);
+        const temp = oldFunction.call(this, ...arguments);
         return after ? after(temp) : temp;
       }
     };
@@ -91,7 +91,7 @@
 
     function fixMenu(menuContainer) {
       function fix(e) {
-        let parent = e.querySelector(".monaco-menu");
+        const parent = e.querySelector(".monaco-menu");
         if (!parent) return;
         e.querySelectorAll(".actions-container li").forEach(menuItem => {
           // position:absolute will be invalid if drop-filter is set on menu
@@ -118,17 +118,17 @@
       proxy(menu, "append", fixMenu);
       proxy(menu, "appendChild", fixMenu);
     }
-    let menuBar = document.querySelector("#workbench\\.parts\\.titlebar > div > div.titlebar-left > div.menubar");
-    let menus = menuBar.querySelectorAll(".menubar-menu-button");
+    const menuBar = document.querySelector("#workbench\\.parts\\.titlebar > div > div.titlebar-left > div.menubar");
+    const menus = menuBar.querySelectorAll(".menubar-menu-button");
     menus.forEach(fixMenuBotton);
     proxy(menuBar, "append", fixMenuBotton);
     proxy(menuBar, "appendChild", fixMenuBotton);
     proxy(menuBar, "insertBefore", fixMenuBotton);
 
     // fix context menu which is wrapped into shadow dom
-    let oldAttachShadow = Element.prototype.attachShadow;
+    const oldAttachShadow = Element.prototype.attachShadow;
     Element.prototype.attachShadow = function () {
-      let e = oldAttachShadow.call(this, ...arguments);
+      const e = oldAttachShadow.call(this, ...arguments);
       proxy(e, "appendChild", (menuContainer) => {
         if (menuContainer.tagName !== "SLOT") {
           if (!hasChildWithTagName(e, "LINK")) {
@@ -144,7 +144,7 @@
     };
 
     // fix side bar menu
-    let contextView = document.querySelector("body > .monaco-workbench > .context-view");
+    const contextView = document.querySelector("body > .monaco-workbench > .context-view");
     proxy(contextView, "appendChild", (e) => {
       if (e.classList.contains("monaco-scrollable-element"))
         fixMenu(e);
