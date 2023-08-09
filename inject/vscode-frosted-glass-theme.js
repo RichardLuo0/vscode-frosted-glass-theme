@@ -152,18 +152,18 @@
   };
 
   let isFixed = false;
-  proxy(document.body, "appendChild", (e) => {
-    function onAppended() {
+  proxy(document.body, "appendChild", (monacoWorkbench) => {
+    function onAppended(e) {
       if (!isFixed
-        && e.firstChild?.className === "monaco-grid-view"
-        && e.lastChild?.className === "context-view") {
+        && monacoWorkbench.firstChild?.className === "monaco-grid-view"
+        && monacoWorkbench.lastChild?.className === "context-view") {
         observeThemeColorChange();
         fixEverything();
         isFixed = true;
       }
       return e;
     }
-    proxy(e, "prepend", undefined, onAppended);
-    proxy(e, "appendChild", undefined, onAppended);
+    proxy(monacoWorkbench, "prepend", undefined, onAppended);
+    proxy(monacoWorkbench, "appendChild", undefined, onAppended);
   });
 })();
