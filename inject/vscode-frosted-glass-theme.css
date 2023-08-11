@@ -128,16 +128,42 @@
   transition: var(--transition);
 }
 
+/* Tabs */
+.title.tabs {
+  position: absolute !important;
+  z-index: 99;
+  width: 100%;
+  backdrop-filter: var(--backdrop-filter);
+  background-color: transparent !important;
+}
+
+.tabs-and-actions-container {
+  background-color: var(--vscode-editorGroupHeader-tabsBackground) !important;
+}
+
+.tabs-and-actions-container .tab {
+  background-color: var(--vscode-tab-unfocusedInactiveBackground) !important;
+}
+
+.monaco-editor .tabs-breadcrumbs {
+  background-color: var(--vscode-breadcrumb-background) !important;
+}
+
+.monaco-editor > .overflow-guard,
+.monaco-editor > .overflow-guard > .monaco-scrollable-element {
+  overflow: visible !important;
+}
+
 /* Breadcrumbs Picker */
 .monaco-breadcrumbs-picker > div:nth-child(2) {
   backdrop-filter: var(--backdrop-filter);
-  background-color: var(--vscode-menu-background) !important;
+  background-color: var(--vscode-breadcrumbPicker-background) !important;
 }
 
 /* Debug Tool Bar */
 .debug-toolbar {
   backdrop-filter: var(--backdrop-filter);
-  background-color: var(--vscode-menu-background) !important;
+  background-color: var(--vscode-debugToolBar-background) !important;
 }
 
 /* Debug Hover Widget */
