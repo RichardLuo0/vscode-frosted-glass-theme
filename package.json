@@ -22,7 +22,9 @@
 	"extensionKind": [
 		"ui"
 	],
-	"activationEvents": [],
+	"activationEvents": [
+		"onCommand:workbench.action.openSettings"
+	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [

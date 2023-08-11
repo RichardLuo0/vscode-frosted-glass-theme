@@ -70,14 +70,11 @@ export function activate(context: ExtensionContext) {
       try {
         updateConfiguration();
         await injection.inject();
-        window
-          .showInformationMessage(msg.enabled, {
-            title: msg.restartIde,
-          })
-          .then((selection) => {
-            if (selection != undefined && selection.title === msg.restartIde)
-              reloadWindow();
-          });
+        const selection = await window.showInformationMessage(msg.enabled, {
+          title: msg.restartIde,
+        });
+        if (selection != undefined && selection.title === msg.restartIde)
+          reloadWindow();
       } catch (e) {
         console.error(e);
         window.showErrorMessage(msg.somethingWrong + e);
@@ -90,14 +87,11 @@ export function activate(context: ExtensionContext) {
     async () => {
       try {
         await injection.restore();
-        window
-          .showInformationMessage(msg.disabled, {
-            title: msg.restartIde,
-          })
-          .then((selection) => {
-            if (selection != undefined && selection.title === msg.restartIde)
-              reloadWindow();
-          });
+        const selection = await window.showInformationMessage(msg.disabled, {
+          title: msg.restartIde,
+        });
+        if (selection != undefined && selection.title === msg.restartIde)
+          reloadWindow();
       } catch (e) {
         console.error(e);
         window.showErrorMessage(msg.somethingWrong + e);
@@ -122,7 +116,36 @@ export function activate(context: ExtensionContext) {
     cssFile.openInVSCode()
   );
 
-  context.subscriptions.push(enableTheme, disableTheme, applyConfig, openCSS);
+  let isConfigChangedShowing = false;
+  const onConfigureChanged = workspace.onDidChangeConfiguration(async (e) => {
+    if (
+      !isConfigChangedShowing &&
+      e.affectsConfiguration("frosted-glass-theme")
+    ) {
+      isConfigChangedShowing = true;
+      const selection = await window.showInformationMessage(msg.configChanged, {
+        title: msg.applyChanges,
+      });
+      isConfigChangedShowing = false;
+      if (selection != undefined && selection.title === msg.applyChanges) {
+        try {
+          updateConfiguration();
+          window.showInformationMessage(msg.applied);
+        } catch (e) {
+          console.error(e);
+          window.showErrorMessage(msg.somethingWrong + e);
+        }
+      }
+    }
+  });
+
+  context.subscriptions.push(
+    enableTheme,
+    disableTheme,
+    applyConfig,
+    openCSS,
+    onConfigureChanged
+  );
 }
 
 export function deactivate() {}
