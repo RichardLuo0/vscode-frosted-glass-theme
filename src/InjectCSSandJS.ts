@@ -145,11 +145,10 @@ export default class InjectCSSandJS {
   }
 
   protected async deleteBackupFiles() {
-    const htmlDir = path.dirname(htmlFile);
-    const htmlDirItems = fs.readdirSync(htmlDir);
+    const htmlDirItems = fs.readdirSync(base);
     for (const item of htmlDirItems) {
       if (item.endsWith(".bak-frosted-glass"))
-        await fs.promises.unlink(path.join(htmlDir, item));
+        await fs.promises.unlink(path.join(base, item));
     }
   }
 }
