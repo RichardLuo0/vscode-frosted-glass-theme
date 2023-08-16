@@ -7,7 +7,7 @@
    * @param  {object} src
    * @param  {string} functionName
    * @param  {(...arguments) => any?} before
-   * @param  {(retType) => retType | boolean} after: false indicates to use the return value of `before`
+   * @param  {(retType) => retType | boolean} after: `false` indicates to use the return value of `before`
    */
   function proxy(src, functionName, before, after = true) {
     if (!src) return;
@@ -151,12 +151,12 @@
     return false;
   }
 
-  // fix context menu which is wrapped into shadow dom
+  // Fix context menu which is wrapped into shadow dom
   proxy(Element.prototype, "attachShadow", undefined, (e) => {
     proxy(e, "appendChild", (menuContainer) => {
       if (menuContainer.tagName !== "SLOT") {
         if (!hasChildWithTagName(e, "LINK")) {
-          // copy style from document into shadowDOM
+          // Copy style from document into shadowDOM
           for (const child of document.body.children)
             if (child.tagName === "LINK")
               HTMLElement.prototype.appendChild.call(e, child.cloneNode());
@@ -168,16 +168,18 @@
   });
 
   proxy(document.body, "appendChild", (monacoWorkbench) => {
-    observeThemeColorChange(monacoWorkbench);
-    proxy(monacoWorkbench, "prepend", (gridView) =>
-      gridView.className === "monaco-grid-view"
-        ? fixMenuBar(gridView)
-        : undefined
-    );
-    proxy(monacoWorkbench, "appendChild", (contextView) =>
-      contextView.className === "context-view"
-        ? fixContextMenu(contextView)
-        : undefined
-    );
+    if (monacoWorkbench.classList.contains("monaco-workbench")) {
+      observeThemeColorChange(monacoWorkbench);
+      proxy(monacoWorkbench, "prepend", (gridView) =>
+        gridView.className === "monaco-grid-view"
+          ? fixMenuBar(gridView)
+          : undefined
+      );
+      proxy(monacoWorkbench, "appendChild", (contextView) =>
+        contextView.className === "context-view"
+          ? fixContextMenu(contextView)
+          : undefined
+      );
+    }
   });
 })();
