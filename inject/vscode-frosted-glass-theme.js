@@ -88,10 +88,22 @@
     }
   };
 
-  // Proxy dom operation on src element
-  function proxyDOM(src, parent) {
+  function fixSubMenu(src, parent) {
     src.append = (e) => {
-      parent.appendChild(e);
+      // Fix white blur caused by 1px outline
+      const proxy = new Proxy(e.style, {
+        set(_target, p, newValue) {
+          if (p === "left") {
+            const newValueFloat = parseFloat(newValue);
+            newValue = newValueFloat === 0 ? 0 : newValueFloat + 1 + "px";
+          }
+          return Reflect.set(...arguments);
+        },
+        get() {
+          return Reflect.get(...arguments);
+        },
+      });
+      Object.defineProperty(e, "style", { value: proxy });
       // `DOM.isAncestor` will always return true
       Object.defineProperty(e, "parentNode", {
         get() {
@@ -100,6 +112,7 @@
       });
       // Fix new sub menu
       fixMenu(e);
+      parent.append(e);
     };
     src.removeChild = (e) => parent.removeChild(e);
     src.replaceChild = (e) => parent.replaceChild(e);
@@ -112,7 +125,7 @@
       e.querySelectorAll("ul.actions-container li").forEach((menuItem) => {
         // `position:absolute` will be invalid if drop-filter is set on menu.
         // So I just move sub menu below `.monaco-menu` instead of `<ul>`.
-        proxyDOM(menuItem, parent);
+        fixSubMenu(menuItem, parent);
       });
     }
     // If menu has existed, fix it now, otherwise, wait for appendChild
