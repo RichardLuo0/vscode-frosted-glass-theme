@@ -157,3 +157,8 @@
   backdrop-filter: var(--backdrop-filter);
   background-color: var(--vscode-menu-background) !important;
 }
+
+/* Find part */
+.monaco-workbench .simple-find-part {
+  backdrop-filter: var(--backdrop-filter);
+}
