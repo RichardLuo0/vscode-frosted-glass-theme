@@ -1,5 +1,5 @@
-/* just define css variables */
-/* change these variables into whatever you like */
+/* Just define css variables */
+/* Change these variables into whatever you like */
 :root {
   --backdrop-filter: blur(30px);
   --background-color: ;
@@ -156,13 +156,18 @@
   background-color: var(--vscode-menu-background) !important;
 }
 
-/* Rename box */
+/* Rename Box */
 .rename-box {
   backdrop-filter: var(--backdrop-filter);
   background-color: var(--vscode-menu-background) !important;
 }
 
-/* Find part */
+/* Find Part */
 .monaco-workbench .simple-find-part {
+  backdrop-filter: var(--backdrop-filter);
+}
+
+/* Key Binding Widget */
+.defineKeybindingWidget {
   backdrop-filter: var(--backdrop-filter);
 }
