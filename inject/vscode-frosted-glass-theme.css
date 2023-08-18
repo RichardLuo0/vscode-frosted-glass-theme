@@ -123,6 +123,10 @@
   backdrop-filter: var(--backdrop-filter);
 }
 
+.monaco-editor .scrollbar.vertical .slider {
+  backdrop-filter: none !important;
+}
+
 /* Setting Page */
 .setting-item-contents.settings-row-inner-container {
   transition: var(--transition);
