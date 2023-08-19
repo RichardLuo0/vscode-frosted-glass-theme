@@ -171,3 +171,8 @@
 .defineKeybindingWidget {
   backdrop-filter: var(--backdrop-filter);
 }
+
+/* Custom Dialog Box */
+.monaco-dialog-box {
+  backdrop-filter: var(--backdrop-filter);
+}
