@@ -143,6 +143,7 @@
     const menuBar = gridView.querySelector(
       "#workbench\\.parts\\.titlebar > div > div.titlebar-left > div.menubar"
     );
+    if (!menuBar) return;
     const menus = menuBar.querySelectorAll("div.menubar-menu-button");
     menus.forEach(fixMenuBotton);
     proxy(menuBar, "append", fixMenuBotton);
