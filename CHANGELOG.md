@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.6.6]
+- e33a689: feat: try with admin privileges (or sudo)
+- 45109e7: feat: add `custom dialog`
+
 ## [0.6.0]
 - fadee5f: chore: change msg text: "Developer: Reload Window" sometimes does not work
 - 52ee849: feat: allow extracting color from current theme
