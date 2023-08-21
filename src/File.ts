@@ -1,9 +1,11 @@
 import fs = require("fs");
 import { Uri, window, workspace } from "vscode";
 
-export default class File {
-  private _path;
+export interface IFile {
+  get path(): string;
+}
 
+export default class File implements IFile {
   static editor = class {
     private content: string;
 
@@ -26,9 +28,7 @@ export default class File {
     }
   };
 
-  constructor(path: string) {
-    this._path = path;
-  }
+  constructor(private _path: string) {}
 
   editor() {
     return new File.editor(this);

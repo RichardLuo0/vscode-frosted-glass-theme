@@ -14,8 +14,8 @@ Bring frosted glass menu (like windows acrylic or mac os) to your vscode!
 * Open command panel, type in "Frosted Glass Theme: Enable", press enter
 * **You can change menu background color in vscode settings, every time you change something in settings, please execute "Frosted Glass Theme: Apply Configuration" to apply change**
 * **Every time vscode or this extension updates, you have to re-enable**
-### For linux user
-On linux, most menus are managed by system, which I can not access. However, you can still enjoy many small menus which is managed by vscode
+### For Linux and perhaps MacOS user
+You need to set `window.titleBarStyle` to `custom` to see the effect. Otherwise the effect is very limited.
 ## Or install via Custom CSS and JS Loader extension
 * Download files in `inject/` folder from this repo
 * Follow the instruction on "Custom CSS and JS Loader" extension to complete setup

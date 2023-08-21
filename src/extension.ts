@@ -1,3 +1,4 @@
+import path from "path";
 import {
   commands,
   ExtensionContext,
@@ -5,10 +6,10 @@ import {
   workspace,
   WorkspaceConfiguration,
 } from "vscode";
-import InjectCSSandJS from "./InjectCSSandJS";
-import { msg } from "./msg";
-import path = require("path");
 import File from "./File";
+import Injection from "./Injection";
+import { msg } from "./msg";
+import { showChoiceMessage } from "./ShowMessage";
 
 export function activate(context: ExtensionContext) {
   const cssFile = new File(
@@ -17,7 +18,7 @@ export function activate(context: ExtensionContext) {
   const jsFile = new File(
     path.resolve(`${__dirname}/../inject/vscode-frosted-glass-theme.js`)
   );
-  const injection = new InjectCSSandJS([cssFile, jsFile]);
+  const injection = new Injection([cssFile, jsFile]);
 
   function reloadWindow() {
     commands.executeCommand("workbench.action.reloadWindow");
@@ -70,10 +71,7 @@ export function activate(context: ExtensionContext) {
       try {
         updateConfiguration();
         await injection.inject();
-        const selection = await window.showInformationMessage(msg.enabled, {
-          title: msg.restartIde,
-        });
-        if (selection != undefined && selection.title === msg.restartIde)
+        if (await showChoiceMessage(msg.enabled, msg.restartIde))
           reloadWindow();
       } catch (e) {
         console.error(e);
@@ -87,10 +85,7 @@ export function activate(context: ExtensionContext) {
     async () => {
       try {
         await injection.restore();
-        const selection = await window.showInformationMessage(msg.disabled, {
-          title: msg.restartIde,
-        });
-        if (selection != undefined && selection.title === msg.restartIde)
+        if (await showChoiceMessage(msg.disabled, msg.restartIde))
           reloadWindow();
       } catch (e) {
         console.error(e);
@@ -123,11 +118,7 @@ export function activate(context: ExtensionContext) {
       e.affectsConfiguration("frosted-glass-theme")
     ) {
       isConfigChangedShowing = true;
-      const selection = await window.showInformationMessage(msg.configChanged, {
-        title: msg.applyChanges,
-      });
-      isConfigChangedShowing = false;
-      if (selection != undefined && selection.title === msg.applyChanges) {
+      if (await showChoiceMessage(msg.configChanged, msg.applyChanges)) {
         try {
           updateConfiguration();
           window.showInformationMessage(msg.applied);
@@ -136,6 +127,7 @@ export function activate(context: ExtensionContext) {
           window.showErrorMessage(msg.somethingWrong + e);
         }
       }
+      isConfigChangedShowing = false;
     }
   });
 

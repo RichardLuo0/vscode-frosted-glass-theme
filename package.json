@@ -91,6 +91,7 @@
 		"typescript": "^5.1.6"
 	},
 	"dependencies": {
+		"@vscode/sudo-prompt": "^9.3.1",
 		"uuid": "^9.0.0"
 	}
 }
