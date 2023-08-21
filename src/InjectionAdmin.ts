@@ -10,6 +10,15 @@ function escape(src: string) {
     : src.replace(/"/g, '\\\\"');
 }
 
+function expandEnv(env: { [key: string]: string }): string {
+  if (process.platform === "win32") return "";
+  let res = "";
+  for (const variable in env) {
+    res += variable + "=" + env[variable] + " ";
+  }
+  return res;
+}
+
 export default class InjectionAdmin implements InjectionImpl {
   constructor(
     private files: IFile[],
@@ -31,14 +40,17 @@ export default class InjectionAdmin implements InjectionImpl {
         reject("user cancelled");
         return;
       }
+      const env = {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        ELECTRON_RUN_AS_NODE: "1",
+      };
       sudoPrompt.exec(
-        `"${
+        `${expandEnv(env)} "${
           process.execPath
         }" --ms-enable-electron-run-as-node "${__dirname}/InjectionAdminMain.js" --no-sandbox ${funcName} "${escape(
           JSON.stringify(this.files)
         )}" "${this.base}" "${this.htmlFile}"`,
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        { name: "Frosted Glass Theme", env: { ELECTRON_RUN_AS_NODE: "1" } },
+        { name: "Frosted Glass Theme", env },
         (error) => {
           if (error) reject(error);
           else resolve(undefined);
