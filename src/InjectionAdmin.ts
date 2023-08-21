@@ -4,6 +4,12 @@ import { InjectionImpl } from "./Injection";
 import { showChoiceMessage } from "./ShowMessage";
 import { msg } from "./msg";
 
+function escape(src: string) {
+  return process.platform === "win32"
+    ? src.replace(/"/g, '\\"')
+    : src.replace(/"/g, '\\\\"');
+}
+
 export default class InjectionAdmin implements InjectionImpl {
   constructor(
     private files: IFile[],
@@ -19,19 +25,20 @@ export default class InjectionAdmin implements InjectionImpl {
     return this.runAsAdmin("restore");
   }
 
-  async runAsAdmin(funcName: string): Promise<void> {
+  private async runAsAdmin(funcName: string): Promise<void> {
     return new Promise(async (resolve, reject) => {
       if (!(await showChoiceMessage(msg.tryAdmin, msg.tryAsAdmin))) {
         reject("user cancelled");
         return;
       }
       sudoPrompt.exec(
-        `ELECTRON_RUN_AS_NODE=1 ${
+        `"${
           process.execPath
-        } --ms-enable-electron-run-as-node ${__dirname}/InjectionAdminMain.js --no-sandbox ${funcName} \"${JSON.stringify(
-          this.files
-        ).replace(/"/g, '\\\\"')}\" \"${this.base}\" \"${this.htmlFile}\"`,
-        { name: "Frosted Glass Theme" },
+        }" --ms-enable-electron-run-as-node "${__dirname}/InjectionAdminMain.js" --no-sandbox ${funcName} "${escape(
+          JSON.stringify(this.files)
+        )}" "${this.base}" "${this.htmlFile}"`,
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        { name: "Frosted Glass Theme", env: { ELECTRON_RUN_AS_NODE: "1" } },
         (error) => {
           if (error) reject(error);
           else resolve(undefined);
