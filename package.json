@@ -68,9 +68,14 @@
 					"default": "300ms",
 					"description": "CSS transition"
 				},
-				"frosted-glass-theme.animation": {
+				"frosted-glass-theme.animation.menu": {
 					"type": "string",
 					"default": "300ms cubic-bezier(0, 0.8, 0.2, 1) 0s 1 forwards dropdown",
+					"description": "CSS animation"
+				},
+				"frosted-glass-theme.animation.dialog": {
+					"type": "string",
+					"default": "300ms cubic-bezier(0, 0.8, 0.2, 1) 0s 1 forwards zoomIn",
 					"description": "CSS animation"
 				}
 			}

@@ -4,7 +4,8 @@
   --backdrop-filter: blur(30px);
   --background-color: ;
   --transition: 300ms;
-  --animation: 300ms cubic-bezier(0, 0.8, 0.2, 1) 0s 1 forwards dropdown;
+  --animation-menu: 300ms cubic-bezier(0, 0.8, 0.2, 1) 0s 1 forwards dropdown;
+  --animation-dialog: 300ms cubic-bezier(0, 0.8, 0.2, 1) 0s 1 forwards zoomIn;
 }
 
 /* Title Bar */
@@ -180,6 +181,29 @@
 /* Custom Dialog Box */
 .monaco-dialog-box {
   backdrop-filter: var(--backdrop-filter);
+  animation: var(--animation-dialog);
+}
+
+.dimmed {
+  animation: 300ms linear 0s 1 forwards fadeIn;
+}
+
+@keyframes zoomIn {
+  from {
+    transform: perspective(100px) translateZ(-100px);
+  }
+  to {
+    transform: perspective(100px) translateZ(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    background-color: transparent;
+  }
+  to {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
 }
 
 /* Menu Dropdown Animation */

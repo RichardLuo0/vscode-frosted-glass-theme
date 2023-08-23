@@ -63,8 +63,14 @@ export function activate(context: ExtensionContext) {
         "$1" + configuration.get("frosted-glass-theme.transition", "") + ";"
       )
       .replace(
-        /(--animation: ).*?;/,
-        "$1" + configuration.get("frosted-glass-theme.animation", "") + ";"
+        /(--animation-menu: ).*?;/,
+        "$1" + configuration.get("frosted-glass-theme.animation.menu", "") + ";"
+      )
+      .replace(
+        /(--animation-dialog: ).*?;/,
+        "$1" +
+          configuration.get("frosted-glass-theme.animation.dialog", "") +
+          ";"
       )
       .apply();
   }
