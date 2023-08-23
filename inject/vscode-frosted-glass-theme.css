@@ -162,6 +162,10 @@
   background-color: var(--vscode-menu-background) !important;
 }
 
+.rename-box > input {
+  background-color: var(--vscode-menu-background) !important;
+}
+
 /* Find Part */
 .monaco-workbench .simple-find-part {
   backdrop-filter: var(--backdrop-filter);
