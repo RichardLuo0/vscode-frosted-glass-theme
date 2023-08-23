@@ -11,32 +11,37 @@ export interface InjectionImpl {
   restore(): Promise<void>;
 }
 
-const appDir = require.main ? path.dirname(require.main.filename) : undefined;
-if (appDir === undefined) throw new Error("appDir is not found");
-const base = path.join(appDir, "vs", "code");
-let baseDir = path.join(base, "electron-sandbox", "workbench");
-let htmlFile = path.join(baseDir, "workbench.html");
-// Since VS Code 1.70.0, the file is in electron-sandbox/workbench/workbench.html
-if (!fs.existsSync(htmlFile)) {
-  baseDir = path.join(base, "electron-browser", "workbench");
-  htmlFile = path.join(baseDir, "workbench.html");
-}
-
 export default class Injection implements InjectionImpl {
-  private injectionImpl: InjectionImpl;
+  private injectionImpl?: InjectionImpl;
 
-  constructor(files: IFile[]) {
+  constructor(private files: IFile[]) {}
+
+  private prepare() {
+    if (this.injectionImpl) return;
+    const appDir = require.main
+      ? path.dirname(require.main.filename)
+      : undefined;
+    if (appDir === undefined) throw new Error("appDir is not found");
+    const base = path.join(appDir, "vs", "code");
+    let baseDir = path.join(base, "electron-sandbox", "workbench");
+    let htmlFile = path.join(baseDir, "workbench.html");
+    // Since VS Code 1.70.0, the file is in electron-sandbox/workbench/workbench.html
+    if (!fs.existsSync(htmlFile)) {
+      baseDir = path.join(base, "electron-browser", "workbench");
+      htmlFile = path.join(baseDir, "workbench.html");
+    }
     try {
       fs.accessSync(htmlFile, constants.R_OK | constants.W_OK);
-      this.injectionImpl = new InjectionNormal(files, base, htmlFile);
+      this.injectionImpl = new InjectionNormal(this.files, base, htmlFile);
     } catch (e) {
-      this.injectionImpl = new InjectionAdmin(files, base, htmlFile);
+      this.injectionImpl = new InjectionAdmin(this.files, base, htmlFile);
     }
   }
 
   async inject(): Promise<void> {
+    this.prepare();
     try {
-      await this.injectionImpl.inject();
+      await this.injectionImpl!.inject();
     } catch (e) {
       window.showErrorMessage(msg.admin);
       throw e;
@@ -44,8 +49,9 @@ export default class Injection implements InjectionImpl {
   }
 
   async restore(): Promise<void> {
+    this.prepare();
     try {
-      await this.injectionImpl.restore();
+      await this.injectionImpl!.restore();
     } catch (e) {
       window.showErrorMessage(msg.admin);
       throw e;
