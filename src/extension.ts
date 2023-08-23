@@ -55,12 +55,16 @@ export function activate(context: ExtensionContext) {
         "$1" + configuration.get("frosted-glass-theme.backdropFilter", "") + ";"
       )
       .replace(
+        /(--background-color: ).*?;/,
+        "$1" + generateBackgroundColor(configuration) + ";"
+      )
+      .replace(
         /(--transition: ).*?;/,
         "$1" + configuration.get("frosted-glass-theme.transition", "") + ";"
       )
       .replace(
-        /(--background-color: ).*?;/,
-        "$1" + generateBackgroundColor(configuration) + ";"
+        /(--animation: ).*?;/,
+        "$1" + configuration.get("frosted-glass-theme.animation", "") + ";"
       )
       .apply();
   }
