@@ -89,21 +89,9 @@
   };
 
   function fixSubMenu(src, parent) {
+    // `position:absolute` will be invalid if drop-filter is set on menu.
+    // So I just move sub menu below `.monaco-menu-container` instead of `<ul>`.
     src.append = (e) => {
-      // Fix white blur caused by 1px outline
-      const proxy = new Proxy(e.style, {
-        set(_target, p, newValue) {
-          if (p === "left") {
-            const newValueFloat = parseFloat(newValue);
-            newValue = newValueFloat === 0 ? 0 : newValueFloat + 1 + "px";
-          }
-          return Reflect.set(...arguments);
-        },
-        get() {
-          return Reflect.get(...arguments);
-        },
-      });
-      Object.defineProperty(e, "style", { value: proxy });
       // `DOM.isAncestor` will always return true
       Object.defineProperty(e, "parentNode", {
         get() {
@@ -119,19 +107,24 @@
   }
 
   function fixMenu(menuContainer) {
-    function fix(e) {
-      const parent = e.querySelector("div.monaco-menu");
-      if (!parent) return;
-      e.querySelectorAll("ul.actions-container li").forEach((menuItem) => {
-        // `position:absolute` will be invalid if drop-filter is set on menu.
-        // So I just move sub menu below `.monaco-menu` instead of `<ul>`.
-        fixSubMenu(menuItem, parent);
-      });
+    function fix(scrollableElement) {
+      if (!scrollableElement) return;
+      // Replace `outline` with `border`
+      if (scrollableElement.style.outline.length !== 0) {
+        scrollableElement.style.border = scrollableElement.style.outline;
+        scrollableElement.style.outline = "";
+      }
+      // Fix sub menu
+      scrollableElement
+        .querySelectorAll("ul.actions-container li")
+        .forEach((menuItem) => fixSubMenu(menuItem, menuContainer));
     }
-    // If menu has existed, fix it now, otherwise, wait for appendChild
+    // If `scrollable-element` has existed, fix it now, otherwise, wait for appendChild
     if (menuContainer.childElementCount <= 0)
-      proxy(menuContainer, "appendChild", fix);
-    else fix(menuContainer);
+      proxy(menuContainer, "appendChild", (e) => {
+        if (e.classList.contains("monaco-scrollable-element")) fix(e);
+      });
+    else fix(menuContainer.querySelector("div.monaco-scrollable-element"));
   }
 
   const fixMenuBar = (gridView) => {
@@ -153,9 +146,7 @@
 
   const fixContextMenu = (contextView) => {
     // Fix side bar menu
-    proxy(contextView, "appendChild", (e) => {
-      if (e.classList.contains("monaco-scrollable-element")) fixMenu(e);
-    });
+    fixMenu(contextView);
   };
 
   function hasChildWithTagName(e, tagName) {
