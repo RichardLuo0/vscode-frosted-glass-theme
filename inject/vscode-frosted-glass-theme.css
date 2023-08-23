@@ -212,11 +212,11 @@
 }
 
 .monaco-menu-container > .monaco-scrollable-element {
-  animation: var(--animation);
+  animation: var(--animation-menu);
 }
 
 .quick-input-widget {
-  animation: var(--animation);
+  animation: var(--animation-menu);
 }
 
 @keyframes dropdown {
