@@ -149,28 +149,26 @@
     fixMenu(contextView);
   };
 
-  function hasChildWithTagName(e, tagName) {
-    for (const child of e.children) {
-      if (child.tagName === tagName) return true;
-    }
-    return false;
-  }
-
   // Fix context menu which is wrapped into shadow dom
-  proxy(Element.prototype, "attachShadow", undefined, (e) => {
-    proxy(e, "appendChild", (menuContainer) => {
-      if (menuContainer.tagName !== "SLOT") {
-        if (!hasChildWithTagName(e, "LINK")) {
-          // Copy style from document into shadowDOM
-          for (const child of document.body.children)
-            if (child.tagName === "LINK")
-              HTMLElement.prototype.appendChild.call(e, child.cloneNode());
+  proxy(
+    Element.prototype,
+    "attachShadow",
+    function () {
+      // I don't see any point of using shadow dom here other than making troubles
+      const div = document.createElement("div");
+      proxy(div, "appendChild", (menuContainer) => {
+        if (
+          menuContainer.tagName === "DIV" &&
+          menuContainer.classList.contains("monaco-menu-container")
+        ) {
+          fixMenu(menuContainer);
         }
-        fixMenu(menuContainer);
-      }
-    });
-    return e;
-  });
+      });
+      this.appendChild(div);
+      return div;
+    },
+    false
+  );
 
   proxy(document.body, "appendChild", (monacoWorkbench) => {
     if (monacoWorkbench.classList.contains("monaco-workbench")) {
