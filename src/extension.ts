@@ -51,23 +51,23 @@ export function activate(context: ExtensionContext) {
     cssFile
       .editor()
       .replace(
-        /(--backdrop-filter: ).*?;/,
+        /(--fgt-backdrop-filter: ).*?;/,
         "$1" + configuration.get("frosted-glass-theme.backdropFilter", "") + ";"
       )
       .replace(
-        /(--background-color: ).*?;/,
+        /(--fgt-background-color: ).*?;/,
         "$1" + generateBackgroundColor(configuration) + ";"
       )
       .replace(
-        /(--transition: ).*?;/,
+        /(--fgt-transition: ).*?;/,
         "$1" + configuration.get("frosted-glass-theme.transition", "") + ";"
       )
       .replace(
-        /(--animation-menu: ).*?;/,
+        /(--fgt-animation-menu: ).*?;/,
         "$1" + configuration.get("frosted-glass-theme.animation.menu", "") + ";"
       )
       .replace(
-        /(--animation-dialog: ).*?;/,
+        /(--fgt-animation-dialog: ).*?;/,
         "$1" +
           configuration.get("frosted-glass-theme.animation.dialog", "") +
           ";"

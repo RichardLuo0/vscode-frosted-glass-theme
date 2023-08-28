@@ -71,7 +71,7 @@
         }
       } else {
         for (const color of colorList) {
-          monacoWorkbench.style.setProperty(color, "var(--background-color)");
+          monacoWorkbench.style.setProperty(color, "var(--fgt-background-color)");
         }
       }
     }
