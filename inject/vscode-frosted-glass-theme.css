@@ -225,6 +225,12 @@
   animation: var(--animation-menu);
 }
 
+/* Breadcrumbs Picker Animation */
+.context-view {
+  overflow: clip !important;
+  overflow-clip-margin: 10px;
+}
+
 .monaco-breadcrumbs-picker {
   animation: var(--animation-menu);
 }
