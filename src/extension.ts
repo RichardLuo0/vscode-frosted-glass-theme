@@ -38,10 +38,10 @@ export function activate(context: ExtensionContext) {
     jsFile
       .editor()
       .replace(
-        /(const useThemeColor = ).*?;/,
+        /(const useThemeColor = )[^]*?;/,
         "$1" + (backgroundColor.length === 0) + ";"
       )
-      .replace(/(const opacity = ).*?;/, "$1" + backgroundOpacity + ";")
+      .replace(/(const opacity = )[^]*?;/, "$1" + backgroundOpacity + ";")
       .apply();
     return backgroundColor;
   }
@@ -51,23 +51,23 @@ export function activate(context: ExtensionContext) {
     cssFile
       .editor()
       .replace(
-        /(--fgt-backdrop-filter: ).*?;/,
+        /(--fgt-backdrop-filter: )[^]*?;/,
         "$1" + configuration.get("frosted-glass-theme.backdropFilter", "") + ";"
       )
       .replace(
-        /(--fgt-background-color: ).*?;/,
+        /(--fgt-background-color: )[^]*?;/,
         "$1" + generateBackgroundColor(configuration) + ";"
       )
       .replace(
-        /(--fgt-transition: ).*?;/,
+        /(--fgt-transition: )[^]*?;/,
         "$1" + configuration.get("frosted-glass-theme.transition", "") + ";"
       )
       .replace(
-        /(--fgt-animation-menu: ).*?;/,
+        /(--fgt-animation-menu: )[^]*?;/,
         "$1" + configuration.get("frosted-glass-theme.animation.menu", "") + ";"
       )
       .replace(
-        /(--fgt-animation-dialog: ).*?;/,
+        /(--fgt-animation-dialog: )[^]*?;/,
         "$1" +
           configuration.get("frosted-glass-theme.animation.dialog", "") +
           ";"

@@ -75,13 +75,13 @@
 				"frosted-glass-theme.animation.menu": {
 					"type": "string",
 					"order": 4,
-					"default": "300ms cubic-bezier(0, 0.8, 0.2, 1) 0s 1 forwards dropdown",
+					"default": "300ms cubic-bezier(0, 0.8, 0.2, 1) 0s 1 forwards fgtDropdown",
 					"markdownDescription": "CSS animation for menu. Set to blank or `none` to disable the animation"
 				},
 				"frosted-glass-theme.animation.dialog": {
 					"type": "string",
 					"order": 5,
-					"default": "300ms cubic-bezier(0, 0.8, 0.2, 1) 0s 1 forwards zoomIn",
+					"default": "300ms cubic-bezier(0, 0.8, 0.2, 1) 0s 1 forwards fgtZoomIn",
 					"markdownDescription": "CSS animation for dialog. Set to blank or `none` to disable the animation"
 				}
 			}
