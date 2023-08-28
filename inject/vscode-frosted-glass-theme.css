@@ -219,6 +219,10 @@
   animation: var(--animation-menu);
 }
 
+.monaco-breadcrumbs-picker {
+  animation: var(--animation-menu);
+}
+
 @keyframes dropdown {
   from {
     transform: translateY(-100%);
