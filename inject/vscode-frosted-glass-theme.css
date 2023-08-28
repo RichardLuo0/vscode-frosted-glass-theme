@@ -68,7 +68,7 @@
 }
 
 /* Menu */
-.monaco-menu .monaco-action-bar {
+.monaco-menu-container > .monaco-scrollable-element {
   backdrop-filter: var(--fgt-backdrop-filter);
   /* background-color: var(--background-color) !important; */
 }
