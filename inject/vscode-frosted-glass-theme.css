@@ -213,7 +213,8 @@
 
 /* Menu Dropdown Animation */
 .monaco-menu-container {
-  overflow: hidden;
+  overflow: clip !important;
+  overflow-clip-margin: 10px;
 }
 
 .monaco-menu-container > .monaco-scrollable-element {
