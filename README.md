@@ -2,7 +2,7 @@
 Bring frosted glass menu (like windows acrylic or mac os) to your vscode!
 
 [中文版](READMECN.md)
-## This is not a theme by itself. It can work with any other themes
+## This is not a theme by itself. It can work with any other theme
 ## Preview
 ![CodeHover](image/CodeHover.jpg) \
 ![ContextMenu](image/ContextMenu.jpg) \
@@ -19,8 +19,8 @@ You need to set `window.titleBarStyle` to `custom` to see the effect. Otherwise 
 ## Or install via Custom CSS and JS Loader extension
 * Download files in `inject/` folder from this repo
 * Follow the instruction on "Custom CSS and JS Loader" extension to complete setup
-* You can change menu color by modifying "--background-color" in vscode-frosted-glass-theme.css file
+* You can modify the theme by changing variables
 ## Known issues
-* Sometimes UI interface may be dislocation, try comment out "--transition" in css 
+* If the animation is flickering, try turn it off by setting `frosted-glass-theme.animation` to `none`
 ## Thanks
 * [be5invis/vscode-custom-css](https://github.com/be5invis/vscode-custom-css)

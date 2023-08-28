@@ -1,8 +1,8 @@
 ## vscode 毛玻璃主题
 为你的vscode带来类似Mac OS或是Windows的acrylic material效果的菜单！
 
-[英文版](README.md)
-## 这本身不是一个主题，可以与其他主题一起安装
+[English](README.md)
+## 这本身不是一个主题，它可以与其他主题一起安装
 ## 预览图
 ![CodeHover](image/CodeHover.jpg) \
 ![ContextMenu](image/ContextMenu.jpg) \
@@ -19,8 +19,8 @@
 ## 或者通过Custom CSS and JS Loader拓展安装
 * 下载本仓库 `inject/` 文件夹下的文件
 * 根据"Custom CSS and JS Loader"拓展页面上的指示安装
-* 你可以根据自己的主题修改vscode-frosted-glass-theme.css文件中--background-color来修改菜单的颜色
+* 你可以修改文件中的变量来修改主题
 ## 已知问题
-* 有时候界面可能会发生错位，如果发生请注释掉css中--transition
+* 如果动画闪烁，尝试设置 `frosted-glass-theme.animation` 为 `none`
 ## 感谢
 * [be5invis/vscode-custom-css](https://github.com/be5invis/vscode-custom-css)
