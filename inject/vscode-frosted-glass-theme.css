@@ -178,6 +178,11 @@
   backdrop-filter: var(--backdrop-filter);
 }
 
+/* Overlay Message */
+.monaco-editor-overlaymessage > .message {
+  backdrop-filter: var(--backdrop-filter);
+}
+
 /* Custom Dialog Box */
 .monaco-dialog-box {
   backdrop-filter: var(--backdrop-filter);
