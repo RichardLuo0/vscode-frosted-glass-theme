@@ -233,6 +233,10 @@
   from {
     transform: translateY(-100%);
   }
+  0%,
+  99% {
+    pointer-events: none;
+  }
   to {
     transform: translateY(0);
   }
