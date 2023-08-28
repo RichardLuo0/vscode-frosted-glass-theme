@@ -1,5 +1,12 @@
 # Change Log
 
+## [0.6.7]
+- 5559f4c: feat: add `monaco-editor-overlaymessage`
+- 09af6aa: feat: add `monaco-breadcrumbs-picker` animation
+- 33a1686: feat: add animation for dialog
+- 4b4fd95: feat: add animation for menus
+- 3fb3f57: feat: make `.rename-box > input` transparent
+
 ## [0.6.6]
 - e33a689: feat: try with admin privileges (or sudo)
 - 45109e7: feat: add `custom dialog`
