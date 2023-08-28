@@ -78,6 +78,10 @@
   pointer-events: none;
 }
 
+.monaco-menu-container > .monaco-scrollable-element .action-label {
+  --vscode-toolbar-activeBackground: transparent;
+}
+
 /* Search & Replace */
 .editor-widget {
   backdrop-filter: var(--fgt-backdrop-filter);
