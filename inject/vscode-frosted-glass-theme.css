@@ -184,7 +184,7 @@
 }
 
 /* Custom Dialog Box */
-.monaco-dialog-box {
+.dialog-shadow {
   backdrop-filter: var(--backdrop-filter);
   animation: var(--animation-dialog);
 }
