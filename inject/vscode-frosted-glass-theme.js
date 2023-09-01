@@ -50,6 +50,9 @@
       "--vscode-notifications-background",
       "--vscode-debugToolBar-background",
       "--vscode-editorHoverWidget-statusBarBackground",
+      "--vscode-editorStickyScroll-background",
+      "--vscode-tab-inactiveBackground",
+      "--vscode-breadcrumb-background",
     ];
     const alpha = Math.round(opacity * 255).toString(16);
     const contributedColorTheme = document.querySelector(
@@ -71,7 +74,10 @@
         }
       } else {
         for (const color of colorList) {
-          monacoWorkbench.style.setProperty(color, "var(--fgt-background-color)");
+          monacoWorkbench.style.setProperty(
+            color,
+            "var(--fgt-background-color)"
+          );
         }
       }
     }
@@ -184,5 +190,88 @@
           : undefined
       );
     }
+  });
+
+  Object.defineProperty(globalThis, "define", {
+    get() {
+      return this._define;
+    },
+    set(oldDefine) {
+      this._define = new Proxy(oldDefine, {
+        apply: function (target, thisArg, argumentsList) {
+          const oldExport = argumentsList[2];
+          switch (argumentsList[0]) {
+            case "vs/editor/browser/widget/codeEditorWidget":
+              argumentsList[2] = function (_require, exports) {
+                oldExport.call(this, ...arguments);
+                let theKey, CodeEditorWidget;
+                for (const key in exports) {
+                  theKey = key;
+                  CodeEditorWidget = exports[key];
+                  break;
+                }
+                exports[theKey] = class extends CodeEditorWidget {
+                  constructor(domElement) {
+                    super(...arguments);
+                    domElement.style.position = "absolute";
+                    domElement.style.top = "0px";
+                  }
+
+                  setModel() {
+                    super.setModel(...arguments);
+                    this.changeViewZones((accessor) => {
+                      const domNode = document.createElement("div");
+                      this._viewZoneId = accessor.addZone({
+                        heightInPx: 57,
+                        afterLineNumber: 0,
+                        domNode,
+                      });
+                      this.setScrollTop(-57);
+                    });
+                  }
+
+                  layout(dimension) {
+                    return super.layout(
+                      dimension.with
+                        ? dimension.with(undefined, window.innerHeight)
+                        : dimension
+                    );
+                  }
+                };
+              };
+              break;
+            case "vs/editor/browser/view":
+              argumentsList[2] = function (_require, exports) {
+                oldExport.call(this, ...arguments);
+                let theKey, View;
+                for (const key in exports) {
+                  theKey = key;
+                  View = exports[key];
+                  break;
+                }
+                exports[theKey] = class extends View {
+                  constructor() {
+                    super(...arguments);
+                    for (const key in this) {
+                      if (
+                        this[key] &&
+                        this[key].addWidget &&
+                        this[key].getDomNode
+                      ) {
+                        const _overlayWidgetsDom = this[key].getDomNode();
+                        _overlayWidgetsDom.setPosition("relative");
+                        _overlayWidgetsDom.setTop(57);
+                        break;
+                      }
+                    }
+                  }
+                };
+              };
+              break;
+          }
+          return Reflect.apply(target, thisArg, argumentsList);
+        },
+      });
+    },
   });
 })();

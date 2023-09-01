@@ -140,32 +140,6 @@
   transition: var(--fgt-transition);
 }
 
-/* Tabs */
-.title.tabs {
-  position: absolute !important;
-  z-index: 99;
-  width: 100%;
-  backdrop-filter: var(--backdrop-filter);
-  background-color: transparent !important;
-}
-
-.tabs-and-actions-container {
-  background-color: var(--vscode-editorGroupHeader-tabsBackground) !important;
-}
-
-.tabs-and-actions-container .tab {
-  background-color: var(--vscode-tab-unfocusedInactiveBackground) !important;
-}
-
-.monaco-editor .tabs-breadcrumbs {
-  background-color: var(--vscode-breadcrumb-background) !important;
-}
-
-.monaco-editor > .overflow-guard,
-.monaco-editor > .overflow-guard > .monaco-scrollable-element {
-  overflow: visible !important;
-}
-
 /* Breadcrumbs Picker */
 .monaco-breadcrumbs-picker > div:nth-child(2) {
   backdrop-filter: var(--fgt-backdrop-filter);
@@ -279,4 +253,15 @@
   to {
     transform: translateY(0);
   }
+}
+
+/* Sticky Widget */
+.sticky-widget {
+  backdrop-filter: var(--fgt-backdrop-filter);
+}
+
+.title.tabs {
+  background-color: var(--vscode-tab-inactiveBackground) !important;
+  backdrop-filter: var(--fgt-backdrop-filter);
+  z-index: 100;
 }
