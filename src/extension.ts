@@ -1,3 +1,4 @@
+import path from "path";
 import {
   commands,
   ExtensionContext,
@@ -5,10 +6,10 @@ import {
   workspace,
   WorkspaceConfiguration,
 } from "vscode";
-import InjectCSSandJS from "./InjectCSSandJS";
-import { msg } from "./msg";
-import path = require("path");
 import File from "./File";
+import Injection from "./Injection";
+import { msg } from "./msg";
+import { showChoiceMessage } from "./ShowMessage";
 
 export function activate(context: ExtensionContext) {
   const cssFile = new File(
@@ -17,7 +18,7 @@ export function activate(context: ExtensionContext) {
   const jsFile = new File(
     path.resolve(`${__dirname}/../inject/vscode-frosted-glass-theme.js`)
   );
-  const injection = new InjectCSSandJS([cssFile, jsFile]);
+  const injection = new Injection([cssFile, jsFile]);
 
   function reloadWindow() {
     commands.executeCommand("workbench.action.reloadWindow");
@@ -37,10 +38,10 @@ export function activate(context: ExtensionContext) {
     jsFile
       .editor()
       .replace(
-        /(const useThemeColor = ).*?;/,
+        /(const useThemeColor = )[^]*?;/,
         "$1" + (backgroundColor.length === 0) + ";"
       )
-      .replace(/(const opacity = ).*?;/, "$1" + backgroundOpacity + ";")
+      .replace(/(const opacity = )[^]*?;/, "$1" + backgroundOpacity + ";")
       .apply();
     return backgroundColor;
   }
@@ -50,16 +51,26 @@ export function activate(context: ExtensionContext) {
     cssFile
       .editor()
       .replace(
-        /(--backdrop-filter: ).*?;/,
+        /(--fgt-backdrop-filter: )[^]*?;/,
         "$1" + configuration.get("frosted-glass-theme.backdropFilter", "") + ";"
       )
       .replace(
-        /(--transition: ).*?;/,
+        /(--fgt-background-color: )[^]*?;/,
+        "$1" + generateBackgroundColor(configuration) + ";"
+      )
+      .replace(
+        /(--fgt-transition: )[^]*?;/,
         "$1" + configuration.get("frosted-glass-theme.transition", "") + ";"
       )
       .replace(
-        /(--background-color: ).*?;/,
-        "$1" + generateBackgroundColor(configuration) + ";"
+        /(--fgt-animation-menu: )[^]*?;/,
+        "$1" + configuration.get("frosted-glass-theme.animation.menu", "") + ";"
+      )
+      .replace(
+        /(--fgt-animation-dialog: )[^]*?;/,
+        "$1" +
+          configuration.get("frosted-glass-theme.animation.dialog", "") +
+          ";"
       )
       .apply();
   }
@@ -70,14 +81,8 @@ export function activate(context: ExtensionContext) {
       try {
         updateConfiguration();
         await injection.inject();
-        window
-          .showInformationMessage(msg.enabled, {
-            title: msg.restartIde,
-          })
-          .then((selection) => {
-            if (selection != undefined && selection.title === msg.restartIde)
-              reloadWindow();
-          });
+        if (await showChoiceMessage(msg.enabled, msg.restartIde))
+          reloadWindow();
       } catch (e) {
         console.error(e);
         window.showErrorMessage(msg.somethingWrong + e);
@@ -90,14 +95,8 @@ export function activate(context: ExtensionContext) {
     async () => {
       try {
         await injection.restore();
-        window
-          .showInformationMessage(msg.disabled, {
-            title: msg.restartIde,
-          })
-          .then((selection) => {
-            if (selection != undefined && selection.title === msg.restartIde)
-              reloadWindow();
-          });
+        if (await showChoiceMessage(msg.disabled, msg.restartIde))
+          reloadWindow();
       } catch (e) {
         console.error(e);
         window.showErrorMessage(msg.somethingWrong + e);
@@ -122,7 +121,33 @@ export function activate(context: ExtensionContext) {
     cssFile.openInVSCode()
   );
 
-  context.subscriptions.push(enableTheme, disableTheme, applyConfig, openCSS);
+  let isConfigChangedShowing = false;
+  const onConfigureChanged = workspace.onDidChangeConfiguration(async (e) => {
+    if (
+      !isConfigChangedShowing &&
+      e.affectsConfiguration("frosted-glass-theme")
+    ) {
+      isConfigChangedShowing = true;
+      if (await showChoiceMessage(msg.configChanged, msg.applyChanges)) {
+        try {
+          updateConfiguration();
+          window.showInformationMessage(msg.applied);
+        } catch (e) {
+          console.error(e);
+          window.showErrorMessage(msg.somethingWrong + e);
+        }
+      }
+      isConfigChangedShowing = false;
+    }
+  });
+
+  context.subscriptions.push(
+    enableTheme,
+    disableTheme,
+    applyConfig,
+    openCSS,
+    onConfigureChanged
+  );
 }
 
 export function deactivate() {}

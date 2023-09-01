@@ -8,7 +8,7 @@
 	},
 	"publisher": "RichardLuo",
 	"description": "Bring frosted glass menu (like windows acrylic or mac os) to your vscode!",
-	"version": "0.6.4",
+	"version": "0.6.8",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/RichardLuo0/vscode-frosted-glass-theme"
@@ -22,7 +22,9 @@
 	"extensionKind": [
 		"ui"
 	],
-	"activationEvents": [],
+	"activationEvents": [
+		"onCommand:workbench.action.openSettings"
+	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
@@ -44,27 +46,43 @@
 			}
 		],
 		"configuration": {
-			"title": "Frosted Glass Theme Configuration",
+			"title": "Frosted Glass Theme",
 			"properties": {
 				"frosted-glass-theme.backdropFilter": {
 					"type": "string",
+					"order": 0,
 					"default": "blur(30px)",
 					"description": "Menu backdrop filter"
 				},
 				"frosted-glass-theme.backgroundColor": {
 					"type": "string",
+					"order": 1,
 					"default": "",
-					"description": "Menu background color. Use css color. This will overwrite backgroundOpacity. Leave this blank to use backgroundOpacity"
+					"markdownDescription": "Menu background color. Use css color. This will overwrite `#frosted-glass-theme.backgroundOpacity#`. Leave this blank to use `#frosted-glass-theme.backgroundOpacity#`"
 				},
 				"frosted-glass-theme.backgroundOpacity": {
 					"type": "number",
+					"order": 2,
 					"default": 0.4,
 					"description": "Menu background opacity. This will blend into your theme color"
 				},
 				"frosted-glass-theme.transition": {
 					"type": "string",
+					"order": 3,
 					"default": "300ms",
 					"description": "CSS transition"
+				},
+				"frosted-glass-theme.animation.menu": {
+					"type": "string",
+					"order": 4,
+					"default": "300ms cubic-bezier(0, 0.8, 0.2, 1) 0s 1 forwards fgtDropdown",
+					"markdownDescription": "CSS animation for menu. Set to blank or `none` to disable the animation"
+				},
+				"frosted-glass-theme.animation.dialog": {
+					"type": "string",
+					"order": 5,
+					"default": "300ms cubic-bezier(0, 0.8, 0.2, 1) 0s 1 forwards fgtZoomIn",
+					"markdownDescription": "CSS animation for dialog. Set to blank or `none` to disable the animation"
 				}
 			}
 		}
@@ -79,16 +97,17 @@
 		"package": "vsce package"
 	},
 	"devDependencies": {
-		"@types/node": "^20.4.8",
+		"@types/node": "^20.5.0",
 		"@types/uuid": "^9.0.2",
 		"@types/vscode": "1.50.0",
-		"@typescript-eslint/eslint-plugin": "^6.2.1",
-		"@typescript-eslint/parser": "^6.2.1",
+		"@typescript-eslint/eslint-plugin": "^6.4.0",
+		"@typescript-eslint/parser": "^6.4.0",
 		"@vscode/test-electron": "^2.3.4",
-		"eslint": "^8.46.0",
+		"eslint": "^8.47.0",
 		"typescript": "^5.1.6"
 	},
 	"dependencies": {
+		"@vscode/sudo-prompt": "^9.3.1",
 		"uuid": "^9.0.0"
 	}
 }

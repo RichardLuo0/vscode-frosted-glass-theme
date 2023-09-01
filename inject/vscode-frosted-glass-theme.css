@@ -1,44 +1,48 @@
-/* just define css variables */
-/* change these variables into whatever you like */
+/* Just define css variables */
+/* Change these variables into whatever you like */
 :root {
-  --backdrop-filter: blur(30px);
-  --background-color: ;
-  --transition: 300ms;
+  --fgt-backdrop-filter: blur(30px);
+  --fgt-background-color: ;
+  --fgt-transition: 300ms;
+  --fgt-animation-menu: 300ms cubic-bezier(0, 0.8, 0.2, 1) 0s 1 forwards
+    fgtDropdown;
+  --fgt-animation-dialog: 300ms cubic-bezier(0, 0.8, 0.2, 1) 0s 1 forwards
+    fgtZoomIn;
 }
 
 /* Title Bar */
 .window-title {
-  transition: var(--transition);
+  transition: var(--fgt-transition);
 }
 
 .window-icon {
-  transition: var(--transition);
+  transition: var(--fgt-transition);
 }
 
 /* Action Label */
 .action-label.codicon {
-  transition: var(--transition);
+  transition: var(--fgt-transition);
 }
 
 /* Editor Panel */
 .monaco-hover {
-  backdrop-filter: var(--backdrop-filter);
+  backdrop-filter: var(--fgt-backdrop-filter);
   /* background-color: var(--background-color) !important; */
 }
 
 .monaco-editor .suggest-details {
-  backdrop-filter: var(--backdrop-filter);
+  backdrop-filter: var(--fgt-backdrop-filter);
   /* background-color: var(--background-color) !important; */
 }
 
 .monaco-editor .tree {
-  backdrop-filter: var(--backdrop-filter);
+  backdrop-filter: var(--fgt-backdrop-filter);
   /* background-color: var(--background-color) !important; */
 }
 
 /* Command Panel */
 .quick-input-widget {
-  backdrop-filter: var(--backdrop-filter);
+  backdrop-filter: var(--fgt-backdrop-filter);
   /* background-color: var(--background-color) !important; */
 }
 
@@ -64,8 +68,8 @@
 }
 
 /* Menu */
-.monaco-menu .monaco-action-bar {
-  backdrop-filter: var(--backdrop-filter);
+.monaco-menu-container > .monaco-scrollable-element {
+  backdrop-filter: var(--fgt-backdrop-filter);
   /* background-color: var(--background-color) !important; */
 }
 
@@ -74,58 +78,66 @@
   pointer-events: none;
 }
 
+.monaco-menu-container > .monaco-scrollable-element .action-label {
+  --vscode-toolbar-activeBackground: transparent;
+}
+
 /* Search & Replace */
 .editor-widget {
-  backdrop-filter: var(--backdrop-filter);
+  backdrop-filter: var(--fgt-backdrop-filter);
   background-color: var(--vscode-menu-background) !important;
 }
 
 /* Notification Panel */
 .notifications-center-header {
-  backdrop-filter: var(--backdrop-filter);
+  backdrop-filter: var(--fgt-backdrop-filter);
   background-color: var(--vscode-menu-background) !important;
 }
 
 .notifications-list-container {
-  backdrop-filter: var(--backdrop-filter);
+  backdrop-filter: var(--fgt-backdrop-filter);
   /* background-color: var(--background-color) !important; */
 }
 
 .notification-toast {
   background-color: transparent !important;
-  transition: var(--transition);
+  transition: var(--fgt-transition);
 }
 
 /* Feedback Form */
 .feedback-form {
-  backdrop-filter: var(--backdrop-filter);
+  backdrop-filter: var(--fgt-backdrop-filter);
   /* background-color: var(--background-color) !important; */
 }
 
 /* Minimap */
 .minimap {
-  backdrop-filter: var(--backdrop-filter);
+  backdrop-filter: var(--fgt-backdrop-filter);
   background-color: var(--vscode-menu-background);
 }
 
 .minimap canvas {
   opacity: 0.4;
-  transition: var(--transition);
+  transition: var(--fgt-transition);
 }
 
 .minimap:hover canvas {
   opacity: 1;
-  transition: var(--transition);
+  transition: var(--fgt-transition);
 }
 
 /* Scroll Bar */
 .slider {
-  backdrop-filter: var(--backdrop-filter);
+  backdrop-filter: var(--fgt-backdrop-filter);
+}
+
+.monaco-editor .scrollbar.vertical .slider {
+  backdrop-filter: none !important;
 }
 
 /* Setting Page */
 .setting-item-contents.settings-row-inner-container {
-  transition: var(--transition);
+  transition: var(--fgt-transition);
 }
 
 /* Tabs */
@@ -156,30 +168,115 @@
 
 /* Breadcrumbs Picker */
 .monaco-breadcrumbs-picker > div:nth-child(2) {
-  backdrop-filter: var(--backdrop-filter);
-  background-color: var(--vscode-breadcrumbPicker-background) !important;
+  backdrop-filter: var(--fgt-backdrop-filter);
+  background-color: var(--vscode-menu-background) !important;
 }
 
 /* Debug Tool Bar */
 .debug-toolbar {
-  backdrop-filter: var(--backdrop-filter);
-  background-color: var(--vscode-debugToolBar-background) !important;
+  backdrop-filter: var(--fgt-backdrop-filter);
+  background-color: var(--vscode-menu-background) !important;
 }
 
 /* Debug Hover Widget */
 .debug-hover-widget {
-  backdrop-filter: var(--backdrop-filter);
+  backdrop-filter: var(--fgt-backdrop-filter);
   background-color: var(--vscode-menu-background) !important;
 }
 
 /* Code Action Widget */
 .action-widget {
-  backdrop-filter: var(--backdrop-filter);
+  backdrop-filter: var(--fgt-backdrop-filter);
   background-color: var(--vscode-menu-background) !important;
 }
 
-/* Rename box */
+/* Rename Box */
 .rename-box {
-  backdrop-filter: var(--backdrop-filter);
+  backdrop-filter: var(--fgt-backdrop-filter);
   background-color: var(--vscode-menu-background) !important;
+}
+
+.rename-box > input {
+  background-color: var(--vscode-menu-background) !important;
+}
+
+/* Find Part */
+.monaco-workbench .simple-find-part {
+  backdrop-filter: var(--fgt-backdrop-filter);
+}
+
+/* Key Binding Widget */
+.defineKeybindingWidget {
+  backdrop-filter: var(--fgt-backdrop-filter);
+}
+
+/* Overlay Message */
+.monaco-editor-overlaymessage > .message {
+  backdrop-filter: var(--fgt-backdrop-filter);
+}
+
+/* Custom Dialog Box */
+.dialog-shadow {
+  backdrop-filter: var(--fgt-backdrop-filter);
+  animation: var(--fgt-animation-dialog);
+}
+
+.dimmed {
+  animation: 300ms linear 0s 1 forwards fgtFadeIn;
+}
+
+@keyframes fgtZoomIn {
+  from {
+    transform: perspective(100px) translateZ(-100px);
+  }
+  to {
+    transform: perspective(100px) translateZ(0);
+  }
+}
+
+@keyframes fgtFadeIn {
+  from {
+    background-color: transparent;
+  }
+  to {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* Menu Dropdown Animation */
+.monaco-menu-container {
+  overflow: clip !important;
+  overflow-clip-margin: 10px !important;
+}
+
+.monaco-menu-container > .monaco-scrollable-element {
+  animation: var(--fgt-animation-menu);
+  transform: translateY(var(--transformY-state));
+}
+
+.quick-input-widget {
+  animation: var(--fgt-animation-menu);
+}
+
+/* Breadcrumbs Picker Animation */
+.context-view {
+  overflow: clip !important;
+  overflow-clip-margin: 10px !important;
+}
+
+.monaco-breadcrumbs-picker {
+  animation: var(--fgt-animation-menu);
+}
+
+@keyframes fgtDropdown {
+  from {
+    transform: translateY(-100%);
+  }
+  0%,
+  99% {
+    pointer-events: none;
+  }
+  to {
+    transform: translateY(0);
+  }
 }

@@ -5,4 +5,3 @@ out
 package-lock.json
 *.vsix
 *.psd
-.prettierrc
