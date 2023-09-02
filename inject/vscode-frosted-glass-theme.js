@@ -112,6 +112,7 @@
       // Replace `outline` with `border`
       if (scrollableElement.style.outline.length !== 0) {
         scrollableElement.style.border = scrollableElement.style.outline;
+        scrollableElement.style.margin = "-1px";
         scrollableElement.style.outline = "";
       }
       // Fix sub menu
