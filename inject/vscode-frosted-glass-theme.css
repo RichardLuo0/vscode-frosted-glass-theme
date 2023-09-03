@@ -19,7 +19,7 @@
   transition: var(--fgt-transition);
 }
 
-/* Action Label */
+/* Action Bar */
 .action-label.codicon {
   transition: var(--fgt-transition);
 }
@@ -86,6 +86,14 @@
 .editor-widget {
   backdrop-filter: var(--fgt-backdrop-filter);
   background-color: var(--vscode-menu-background) !important;
+}
+
+.editor-widget.find-widget {
+  transition-property: opacity, transform;
+}
+
+.editor-widget.find-widget:not(.visible) {
+  opacity: 0;
 }
 
 /* Notification Panel */
@@ -264,4 +272,8 @@
   background-color: var(--vscode-tab-inactiveBackground) !important;
   backdrop-filter: var(--fgt-backdrop-filter);
   z-index: 100;
+}
+
+.tabs-and-actions-container .tab:not(.active) {
+  background-color: var(--vscode-tab-unfocusedInactiveBackground) !important;
 }
