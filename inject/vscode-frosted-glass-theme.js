@@ -195,6 +195,13 @@
     }
   });
 
+  function isClass(value) {
+    return (
+      typeof value === "function" &&
+      !Object.getOwnPropertyDescriptor(value, "prototype")?.writable
+    );
+  }
+
   function findPropertyWith(object, condition) {
     for (const key in object) {
       const value = object[key];
@@ -233,7 +240,7 @@
     };
   }
 
-  function replaceCodeEditorWidgetInArguments(arguments) {
+  function replaceCodeEditorWidget(arguments) {
     let codeEditorWidgetPair;
     const codeEditorWidgetIndex = Array.prototype.findLastIndex.call(
       arguments,
@@ -247,10 +254,15 @@
     );
     if (codeEditorWidgetIndex >= 0 && codeEditorWidgetPair !== undefined) {
       const { key, value } = codeEditorWidgetPair;
-      arguments[codeEditorWidgetIndex][key] =
-        createBackdropCodeEditorWidget(value);
+      const newCodeEditorWidgetExport = Object.create(
+        arguments[codeEditorWidgetIndex]
+      );
+      newCodeEditorWidgetExport[key] = createBackdropCodeEditorWidget(value);
+      arguments[codeEditorWidgetIndex] = newCodeEditorWidgetExport;
     }
   }
+
+  let newTextCodeEditorExport, textCodeEditorExport;
 
   Object.defineProperty(globalThis, "define", {
     get() {
@@ -259,22 +271,59 @@
     set(oldDefine) {
       this._define = new Proxy(oldDefine, {
         apply: function (target, thisArg, argumentsList) {
-          const oldExport = argumentsList[2];
+          const factory = argumentsList[2];
           switch (argumentsList[0]) {
             case "vs/workbench/browser/parts/editor/textCodeEditor":
-              argumentsList[2] = function (_require, exports) {
-                replaceCodeEditorWidgetInArguments(arguments);
+              argumentsList[2] = function (require, exports, ...modules) {
+                factory.call(this, ...arguments);
+                textCodeEditorExport = exports;
 
-                oldExport.call(this, ...arguments);
-
+                replaceCodeEditorWidget(modules);
+                const newExports = {};
+                factory.call(this, require, newExports, ...modules);
                 const { key, value: AbstractTextCodeEditor } = findPropertyWith(
-                  exports,
-                  (value) =>
-                    typeof value === "function" &&
-                    !Object.getOwnPropertyDescriptor(value, "prototype")
-                      ?.writable
+                  newExports,
+                  isClass
                 );
-                exports[key] = class extends AbstractTextCodeEditor {
+                newExports[key] = class extends AbstractTextCodeEditor {
+                  layout(dimension) {
+                    return super.layout(
+                      dimension.with
+                        ? dimension.with(undefined, window.innerHeight)
+                        : dimension
+                    );
+                  }
+                };
+                newTextCodeEditorExport = newExports;
+              };
+              break;
+            case "vs/workbench/contrib/files/browser/editors/textFileEditor":
+              argumentsList[2] = function (require, exports, ...modules) {
+                const textCodeEditorIndex = Array.prototype.findIndex.call(
+                  modules,
+                  (exports) => exports === textCodeEditorExport
+                );
+                if (textCodeEditorIndex >= 0) {
+                  modules[textCodeEditorIndex] = newTextCodeEditorExport;
+                }
+                factory.call(this, require, exports, ...modules);
+              };
+              break;
+            case "vs/editor/browser/widget/diffEditorWidget":
+              argumentsList[2] = function (_require, exports, ...modules) {
+                replaceCodeEditorWidget(modules);
+                factory.call(this, require, exports, ...modules);
+                const { key, value: DiffEditorWidget } = findPropertyWith(
+                  exports,
+                  isClass
+                );
+                exports[key] = class extends DiffEditorWidget {
+                  constructor(domElement) {
+                    super(...arguments);
+                    domElement.style.position = "absolute";
+                    domElement.style.top = "0px";
+                  }
+
                   layout(dimension) {
                     return super.layout(
                       dimension.with
@@ -285,16 +334,13 @@
                 };
               };
               break;
-            case "vs/editor/browser/widget/diffEditorWidget":
-              argumentsList[2] = function (_require, exports) {
-                oldExport.call(this, ...arguments);
-
+            case "vs/editor/browser/widget/diffEditorWidget2/diffEditorWidget2":
+              argumentsList[2] = function (_require, exports, ...modules) {
+                replaceCodeEditorWidget(modules);
+                factory.call(this, require, exports, ...modules);
                 const { key, value: DiffEditorWidget } = findPropertyWith(
                   exports,
-                  (value) =>
-                    typeof value === "function" &&
-                    !Object.getOwnPropertyDescriptor(value, "prototype")
-                      ?.writable
+                  isClass
                 );
                 exports[key] = class extends DiffEditorWidget {
                   constructor(domElement) {
