@@ -211,6 +211,12 @@
     }
   }
 
+  function moveDown(element) {
+    if (element) {
+      element.style.marginTop = "57px";
+    }
+  }
+
   function createBackdropCodeEditorWidget(CodeEditorWidget) {
     return class extends CodeEditorWidget {
       constructor(domElement) {
@@ -218,10 +224,9 @@
         domElement.style.position = "absolute";
         domElement.style.top = "0px";
         proxy(domElement, "appendChild", (monacoEditor) => {
-          const overlayWidgets =
-            monacoEditor.querySelector("div.overlayWidgets");
-          overlayWidgets.style.position = "relative";
-          overlayWidgets.style.top = "57px";
+          moveDown(monacoEditor.querySelector("div.overlayWidgets"));
+          moveDown(monacoEditor.querySelector("div.minimap"));
+          moveDown(monacoEditor.querySelector(".scrollbar.vertical"));
         });
       }
 
@@ -236,6 +241,10 @@
           });
           this.setScrollTop(-57);
         });
+      }
+
+      getScrollTop() {
+        return super.getScrollTop() + 57;
       }
     };
   }
@@ -262,6 +271,37 @@
     }
   }
 
+  function createNewDimension(dimension) {
+    if (dimension.height > 0) dimension.height += 57;
+    return dimension;
+  }
+
+  function useBackdropCodeEditor(factory, domFunction) {
+    return function (require, exports, ...modules) {
+      replaceCodeEditorWidget(modules);
+      factory.call(this, require, exports, ...modules);
+      const { key, value: SomeClass } = findPropertyWith(exports, isClass);
+      exports[key] = class extends SomeClass {
+        constructor(domElement) {
+          super(...arguments);
+          domFunction?.call(this, domElement);
+        }
+
+        layout(dimension) {
+          return super.layout(createNewDimension(dimension));
+        }
+      };
+    };
+  }
+
+  function makeNewDiffEditorWidget(factory) {
+    return useBackdropCodeEditor(factory, (domElement) => {
+      domElement.style.position = "absolute";
+      domElement.style.top = "0px";
+      domElement.querySelector(".diffOverview").style.marginTop = "57px";
+    });
+  }
+
   let newTextCodeEditorExport, textCodeEditorExport;
 
   Object.defineProperty(globalThis, "define", {
@@ -273,27 +313,31 @@
         apply: function (target, thisArg, argumentsList) {
           const factory = argumentsList[2];
           switch (argumentsList[0]) {
+            case "vs/editor/common/config/editorOptions":
+              argumentsList[2] = function (require, exports, ...modules) {
+                factory.call(this, require, exports, ...modules);
+                proxy(
+                  exports.EditorLayoutInfoComputer,
+                  "computeLayout",
+                  undefined,
+                  (layout) => {
+                    layout.minimap.minimapHeightIsEditorHeight = false;
+                    layout.minimap.minimapCanvasInnerHeight -= 57;
+                    layout.minimap.minimapCanvasOuterHeight -= 57;
+                    layout.overviewRuler.height -= 57;
+                    layout.overviewRuler.top += 57;
+                    return layout;
+                  }
+                );
+              };
+              break;
             case "vs/workbench/browser/parts/editor/textCodeEditor":
               argumentsList[2] = function (require, exports, ...modules) {
                 factory.call(this, ...arguments);
                 textCodeEditorExport = exports;
 
-                replaceCodeEditorWidget(modules);
                 const newExports = {};
-                factory.call(this, require, newExports, ...modules);
-                const { key, value: AbstractTextCodeEditor } = findPropertyWith(
-                  newExports,
-                  isClass
-                );
-                newExports[key] = class extends AbstractTextCodeEditor {
-                  layout(dimension) {
-                    return super.layout(
-                      dimension.with
-                        ? dimension.with(undefined, window.innerHeight)
-                        : dimension
-                    );
-                  }
-                };
+                useBackdropCodeEditor(factory)(require, newExports, ...modules);
                 newTextCodeEditorExport = newExports;
               };
               break;
@@ -310,54 +354,10 @@
               };
               break;
             case "vs/editor/browser/widget/diffEditorWidget":
-              argumentsList[2] = function (_require, exports, ...modules) {
-                replaceCodeEditorWidget(modules);
-                factory.call(this, require, exports, ...modules);
-                const { key, value: DiffEditorWidget } = findPropertyWith(
-                  exports,
-                  isClass
-                );
-                exports[key] = class extends DiffEditorWidget {
-                  constructor(domElement) {
-                    super(...arguments);
-                    domElement.style.position = "absolute";
-                    domElement.style.top = "0px";
-                  }
-
-                  layout(dimension) {
-                    return super.layout(
-                      dimension.with
-                        ? dimension.with(undefined, window.innerHeight)
-                        : dimension
-                    );
-                  }
-                };
-              };
+              argumentsList[2] = makeNewDiffEditorWidget(factory);
               break;
             case "vs/editor/browser/widget/diffEditorWidget2/diffEditorWidget2":
-              argumentsList[2] = function (_require, exports, ...modules) {
-                replaceCodeEditorWidget(modules);
-                factory.call(this, require, exports, ...modules);
-                const { key, value: DiffEditorWidget } = findPropertyWith(
-                  exports,
-                  isClass
-                );
-                exports[key] = class extends DiffEditorWidget {
-                  constructor(domElement) {
-                    super(...arguments);
-                    domElement.style.position = "absolute";
-                    domElement.style.top = "0px";
-                  }
-
-                  layout(dimension) {
-                    return super.layout(
-                      dimension.with
-                        ? dimension.with(undefined, window.innerHeight)
-                        : dimension
-                    );
-                  }
-                };
-              };
+              argumentsList[2] = makeNewDiffEditorWidget(factory);
               break;
           }
           return Reflect.apply(target, thisArg, argumentsList);
