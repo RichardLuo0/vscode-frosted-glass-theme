@@ -209,9 +209,10 @@
         return { key, value };
       }
     }
+    return {};
   }
 
-  function moveDown(element) {
+  function moveElementDown(element) {
     if (element) {
       element.style.marginTop = "57px";
     }
@@ -224,9 +225,22 @@
         domElement.style.position = "absolute";
         domElement.style.top = "0px";
         proxy(domElement, "appendChild", (monacoEditor) => {
-          moveDown(monacoEditor.querySelector("div.overlayWidgets"));
-          moveDown(monacoEditor.querySelector("div.minimap"));
-          moveDown(monacoEditor.querySelector(".scrollbar.vertical"));
+          moveElementDown(monacoEditor.querySelector("div.overlayWidgets"));
+          moveElementDown(monacoEditor.querySelector("div.minimap"));
+          moveElementDown(monacoEditor.querySelector("div.scrollbar.vertical"));
+          moveElementDown(
+            monacoEditor.querySelector("canvas.decorationsOverviewRuler")
+          );
+
+          monacoEditor.querySelector(".overflow-guard").style.overflow =
+            "visible";
+          monacoEditor.querySelector(".lines-content").style.overflow =
+            "visible";
+          const scrollableElement = monacoEditor.querySelector(
+            ".monaco-scrollable-element"
+          );
+          scrollableElement.style.overflow = "visible";
+          scrollableElement.style.paddingBottom = "57px";
         });
       }
 
@@ -249,60 +263,134 @@
     };
   }
 
-  function replaceCodeEditorWidget(arguments) {
-    let codeEditorWidgetPair;
-    const codeEditorWidgetIndex = Array.prototype.findLastIndex.call(
-      arguments,
-      (exports) => {
-        codeEditorWidgetPair = findPropertyWith(
-          exports,
-          (c) => c.prototype?.changeViewZones
-        );
-        return codeEditorWidgetPair;
-      }
-    );
-    if (codeEditorWidgetIndex >= 0 && codeEditorWidgetPair !== undefined) {
-      const { key, value } = codeEditorWidgetPair;
-      const newCodeEditorWidgetExport = Object.create(
-        arguments[codeEditorWidgetIndex]
-      );
-      newCodeEditorWidgetExport[key] = createBackdropCodeEditorWidget(value);
-      arguments[codeEditorWidgetIndex] = newCodeEditorWidgetExport;
-    }
-  }
-
-  function createNewDimension(dimension) {
-    if (dimension.height > 0) dimension.height += 57;
-    return dimension;
-  }
-
-  function useBackdropCodeEditor(factory, domFunction) {
+  function makeNewDiffEditorWidget(factory) {
     return function (require, exports, ...modules) {
-      replaceCodeEditorWidget(modules);
       factory.call(this, require, exports, ...modules);
       const { key, value: SomeClass } = findPropertyWith(exports, isClass);
       exports[key] = class extends SomeClass {
         constructor(domElement) {
           super(...arguments);
-          domFunction?.call(this, domElement);
-        }
-
-        layout(dimension) {
-          return super.layout(createNewDimension(dimension));
+          domElement.style.position = "absolute";
+          domElement.style.top = "0px";
+          domElement.querySelector(".diffOverview").style.marginTop = "57px";
         }
       };
     };
   }
 
-  function makeNewDiffEditorWidget(factory) {
-    return useBackdropCodeEditor(factory, (domElement) => {
-      domElement.style.position = "absolute";
-      domElement.style.top = "0px";
-      domElement.querySelector(".diffOverview").style.marginTop = "57px";
-    });
+  class ExportsHook {
+    constructor(originalExports, hookExports) {
+      this._originalExports = originalExports;
+      this._hookExports = hookExports;
+    }
+
+    use(factory) {
+      const that = this;
+      return function (require, exports, ...modules) {
+        that._hijackModule(modules);
+        factory.call(this, require, exports, ...modules);
+      };
+    }
+
+    _hijackModule(modules) {
+      if (this._originalExports && this._hookExports) {
+        const index = Array.prototype.findIndex.call(
+          modules,
+          (module) => module === this._originalExports
+        );
+        if (index >= 0) {
+          modules[index] = this._hookExports;
+        }
+      }
+    }
   }
 
-  let newTextCodeEditorExport, textCodeEditorExport;
+  class DependencyHook extends ExportsHook {
+    constructor(dependencies, hookFun) {
+      super(undefined, undefined);
+      this._dependencies = dependencies;
+      this._hookFun = hookFun;
+      this._moduleIndex = 0;
+    }
+
+    hook(moduleName, factory) {
+      if (!this.isFinished() && moduleName === this._getCurrentDependency()) {
+        const moduleIndex = this._moduleIndex;
+        this._moduleIndex++;
+        const that = this;
+        return function (require, exports, ...modules) {
+          factory.call(this, require, exports, ...modules);
+          that._hijackModule(modules);
+          const newExports = {};
+          (that._hookFun
+            ? that._hookFun(moduleIndex, factory, that._dependencies)
+            : factory
+          ).call(this, require, newExports, ...modules);
+          that._originalExports = exports;
+          that._hookExports = newExports;
+        };
+      } else return factory;
+    }
+
+    use(factory) {
+      return this.isFinished() ? super.use(factory) : factory;
+    }
+
+    dump() {
+      return new ExportsHook(this._originalExports, this._hookExports);
+    }
+
+    isFinished() {
+      return this._moduleIndex >= this._dependencies.length;
+    }
+
+    _getCurrentDependency() {
+      return this._dependencies[this._moduleIndex];
+    }
+  }
+
+  const viewLayoutHook = new DependencyHook(
+    [
+      "vs/editor/common/viewLayout/viewLayout",
+      "vs/editor/common/viewModel/viewModelImpl",
+      "vs/editor/browser/widget/codeEditorWidget",
+      "vs/workbench/browser/parts/editor/textCodeEditor",
+    ],
+    (moduleIndex, factory, dependencies) => {
+      switch (moduleIndex) {
+        case 0:
+          return function (require, exports, ...modules) {
+            factory.call(this, require, exports, ...modules);
+            const { key, value: ViewLayout } = findPropertyWith(
+              exports,
+              isClass
+            );
+            if (key !== undefined && ViewLayout !== undefined)
+              exports[key] = class extends ViewLayout {
+                getCurrentViewport() {
+                  const viewport = super.getCurrentViewport();
+                  viewport.height += 57;
+                  return viewport;
+                }
+              };
+          };
+        case dependencies.length - 2:
+          return function (require, exports, ...modules) {
+            factory.call(this, require, exports, ...modules);
+            const { key, value: CodeEditorWidget } = findPropertyWith(
+              exports,
+              (value) => isClass(value) && value.prototype?.changeViewZones
+            );
+            if (key !== undefined && CodeEditorWidget !== undefined)
+              exports[key] = createBackdropCodeEditorWidget(CodeEditorWidget);
+          };
+        default:
+          return factory;
+      }
+    }
+  );
+
+  let codeEditorWidgetHook;
 
   Object.defineProperty(globalThis, "define", {
     get() {
@@ -311,54 +399,28 @@
     set(oldDefine) {
       this._define = new Proxy(oldDefine, {
         apply: function (target, thisArg, argumentsList) {
-          const factory = argumentsList[2];
-          switch (argumentsList[0]) {
-            case "vs/editor/common/config/editorOptions":
-              argumentsList[2] = function (require, exports, ...modules) {
-                factory.call(this, require, exports, ...modules);
-                proxy(
-                  exports.EditorLayoutInfoComputer,
-                  "computeLayout",
-                  undefined,
-                  (layout) => {
-                    layout.minimap.minimapHeightIsEditorHeight = false;
-                    layout.minimap.minimapCanvasInnerHeight -= 57;
-                    layout.minimap.minimapCanvasOuterHeight -= 57;
-                    layout.overviewRuler.height -= 57;
-                    layout.overviewRuler.top += 57;
-                    return layout;
-                  }
-                );
-              };
-              break;
-            case "vs/workbench/browser/parts/editor/textCodeEditor":
-              argumentsList[2] = function (require, exports, ...modules) {
-                factory.call(this, ...arguments);
-                textCodeEditorExport = exports;
-
-                const newExports = {};
-                useBackdropCodeEditor(factory)(require, newExports, ...modules);
-                newTextCodeEditorExport = newExports;
-              };
-              break;
-            case "vs/workbench/contrib/files/browser/editors/textFileEditor":
-              argumentsList[2] = function (require, exports, ...modules) {
-                const textCodeEditorIndex = Array.prototype.findIndex.call(
-                  modules,
-                  (exports) => exports === textCodeEditorExport
-                );
-                if (textCodeEditorIndex >= 0) {
-                  modules[textCodeEditorIndex] = newTextCodeEditorExport;
-                }
-                factory.call(this, require, exports, ...modules);
-              };
-              break;
-            case "vs/editor/browser/widget/diffEditorWidget":
-              argumentsList[2] = makeNewDiffEditorWidget(factory);
-              break;
-            case "vs/editor/browser/widget/diffEditorWidget2/diffEditorWidget2":
-              argumentsList[2] = makeNewDiffEditorWidget(factory);
-              break;
+          if (argumentsList.length >= 3) {
+            let factory = argumentsList[2];
+            factory = viewLayoutHook.hook(argumentsList[0], factory);
+            switch (argumentsList[0]) {
+              case "vs/workbench/contrib/files/browser/editors/textFileEditor":
+                factory = viewLayoutHook.use(factory);
+                break;
+              case "vs/editor/browser/widget/codeEditorWidget":
+                const hookedFactory = factory;
+                factory = function () {
+                  hookedFactory.call(this, ...arguments);
+                  codeEditorWidgetHook = viewLayoutHook.dump();
+                };
+                break;
+              case "vs/editor/browser/widget/diffEditorWidget":
+              case "vs/editor/browser/widget/diffEditorWidget2/diffEditorWidget2":
+                factory = codeEditorWidgetHook
+                  ? codeEditorWidgetHook?.use(makeNewDiffEditorWidget(factory))
+                  : factory;
+                break;
+            }
+            argumentsList[2] = factory;
           }
           return Reflect.apply(target, thisArg, argumentsList);
         },
