@@ -3,7 +3,7 @@
 	"displayName": "Frosted Glass Theme",
 	"icon": "icon/icon.png",
 	"galleryBanner": {
-		"color": "indigo",
+		"color": "#4b0082",
 		"theme": "dark"
 	},
 	"publisher": "RichardLuo",
@@ -13,11 +13,20 @@
 		"type": "git",
 		"url": "https://github.com/RichardLuo0/vscode-frosted-glass-theme"
 	},
+	"license": "MIT",
 	"engines": {
 		"vscode": "^1.50.0"
 	},
 	"categories": [
 		"Themes"
+	],
+	"keywords": [
+		"acrylic",
+		"fluent design",
+		"mac os",
+		"animation",
+		"transparent",
+		"theme"
 	],
 	"extensionKind": [
 		"ui"
