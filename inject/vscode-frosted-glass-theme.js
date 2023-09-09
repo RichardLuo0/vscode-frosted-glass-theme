@@ -6,7 +6,7 @@
    * Proxy function of src
    * @param  {object} src
    * @param  {string} functionName
-   * @param  {(...arguments) => any?} before
+   * @param  {(...) => any?} before
    * @param  {(retType) => retType | boolean} after: `false` indicates to use the return value of `before`
    */
   function proxy(src, functionName, before, after = true) {
@@ -71,7 +71,10 @@
         }
       } else {
         for (const color of colorList) {
-          monacoWorkbench.style.setProperty(color, "var(--fgt-background-color)");
+          monacoWorkbench.style.setProperty(
+            color,
+            "var(--fgt-background-color)"
+          );
         }
       }
     }
@@ -88,28 +91,40 @@
     }
   };
 
-  function fixSubMenu(src, parent) {
-    // `position:absolute` will be invalid if drop-filter is set on menu.
-    // So I just move sub menu below `.monaco-menu-container` instead of `<ul>`.
-    src.append = (e) => {
-      // `DOM.isAncestor` will always return true
-      Object.defineProperty(e, "parentNode", {
+  // `position:absolute` will be invalid if drop-filter is set on menu.
+  // So I just move sub menu below `.monaco-menu-container` instead of `<ul>`
+  function fixSubMenu(src, parent, fixEvent = false) {
+    src.append = (monacoSubMenu) => {
+      // https://github.com/microsoft/vscode/blob/5cd507ba17ec7a0d8a822c35bfcde8eca33de861/src/vs/base/browser/dom.ts#L581
+      // Fake parent, thus `dom.isAncestor` will always return `true`
+      Object.defineProperty(monacoSubMenu, "parentNode", {
         get() {
           return src;
         },
       });
+      // https://github.com/microsoft/vscode/blob/5cd507ba17ec7a0d8a822c35bfcde8eca33de861/src/vs/base/browser/ui/actionbar/actionbar.ts#L209
+      // Forward focusout event to fix the bug which causes the menu harder to close
+      if (fixEvent) {
+        const monacoActionBar = parent.querySelector("div.monaco-action-bar");
+        monacoSubMenu.addEventListener("focusin", (e) =>
+          setTimeout(() => monacoActionBar.dispatchEvent(new Event("focus", e)))
+        );
+        monacoSubMenu.addEventListener("focusout", (e) =>
+          setTimeout(() => monacoActionBar.dispatchEvent(new Event(e.type, e)))
+        );
+      }
       // Fix new sub menu
-      fixMenu(e);
-      parent.append(e);
+      fixMenu(monacoSubMenu);
+      parent.append(monacoSubMenu);
     };
     src.removeChild = (e) => parent.removeChild(e);
     src.replaceChild = (e) => parent.replaceChild(e);
   }
 
-  function fixMenu(menuContainer) {
+  function fixMenu(menuContainer, fixEvent = false) {
     function fix(scrollableElement) {
       if (!scrollableElement) return;
-      // Replace `outline` with `border`
+      // Replace `outline` with `border` to fix the bug which causes white halo
       if (scrollableElement.style.outline.length !== 0) {
         scrollableElement.style.border = scrollableElement.style.outline;
         scrollableElement.style.margin = "-1px";
@@ -118,7 +133,7 @@
       // Fix sub menu
       scrollableElement
         .querySelectorAll("ul.actions-container li")
-        .forEach((menuItem) => fixSubMenu(menuItem, menuContainer));
+        .forEach((menuItem) => fixSubMenu(menuItem, menuContainer, fixEvent));
     }
     // If `scrollable-element` has existed, fix it now, otherwise, wait for appendChild
     if (menuContainer.childElementCount <= 0)
@@ -147,7 +162,7 @@
 
   const fixContextMenu = (contextView) => {
     // Fix side bar menu
-    fixMenu(contextView);
+    fixMenu(contextView, true);
   };
 
   // Fix context menu which is wrapped into shadow dom
@@ -162,7 +177,7 @@
           menuContainer.tagName === "DIV" &&
           menuContainer.classList.contains("monaco-menu-container")
         ) {
-          fixMenu(menuContainer);
+          fixMenu(menuContainer, true);
         }
       });
       this.appendChild(div);
