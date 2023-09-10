@@ -26,6 +26,11 @@
   }
 
   const observeThemeColorChange = (monacoWorkbench) => {
+    const supportColorMix = CSS.supports(
+      "background-color",
+      "color-mix(in srgb, black 25%, white)"
+    );
+
     function applyAlpha(color, alpha) {
       color = color.trim();
       if (color.length < 7) throw new Error("incorrect color format");
@@ -58,16 +63,25 @@
 
     function setupColor() {
       if (useThemeColor) {
-        const monacoWorkbenchCSSRule = getStyleSheetList(
-          contributedColorTheme
-        ).cssRules;
-        const cssVariablesStyle =
-          monacoWorkbenchCSSRule[monacoWorkbenchCSSRule.length - 1].style;
-        for (const color of colorList) {
-          monacoWorkbench.style.setProperty(
-            color,
-            applyAlpha(cssVariablesStyle.getPropertyValue(color), alpha)
-          );
+        if (supportColorMix) {
+          const opacityInPercentage = opacity * 100;
+          for (const color of colorList)
+            monacoWorkbench.style.setProperty(
+              color,
+              `color-mix(in srgb, var(${color}) ${opacityInPercentage}%, transparent)`
+            );
+        } else {
+          const monacoWorkbenchCSSRule = getStyleSheetList(
+            contributedColorTheme
+          ).cssRules;
+          const cssVariablesStyle =
+            monacoWorkbenchCSSRule[monacoWorkbenchCSSRule.length - 1].style;
+          for (const color of colorList) {
+            monacoWorkbench.style.setProperty(
+              color,
+              applyAlpha(cssVariablesStyle.getPropertyValue(color), alpha)
+            );
+          }
         }
       } else {
         for (const color of colorList) {
@@ -80,7 +94,7 @@
     }
 
     setupColor();
-    if (useThemeColor) {
+    if (useThemeColor && !supportColorMix) {
       const observer = new MutationObserver(setupColor);
       observer.observe(contributedColorTheme, {
         characterData: false,
@@ -96,7 +110,7 @@
   function fixSubMenu(src, parent, fixEvent = false) {
     src.append = (monacoSubMenu) => {
       // https://github.com/microsoft/vscode/blob/5cd507ba17ec7a0d8a822c35bfcde8eca33de861/src/vs/base/browser/dom.ts#L581
-      // Fake parent, thus `dom.isAncestor` will always return `true`
+      // Fake parent, thus `dom.isAncestor` will always return true
       Object.defineProperty(monacoSubMenu, "parentNode", {
         get() {
           return src;
