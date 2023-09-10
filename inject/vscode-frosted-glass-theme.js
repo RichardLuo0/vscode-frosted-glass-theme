@@ -51,7 +51,6 @@
       "--vscode-peekViewResult-background",
       "--vscode-quickInput-background",
       "--vscode-menu-background",
-      "--vscode-editorWidget-background",
       "--vscode-notifications-background",
       "--vscode-debugToolBar-background",
       "--vscode-editorHoverWidget-statusBarBackground",

@@ -191,7 +191,6 @@
 
 /* Custom Dialog Box */
 .dialog-shadow {
-  backdrop-filter: var(--fgt-backdrop-filter);
   animation: var(--fgt-animation-dialog);
 }
 
