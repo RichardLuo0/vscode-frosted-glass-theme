@@ -19,7 +19,7 @@
   transition: var(--fgt-transition);
 }
 
-/* Action Label */
+/* Action Bar */
 .action-label.codicon {
   transition: var(--fgt-transition);
 }
@@ -141,7 +141,7 @@
 }
 
 /* Breadcrumbs Picker */
-.monaco-breadcrumbs-picker > div:nth-child(2) {
+.monaco-breadcrumbs-picker > .file-icon-themable-tree {
   backdrop-filter: var(--fgt-backdrop-filter);
   background-color: var(--vscode-menu-background) !important;
 }
@@ -225,7 +225,6 @@
 
 .monaco-menu-container > .monaco-scrollable-element {
   animation: var(--fgt-animation-menu);
-  transform: translateY(var(--transformY-state));
 }
 
 .quick-input-widget {
@@ -253,4 +252,14 @@
   to {
     transform: translateY(0);
   }
+}
+
+/* Sticky Widget */
+.sticky-widget {
+  backdrop-filter: var(--fgt-backdrop-filter);
+}
+
+/* Tree Type Filter */
+.monaco-tree-type-filter {
+  backdrop-filter: var(--fgt-backdrop-filter);
 }

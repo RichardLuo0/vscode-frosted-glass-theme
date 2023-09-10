@@ -55,6 +55,8 @@
       "--vscode-notifications-background",
       "--vscode-debugToolBar-background",
       "--vscode-editorHoverWidget-statusBarBackground",
+      "--vscode-editorStickyScroll-background",
+      "--vscode-listFilterWidget-background",
     ];
     const alpha = Math.round(opacity * 255).toString(16);
     const contributedColorTheme = document.querySelector(
