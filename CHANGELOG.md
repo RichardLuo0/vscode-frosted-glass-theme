@@ -1,5 +1,10 @@
 # Change Log
 
+## [0.6.9]
+- bug fix
+- 9e92cbc: feat: support color-mix() since vscode 1.82.0 (Chrome 114)
+- ab1a7af: feat: add .sticky-widget and .monaco-tree-type-filter
+
 ## [0.6.7]
 - 5559f4c: feat: add `monaco-editor-overlaymessage`
 - 09af6aa: feat: add `monaco-breadcrumbs-picker` animation
