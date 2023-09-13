@@ -258,6 +258,10 @@
   backdrop-filter: var(--fgt-backdrop-filter);
 }
 
+.sticky-widget * {
+  background-color: transparent !important;
+}
+
 /* Tree Type Filter */
 .monaco-tree-type-filter {
   backdrop-filter: var(--fgt-backdrop-filter);
