@@ -185,7 +185,7 @@
 }
 
 /* Overlay Message */
-.monaco-editor-overlaymessage > .message {
+.monaco-editor-overlaymessage .message {
   backdrop-filter: var(--fgt-backdrop-filter);
 }
 
