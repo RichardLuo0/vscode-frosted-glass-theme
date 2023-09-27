@@ -10,8 +10,7 @@
    * @param  {(retType) => retType | boolean} after: `false` indicates to use the return value of `before`
    */
   function proxy(src, functionName, before, after = true) {
-    if (!src) return;
-    if (src[functionName]._hiddenTag) return;
+    if (!src || src[functionName]._hiddenTag) return;
     const oldFunction = src[functionName];
     src[functionName] = function () {
       const beforeRet = before && before.call(this, ...arguments);
@@ -50,12 +49,10 @@
       return color;
     }
 
-    function getStyleSheetList(ownerNode) {
-      for (const styleSheetList of document.styleSheets) {
-        if (styleSheetList.ownerNode === ownerNode) {
-          return styleSheetList;
-        }
-      }
+    function findStyleSheetList(ownerNode) {
+      return Array.from(document.styleSheets).find(
+        (styleSheetList) => styleSheetList.ownerNode === ownerNode
+      );
     }
 
     const colorList = [
@@ -77,17 +74,17 @@
 
     function setupColor() {
       if (useThemeColor) {
-        const monacoWorkbenchCSSRule = getStyleSheetList(
+        const monacoWorkbenchCSSRule = findStyleSheetList(
           contributedColorTheme
         ).cssRules;
         const cssVariablesStyle =
           monacoWorkbenchCSSRule[monacoWorkbenchCSSRule.length - 1].style;
-        for (const color of colorList) {
+        colorList.forEach((color) => {
           monacoWorkbench.style.setProperty(
             color,
             applyAlpha(cssVariablesStyle.getPropertyValue(color), alpha)
           );
-        }
+        });
       } else {
         for (const color of colorList) {
           monacoWorkbench.style.setProperty(
