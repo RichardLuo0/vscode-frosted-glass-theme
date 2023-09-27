@@ -28,8 +28,26 @@
   const observeThemeColorChange = (monacoWorkbench) => {
     function applyAlpha(color, alpha) {
       color = color.trim();
-      if (color.length < 7) throw new Error("incorrect color format");
-      return color.length === 7 ? color + alpha : color.substring(0, 7) + alpha;
+      // Hexadecimal format
+      if (color.startsWith("#"))
+        return color.length === 7
+          ? color + alpha
+          : color.substring(0, 7) + alpha;
+      // RGB format
+      if (color.startsWith("rgb(")) {
+        // Remove the 'rgb(' and ')' symbols
+        color = color.slice(4, -1);
+        const [red, green, blue] = color.split(",").map(Number);
+        return `rgba(${red}, ${green}, ${blue}, ${alpha})`;
+      }
+      // Check if the color is in HSL format
+      if (color.startsWith("hsl(")) {
+        // Remove the 'hsl(' and ')' symbols
+        color = color.slice(4, -1);
+        const [hue, saturation, lightness] = color.split(",").map(parseFloat);
+        return `hsla(${hue}, ${saturation}%, ${lightness}%, ${alpha})`;
+      }
+      return color;
     }
 
     function getStyleSheetList(ownerNode) {
