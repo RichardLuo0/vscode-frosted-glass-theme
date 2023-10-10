@@ -10,6 +10,11 @@
     fgtZoomIn;
 }
 
+/* For the js file to find this styleSheet and inject to shadow dom */
+.fgt-do-not-remove {
+  --suppress-warning: true;
+}
+
 /* Title Bar */
 .window-title {
   transition: var(--fgt-transition);
@@ -76,10 +81,6 @@
 .monaco-scrollable-element .invisible {
   opacity: 0 !important;
   pointer-events: none;
-}
-
-.monaco-menu-container > .monaco-scrollable-element .action-label {
-  --vscode-toolbar-activeBackground: transparent;
 }
 
 /* Search & Replace */

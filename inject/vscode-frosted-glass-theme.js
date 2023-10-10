@@ -182,13 +182,18 @@
   };
 
   // Fix context menu which is wrapped into shadow dom
-  proxy(
-    Element.prototype,
-    "attachShadow",
-    function () {
-      // I don't see any point of using shadow dom here other than making troubles
-      const div = document.createElement("div");
-      proxy(div, "appendChild", (menuContainer) => {
+  const fixShadowDom = () => {
+    const fgtCSSRules = Array.from(document.styleSheets).find(
+      (styleSheetList) =>
+        styleSheetList.cssRules[1]?.selectorText === ".fgt-do-not-remove"
+    ).cssRules;
+    const sheet = new CSSStyleSheet();
+    for (let i = 0; i < fgtCSSRules?.length; i++) {
+      sheet.insertRule(fgtCSSRules[i].cssText);
+    }
+    proxy(Element.prototype, "attachShadow", undefined, function (shadowDom) {
+      shadowDom.adoptedStyleSheets = [sheet];
+      proxy(shadowDom, "appendChild", (menuContainer) => {
         if (
           menuContainer.tagName === "DIV" &&
           menuContainer.classList.contains("monaco-menu-container")
@@ -196,15 +201,14 @@
           fixMenu(menuContainer, true);
         }
       });
-      this.appendChild(div);
-      return div;
-    },
-    false
-  );
+      return shadowDom;
+    });
+  };
 
   proxy(document.body, "appendChild", (monacoWorkbench) => {
     if (monacoWorkbench.classList.contains("monaco-workbench")) {
       observeThemeColorChange(monacoWorkbench);
+      fixShadowDom();
       proxy(monacoWorkbench, "prepend", (gridView) =>
         gridView.className === "monaco-grid-view"
           ? fixMenuBar(gridView)
