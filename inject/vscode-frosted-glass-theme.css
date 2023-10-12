@@ -218,26 +218,19 @@
 }
 
 /* Menu Dropdown Animation */
-.monaco-menu-container {
-  overflow: clip !important;
-  overflow-clip-margin: 10px !important;
-}
-
-.monaco-menu-container > .monaco-scrollable-element {
-  animation: var(--fgt-animation-menu);
-}
-
-.quick-input-widget {
-  animation: var(--fgt-animation-menu);
-}
-
-/* Breadcrumbs Picker Animation */
+.monaco-menu-container,
 .context-view {
   overflow: clip !important;
   overflow-clip-margin: 10px !important;
 }
 
+.monaco-menu-container > .monaco-scrollable-element,
+.action-widget,
 .monaco-breadcrumbs-picker {
+  animation: var(--fgt-animation-menu);
+}
+
+.quick-input-widget {
   animation: var(--fgt-animation-menu);
 }
 
