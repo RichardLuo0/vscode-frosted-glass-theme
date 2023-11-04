@@ -73,7 +73,7 @@
 }
 
 /* Menu */
-.monaco-menu-container > .monaco-scrollable-element {
+.monaco-menu-container .monaco-scrollable-element {
   backdrop-filter: var(--fgt-backdrop-filter);
   /* background-color: var(--background-color) !important; */
 }
@@ -224,7 +224,7 @@
   overflow-clip-margin: 10px !important;
 }
 
-.monaco-menu-container > .monaco-scrollable-element,
+.monaco-menu-container .monaco-scrollable-element,
 .action-widget,
 .monaco-breadcrumbs-picker {
   animation: var(--fgt-animation-menu);
