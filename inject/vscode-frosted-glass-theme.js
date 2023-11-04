@@ -127,7 +127,13 @@
           src,
           "contains",
           undefined,
-          (ret, e) => ret || parent.contains(e)
+          (ret, e) => ret || monacoSubMenu === e || monacoSubMenu.contains(e)
+        );
+        // Is submenu loses focus, dispatch to `<li>`
+        monacoSubMenu.addEventListener("focusout", (e) =>
+          setTimeout(() =>
+            src.dispatchEvent(new Event(e.type, { bubbles: false, ...e }))
+          )
         );
         // Recursively fix new menu
         fixMenu(monacoSubMenu);
