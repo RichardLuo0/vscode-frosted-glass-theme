@@ -1,5 +1,10 @@
 # Change Log
 
+## [0.6.12]
+- fdf412e: feat: add `.action-widget` animation
+- 1cf2a71: fix: `dom.isAncestor` changes after vscode 1.84.0 …
+- 060603d: fix: submenu does not close if it is out of focus
+
 ## [0.6.9]
 - bug fix
 - 9e92cbc: feat: support color-mix() since vscode 1.82.0 (Chrome 114)
