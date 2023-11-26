@@ -6,22 +6,28 @@
    * Proxy function of src
    * @param  {object} src
    * @param  {string} functionName
-   * @param  {(...) => any?} before
-   * @param  {(retType, ...) => retType | boolean} after: `false` indicates to use the return value of `before`
+   * @param  {(oldFunc, ...args) => any?} newFunc
    */
-  function proxy(src, functionName, before, after = true) {
-    if (!src || src[functionName]._hiddenTag) return;
-    const oldFunction = src[functionName];
-    src[functionName] = function () {
-      const beforeRet = before && before.call(this, ...arguments);
-      if (after === false) {
-        return beforeRet;
-      } else {
-        const retVal = oldFunction.call(this, ...arguments);
-        return after !== true ? after(retVal, ...arguments) : retVal;
-      }
+  function proxy(src, functionName, newFunc) {
+    if (!src || !src[functionName] || src[functionName]._hiddenTag) return;
+    const oldFunc = src[functionName];
+    src[functionName] = function (...args) {
+      return newFunc.call(this, oldFunc.bind(this), ...args);
     };
     src[functionName]._hiddenTag = true;
+  }
+
+  function useOldRet(f) {
+    return function (oldFunc, ...args) {
+      return f.call(this, oldFunc(...args), ...args);
+    };
+  }
+
+  function useArgs(f) {
+    return function (oldFunc, ...args) {
+      f.call(this, ...args);
+      return oldFunc(...args);
+    };
   }
 
   const observeThemeColorChange = (monacoWorkbench) => {
@@ -113,7 +119,9 @@
   // 2. Move sub menu below `div.monaco-action-bar` to avoid those properties being present on the ancestors.
   function fixMenu(menuContainer) {
     function moveSubMenu(src, parent) {
-      src.append = (monacoSubMenu) => {
+      function fixSubMenu(monacoSubMenu) {
+        if (!monacoSubMenu || monacoSubMenu._hiddenTag) return monacoSubMenu;
+
         // https://github.com/microsoft/vscode/blob/5cd507ba17ec7a0d8a822c35bfcde8eca33de861/src/vs/base/browser/dom.ts#L581
         // Fake parent, thus `dom.isAncestor` will always return `true`
         Object.defineProperty(monacoSubMenu, "parentNode", {
@@ -123,11 +131,16 @@
         });
         // https://github.com/microsoft/vscode/blob/3e452bfef11522d0151fd2e884bb8bf869d7d2fa/src/vs/base/browser/dom.ts#L632
         // Changes since vscode 1.84.0
+        src._currentSubMenu = monacoSubMenu;
         proxy(
           src,
           "contains",
-          undefined,
-          (ret, e) => ret || monacoSubMenu === e || monacoSubMenu.contains(e)
+          useOldRet(
+            (ret, e) =>
+              ret ||
+              src._currentSubMenu === e ||
+              src._currentSubMenu.contains(e)
+          )
         );
         // Is submenu loses focus, dispatch to `<li>`
         monacoSubMenu.addEventListener("focusout", (e) =>
@@ -137,14 +150,23 @@
         );
         // Recursively fix new menu
         fixMenu(monacoSubMenu);
-        parent.append(monacoSubMenu);
-      };
+
+        monacoSubMenu._hiddenTag = true;
+        return monacoSubMenu;
+      }
+
+      src.append = (e) => parent.append(fixSubMenu(e));
       src.removeChild = (e) => parent.removeChild(e);
-      src.replaceChild = (e) => parent.replaceChild(e);
+      src.replaceChild = (e) => parent.replaceChild(fixSubMenu(e));
     }
 
     function fix(scrollableElement) {
-      if (!scrollableElement) return;
+      if (
+        !scrollableElement ||
+        !scrollableElement.classList.contains("monaco-scrollable-element")
+      )
+        return scrollableElement;
+
       // Replace `outline` with `border` to fix the bug which causes white halo
       if (scrollableElement.style.outline.length !== 0) {
         scrollableElement.style.border = scrollableElement.style.outline;
@@ -163,28 +185,25 @@
       actionBar.parentNode.replaceChild(clone, actionBar);
 
       actionBar.className = "";
-      menuContainer.replaceChild(actionBar, scrollableElement);
       actionBar.appendChild(scrollableElement);
-
       actionBar
         .querySelectorAll("ul.actions-container > li")
         .forEach((menuItem) => moveSubMenu(menuItem, actionBar));
+
+      return actionBar;
     }
 
     // If `scrollable-element` has existed, fix it now, otherwise, wait for `appendChild`
     if (menuContainer.childElementCount <= 0)
-      proxy(menuContainer, "appendChild", undefined, (e) => {
-        if (e.classList.contains("monaco-scrollable-element")) fix(e);
-        return e;
-      });
+      proxy(menuContainer, "appendChild", (oldFunc, e) => oldFunc(fix(e)));
     else fix(menuContainer.querySelector("div.monaco-scrollable-element"));
   }
 
   const fixMenuBar = (gridView) => {
     // Fix top bar menu
     function fixMenuBotton(menu) {
-      proxy(menu, "append", fixMenu);
-      proxy(menu, "appendChild", fixMenu);
+      proxy(menu, "append", useArgs(fixMenu));
+      proxy(menu, "appendChild", useArgs(fixMenu));
     }
     const menuBar = gridView.querySelector(
       "#workbench\\.parts\\.titlebar > div > div.titlebar-left > div.menubar"
@@ -192,9 +211,9 @@
     if (!menuBar) return;
     const menus = menuBar.querySelectorAll("div.menubar-menu-button");
     menus.forEach(fixMenuBotton);
-    proxy(menuBar, "append", fixMenuBotton);
-    proxy(menuBar, "appendChild", fixMenuBotton);
-    proxy(menuBar, "insertBefore", fixMenuBotton);
+    proxy(menuBar, "append", useArgs(fixMenuBotton));
+    proxy(menuBar, "appendChild", useArgs(fixMenuBotton));
+    proxy(menuBar, "insertBefore", useArgs(fixMenuBotton));
   };
 
   const fixContextMenu = fixMenu;
@@ -209,34 +228,51 @@
     for (let i = 0; i < fgtCSSRules?.length; i++) {
       sheet.insertRule(fgtCSSRules[i].cssText);
     }
-    proxy(Element.prototype, "attachShadow", undefined, function (shadowDom) {
-      shadowDom.adoptedStyleSheets = [sheet];
-      proxy(shadowDom, "appendChild", (menuContainer) => {
-        if (
-          menuContainer.tagName === "DIV" &&
-          menuContainer.classList.contains("monaco-menu-container")
-        ) {
-          fixMenu(menuContainer);
-        }
-      });
-      return shadowDom;
-    });
+    proxy(
+      Element.prototype,
+      "attachShadow",
+      useOldRet((shadowDom) => {
+        shadowDom.adoptedStyleSheets = [sheet];
+        proxy(
+          shadowDom,
+          "appendChild",
+          useArgs((menuContainer) => {
+            if (
+              menuContainer.tagName === "DIV" &&
+              menuContainer.classList.contains("monaco-menu-container")
+            ) {
+              fixMenu(menuContainer);
+            }
+          })
+        );
+        return shadowDom;
+      })
+    );
   };
 
-  proxy(document.body, "appendChild", (monacoWorkbench) => {
-    if (monacoWorkbench.classList.contains("monaco-workbench")) {
-      observeThemeColorChange(monacoWorkbench);
-      fixShadowDom();
-      proxy(monacoWorkbench, "prepend", (gridView) =>
-        gridView.className === "monaco-grid-view"
-          ? fixMenuBar(gridView)
-          : undefined
-      );
-      proxy(monacoWorkbench, "appendChild", (contextView) =>
-        contextView.className === "context-view"
-          ? fixContextMenu(contextView)
-          : undefined
-      );
-    }
-  });
+  proxy(
+    document.body,
+    "appendChild",
+    useArgs((monacoWorkbench) => {
+      if (monacoWorkbench.classList.contains("monaco-workbench")) {
+        observeThemeColorChange(monacoWorkbench);
+        fixShadowDom();
+        proxy(
+          monacoWorkbench,
+          "prepend",
+          useArgs((gridView) => {
+            if (gridView.className === "monaco-grid-view") fixMenuBar(gridView);
+          })
+        );
+        proxy(
+          monacoWorkbench,
+          "appendChild",
+          useArgs((contextView) => {
+            if (contextView.className === "context-view")
+              fixContextMenu(contextView);
+          })
+        );
+      }
+    })
+  );
 })();
