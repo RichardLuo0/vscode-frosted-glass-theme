@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.6.13]
+- 934b1de: fix: if sub menu is opened twice, it disappears shortly after
+
 ## [0.6.12]
 - fdf412e: feat: add `.action-widget` animation
 - 1cf2a71: fix: `dom.isAncestor` changes after vscode 1.84.0 …
