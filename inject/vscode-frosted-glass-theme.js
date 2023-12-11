@@ -1,3 +1,5 @@
+import fgtSheet from "./vscode-frosted-glass-theme.css" assert { type: "css" };
+
 (function () {
   const useThemeColor = true;
   const opacity = 0.4;
@@ -31,6 +33,8 @@
   }
 
   const observeThemeColorChange = (monacoWorkbench) => {
+    const document = monacoWorkbench.ownerDocument;
+
     function applyAlpha(color, alpha) {
       color = color.trim();
       // Hexadecimal format
@@ -142,7 +146,7 @@
               src._currentSubMenu.contains(e)
           )
         );
-        // Is submenu loses focus, dispatch to `<li>`
+        // If submenu loses focus, dispatch to `<li>`
         monacoSubMenu.addEventListener("focusout", (e) =>
           setTimeout(() =>
             src.dispatchEvent(new Event(e.type, { bubbles: false, ...e }))
@@ -199,8 +203,8 @@
     else fix(menuContainer.querySelector("div.monaco-scrollable-element"));
   }
 
+  // Fix top bar menu
   const fixMenuBar = (gridView) => {
-    // Fix top bar menu
     function fixMenuBotton(menu) {
       proxy(menu, "append", useArgs(fixMenu));
       proxy(menu, "appendChild", useArgs(fixMenu));
@@ -218,29 +222,32 @@
 
   const fixContextMenu = fixMenu;
 
-  // Fix context menu which is wrapped into shadow dom
+  // Fix menu which is wrapped into shadow dom
   const fixShadowDom = () => {
-    const fgtCSSRules = Array.from(document.styleSheets).find(
-      (styleSheetList) =>
-        styleSheetList.cssRules[1]?.selectorText === ".fgt-do-not-remove"
-    ).cssRules;
-    const sheet = new CSSStyleSheet();
-    for (let i = 0; i < fgtCSSRules?.length; i++) {
-      sheet.insertRule(fgtCSSRules[i].cssText);
-    }
     proxy(
       Element.prototype,
       "attachShadow",
       useOldRet((shadowDom) => {
-        shadowDom.adoptedStyleSheets = [sheet];
+        if (shadowDom.ownerDocument === document)
+          shadowDom.adoptedStyleSheets.push(
+            ...shadowDom.ownerDocument.adoptedStyleSheets
+          );
+        else {
+          const document = shadowDom.ownerDocument;
+          if (
+            !Array.from(shadowDom.children).find((child) => child._fgtStyle)
+          ) {
+            const style = Array.from(document.head.children).find(
+              (child) => child._fgtStyle
+            );
+            shadowDom.appendChild(style.cloneNode(true));
+          }
+        }
         proxy(
           shadowDom,
           "appendChild",
           useArgs((menuContainer) => {
-            if (
-              menuContainer.tagName === "DIV" &&
-              menuContainer.classList.contains("monaco-menu-container")
-            ) {
+            if (menuContainer.classList.contains("monaco-menu-container")) {
               fixMenu(menuContainer);
             }
           })
@@ -250,6 +257,44 @@
     );
   };
 
+  let _fgtSheetText = null;
+  function getFgtSheetText() {
+    if (_fgtSheetText === null) {
+      _fgtSheetText = "";
+      for (let i = 0; i < fgtSheet.cssRules.length; i++) {
+        _fgtSheetText += fgtSheet.cssRules[i].cssText;
+      }
+    }
+    return _fgtSheetText;
+  }
+
+  // `new CSSStyleSheet()` binds to current document automatically.
+  // And a stylesheet is associated with at most one document.
+  // `newWindow.onload` will not be triggered.
+  // Thus I am forced to insert a style element into the document.
+  const fixWindow = () => {
+    proxy(
+      window,
+      "open",
+      useOldRet((newWindow) => {
+        const document = newWindow.document;
+        const style = document.createElement("style");
+        style.innerText = getFgtSheetText();
+        document.head.append(style);
+        style._fgtStyle = true;
+        proxy(
+          document.body,
+          "append",
+          useArgs((container) => {
+            observeThemeColorChange(container);
+          })
+        );
+        return newWindow;
+      })
+    );
+  };
+
+  document.adoptedStyleSheets.push(fgtSheet);
   proxy(
     document.body,
     "appendChild",
@@ -257,6 +302,7 @@
       if (monacoWorkbench.classList.contains("monaco-workbench")) {
         observeThemeColorChange(monacoWorkbench);
         fixShadowDom();
+        fixWindow();
         proxy(
           monacoWorkbench,
           "prepend",

@@ -18,7 +18,7 @@ export function activate(context: ExtensionContext) {
   const jsFile = new File(
     path.resolve(`${__dirname}/../inject/vscode-frosted-glass-theme.js`)
   );
-  const injection = new Injection([cssFile, jsFile]);
+  const injection = new Injection([jsFile]);
 
   function reloadWindow() {
     commands.executeCommand("workbench.action.reloadWindow");

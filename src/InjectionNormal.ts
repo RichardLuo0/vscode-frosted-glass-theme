@@ -104,7 +104,7 @@ export default class InjectionNormal implements InjectionImpl {
 
     switch (ext) {
       case ".js":
-        return `<script src="${url}"></script>\n`;
+        return `<script type="module" src="${url}"></script>\n`;
       case ".css":
         return `<link rel="stylesheet" href="${url}"/>\n`;
       default:

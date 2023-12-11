@@ -10,11 +10,6 @@
     fgtZoomIn;
 }
 
-/* For the js file to find this styleSheet and inject to shadow dom */
-.fgt-do-not-remove {
-  --suppress-warning: true;
-}
-
 /* Title Bar */
 .window-title {
   transition: var(--fgt-transition);
@@ -259,4 +254,15 @@
 /* Tree Type Filter */
 .monaco-tree-type-filter {
   backdrop-filter: var(--fgt-backdrop-filter);
+}
+
+/* Tree Sticky Container */
+.monaco-tree-sticky-container {
+  backdrop-filter: var(--fgt-backdrop-filter);
+  background-color: var(--vscode-menu-background) !important;
+  
+}
+
+.monaco-tree-sticky-container * {
+  background-color: transparent !important;
 }
