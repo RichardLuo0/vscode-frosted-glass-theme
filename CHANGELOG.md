@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.6.14]
+- e031a2e: feat: support floating window (since vscode 1.85.0)
+
 ## [0.6.13]
 - 934b1de: fix: if sub menu is opened twice, it disappears shortly after
 
