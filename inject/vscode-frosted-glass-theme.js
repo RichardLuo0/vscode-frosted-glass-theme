@@ -228,21 +228,9 @@ import fgtSheet from "./vscode-frosted-glass-theme.css" assert { type: "css" };
       Element.prototype,
       "attachShadow",
       useOldRet((shadowDom) => {
-        if (shadowDom.ownerDocument === document)
-          shadowDom.adoptedStyleSheets.push(
-            ...shadowDom.ownerDocument.adoptedStyleSheets
-          );
-        else {
-          const document = shadowDom.ownerDocument;
-          if (
-            !Array.from(shadowDom.children).find((child) => child._fgtStyle)
-          ) {
-            const style = Array.from(document.head.children).find(
-              (child) => child._fgtStyle
-            );
-            shadowDom.appendChild(style.cloneNode(true));
-          }
-        }
+        shadowDom.adoptedStyleSheets.push(
+          ...shadowDom.ownerDocument.adoptedStyleSheets
+        );
         proxy(
           shadowDom,
           "appendChild",
@@ -257,31 +245,17 @@ import fgtSheet from "./vscode-frosted-glass-theme.css" assert { type: "css" };
     );
   };
 
-  let _fgtSheetText = null;
-  function getFgtSheetText() {
-    if (_fgtSheetText === null) {
-      _fgtSheetText = "";
-      for (let i = 0; i < fgtSheet.cssRules.length; i++) {
-        _fgtSheetText += fgtSheet.cssRules[i].cssText;
-      }
-    }
-    return _fgtSheetText;
-  }
-
-  // `new CSSStyleSheet()` binds to current document automatically.
-  // And a stylesheet is associated with at most one document.
-  // `newWindow.onload` will not be triggered.
-  // Thus I am forced to insert a style element into the document.
   const fixWindow = () => {
     proxy(
       window,
       "open",
       useOldRet((newWindow) => {
         const document = newWindow.document;
-        const style = document.createElement("style");
-        style.innerText = getFgtSheetText();
-        document.head.append(style);
-        style._fgtStyle = true;
+        const sheet = new newWindow.CSSStyleSheet();
+        for (let i = 0; i < fgtSheet.cssRules.length; i++) {
+          sheet.insertRule(fgtSheet.cssRules[i].cssText);
+        }
+        document.adoptedStyleSheets.push(sheet);
         proxy(
           document.body,
           "append",
