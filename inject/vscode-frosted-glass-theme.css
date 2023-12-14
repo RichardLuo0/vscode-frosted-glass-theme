@@ -46,12 +46,8 @@
   /* background-color: var(--background-color) !important; */
 }
 
-.monaco-list-rows {
+.quick-input-widget .monaco-list-rows {
   background-color: transparent !important;
-}
-
-.monaco-list-rows .monaco-list-row {
-  outline: none !important;
 }
 
 /* Input Box */
@@ -260,7 +256,6 @@
 .monaco-tree-sticky-container {
   backdrop-filter: var(--fgt-backdrop-filter);
   background-color: var(--vscode-menu-background) !important;
-  
 }
 
 .monaco-tree-sticky-container * {

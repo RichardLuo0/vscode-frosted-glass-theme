@@ -281,14 +281,15 @@ import fgtSheet from "./vscode-frosted-glass-theme.css" assert { type: "css" };
           monacoWorkbench,
           "prepend",
           useArgs((gridView) => {
-            if (gridView.className === "monaco-grid-view") fixMenuBar(gridView);
+            if (gridView.classList.contains("monaco-grid-view"))
+              fixMenuBar(gridView);
           })
         );
         proxy(
           monacoWorkbench,
           "appendChild",
           useArgs((contextView) => {
-            if (contextView.className === "context-view")
+            if (contextView.classList.contains("context-view"))
               fixContextMenu(contextView);
           })
         );
