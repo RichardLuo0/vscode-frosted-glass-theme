@@ -1,15 +1,3 @@
-/* Just define css variables */
-/* Change these variables into whatever you like */
-:root {
-  --fgt-backdrop-filter: blur(30px);
-  --fgt-background-color: ;
-  --fgt-transition: 300ms;
-  --fgt-animation-menu: 300ms cubic-bezier(0, 0.8, 0.2, 1) 0s 1 forwards
-    fgtDropdown;
-  --fgt-animation-dialog: 300ms cubic-bezier(0, 0.8, 0.2, 1) 0s 1 forwards
-    fgtZoomIn;
-}
-
 /* Title Bar */
 .window-title {
   transition: var(--fgt-transition);

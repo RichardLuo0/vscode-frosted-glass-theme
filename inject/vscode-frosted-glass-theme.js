@@ -1,8 +1,57 @@
 import fgtSheet from "./vscode-frosted-glass-theme.css" assert { type: "css" };
 
 (function () {
-  const useThemeColor = true;
-  const opacity = 0.4;
+  const config = {
+    backgroundOpacity: 0.4,
+    selectionOpacity: 1,
+    backdropFilter: "blur(30px)",
+    backgroundColor: "",
+    transition: "300ms",
+    animation: {
+      menu: "300ms cubic-bezier(0, 0.8, 0.2, 1) 0s 1 forwards fgtDropdown",
+      dialog: "300ms cubic-bezier(0, 0.8, 0.2, 1) 0s 1 forwards fgtZoomIn",
+    },
+  };
+  const { backgroundOpacity, selectionOpacity } = config;
+  const useThemeColor = config.backgroundColor.length === 0;
+
+  fgtSheet.insertRule(
+    `:root { 
+  --fgt-backdrop-filter: ${config.backdropFilter};
+  --fgt-background-color: ${config.backgroundColor};
+  --fgt-transition: ${config.transition};
+  --fgt-animation-menu: ${config.animation.menu};
+  --fgt-animation-dialog: ${config.animation.dialog};
+}`
+  );
+  document.adoptedStyleSheets.push(fgtSheet);
+  proxy(
+    document.body,
+    "appendChild",
+    useArgs((monacoWorkbench) => {
+      if (monacoWorkbench.classList.contains("monaco-workbench")) {
+        observeThemeColorChange(monacoWorkbench);
+        fixShadowDom();
+        fixWindow();
+        proxy(
+          monacoWorkbench,
+          "prepend",
+          useArgs((gridView) => {
+            if (gridView.classList.contains("monaco-grid-view"))
+              fixMenuBar(gridView);
+          })
+        );
+        proxy(
+          monacoWorkbench,
+          "appendChild",
+          useArgs((contextView) => {
+            if (contextView.classList.contains("context-view"))
+              fixContextMenu(contextView);
+          })
+        );
+      }
+    })
+  );
 
   /**
    * Proxy function of src
@@ -35,7 +84,40 @@ import fgtSheet from "./vscode-frosted-glass-theme.css" assert { type: "css" };
   const observeThemeColorChange = (monacoWorkbench) => {
     const document = monacoWorkbench.ownerDocument;
 
-    function applyAlpha(color, alpha) {
+    const backgroundVarList = [
+      "--vscode-editorHoverWidget-background",
+      "--vscode-editorSuggestWidget-background",
+      "--vscode-peekViewResult-background",
+      "--vscode-quickInput-background",
+      "--vscode-menu-background",
+      "--vscode-notifications-background",
+      "--vscode-debugToolBar-background",
+      "--vscode-editorHoverWidget-statusBarBackground",
+      "--vscode-editorStickyScroll-background",
+      "--vscode-listFilterWidget-background",
+    ];
+    const selectionVarList = [
+      "--vscode-menu-selectionBackground",
+      "--vscode-quickInputList-focusBackground",
+    ];
+
+    const contributedColorTheme = document.querySelector(
+      "head > style.contributedColorTheme"
+    );
+
+    setupColor();
+    if (useThemeColor) {
+      const observer = new MutationObserver(setupColor);
+      observer.observe(contributedColorTheme, {
+        characterData: false,
+        attributes: false,
+        childList: true,
+        subtree: false,
+      });
+    }
+
+    function applyOpacity(color, opacity) {
+      const alpha = Math.round(opacity * 255).toString(16);
       color = color.trim();
       // Hexadecimal format
       if (color.startsWith("#"))
@@ -65,55 +147,32 @@ import fgtSheet from "./vscode-frosted-glass-theme.css" assert { type: "css" };
       );
     }
 
-    const colorList = [
-      "--vscode-editorHoverWidget-background",
-      "--vscode-editorSuggestWidget-background",
-      "--vscode-peekViewResult-background",
-      "--vscode-quickInput-background",
-      "--vscode-menu-background",
-      "--vscode-notifications-background",
-      "--vscode-debugToolBar-background",
-      "--vscode-editorHoverWidget-statusBarBackground",
-      "--vscode-editorStickyScroll-background",
-      "--vscode-listFilterWidget-background",
-    ];
-    const alpha = Math.round(opacity * 255).toString(16);
-    const contributedColorTheme = document.querySelector(
-      "head > style.contributedColorTheme"
-    );
-
     function setupColor() {
+      const monacoWorkbenchCSSRule = findStyleSheetList(
+        contributedColorTheme
+      ).cssRules;
+      const cssVariablesStyle =
+        monacoWorkbenchCSSRule[monacoWorkbenchCSSRule.length - 1].style;
+
+      const applyOpToVar = (opacity) => (color) => {
+        monacoWorkbench.style.setProperty(
+          color,
+          applyOpacity(cssVariablesStyle.getPropertyValue(color), opacity)
+        );
+      };
+
       if (useThemeColor) {
-        const monacoWorkbenchCSSRule = findStyleSheetList(
-          contributedColorTheme
-        ).cssRules;
-        const cssVariablesStyle =
-          monacoWorkbenchCSSRule[monacoWorkbenchCSSRule.length - 1].style;
-        colorList.forEach((color) => {
-          monacoWorkbench.style.setProperty(
-            color,
-            applyAlpha(cssVariablesStyle.getPropertyValue(color), alpha)
-          );
-        });
+        backgroundVarList.forEach(applyOpToVar(backgroundOpacity));
       } else {
-        for (const color of colorList) {
+        colorList.forEach((color) => {
           monacoWorkbench.style.setProperty(
             color,
             "var(--fgt-background-color)"
           );
-        }
+        });
       }
-    }
-
-    setupColor();
-    if (useThemeColor) {
-      const observer = new MutationObserver(setupColor);
-      observer.observe(contributedColorTheme, {
-        characterData: false,
-        attributes: false,
-        childList: true,
-        subtree: false,
-      });
+      // Menu selection background opacity
+      selectionVarList.forEach(applyOpToVar(selectionOpacity));
     }
   };
 
@@ -122,6 +181,11 @@ import fgtSheet from "./vscode-frosted-glass-theme.css" assert { type: "css" };
   // 2. Move the original `div.monaco-action-bar` with event listeners to top level and remove any styles.
   // 2. Move sub menu below `div.monaco-action-bar` to avoid those properties being present on the ancestors.
   function fixMenu(menuContainer) {
+    // If `scrollable-element` has existed, fix it now, otherwise, wait for `appendChild`
+    if (menuContainer.childElementCount <= 0)
+      proxy(menuContainer, "appendChild", (oldFunc, e) => oldFunc(fix(e)));
+    else fix(menuContainer.querySelector("div.monaco-scrollable-element"));
+
     function moveSubMenu(src, parent) {
       function fixSubMenu(monacoSubMenu) {
         if (!monacoSubMenu || monacoSubMenu._hiddenTag) return monacoSubMenu;
@@ -196,11 +260,6 @@ import fgtSheet from "./vscode-frosted-glass-theme.css" assert { type: "css" };
 
       return actionBar;
     }
-
-    // If `scrollable-element` has existed, fix it now, otherwise, wait for `appendChild`
-    if (menuContainer.childElementCount <= 0)
-      proxy(menuContainer, "appendChild", (oldFunc, e) => oldFunc(fix(e)));
-    else fix(menuContainer.querySelector("div.monaco-scrollable-element"));
   }
 
   // Fix top bar menu
@@ -267,33 +326,4 @@ import fgtSheet from "./vscode-frosted-glass-theme.css" assert { type: "css" };
       })
     );
   };
-
-  document.adoptedStyleSheets.push(fgtSheet);
-  proxy(
-    document.body,
-    "appendChild",
-    useArgs((monacoWorkbench) => {
-      if (monacoWorkbench.classList.contains("monaco-workbench")) {
-        observeThemeColorChange(monacoWorkbench);
-        fixShadowDom();
-        fixWindow();
-        proxy(
-          monacoWorkbench,
-          "prepend",
-          useArgs((gridView) => {
-            if (gridView.classList.contains("monaco-grid-view"))
-              fixMenuBar(gridView);
-          })
-        );
-        proxy(
-          monacoWorkbench,
-          "appendChild",
-          useArgs((contextView) => {
-            if (contextView.classList.contains("context-view"))
-              fixContextMenu(contextView);
-          })
-        );
-      }
-    })
-  );
 })();

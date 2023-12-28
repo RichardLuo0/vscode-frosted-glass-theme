@@ -1,15 +1,9 @@
 import path from "path";
-import {
-  commands,
-  ExtensionContext,
-  window,
-  workspace,
-  WorkspaceConfiguration,
-} from "vscode";
+import { commands, ExtensionContext, window, workspace } from "vscode";
 import File from "./File";
 import Injection from "./Injection";
 import { msg } from "./msg";
-import { showChoiceMessage } from "./ShowMessage";
+import { showChoiceMessage } from "./Utils";
 
 export function activate(context: ExtensionContext) {
   const cssFile = new File(
@@ -24,52 +18,17 @@ export function activate(context: ExtensionContext) {
     commands.executeCommand("workbench.action.reloadWindow");
   }
 
-  function generateBackgroundColor(
-    configuration: WorkspaceConfiguration
-  ): string {
-    const backgroundColor = configuration.get<string>(
-      "frosted-glass-theme.backgroundColor",
-      ""
-    );
-    const backgroundOpacity = configuration.get<number>(
-      "frosted-glass-theme.backgroundOpacity",
-      0.4
-    );
+  function updateConfiguration() {
     jsFile
       .editor()
       .replace(
-        /(const useThemeColor = )[^]*?;/,
-        "$1" + (backgroundColor.length === 0) + ";"
-      )
-      .replace(/(const opacity = )[^]*?;/, "$1" + backgroundOpacity + ";")
-      .apply();
-    return backgroundColor;
-  }
-
-  function updateConfiguration() {
-    const configuration = workspace.getConfiguration();
-    cssFile
-      .editor()
-      .replace(
-        /(--fgt-backdrop-filter: )[^]*?;/,
-        "$1" + configuration.get("frosted-glass-theme.backdropFilter", "") + ";"
-      )
-      .replace(
-        /(--fgt-background-color: )[^]*?;/,
-        "$1" + generateBackgroundColor(configuration) + ";"
-      )
-      .replace(
-        /(--fgt-transition: )[^]*?;/,
-        "$1" + configuration.get("frosted-glass-theme.transition", "") + ";"
-      )
-      .replace(
-        /(--fgt-animation-menu: )[^]*?;/,
-        "$1" + configuration.get("frosted-glass-theme.animation.menu", "") + ";"
-      )
-      .replace(
-        /(--fgt-animation-dialog: )[^]*?;/,
+        /(const config = )[^]*?;/,
         "$1" +
-          configuration.get("frosted-glass-theme.animation.dialog", "") +
+          JSON.stringify(
+            workspace.getConfiguration().get("frosted-glass-theme"),
+            null,
+            2
+          ) +
           ";"
       )
       .apply();
@@ -106,10 +65,11 @@ export function activate(context: ExtensionContext) {
 
   const applyConfig = commands.registerCommand(
     "frosted-glass-theme.applyConfig",
-    () => {
+    async () => {
       try {
         updateConfiguration();
-        window.showInformationMessage(msg.applied);
+        if (await showChoiceMessage(msg.applied, msg.restartIde))
+          reloadWindow();
       } catch (e) {
         console.error(e);
         window.showErrorMessage(msg.somethingWrong + e);
