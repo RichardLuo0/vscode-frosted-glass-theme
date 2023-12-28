@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.6.16]
+- 2f3166b: fix: remove `outline:none` on `.quick-input-widget`
+- 753e7b9: refactor: configuration handling …
+
 ## [0.6.14]
 - e031a2e: feat: support floating window (since vscode 1.85.0)
 
