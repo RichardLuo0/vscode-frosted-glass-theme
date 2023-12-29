@@ -15,7 +15,7 @@
 	},
 	"license": "MIT",
 	"engines": {
-		"vscode": "^1.50.0"
+		"vscode": "^1.64.0"
 	},
 	"categories": [
 		"Themes"
@@ -39,7 +39,7 @@
 		}
 	},
 	"activationEvents": [
-		"onCommand:workbench.action.openSettings"
+		"onStartupFinished"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -119,7 +119,7 @@
 	"devDependencies": {
 		"@types/node": "^20.10.5",
 		"@types/uuid": "^9.0.7",
-		"@types/vscode": "1.50.0",
+		"@types/vscode": "1.64.0",
 		"@typescript-eslint/eslint-plugin": "^6.16.0",
 		"@typescript-eslint/parser": "^6.16.0",
 		"@vscode/test-electron": "^2.3.8",

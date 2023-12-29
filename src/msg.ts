@@ -11,14 +11,10 @@ See README for more detail.`,
   configChanged: "Detected config change. Click the button to apply.",
   disabled:
     "Frosted glass theme disabled and reverted to default. Restart to take effect.",
+  reenableAfterUpdated: "Frosted glass theme updated. Re-enabling...",
   alreadyDisabled: "Frosted glass theme already disabled.",
   somethingWrong: "Something went wrong: ",
   restartIde: "Restart Visual Studio Code",
   applyChanges: "Apply Changes",
   tryAsAdmin: "Try as Admin",
-  notfound: "Frosted glass theme not found.",
-  notConfigured: "Frosted glass theme path not configured. ",
-  reloadAfterVersionUpgrade:
-    "Detected reloading CSS / JS after VSCode is upgraded. " +
-    "Performing application only.",
 };

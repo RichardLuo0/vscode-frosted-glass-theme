@@ -14,6 +14,17 @@ export function activate(context: ExtensionContext) {
   );
   const injection = new Injection([jsFile]);
 
+  const currentVersion: string =
+    context.extension.packageJSON.version ?? "0.0.0";
+  const lastVersion = context.globalState.get("extensionVersion");
+  if (currentVersion !== lastVersion) {
+    context.globalState.update("extensionVersion", currentVersion);
+    if (context.globalState.get("injected")) {
+      window.showInformationMessage(msg.reenableAfterUpdated);
+      commands.executeCommand("frosted-glass-theme.enableTheme");
+    }
+  }
+
   function reloadWindow() {
     commands.executeCommand("workbench.action.reloadWindow");
   }
@@ -40,6 +51,7 @@ export function activate(context: ExtensionContext) {
       try {
         updateConfiguration();
         await injection.inject();
+        context.globalState.update("injected", true);
         if (await showChoiceMessage(msg.enabled, msg.restartIde))
           reloadWindow();
       } catch (e) {
@@ -54,6 +66,7 @@ export function activate(context: ExtensionContext) {
     async () => {
       try {
         await injection.restore();
+        context.globalState.update("injected", false);
         if (await showChoiceMessage(msg.disabled, msg.restartIde))
           reloadWindow();
       } catch (e) {
