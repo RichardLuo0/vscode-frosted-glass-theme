@@ -8,7 +8,8 @@ Bring frosted glass menu (like windows acrylic or mac os) to your vscode!
 ![ContextMenu](image/ContextMenu.jpg) \
 ![MenuBar](image/MenuBar.jpg) \
 ![SearchBar](image/SearchBar.jpg) \
-![CommandPanel](image/CommandPanel.jpg)
+![CommandPanel](image/CommandPanel.jpg) \
+![PanelHeader](image/PanelHeader.jpg)
 ## Direct Install
 * From microsoft vscode marketplace, search for "Frosted Glass Theme", install
 * Open command panel, type in "Frosted Glass Theme: Enable", press enter

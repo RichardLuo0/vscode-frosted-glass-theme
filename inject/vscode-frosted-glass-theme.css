@@ -243,9 +243,30 @@
 /* Tree Sticky Container */
 .monaco-tree-sticky-container {
   backdrop-filter: var(--fgt-backdrop-filter);
-  background-color: var(--vscode-menu-background) !important;
+  background-color: color-mix(
+    in srgb,
+    var(--vscode-sideBar-background),
+    transparent var(--fgt-menu-opacity)
+  ) !important;
 }
 
 .monaco-tree-sticky-container > * {
   background-color: transparent !important;
+}
+
+/* Panel Header */
+.pane-header.expanded {
+  backdrop-filter: var(--fgt-backdrop-filter);
+  background-color: color-mix(
+    in srgb,
+    var(--vscode-panel-background),
+    transparent var(--fgt-panel-header-opacity)
+  ) !important;
+  z-index: 2;
+}
+
+.pane-body,
+.pane-body .monaco-list > .monaco-scrollable-element {
+  overflow: clip !important;
+  overflow-clip-margin: 22px;
 }

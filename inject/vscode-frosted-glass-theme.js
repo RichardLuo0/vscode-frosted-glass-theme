@@ -2,17 +2,21 @@ import fgtSheet from "./vscode-frosted-glass-theme.css" assert { type: "css" };
 
 (function () {
   const config = {
-    backgroundOpacity: 0.4,
-    selectionOpacity: 1,
     backdropFilter: "blur(30px)",
     backgroundColor: "",
     transition: "300ms",
+    opacity: {
+      menu: 0.4,
+      selection: 1,
+      panelHeader: 0.4,
+    },
     animation: {
       menu: "300ms cubic-bezier(0, 0.8, 0.2, 1) 0s 1 forwards fgtDropdown",
       dialog: "300ms cubic-bezier(0, 0.8, 0.2, 1) 0s 1 forwards fgtZoomIn",
     },
   };
-  const { backgroundOpacity, selectionOpacity } = config;
+
+  const opacity = config.opacity;
   const useThemeColor = config.backgroundColor.length === 0;
 
   fgtSheet.insertRule(
@@ -22,6 +26,8 @@ import fgtSheet from "./vscode-frosted-glass-theme.css" assert { type: "css" };
   --fgt-transition: ${config.transition};
   --fgt-animation-menu: ${config.animation.menu};
   --fgt-animation-dialog: ${config.animation.dialog};
+  --fgt-menu-opacity: ${opacity.menu * 100}%;
+  --fgt-panel-header-opacity: ${opacity.panelHeader * 100}%;
 }`
   );
   document.adoptedStyleSheets.push(fgtSheet);
@@ -155,15 +161,15 @@ import fgtSheet from "./vscode-frosted-glass-theme.css" assert { type: "css" };
       const cssVariablesStyle =
         monacoWorkbenchCSSRule[monacoWorkbenchCSSRule.length - 1].style;
 
-      const applyOpToVar = (opacity) => (color) => {
+      const applyOpToVar = (opacity) => (colorVar) => {
         monacoWorkbench.style.setProperty(
-          color,
-          applyOpacity(cssVariablesStyle.getPropertyValue(color), opacity)
+          colorVar,
+          applyOpacity(cssVariablesStyle.getPropertyValue(colorVar), opacity)
         );
       };
 
       if (useThemeColor) {
-        backgroundVarList.forEach(applyOpToVar(backgroundOpacity));
+        backgroundVarList.forEach(applyOpToVar(opacity.menu));
       } else {
         colorList.forEach((color) => {
           monacoWorkbench.style.setProperty(
@@ -173,7 +179,7 @@ import fgtSheet from "./vscode-frosted-glass-theme.css" assert { type: "css" };
         });
       }
       // Menu selection background opacity
-      selectionVarList.forEach(applyOpToVar(selectionOpacity));
+      selectionVarList.forEach(applyOpToVar(opacity.selection));
     }
   };
 

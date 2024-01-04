@@ -8,7 +8,8 @@
 ![ContextMenu](image/ContextMenu.jpg) \
 ![MenuBar](image/MenuBar.jpg) \
 ![SearchBar](image/SearchBar.jpg) \
-![CommandPanel](image/CommandPanel.jpg)
+![CommandPanel](image/CommandPanel.jpg) \
+![PanelHeader](image/PanelHeader.jpg)
 ## 直接安装
 * 从vscode插件商店搜索Frosted Glass Theme安装
 * 打开命令面板，输入“Frosted Glass Theme: Enable”，回车

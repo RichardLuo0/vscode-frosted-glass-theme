@@ -74,25 +74,28 @@
 					"type": "string",
 					"order": 1,
 					"default": "",
-					"markdownDescription": "Menu background color. Use css color. This will overwrite `#frosted-glass-theme.backgroundOpacity#`. Leave this blank to use `#frosted-glass-theme.backgroundOpacity#`"
-				},
-				"frosted-glass-theme.backgroundOpacity": {
-					"type": "number",
-					"order": 2,
-					"default": 0.4,
-					"description": "Menu background opacity. This will blend into your theme color"
-				},
-				"frosted-glass-theme.selectionOpacity": {
-					"type": "number",
-					"order": 3,
-					"default": 1,
-					"description": "Menu selection opacity. This will blend into your theme color"
+					"markdownDescription": "Menu background color. Use css color. This will overwrite `#frosted-glass-theme.opacity.menu#`. Leave this blank to use `#frosted-glass-theme.opacity.menu#`"
 				},
 				"frosted-glass-theme.transition": {
 					"type": "string",
-					"order": 4,
+					"order": 2,
 					"default": "300ms",
 					"description": "CSS transition"
+				},
+				"frosted-glass-theme.opacity.menu": {
+					"type": "number",
+					"default": 0.4,
+					"description": "Menu background opacity. This will blend into your theme color"
+				},
+				"frosted-glass-theme.opacity.selection": {
+					"type": "number",
+					"default": 1,
+					"description": "Menu selection opacity. This will blend into your theme color"
+				},
+				"frosted-glass-theme.opacity.panelHeader": {
+					"type": "number",
+					"default": 0.4,
+					"description": "Panel header opacity. This will blend into your theme color"
 				},
 				"frosted-glass-theme.animation.menu": {
 					"type": "string",
