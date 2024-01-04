@@ -121,9 +121,17 @@
 }
 
 /* Breadcrumbs Picker */
-.monaco-breadcrumbs-picker > .file-icon-themable-tree {
+.monaco-breadcrumbs-picker > :not(.arrow) {
   backdrop-filter: var(--fgt-backdrop-filter);
-  background-color: var(--vscode-menu-background) !important;
+  background-color: color-mix(
+    in srgb,
+    var(--vscode-breadcrumbPicker-background),
+    transparent var(--fgt-menu-opacity)
+  ) !important;
+}
+
+.monaco-breadcrumbs-picker .monaco-list-rows {
+  background-color: transparent !important;
 }
 
 /* Debug Tool Bar */
