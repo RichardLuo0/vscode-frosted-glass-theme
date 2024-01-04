@@ -1,5 +1,12 @@
 # Change Log
 
+## [0.6.17]
+- 0326c76: chore: new icons
+- 67752b5: feat: now `pane-header` has the backdrop effect
+- 1341c76: fix: the highlighted line in sticky widget is not visible
+- 57e7d2d: fix: add support for `editorSuggestWidget` selected background color.
+- 8c1d771: feat: auto re-enable after updated
+
 ## [0.6.16]
 - 2f3166b: fix: remove `outline:none` on `.quick-input-widget`
 - 753e7b9: refactor: configuration handling …
