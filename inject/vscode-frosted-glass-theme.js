@@ -99,6 +99,7 @@ import fgtSheet from "./vscode-frosted-glass-theme.css" assert { type: "css" };
     const selectionVarList = [
       "--vscode-menu-selectionBackground",
       "--vscode-quickInputList-focusBackground",
+      "--vscode-editorSuggestWidget-selectedBackground",
     ];
 
     const contributedColorTheme = document.querySelector(
