@@ -10,5 +10,6 @@ vsc-extension-quickstart.md
 **/*.map
 **/*.ts
 image/**
-icon/*.psd
+icon/*
+!icon/*.png
 .github
