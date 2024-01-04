@@ -231,7 +231,7 @@
   backdrop-filter: var(--fgt-backdrop-filter);
 }
 
-.sticky-widget * {
+.sticky-widget > * {
   background-color: transparent !important;
 }
 
@@ -246,6 +246,6 @@
   background-color: var(--vscode-menu-background) !important;
 }
 
-.monaco-tree-sticky-container * {
+.monaco-tree-sticky-container > * {
   background-color: transparent !important;
 }
