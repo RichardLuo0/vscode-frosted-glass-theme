@@ -23,11 +23,6 @@
   /* background-color: var(--background-color) !important; */
 }
 
-.monaco-editor .tree {
-  backdrop-filter: var(--fgt-backdrop-filter);
-  /* background-color: var(--background-color) !important; */
-}
-
 /* Command Panel */
 .quick-input-widget {
   backdrop-filter: var(--fgt-backdrop-filter);
