@@ -259,18 +259,20 @@
 }
 
 /* Panel Header */
-.pane-header.expanded:not(:has(.monaco-dropdown.active)) {
+.pane-header.expanded:has(.monaco-dropdown.active) {
+  z-index: 2500;
+  backdrop-filter: none;
+  background-color: var(--vscode-sideBarSectionHeader-background) !important;
+}
+
+.pane-header.expanded {
+  z-index: 5;
   backdrop-filter: var(--fgt-backdrop-filter);
   background-color: color-mix(
     in srgb,
     var(--vscode-sideBarSectionHeader-background),
     transparent var(--fgt-panel-header-opacity)
   ) !important;
-}
-
-.pane-header.expanded {
-  z-index: 1000;
-  background-color: var(--vscode-sideBarSectionHeader-background) !important;
 }
 
 .pane-body,
