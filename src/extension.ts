@@ -19,7 +19,7 @@ export function activate(context: ExtensionContext) {
   const lastVersion = context.globalState.get("extensionVersion");
   if (currentVersion !== lastVersion) {
     context.globalState.update("extensionVersion", currentVersion);
-    if (context.globalState.get("injected")) {
+    if (context.globalState.get<boolean>("injected")) {
       window.showInformationMessage(msg.reenableAfterUpdated);
       commands.executeCommand("frosted-glass-theme.enableTheme");
     }
@@ -102,13 +102,7 @@ export function activate(context: ExtensionContext) {
     ) {
       isConfigChangedShowing = true;
       if (await showChoiceMessage(msg.configChanged, msg.applyChanges)) {
-        try {
-          updateConfiguration();
-          window.showInformationMessage(msg.applied);
-        } catch (e) {
-          console.error(e);
-          window.showErrorMessage(msg.somethingWrong + e);
-        }
+        commands.executeCommand("frosted-glass-theme.enableTheme");
       }
       isConfigChangedShowing = false;
     }
