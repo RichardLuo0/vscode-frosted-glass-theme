@@ -18,9 +18,9 @@
   /* background-color: var(--background-color) !important; */
 }
 
+.editor-widget.suggest-widget,
 .monaco-editor .suggest-details {
   backdrop-filter: var(--fgt-backdrop-filter);
-  /* background-color: var(--background-color) !important; */
 }
 
 /* Command Panel */
@@ -58,9 +58,9 @@
 }
 
 /* Search & Replace */
-.editor-widget {
+.editor-widget.find-widget {
   backdrop-filter: var(--fgt-backdrop-filter);
-  background-color: var(--vscode-menu-background) !important;
+  background-color: var(--vscode-editorWidget-background) !important;
 }
 
 /* Notification Panel */
