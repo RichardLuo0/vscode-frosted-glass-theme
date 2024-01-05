@@ -1,5 +1,13 @@
 # Change Log
 
+## [0.6.18]
+- 0d5ff15: fix: `.monaco-list-rows` not transparent
+- 4c8f6ea: fix: mistaken double backdrop-filter
+- 9539a11: fix: `reload window` now will be shown after apply config
+- d35bb86: fix: fix wrong color
+- 0928179: fix: dialog becomes transparent
+- de69760: fix: dropdown menu inside panel header disappears
+
 ## [0.6.17]
 - 0326c76: chore: new icons
 - 67752b5: feat: now `pane-header` has the backdrop effect
