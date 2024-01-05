@@ -259,14 +259,18 @@
 }
 
 /* Panel Header */
-.pane-header.expanded {
+.pane-header.expanded:not(:has(.monaco-dropdown.active)) {
   backdrop-filter: var(--fgt-backdrop-filter);
   background-color: color-mix(
     in srgb,
-    var(--vscode-panel-background),
+    var(--vscode-sideBarSectionHeader-background),
     transparent var(--fgt-panel-header-opacity)
   ) !important;
-  z-index: 2;
+}
+
+.pane-header.expanded {
+  z-index: 1000;
+  background-color: var(--vscode-sideBarSectionHeader-background) !important;
 }
 
 .pane-body,
