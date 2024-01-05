@@ -37,8 +37,6 @@ import fgtSheet from "./vscode-frosted-glass-theme.css" assert { type: "css" };
     useArgs((monacoWorkbench) => {
       if (monacoWorkbench.classList.contains("monaco-workbench")) {
         observeThemeColorChange(monacoWorkbench);
-        fixShadowDom();
-        fixWindow();
         proxy(
           monacoWorkbench,
           "prepend",
@@ -56,6 +54,49 @@ import fgtSheet from "./vscode-frosted-glass-theme.css" assert { type: "css" };
           })
         );
       }
+    })
+  );
+
+  // Fix menu which is wrapped into shadow dom
+  proxy(
+    Element.prototype,
+    "attachShadow",
+    useOldRet((shadowDom) => {
+      shadowDom.adoptedStyleSheets.push(
+        ...shadowDom.ownerDocument.adoptedStyleSheets
+      );
+      proxy(
+        shadowDom,
+        "appendChild",
+        useArgs((menuContainer) => {
+          if (menuContainer.classList.contains("monaco-menu-container")) {
+            fixMenu(menuContainer);
+          }
+        })
+      );
+      return shadowDom;
+    })
+  );
+
+  // Fix floating window
+  proxy(
+    window,
+    "open",
+    useOldRet((newWindow) => {
+      const document = newWindow.document;
+      const sheet = new newWindow.CSSStyleSheet();
+      for (let i = 0; i < fgtSheet.cssRules.length; i++) {
+        sheet.insertRule(fgtSheet.cssRules[i].cssText);
+      }
+      document.adoptedStyleSheets.push(sheet);
+      proxy(
+        document.body,
+        "append",
+        useArgs((container) => {
+          observeThemeColorChange(container);
+        })
+      );
+      return newWindow;
     })
   );
 
@@ -288,50 +329,4 @@ import fgtSheet from "./vscode-frosted-glass-theme.css" assert { type: "css" };
   };
 
   const fixContextMenu = fixMenu;
-
-  // Fix menu which is wrapped into shadow dom
-  const fixShadowDom = () => {
-    proxy(
-      Element.prototype,
-      "attachShadow",
-      useOldRet((shadowDom) => {
-        shadowDom.adoptedStyleSheets.push(
-          ...shadowDom.ownerDocument.adoptedStyleSheets
-        );
-        proxy(
-          shadowDom,
-          "appendChild",
-          useArgs((menuContainer) => {
-            if (menuContainer.classList.contains("monaco-menu-container")) {
-              fixMenu(menuContainer);
-            }
-          })
-        );
-        return shadowDom;
-      })
-    );
-  };
-
-  const fixWindow = () => {
-    proxy(
-      window,
-      "open",
-      useOldRet((newWindow) => {
-        const document = newWindow.document;
-        const sheet = new newWindow.CSSStyleSheet();
-        for (let i = 0; i < fgtSheet.cssRules.length; i++) {
-          sheet.insertRule(fgtSheet.cssRules[i].cssText);
-        }
-        document.adoptedStyleSheets.push(sheet);
-        proxy(
-          document.body,
-          "append",
-          useArgs((container) => {
-            observeThemeColorChange(container);
-          })
-        );
-        return newWindow;
-      })
-    );
-  };
 })();

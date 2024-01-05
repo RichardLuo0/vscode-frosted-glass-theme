@@ -208,10 +208,7 @@
 
 .monaco-menu-container .monaco-scrollable-element,
 .action-widget,
-.monaco-breadcrumbs-picker {
-  animation: var(--fgt-animation-menu);
-}
-
+.monaco-breadcrumbs-picker,
 .quick-input-widget {
   animation: var(--fgt-animation-menu);
 }
