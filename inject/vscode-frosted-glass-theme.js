@@ -138,10 +138,11 @@ import fgtSheet from "./vscode-frosted-glass-theme.css" assert { type: "css" };
       "--vscode-quickInput-background",
       "--vscode-menu-background",
       "--vscode-notifications-background",
-      "--vscode-debugToolBar-background",
       "--vscode-editorHoverWidget-statusBarBackground",
       "--vscode-editorStickyScroll-background",
       "--vscode-listFilterWidget-background",
+      "--vscode-editorWidget-background",
+      "--vscode-notificationCenterHeader-background"
     ];
     const selectionVarList = [
       "--vscode-menu-selectionBackground",

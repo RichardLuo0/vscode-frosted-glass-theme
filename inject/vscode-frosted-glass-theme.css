@@ -12,21 +12,29 @@
   transition: var(--fgt-transition);
 }
 
-/* Editor Panel */
-.monaco-hover {
+/* Editor Widget */
+.editor-widget {
   backdrop-filter: var(--fgt-backdrop-filter);
-  /* background-color: var(--background-color) !important; */
 }
 
-.editor-widget.suggest-widget,
+/* Hover */
+.monaco-hover {
+  backdrop-filter: var(--fgt-backdrop-filter);
+}
+
+/* Suggest Widget */
 .monaco-editor .suggest-details {
+  backdrop-filter: var(--fgt-backdrop-filter);
+}
+
+/* Dialog Box */
+.monaco-dialog-box {
   backdrop-filter: var(--fgt-backdrop-filter);
 }
 
 /* Command Panel */
 .quick-input-widget {
   backdrop-filter: var(--fgt-backdrop-filter);
-  /* background-color: var(--background-color) !important; */
 }
 
 .quick-input-widget .monaco-list-rows {
@@ -49,7 +57,6 @@
 /* Menu */
 .monaco-menu-container .monaco-scrollable-element {
   backdrop-filter: var(--fgt-backdrop-filter);
-  /* background-color: var(--background-color) !important; */
 }
 
 .monaco-scrollable-element .invisible {
@@ -59,23 +66,19 @@
 
 /* Search & Replace */
 .editor-widget.find-widget {
-  backdrop-filter: var(--fgt-backdrop-filter);
-  background-color: color-mix(
-    in srgb,
-    var(--vscode-editorWidget-background),
-    transparent var(--fgt-menu-opacity)
-  ) !important;
+  background-color: var(--vscode-editorWidget-background) !important;
 }
 
 /* Notification Panel */
 .notifications-center-header {
   backdrop-filter: var(--fgt-backdrop-filter);
-  background-color: var(--vscode-menu-background) !important;
+  background-color: var(
+    --vscode-notificationCenterHeader-background
+  ) !important;
 }
 
 .notifications-list-container {
   backdrop-filter: var(--fgt-backdrop-filter);
-  /* background-color: var(--background-color) !important; */
 }
 
 .notification-toast {
@@ -86,13 +89,11 @@
 /* Feedback Form */
 .feedback-form {
   backdrop-filter: var(--fgt-backdrop-filter);
-  /* background-color: var(--background-color) !important; */
 }
 
 /* Minimap */
 .minimap {
   backdrop-filter: var(--fgt-backdrop-filter);
-  background-color: var(--vscode-menu-background);
 }
 
 .minimap canvas {
@@ -136,29 +137,36 @@
 /* Debug Tool Bar */
 .debug-toolbar {
   backdrop-filter: var(--fgt-backdrop-filter);
-  background-color: var(--vscode-menu-background) !important;
+  background-color: color-mix(
+    in srgb,
+    var(--vscode-debugToolBar-background),
+    transparent var(--fgt-menu-opacity)
+  ) !important;
+}
+
+.debug-toolbar:has(.monaco-dropdown.active) {
+  backdrop-filter: none;
+  background-color: var(--vscode-debugToolBar-background) !important;
 }
 
 /* Debug Hover Widget */
 .debug-hover-widget {
   backdrop-filter: var(--fgt-backdrop-filter);
-  background-color: var(--vscode-menu-background) !important;
 }
 
 /* Code Action Widget */
 .action-widget {
   backdrop-filter: var(--fgt-backdrop-filter);
-  background-color: var(--vscode-menu-background) !important;
 }
 
 /* Rename Box */
 .rename-box {
   backdrop-filter: var(--fgt-backdrop-filter);
-  background-color: var(--vscode-menu-background) !important;
+  background-color: var(--vscode-editorWidget-background) !important;
 }
 
 .rename-box > input {
-  background-color: var(--vscode-menu-background) !important;
+  background-color: transparent !important;
 }
 
 /* Find Part */
