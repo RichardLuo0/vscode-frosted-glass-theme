@@ -1,7 +1,7 @@
 import fs, { constants } from "fs";
 import path from "path";
 import { window } from "vscode";
-import { IFile } from "./File";
+import File from "./File";
 import InjectionAdmin from "./InjectionAdmin";
 import InjectionNormal from "./InjectionNormal";
 import { msg } from "./msg";
@@ -14,7 +14,7 @@ export interface InjectionImpl {
 export default class Injection implements InjectionImpl {
   private injectionImpl?: InjectionImpl;
 
-  constructor(private files: IFile[]) {}
+  constructor(private files: File[]) {}
 
   private prepare() {
     if (this.injectionImpl) return;

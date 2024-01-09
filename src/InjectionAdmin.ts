@@ -1,5 +1,5 @@
 import sudoPrompt from "@vscode/sudo-prompt";
-import { IFile } from "./File";
+import File from "./File";
 import { InjectionImpl } from "./Injection";
 import { showChoiceMessage } from "./Utils";
 import { msg } from "./msg";
@@ -21,7 +21,7 @@ function expandEnv(env: { [key: string]: string }): string {
 
 export default class InjectionAdmin implements InjectionImpl {
   constructor(
-    private files: IFile[],
+    private files: File[],
     private base: string,
     private htmlFile: string
   ) {}

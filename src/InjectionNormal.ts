@@ -1,12 +1,12 @@
 import fs from "fs";
 import path from "path";
 import { v4 } from "uuid";
-import { IFile } from "./File";
+import File from "./File";
 import { InjectionImpl } from "./Injection";
 
 export default class InjectionNormal implements InjectionImpl {
   constructor(
-    private files: IFile[],
+    private files: File[],
     private base: string,
     private htmlFile: string
   ) {}
@@ -88,7 +88,7 @@ export default class InjectionNormal implements InjectionImpl {
     return res;
   }
 
-  protected computeInjectedHTMLItem(f: IFile) {
+  protected computeInjectedHTMLItem(f: File) {
     if (!f) return "";
     let url = f.path;
     const ext = path.extname(url);

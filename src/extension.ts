@@ -1,5 +1,5 @@
 import path from "path";
-import { commands, ExtensionContext, window, workspace } from "vscode";
+import { commands, ExtensionContext, Uri, window, workspace } from "vscode";
 import File from "./File";
 import Injection from "./Injection";
 import { msg } from "./msg";
@@ -91,7 +91,9 @@ export function activate(context: ExtensionContext) {
   );
 
   const openCSS = commands.registerCommand("frosted-glass-theme.openCSS", () =>
-    cssFile.openInVSCode()
+    workspace
+      .openTextDocument(Uri.parse(cssFile.path))
+      .then(window.showTextDocument)
   );
 
   let isConfigChangedShowing = false;

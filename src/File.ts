@@ -1,11 +1,6 @@
-import fs = require("fs");
-import { Uri, window, workspace } from "vscode";
+import fs from "fs";
 
-export interface IFile {
-  get path(): string;
-}
-
-export default class File implements IFile {
+export default class File {
   static editor = class {
     private content: string;
 
@@ -32,12 +27,6 @@ export default class File implements IFile {
 
   editor() {
     return new File.editor(this);
-  }
-
-  openInVSCode() {
-    workspace.openTextDocument(Uri.parse(this.path)).then((doc) => {
-      window.showTextDocument(doc);
-    });
   }
 
   public get path(): string {
