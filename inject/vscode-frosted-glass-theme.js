@@ -1,4 +1,6 @@
 import fgtSheet from "./vscode-frosted-glass-theme.css" assert { type: "css" };
+import "../node_modules/fluent-reveal-effect/dist/main.js";
+const { applyElementsEffect } = require("fluent-reveal-effect");
 
 (function () {
   const config = {
@@ -14,22 +16,37 @@ import fgtSheet from "./vscode-frosted-glass-theme.css" assert { type: "css" };
       menu: "300ms cubic-bezier(0, 0.8, 0.2, 1) 0s 1 forwards fgtDropdown",
       dialog: "300ms cubic-bezier(0, 0.8, 0.2, 1) 0s 1 forwards fgtZoomIn",
     },
+    revealEffect: {
+      enabled: true,
+      opacity: 0.1,
+      gradientSize: 150,
+      clickEffect: true,
+    },
   };
 
-  const opacity = config.opacity;
+  const { opacity, revealEffect } = config;
   const useThemeColor = config.backgroundColor.length === 0;
 
   fgtSheet.insertRule(
     `:root { 
-  --fgt-backdrop-filter: ${config.backdropFilter};
-  --fgt-background-color: ${config.backgroundColor};
-  --fgt-transition: ${config.transition};
-  --fgt-animation-menu: ${config.animation.menu};
-  --fgt-animation-dialog: ${config.animation.dialog};
-  --fgt-menu-opacity: ${opacity.menu * 100}%;
-  --fgt-panel-header-opacity: ${opacity.panelHeader * 100}%;
-}`
+      --fgt-backdrop-filter: ${config.backdropFilter};
+      --fgt-background-color: ${config.backgroundColor};
+      --fgt-transition: ${config.transition};
+      --fgt-animation-menu: ${config.animation.menu};
+      --fgt-animation-dialog: ${config.animation.dialog};
+      --fgt-menu-opacity: ${opacity.menu * 100}%;
+      --fgt-panel-header-opacity: ${opacity.panelHeader * 100}%;
+    }`
   );
+
+  if (revealEffect.enabled) {
+    fgtSheet.insertRule(
+      `.monaco-menu-container ul.actions-container > li > a.action-menu-item {
+        background-color: transparent !important;
+      }`
+    );
+  }
+
   document.adoptedStyleSheets.push(fgtSheet);
   proxy(
     document.body,
@@ -131,6 +148,12 @@ import fgtSheet from "./vscode-frosted-glass-theme.css" assert { type: "css" };
   const observeThemeColorChange = (monacoWorkbench) => {
     const document = monacoWorkbench.ownerDocument;
 
+    const colorVarMap = new Map([
+      ["--vscode-menu-selectionBackground", opacity.selection],
+      ["--vscode-quickInputList-focusBackground", opacity.selection],
+      ["--vscode-editorSuggestWidget-selectedBackground", opacity.selection],
+    ]);
+
     const backgroundVarList = [
       "--vscode-editorHoverWidget-background",
       "--vscode-editorSuggestWidget-background",
@@ -142,13 +165,11 @@ import fgtSheet from "./vscode-frosted-glass-theme.css" assert { type: "css" };
       "--vscode-editorStickyScroll-background",
       "--vscode-listFilterWidget-background",
       "--vscode-editorWidget-background",
-      "--vscode-notificationCenterHeader-background"
+      "--vscode-notificationCenterHeader-background",
     ];
-    const selectionVarList = [
-      "--vscode-menu-selectionBackground",
-      "--vscode-quickInputList-focusBackground",
-      "--vscode-editorSuggestWidget-selectedBackground",
-    ];
+    backgroundVarList.forEach((colorVar) => {
+      colorVarMap.set(colorVar, opacity.menu);
+    });
 
     const contributedColorTheme = document.querySelector(
       "head > style.contributedColorTheme"
@@ -203,25 +224,21 @@ import fgtSheet from "./vscode-frosted-glass-theme.css" assert { type: "css" };
       const cssVariablesStyle =
         monacoWorkbenchCSSRule[monacoWorkbenchCSSRule.length - 1].style;
 
-      const applyOpToVar = (opacity) => (colorVar) => {
-        monacoWorkbench.style.setProperty(
-          colorVar,
-          applyOpacity(cssVariablesStyle.getPropertyValue(colorVar), opacity)
-        );
-      };
-
       if (useThemeColor) {
-        backgroundVarList.forEach(applyOpToVar(opacity.menu));
-      } else {
-        colorList.forEach((color) => {
+        colorVarMap.forEach((opacity, colorVar) => {
           monacoWorkbench.style.setProperty(
-            color,
+            colorVar,
+            applyOpacity(cssVariablesStyle.getPropertyValue(colorVar), opacity)
+          );
+        });
+      } else {
+        colorVarMap.forEach((_, colorVar) => {
+          monacoWorkbench.style.setProperty(
+            colorVar,
             "var(--fgt-background-color)"
           );
         });
       }
-      // Menu selection background opacity
-      selectionVarList.forEach(applyOpToVar(opacity.selection));
     }
   };
 
@@ -230,7 +247,7 @@ import fgtSheet from "./vscode-frosted-glass-theme.css" assert { type: "css" };
   // 2. Move the original `div.monaco-action-bar` with event listeners to top level and remove any styles.
   // 2. Move sub menu below `div.monaco-action-bar` to avoid those properties being present on the ancestors.
   function fixMenu(menuContainer) {
-    // If `scrollable-element` has existed, fix it now, otherwise, wait for `appendChild`
+    // If `scrollable-element` exists, fix it now, otherwise, wait for `appendChild`
     if (menuContainer.childElementCount <= 0)
       proxy(menuContainer, "appendChild", (oldFunc, e) => oldFunc(fix(e)));
     else fix(menuContainer.querySelector("div.monaco-scrollable-element"));
@@ -303,9 +320,22 @@ import fgtSheet from "./vscode-frosted-glass-theme.css" assert { type: "css" };
 
       actionBar.className = "";
       actionBar.appendChild(scrollableElement);
-      actionBar
-        .querySelectorAll("ul.actions-container > li")
-        .forEach((menuItem) => moveSubMenu(menuItem, actionBar));
+      const menuItemList = actionBar.querySelectorAll(
+        "ul.actions-container > li:not(:has(a.separator))"
+      );
+      menuItemList.forEach((menuItem) => {
+        moveSubMenu(menuItem, actionBar);
+      });
+
+      if (revealEffect.enabled) {
+        applyElementsEffect(menuItemList, {
+          lightColor: `color-mix(in srgb, var(--vscode-menu-selectionForeground) ${
+            revealEffect.opacity * 100
+          }%, transparent )`,
+          gradientSize: revealEffect.gradientSize,
+          clickEffect: revealEffect.clickEffect,
+        });
+      }
 
       return actionBar;
     }

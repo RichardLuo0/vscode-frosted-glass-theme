@@ -4,6 +4,7 @@
 [English](README.md)
 ## 这本身不是一个主题，它可以与其他主题一起安装
 ## 预览图
+![Animation](image/Animation.gif) \
 ![CodeHover](image/CodeHover.jpg) \
 ![ContextMenu](image/ContextMenu.jpg) \
 ![MenuBar](image/MenuBar.jpg) \
