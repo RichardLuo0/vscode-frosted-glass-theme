@@ -125,8 +125,8 @@
   backdrop-filter: var(--fgt-backdrop-filter);
   background-color: color-mix(
     in srgb,
-    var(--vscode-breadcrumbPicker-background),
-    transparent var(--fgt-menu-opacity)
+    var(--vscode-breadcrumbPicker-background) var(--fgt-menu-opacity),
+    transparent
   ) !important;
 }
 
@@ -139,8 +139,8 @@
   backdrop-filter: var(--fgt-backdrop-filter);
   background-color: color-mix(
     in srgb,
-    var(--vscode-debugToolBar-background),
-    transparent var(--fgt-menu-opacity)
+    var(--vscode-debugToolBar-background) var(--fgt-menu-opacity),
+    transparent
   ) !important;
 }
 
@@ -257,8 +257,8 @@
   backdrop-filter: var(--fgt-backdrop-filter);
   background-color: color-mix(
     in srgb,
-    var(--vscode-sideBar-background),
-    transparent var(--fgt-menu-opacity)
+    var(--vscode-sideBar-background) var(--fgt-menu-opacity),
+    transparent
   ) !important;
 }
 
@@ -278,8 +278,9 @@
   backdrop-filter: var(--fgt-backdrop-filter);
   background-color: color-mix(
     in srgb,
-    var(--vscode-sideBarSectionHeader-background),
-    transparent var(--fgt-panel-header-opacity)
+    var(--vscode-sideBarSectionHeader-background)
+      var(--fgt-panel-header-opacity),
+    transparent
   ) !important;
 }
 
