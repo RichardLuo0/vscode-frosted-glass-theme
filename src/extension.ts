@@ -104,7 +104,7 @@ export function activate(context: ExtensionContext) {
     ) {
       isConfigChangedShowing = true;
       if (await showChoiceMessage(msg.configChanged, msg.applyChanges)) {
-        commands.executeCommand("frosted-glass-theme.enableTheme");
+        commands.executeCommand("frosted-glass-theme.applyConfig");
       }
       isConfigChangedShowing = false;
     }
