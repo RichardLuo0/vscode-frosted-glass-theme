@@ -102,6 +102,11 @@
 						"type": "number",
 						"default": 0.4,
 						"description": "Panel header opacity. This will blend into your theme color"
+					},
+					"frosted-glass-theme.opacity.border": {
+						"type": "number",
+						"default": 0.4,
+						"description": "Border opacity. This will blend into your theme color"
 					}
 				}
 			},

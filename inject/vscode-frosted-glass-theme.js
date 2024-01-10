@@ -11,6 +11,7 @@ const { applyElementsEffect } = require("fluent-reveal-effect");
       menu: 0.4,
       selection: 1,
       panelHeader: 0.4,
+      border: 0.4,
     },
     animation: {
       menu: "300ms cubic-bezier(0, 0.8, 0.2, 1) 0s 1 forwards fgtDropdown",
@@ -152,6 +153,11 @@ const { applyElementsEffect } = require("fluent-reveal-effect");
       ["--vscode-menu-selectionBackground", opacity.selection],
       ["--vscode-quickInputList-focusBackground", opacity.selection],
       ["--vscode-editorSuggestWidget-selectedBackground", opacity.selection],
+      ["--vscode-menu-border", opacity.border],
+      ["--vscode-widget-border", opacity.border],
+      ["--vscode-editorWidget-border", opacity.border],
+      ["--vscode-editorHoverWidget-border", opacity.border],
+      ["--vscode-editorSuggestWidget-border", opacity.border],
     ]);
 
     const backgroundVarList = [
