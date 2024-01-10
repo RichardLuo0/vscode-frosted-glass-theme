@@ -1,5 +1,10 @@
 # Change Log
 
+## [0.7.0]
+- faee842: feat: add reveal effect
+- 7c4ebc8: feat: change border opacity
+- 5eea4d0: fix: incorrect background color
+
 ## [0.6.18]
 - 0d5ff15: fix: `.monaco-list-rows` not transparent
 - 4c8f6ea: fix: mistaken double backdrop-filter
