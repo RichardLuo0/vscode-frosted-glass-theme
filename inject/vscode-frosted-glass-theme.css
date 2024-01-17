@@ -289,3 +289,7 @@
   overflow: clip !important;
   overflow-clip-margin: 22px;
 }
+
+.search-view .results .monaco-list > .monaco-scrollable-element {
+  overflow: hidden !important;
+}
