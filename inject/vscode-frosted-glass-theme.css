@@ -115,6 +115,11 @@
   backdrop-filter: none !important;
 }
 
+.monaco-editor .decorationsOverviewRuler {
+  backdrop-filter: var(--fgt-backdrop-filter);
+  background-color: var(--vscode-editorStickyScroll-background);
+}
+
 /* Setting Page */
 .setting-item-contents.settings-row-inner-container {
   transition: var(--fgt-transition);
