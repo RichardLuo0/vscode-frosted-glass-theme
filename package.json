@@ -141,7 +141,7 @@
 					},
 					"frosted-glass-theme.revealEffect.gradientSize": {
 						"type": "number",
-						"default": 150,
+						"default": 200,
 						"description": "Reveal effect gradient size"
 					},
 					"frosted-glass-theme.revealEffect.clickEffect": {

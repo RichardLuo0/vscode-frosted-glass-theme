@@ -20,7 +20,7 @@ const { applyElementsEffect } = require("fluent-reveal-effect");
     revealEffect: {
       enabled: true,
       opacity: 0.1,
-      gradientSize: 150,
+      gradientSize: 200,
       clickEffect: true,
     },
   };
