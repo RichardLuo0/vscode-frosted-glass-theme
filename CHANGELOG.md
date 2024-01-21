@@ -1,5 +1,12 @@
 # Change Log
 
+## [0.7.1]
+- da3b6bc: fix: search view result is overlapped by content
+- 5437c61: chore: change the default gradientSize to 200
+- c16c2c5: feat: an option to change minimap opacity
+- ab9f5ec: feat: add effect to `decorationsOverviewRuler`. In vanilla vscode, it seems missing background color
+- a407386: feat: add `cell-title-toolbar` to the notebook
+
 ## [0.7.0]
 - faee842: feat: add reveal effect
 - 7c4ebc8: feat: change border opacity
