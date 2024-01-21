@@ -96,12 +96,12 @@
   backdrop-filter: var(--fgt-backdrop-filter);
 }
 
-.minimap canvas {
-  opacity: 0.4;
+.minimap canvas:not(.minimap-decorations-layer) {
+  opacity: var(--fgt-minimap-opacity);
   transition: var(--fgt-transition);
 }
 
-.minimap:hover canvas {
+.minimap:hover canvas:not(.minimap-decorations-layer) {
   opacity: 1;
   transition: var(--fgt-transition);
 }

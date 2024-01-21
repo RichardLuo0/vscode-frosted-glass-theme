@@ -107,6 +107,11 @@
 						"type": "number",
 						"default": 0.4,
 						"description": "Border opacity. This will blend into your theme color"
+					},
+					"frosted-glass-theme.opacity.minimap": {
+						"type": "number",
+						"default": 0.4,
+						"description": "Minimap opacity."
 					}
 				}
 			},
