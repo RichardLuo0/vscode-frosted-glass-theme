@@ -298,3 +298,18 @@
 .search-view .results .monaco-list > .monaco-scrollable-element {
   overflow: hidden !important;
 }
+
+/* Cell Title Toolbar */
+.cell-title-toolbar {
+  backdrop-filter: var(--fgt-backdrop-filter);
+  background-color: color-mix(
+    in srgb,
+    var(--vscode-editor-background) var(--fgt-menu-opacity),
+    transparent
+  ) !important;
+}
+
+.cell-title-toolbar:has(.monaco-dropdown.active) {
+  backdrop-filter: none;
+  background-color: var(--vscode-editor-background) !important;
+}
