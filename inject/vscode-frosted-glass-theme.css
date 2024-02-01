@@ -295,7 +295,8 @@
   overflow-clip-margin: 22px;
 }
 
-.search-view .results .monaco-list > .monaco-scrollable-element {
+.search-view .results,
+.test-explorer-tree {
   overflow: hidden !important;
 }
 
