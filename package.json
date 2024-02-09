@@ -142,7 +142,7 @@
 					"frosted-glass-theme.revealEffect.opacity": {
 						"type": "number",
 						"default": 0.1,
-						"description": "Reveal effect gradient opacity"
+						"markdownDescription": "Reveal effect gradient opacity. The color can be controlled by `menu.selectionBackground` inside `#workbench.colorCustomizations#`"
 					},
 					"frosted-glass-theme.revealEffect.gradientSize": {
 						"type": "number",

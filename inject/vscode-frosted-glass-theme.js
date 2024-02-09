@@ -123,16 +123,16 @@ const { applyElementsEffect } = require("fluent-reveal-effect");
   /**
    * Proxy function of src
    * @param  {object} src
-   * @param  {string} functionName
+   * @param  {string} funcName
    * @param  {(oldFunc, ...args) => any?} newFunc
    */
-  function proxy(src, functionName, newFunc) {
-    if (!src || !src[functionName] || src[functionName]._hiddenTag) return;
-    const oldFunc = src[functionName];
-    src[functionName] = function (...args) {
+  function proxy(src, funcName, newFunc) {
+    if (!src || !src[funcName] || src[funcName]._hiddenTag) return;
+    const oldFunc = src[funcName];
+    src[funcName] = function (...args) {
       return newFunc.call(this, oldFunc.bind(this), ...args);
     };
-    src[functionName]._hiddenTag = true;
+    src[funcName]._hiddenTag = true;
   }
 
   function useOldRet(f) {
@@ -261,19 +261,19 @@ const { applyElementsEffect } = require("fluent-reveal-effect");
     else fix(menuContainer.querySelector("div.monaco-scrollable-element"));
 
     function moveSubMenu(src, parent) {
-      function fixSubMenu(monacoSubMenu) {
-        if (!monacoSubMenu || monacoSubMenu._hiddenTag) return monacoSubMenu;
+      function fixSubMenu(subMenu) {
+        if (!subMenu || subMenu._hiddenTag) return subMenu;
 
         // https://github.com/microsoft/vscode/blob/5cd507ba17ec7a0d8a822c35bfcde8eca33de861/src/vs/base/browser/dom.ts#L581
         // Fake parent, thus `dom.isAncestor` will always return `true`
-        Object.defineProperty(monacoSubMenu, "parentNode", {
+        Object.defineProperty(subMenu, "parentNode", {
           get() {
             return src;
           },
         });
         // https://github.com/microsoft/vscode/blob/3e452bfef11522d0151fd2e884bb8bf869d7d2fa/src/vs/base/browser/dom.ts#L632
         // Changes since vscode 1.84.0
-        src._currentSubMenu = monacoSubMenu;
+        src._currentSubMenu = subMenu;
         proxy(
           src,
           "contains",
@@ -285,16 +285,16 @@ const { applyElementsEffect } = require("fluent-reveal-effect");
           )
         );
         // If submenu loses focus, dispatch to `<li>`
-        monacoSubMenu.addEventListener("focusout", (e) =>
+        subMenu.addEventListener("focusout", (e) =>
           setTimeout(() =>
             src.dispatchEvent(new Event(e.type, { bubbles: false, ...e }))
           )
         );
         // Recursively fix new menu
-        fixMenu(monacoSubMenu);
+        fixMenu(subMenu);
 
-        monacoSubMenu._hiddenTag = true;
-        return monacoSubMenu;
+        subMenu._hiddenTag = true;
+        return subMenu;
       }
 
       src.append = (e) => parent.append(fixSubMenu(e));
@@ -337,7 +337,7 @@ const { applyElementsEffect } = require("fluent-reveal-effect");
 
       if (revealEffect.enabled) {
         applyElementsEffect(menuItemList, {
-          lightColor: `color-mix(in srgb, var(--vscode-menu-selectionForeground) ${
+          lightColor: `color-mix(in srgb, var(--vscode-menu-selectionBackground) ${
             revealEffect.opacity * 100
           }%, transparent )`,
           gradientSize: revealEffect.gradientSize,
