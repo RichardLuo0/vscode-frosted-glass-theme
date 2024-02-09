@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.7.2]
+- d498804: fix: light effects color now follow `vscode-menu-selectionBackground`
+
 ## [0.7.1]
 - da3b6bc: fix: search view result is overlapped by content
 - 5437c61: chore: change the default gradientSize to 200
