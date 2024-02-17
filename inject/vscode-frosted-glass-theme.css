@@ -159,6 +159,10 @@
   backdrop-filter: var(--fgt-backdrop-filter);
 }
 
+.debug-hover-widget .monaco-list-rows {
+  background-color: transparent !important;
+}
+
 /* Code Action Widget */
 .action-widget {
   backdrop-filter: var(--fgt-backdrop-filter);
