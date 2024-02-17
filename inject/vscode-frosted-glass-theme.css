@@ -283,7 +283,7 @@
 }
 
 .pane-header.expanded {
-  z-index: 5;
+  z-index: 15;
   backdrop-filter: var(--fgt-backdrop-filter);
   background-color: color-mix(
     in srgb,
