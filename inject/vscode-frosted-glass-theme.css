@@ -293,6 +293,15 @@
   ) !important;
 }
 
+.pane-body {
+  z-index: 10;
+  pointer-events: none;
+}
+
+.pane-body > * {
+  pointer-events: auto;
+}
+
 .pane-body,
 .pane-body .monaco-list > .monaco-scrollable-element {
   overflow: clip !important;
