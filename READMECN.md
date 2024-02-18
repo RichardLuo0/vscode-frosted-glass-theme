@@ -1,4 +1,4 @@
-## vscode 毛玻璃主题
+# vscode 毛玻璃主题
 为你的vscode带来类似Mac OS或是Windows的acrylic material效果的菜单！
 
 [English](README.md)

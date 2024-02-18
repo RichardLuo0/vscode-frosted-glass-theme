@@ -1,5 +1,10 @@
 # Change Log
 
+## [0.7.3]
+- c23783b: fix: avatar overflow in git commit window
+- e579f50: fix: `debug-hover-widget .monaco-list-rows` has background
+- 826c15c: fix: the content inside `pane-body` could be overflow
+
 ## [0.7.2]
 - d498804: fix: light effects color now follow `vscode-menu-selectionBackground`
 

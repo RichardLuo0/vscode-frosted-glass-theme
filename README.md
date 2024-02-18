@@ -1,4 +1,4 @@
-## vscode-frosted-glass-theme
+# vscode-frosted-glass-theme
 Bring frosted glass menu (like windows acrylic or mac os) to your vscode!
 
 [中文版](READMECN.md)
