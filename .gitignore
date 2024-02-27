@@ -6,3 +6,4 @@ package-lock.json
 *.vsix
 icon/*
 !icon/*.png
+inject

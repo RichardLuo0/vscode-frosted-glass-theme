@@ -18,10 +18,6 @@
 * **每次vscode更新，你都必须重新启用**
 ### 对于Linux和MacOS用户
 你需要把 `window.titleBarStyle` 设置为 `custom` 。否则效果很有限。
-## 或者通过`Custom CSS and JS Loader`拓展安装
-* 下载本仓库 `inject/` 文件夹下的文件
-* 根据"Custom CSS and JS Loader"拓展页面上的指示，仅导入`.js`即可（CSS会被自动导入）
-* 你可以修改文件中的变量来修改主题
 ## 卸载
 * 打开命令面板，输入“Frosted Glass Theme: Disable”，回车
 * 用拓展面板正常卸载

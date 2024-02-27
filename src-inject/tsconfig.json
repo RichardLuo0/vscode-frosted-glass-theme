@@ -1,0 +1,14 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "outDir": "../inject",
+    "rootDir": ".",
+    "baseUrl": "..",
+    "lib": [
+      "DOM"
+    ]
+  },
+  "exclude":[]
+}

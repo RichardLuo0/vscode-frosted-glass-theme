@@ -1,7 +1,7 @@
 import sudoPrompt from "@vscode/sudo-prompt";
 import File from "./File";
 import { InjectionImpl } from "./Injection";
-import { showChoiceMessage } from "./Utils";
+import { showChoiceMessage } from "./utils";
 import { msg } from "./msg";
 
 function escape(src: string) {

@@ -2,6 +2,7 @@
 .vscode-test/**
 out/test/**
 src/**
+src-*/**
 .gitignore
 .yarnrc
 vsc-extension-quickstart.md
@@ -13,3 +14,6 @@ image/**
 icon/*
 !icon/*.png
 .github
+node_modules/**
+build.*
+.*.json

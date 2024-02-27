@@ -3,7 +3,7 @@ import { commands, ExtensionContext, Uri, window, workspace } from "vscode";
 import File from "./File";
 import Injection from "./Injection";
 import { msg } from "./msg";
-import { showChoiceMessage } from "./Utils";
+import { showChoiceMessage } from "./utils";
 
 export function activate(context: ExtensionContext) {
   const cssFile = new File(
@@ -33,7 +33,7 @@ export function activate(context: ExtensionContext) {
     jsFile
       .editor()
       .replace(
-        /(const config = )[^]*?;/,
+        /(\/\/\! @fgt-config\n.*?config = )[\s\S]*?;/,
         "$1" +
           JSON.stringify(
             workspace.getConfiguration().get("frosted-glass-theme"),

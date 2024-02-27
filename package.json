@@ -159,22 +159,23 @@
 		]
 	},
 	"scripts": {
-		"vscode:prepublish": "npm run compile",
-		"compile": "tsc -p ./",
+		"vscode:prepublish": "npm run build",
+		"build": "tsc -noEmit && node ./build.mjs",
 		"lint": "eslint src --ext ts",
-		"watch": "tsc -watch -p ./",
-		"pretest": "npm run compile && npm run lint",
+		"watch": "node ./build.mjs watch",
+		"pretest": "npm run lint",
 		"test": "node ./out/test/runTest.js",
 		"package": "vsce package"
 	},
 	"devDependencies": {
-		"@types/node": "^20.10.6",
-		"@types/uuid": "^9.0.7",
+		"@types/node": "^20.11.20",
+		"@types/uuid": "^9.0.8",
 		"@types/vscode": "1.64.0",
-		"@typescript-eslint/eslint-plugin": "^6.17.0",
-		"@typescript-eslint/parser": "^6.17.0",
-		"@vscode/test-electron": "^2.3.8",
-		"eslint": "^8.56.0",
+		"@typescript-eslint/eslint-plugin": "^7.1.0",
+		"@typescript-eslint/parser": "^7.1.0",
+		"@vscode/test-electron": "^2.3.9",
+		"esbuild": "0.20.1",
+		"eslint": "^8.57.0",
 		"typescript": "^5.3.3"
 	},
 	"dependencies": {
