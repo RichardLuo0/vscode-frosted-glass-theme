@@ -12,6 +12,7 @@ const colorVarMap = new Map([
   ["--vscode-editorWidget-border", opacity.border],
   ["--vscode-editorHoverWidget-border", opacity.border],
   ["--vscode-editorSuggestWidget-border", opacity.border],
+  ["--vscode-menu-separatorBackground", opacity.border],
 ]);
 
 const backgroundVarList = [
