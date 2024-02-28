@@ -1,6 +1,6 @@
 import { applyElementsEffect } from "fluent-reveal-effect";
 import config from "./config";
-import { proxy, useArgs, useOldRet } from "./proxy";
+import { proxy, useArgs, useRet } from "./proxy";
 import { isHTMLElement } from "./utils";
 
 const { revealEffect } = config;
@@ -14,12 +14,12 @@ export function fixMenu(menuContainer: string | Node) {
 
   // If `scrollable-element` exists, fix it now, otherwise, wait for `appendChild`
   if (menuContainer.childElementCount <= 0)
-    proxy(menuContainer, "appendChild", (oldFunc, e) => oldFunc(fix(e)!));
+    proxy(menuContainer, "appendChild", (oldFunc, e) => oldFunc(fix(e)));
   else fix(menuContainer.querySelector("div.monaco-scrollable-element"));
 
   function moveSubMenu(src: Element, parent: Element) {
     const _src = src as Element & { _currentSubMenu: Node };
-    function fixSubMenu(subMenu: any) {
+    function fixSubMenu<NodeType extends string | Node>(subMenu: NodeType) {
       if (!isHTMLElement(subMenu)) return subMenu;
       const _subMenu = subMenu as HTMLElement & { _hiddenTag: boolean };
       if (_subMenu._hiddenTag) return subMenu;
@@ -37,7 +37,7 @@ export function fixMenu(menuContainer: string | Node) {
       proxy(
         src,
         "contains",
-        useOldRet(
+        useRet(
           (ret, e) =>
             ret ||
             _src._currentSubMenu === e ||
@@ -62,7 +62,7 @@ export function fixMenu(menuContainer: string | Node) {
     src.replaceChild = (e, e2) => parent.replaceChild(fixSubMenu(e), e2);
   }
 
-  function fix(scrollableElement: Node | null) {
+  function fix<NodeType extends Node | null>(scrollableElement: NodeType) {
     if (
       !isHTMLElement(scrollableElement) ||
       !scrollableElement.classList.contains("monaco-scrollable-element")

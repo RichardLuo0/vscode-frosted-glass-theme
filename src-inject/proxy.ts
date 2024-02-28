@@ -1,3 +1,5 @@
+import { isHTMLElement } from "./utils";
+
 /**
  * Proxy function on src
  */
@@ -25,7 +27,7 @@ export function proxy<
   src[funcName]._hiddenTag = true;
 }
 
-export function useOldRet<SrcType, ArgsType extends any[], RetType>(
+export function useRet<SrcType, ArgsType extends any[], RetType>(
   f: (this: SrcType, oldRet: RetType, ...args: ArgsType) => RetType
 ) {
   type BoundFuncType = (...args: ArgsType) => RetType;
@@ -41,5 +43,23 @@ export function useArgs<SrcType, ArgsType extends any[]>(
   return function (this: SrcType, oldFunc: BoundFuncType, ...args: ArgsType) {
     f.call(this, ...args);
     return oldFunc(...args);
+  };
+}
+
+export function useHTMLElement<SrcType, ArgsType extends any[]>(
+  className: string | null,
+  f: (this: SrcType, e: HTMLElement, ...args: ArgsType) => void
+) {
+  type BoundFuncType = (e: any, ...args: ArgsType) => any;
+  return function (
+    this: SrcType,
+    oldFunc: BoundFuncType,
+    e: any,
+    ...args: ArgsType
+  ) {
+    isHTMLElement(e) &&
+      (className === null || e.classList.contains(className)) &&
+      f.call(this, e, ...args);
+    return oldFunc(e, ...args);
   };
 }

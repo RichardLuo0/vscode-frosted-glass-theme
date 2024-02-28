@@ -1,8 +1,7 @@
 import config from "./config";
 import { fixContextMenu, fixMenu, fixMenuBar } from "./fix";
 import { observeThemeColorChange } from "./observeThemeColor";
-import { proxy, useArgs, useOldRet } from "./proxy";
-import { isHTMLElement } from "./utils";
+import { proxy, useHTMLElement, useRet } from "./proxy";
 import fgtSheet from "./vscode-frosted-glass-theme.css" assert { type: "css" };
 
 const { opacity, revealEffect } = config;
@@ -29,32 +28,22 @@ if (revealEffect.enabled) {
 }
 
 document.adoptedStyleSheets.push(fgtSheet);
+
 proxy(
   document.body,
   "appendChild",
-  useArgs((monacoWorkbench: Node) => {
-    if (!isHTMLElement(monacoWorkbench)) return;
-    if (monacoWorkbench.classList.contains("monaco-workbench")) {
-      observeThemeColorChange(monacoWorkbench);
-      proxy(
-        monacoWorkbench,
-        "prepend",
-        useArgs((gridView: string | Node) => {
-          if (!isHTMLElement(gridView)) return;
-          if (gridView.classList.contains("monaco-grid-view"))
-            fixMenuBar(gridView);
-        })
-      );
-      proxy(
-        monacoWorkbench,
-        "appendChild",
-        useArgs((contextView: Node) => {
-          if (!isHTMLElement(contextView)) return;
-          if (contextView.classList.contains("context-view"))
-            fixContextMenu(contextView);
-        })
-      );
-    }
+  useHTMLElement("monaco-workbench", (monacoWorkbench) => {
+    observeThemeColorChange(monacoWorkbench);
+    proxy(
+      monacoWorkbench,
+      "prepend",
+      useHTMLElement("monaco-grid-view", fixMenuBar)
+    );
+    proxy(
+      monacoWorkbench,
+      "appendChild",
+      useHTMLElement("context-view", fixContextMenu)
+    );
   })
 );
 
@@ -62,19 +51,14 @@ proxy(
 proxy(
   Element.prototype,
   "attachShadow",
-  useOldRet((shadowDom: ShadowRoot) => {
+  useRet((shadowDom) => {
     shadowDom.adoptedStyleSheets.push(
       ...shadowDom.ownerDocument.adoptedStyleSheets
     );
     proxy(
       shadowDom,
       "appendChild",
-      useArgs((menuContainer) => {
-        if (!isHTMLElement(menuContainer)) return;
-        if (menuContainer.classList.contains("monaco-menu-container")) {
-          fixMenu(menuContainer);
-        }
-      })
+      useHTMLElement("monaco-menu-container", fixMenu)
     );
     return shadowDom;
   })
@@ -84,7 +68,7 @@ proxy(
 proxy(
   window,
   "open",
-  useOldRet((newWindow: Window | null) => {
+  useRet((newWindow) => {
     if (!newWindow) return newWindow;
     const global = newWindow as Window & typeof globalThis;
     const document = newWindow.document;
@@ -96,10 +80,7 @@ proxy(
     proxy(
       document.body,
       "append",
-      useArgs((container: string | Node) => {
-        if (!isHTMLElement(container)) return;
-        observeThemeColorChange(container);
-      })
+      useHTMLElement(null, observeThemeColorChange)
     );
     return newWindow;
   })

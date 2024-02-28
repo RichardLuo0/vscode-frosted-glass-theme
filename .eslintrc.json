@@ -13,5 +13,6 @@
         "@typescript-eslint/semi": "warn",
         "no-throw-literal": "warn",
         "semi": "off"
-    }
+    },
+    "ignorePatterns": [ "inject/**", "out/**" ]
 }
