@@ -1,5 +1,13 @@
 # Change Log
 
+## [0.7.4]
+- 61f306b: feat: make separator color a separate setting
+- 584d965: feat: add `--vscode-menu-separatorBackground`
+- acc3295: feat: add open injected js file
+- 7d9b00d: build: use esbuild
+- 879a490: fix: set backgroundColor will only affect `backgroundVarList`
+- 6e8d332: fix: selectionBackground will not be affected by opacity settings if reveal effects is enabled
+
 ## [0.7.3]
 - c23783b: fix: avatar overflow in git commit window
 - e579f50: fix: `debug-hover-widget .monaco-list-rows` has background
