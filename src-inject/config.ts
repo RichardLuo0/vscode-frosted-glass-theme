@@ -6,9 +6,10 @@ const config = {
   opacity: {
     menu: 0.4,
     selection: 1,
-    panelHeader: 0.4,
     border: 0.4,
+    separator: 0.75,
     minimap: 0.4,
+    panelHeader: 0.4,
   },
   animation: {
     menu: "300ms cubic-bezier(0, 0.8, 0.2, 1) 0s 1 forwards fgtDropdown",
