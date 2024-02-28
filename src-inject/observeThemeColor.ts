@@ -4,7 +4,6 @@ const { opacity } = config;
 const useThemeColor = config.backgroundColor.length === 0;
 
 const colorVarMap = new Map([
-  ["--vscode-menu-selectionBackground", opacity.selection],
   ["--vscode-quickInputList-focusBackground", opacity.selection],
   ["--vscode-editorSuggestWidget-selectedBackground", opacity.selection],
   ["--vscode-menu-border", opacity.border],
@@ -14,6 +13,9 @@ const colorVarMap = new Map([
   ["--vscode-editorSuggestWidget-border", opacity.border],
   ["--vscode-menu-separatorBackground", opacity.separator],
 ]);
+
+if (!config.revealEffect.enabled)
+  colorVarMap.set("--vscode-menu-selectionBackground", opacity.selection);
 
 const backgroundVarList = [
   "--vscode-editorHoverWidget-background",
