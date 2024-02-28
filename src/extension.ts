@@ -96,6 +96,12 @@ export function activate(context: ExtensionContext) {
       .then(window.showTextDocument)
   );
 
+  const openJS = commands.registerCommand("frosted-glass-theme.openJS", () =>
+    workspace
+      .openTextDocument(Uri.parse(jsFile.path))
+      .then(window.showTextDocument)
+  );
+
   let isConfigChangedShowing = false;
   const onConfigureChanged = workspace.onDidChangeConfiguration(async (e) => {
     if (
@@ -115,7 +121,8 @@ export function activate(context: ExtensionContext) {
     disableTheme,
     applyConfig,
     openCSS,
-    onConfigureChanged
+    onConfigureChanged,
+    openJS
   );
 }
 

@@ -59,6 +59,10 @@
 			{
 				"command": "frosted-glass-theme.openCSS",
 				"title": "Frosted Glass Theme: Open CSS"
+			},
+			{
+				"command": "frosted-glass-theme.openJS",
+				"title": "Frosted Glass Theme: Open JS"
 			}
 		],
 		"configuration": [
