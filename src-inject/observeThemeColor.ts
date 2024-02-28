@@ -101,7 +101,7 @@ function setupColor(monacoWorkbench: HTMLElement, ownerNode: Element) {
       );
     });
   } else {
-    colorVarMap.forEach((_, colorVar) => {
+    backgroundVarList.forEach((colorVar) => {
       monacoWorkbench.style.setProperty(
         colorVar,
         "var(--fgt-background-color)"
