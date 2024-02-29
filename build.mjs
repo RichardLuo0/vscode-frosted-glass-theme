@@ -1,13 +1,18 @@
 import * as esbuild from "esbuild";
 
 const buildList = [];
+function build(options) {
+  buildList.push(
+    esbuild.build(options).then((result) => ({ ...result, options }))
+  );
+}
 
 const common = {
   bundle: true,
   platform: "node",
   target: ["node18"],
   external: ["vscode"],
-  logLevel: "info",
+  logLevel: "silent"
 };
 
 const buildExtensionOptions = {
@@ -16,31 +21,55 @@ const buildExtensionOptions = {
   outfile: "out/extension.js",
 };
 if (process.argv.includes("watch")) {
-  const ctx = await esbuild.context(buildExtensionOptions);
+  const ctx = await esbuild.context({
+    ...buildExtensionOptions,
+    logLevel: "info",
+  });
   await ctx.watch();
   console.log("watching...");
-} else buildList.push(esbuild.build(buildExtensionOptions));
+} else build(buildExtensionOptions);
 
-buildList.push(
-  esbuild.build({
-    ...common,
-    entryPoints: ["src/InjectionAdminMain.ts"],
-    outfile: "out/InjectionAdminMain.js",
-  })
-);
+build({
+  ...common,
+  entryPoints: ["src/InjectionAdminMain.ts"],
+  outfile: "out/InjectionAdminMain.js",
+});
 
-buildList.push(
-  esbuild.build({
-    ...common,
-    platform: "browser",
-    target: ["esnext"],
-    format: "esm",
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    loader: { ".css": "copy" },
-    assetNames: "[name]",
-    keepNames: true,
-    legalComments: "inline",
-    entryPoints: ["src-inject/main.ts"],
-    outfile: "inject/vscode-frosted-glass-theme.js",
-  })
-);
+build({
+  ...common,
+  platform: "browser",
+  target: ["esnext"],
+  format: "esm",
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  loader: { ".css": "copy" },
+  assetNames: "[name]",
+  keepNames: true,
+  legalComments: "inline",
+  entryPoints: ["src-inject/main.ts"],
+  outfile: "inject/vscode-frosted-glass-theme.js",
+});
+
+for (var result of await Promise.all(buildList)) {
+  console.log(result.options.outfile);
+  if (result.warnings.length == 0 && result.errors.length == 0)
+    console.log("\u001b[32mDone\u001b[0m");
+  else {
+    console.log(
+      esbuild
+        .formatMessagesSync(result.warnings, {
+          kind: "warning",
+          color: true,
+        })
+        .join("\n")
+    );
+    console.log(
+      esbuild
+        .formatMessagesSync(result.errors, {
+          kind: "error",
+          color: true,
+        })
+        .join("\n")
+    );
+  }
+  console.log();
+}
