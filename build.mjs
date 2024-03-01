@@ -12,7 +12,8 @@ const common = {
   platform: "node",
   target: ["node18"],
   external: ["vscode"],
-  logLevel: "silent"
+  logLevel: "silent",
+  minify: true,
 };
 
 const buildExtensionOptions = {
@@ -41,10 +42,10 @@ build({
   target: ["esnext"],
   format: "esm",
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  loader: { ".css": "copy" },
+  loader: { ".css": "copy", ".json": "copy" },
   assetNames: "[name]",
-  keepNames: true,
   legalComments: "inline",
+  sourcemap: true,
   entryPoints: ["src-inject/main.ts"],
   outfile: "inject/vscode-frosted-glass-theme.js",
 });

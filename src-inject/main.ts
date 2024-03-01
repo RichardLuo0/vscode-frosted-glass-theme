@@ -1,4 +1,4 @@
-import config from "./config";
+import config from "./config.json" assert { type: "json" };
 import { fixContextMenu, fixMenu, fixMenuBar } from "./fix";
 import { observeThemeColorChange } from "./observeThemeColor";
 import { proxy, useHTMLElement, useRet } from "./proxy";

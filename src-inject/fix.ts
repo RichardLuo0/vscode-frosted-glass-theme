@@ -1,5 +1,5 @@
 import { applyElementsEffect } from "fluent-reveal-effect";
-import config from "./config";
+import config from "./config.json" assert { type: "json" };
 import { proxy, useArgs, useRet } from "./proxy";
 import { isHTMLElement } from "./utils";
 

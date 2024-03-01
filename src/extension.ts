@@ -30,17 +30,14 @@ export function activate(context: ExtensionContext) {
   }
 
   function updateConfiguration() {
-    jsFile
+    new File(`${__dirname}/../inject/config.json`)
       .editor()
-      .replace(
-        /(\/\/\! @fgt-config\n.*?config = )[\s\S]*?;/,
-        "$1" +
-          JSON.stringify(
-            workspace.getConfiguration().get("frosted-glass-theme"),
-            null,
-            2
-          ) +
-          ";"
+      .replaceAll(
+        JSON.stringify(
+          workspace.getConfiguration().get("frosted-glass-theme"),
+          null,
+          2
+        )
       )
       .apply();
   }

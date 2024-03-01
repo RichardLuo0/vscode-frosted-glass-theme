@@ -1,4 +1,4 @@
-import config from "./config";
+import config from "./config.json" assert { type: "json" };
 
 const { opacity } = config;
 const useThemeColor = config.backgroundColor.length === 0;

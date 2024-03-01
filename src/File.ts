@@ -2,10 +2,14 @@ import fs from "fs";
 
 export default class File {
   static editor = class {
-    private content: string;
+    private content: string | null = null;
 
-    constructor(private file: File) {
-      this.content = fs.readFileSync(file._path, "utf-8");
+    constructor(private file: File) {}
+
+    loadContent() {
+      if (this.content === null)
+        this.content = fs.readFileSync(this.file._path, "utf-8");
+      return this;
     }
 
     replace(
@@ -14,12 +18,20 @@ export default class File {
       },
       replaceValue: string
     ) {
-      this.content = this.content.replace(searchValue, replaceValue);
+      this.loadContent();
+      this.content = this.content!.replace(searchValue, replaceValue);
+      return this;
+    }
+
+    replaceAll(content: string) {
+      this.content = content;
       return this;
     }
 
     apply() {
-      fs.writeFileSync(this.file._path, this.content, "utf-8");
+      if (this.content !== null)
+        fs.writeFileSync(this.file._path, this.content, "utf-8");
+      this.content = null;
     }
   };
 
