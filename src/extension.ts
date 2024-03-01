@@ -1,4 +1,3 @@
-import path from "path";
 import { commands, ExtensionContext, Uri, window, workspace } from "vscode";
 import File from "./File";
 import Injection from "./Injection";
@@ -6,11 +5,8 @@ import { msg } from "./msg";
 import { showChoiceMessage } from "./utils";
 
 export function activate(context: ExtensionContext) {
-  const cssFile = new File(
-    path.resolve(`${__dirname}/../inject/vscode-frosted-glass-theme.css`)
-  );
   const jsFile = new File(
-    path.resolve(`${__dirname}/../inject/vscode-frosted-glass-theme.js`)
+    `${__dirname}/../inject/vscode-frosted-glass-theme.js`
   );
   const injection = new Injection([jsFile]);
 
@@ -89,7 +85,11 @@ export function activate(context: ExtensionContext) {
 
   const openCSS = commands.registerCommand("frosted-glass-theme.openCSS", () =>
     workspace
-      .openTextDocument(Uri.parse(cssFile.path))
+      .openTextDocument(
+        Uri.parse(
+          new File(`${__dirname}/../inject/vscode-frosted-glass-theme.css`).path
+        )
+      )
       .then(window.showTextDocument)
   );
 

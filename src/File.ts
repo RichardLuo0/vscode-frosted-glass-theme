@@ -1,4 +1,5 @@
 import fs from "fs";
+import { resolve } from "path";
 
 export default class File {
   static editor = class {
@@ -35,7 +36,11 @@ export default class File {
     }
   };
 
-  constructor(private _path: string) {}
+  private _path: string;
+
+  constructor(path: string) {
+    this._path = resolve(path);
+  }
 
   editor() {
     return new File.editor(this);
