@@ -44,7 +44,6 @@ build({
   // eslint-disable-next-line @typescript-eslint/naming-convention
   loader: { ".css": "copy", ".json": "copy" },
   assetNames: "[name]",
-  legalComments: "inline",
   sourcemap: true,
   entryPoints: ["src-inject/main.ts"],
   outfile: "inject/vscode-frosted-glass-theme.js",
