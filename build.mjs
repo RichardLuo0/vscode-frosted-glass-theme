@@ -1,4 +1,5 @@
 import * as esbuild from "esbuild";
+import { generateLicenseFile } from "generate-license-file";
 
 const buildList = [];
 function build(options) {
@@ -73,3 +74,8 @@ for (var result of await Promise.all(buildList)) {
   }
   console.log();
 }
+
+const thirdPartyLicenseFile = "3rdPartyLicense.txt";
+await generateLicenseFile("./package.json", thirdPartyLicenseFile);
+console.log(thirdPartyLicenseFile);
+console.log("\u001b[32mDone\u001b[0m");

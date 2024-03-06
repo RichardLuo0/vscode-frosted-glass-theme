@@ -177,14 +177,15 @@
 		"package": "vsce package"
 	},
 	"devDependencies": {
-		"@types/node": "^20.11.20",
+		"@types/node": "^20.11.24",
 		"@types/uuid": "^9.0.8",
 		"@types/vscode": "1.64.0",
-		"@typescript-eslint/eslint-plugin": "^7.1.0",
-		"@typescript-eslint/parser": "^7.1.0",
+		"@typescript-eslint/eslint-plugin": "^7.1.1",
+		"@typescript-eslint/parser": "^7.1.1",
 		"@vscode/test-electron": "^2.3.9",
 		"esbuild": "0.20.1",
 		"eslint": "^8.57.0",
+		"generate-license-file": "^3.0.1",
 		"typescript": "^5.3.3"
 	},
 	"dependencies": {
