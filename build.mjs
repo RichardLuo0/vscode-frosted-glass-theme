@@ -76,6 +76,8 @@ for (var result of await Promise.all(buildList)) {
 }
 
 const thirdPartyLicenseFile = "3rdPartyLicense.txt";
-await generateLicenseFile("./package.json", thirdPartyLicenseFile);
+await generateLicenseFile("./package.json", thirdPartyLicenseFile, {
+  append: ["./vscode-custom-css-license.txt"],
+});
 console.log(thirdPartyLicenseFile);
 console.log("\u001b[32mDone\u001b[0m");
