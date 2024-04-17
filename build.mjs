@@ -15,6 +15,7 @@ const common = {
   external: ["vscode"],
   logLevel: "silent",
   minify: true,
+  legalComments: 'none',
 };
 
 const buildExtensionOptions = {
