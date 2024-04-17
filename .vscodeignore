@@ -17,3 +17,4 @@ icon/*
 node_modules/**
 build.*
 .*.json
+vscode-custom-css-license.txt
