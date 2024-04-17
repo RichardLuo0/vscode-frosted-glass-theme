@@ -47,7 +47,7 @@ export default class InjectionAdmin implements InjectionImpl {
       sudoPrompt.exec(
         `${expandEnv(env)} "${
           process.execPath
-        }" --ms-enable-electron-run-as-node "${__dirname}/InjectionAdminMain.js" --no-sandbox ${funcName} "${escape(
+        }" "${__dirname}/InjectionAdminMain.js" --no-sandbox ${funcName} "${escape(
           JSON.stringify(this.files)
         )}" "${this.base}" "${this.htmlFile}"`,
         { name: "Frosted Glass Theme", env },
