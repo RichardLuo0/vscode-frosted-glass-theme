@@ -1,196 +1,196 @@
 {
-	"name": "frosted-glass-theme",
-	"displayName": "Frosted Glass Theme",
-	"icon": "icon/icon.png",
-	"galleryBanner": {
-		"color": "#4b0082",
-		"theme": "dark"
-	},
-	"publisher": "RichardLuo",
-	"description": "Bring frosted glass menu (like windows acrylic or mac os) to your vscode!",
-	"version": "0.7.4",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/RichardLuo0/vscode-frosted-glass-theme"
-	},
-	"license": "MIT",
-	"engines": {
-		"vscode": "^1.64.0"
-	},
-	"categories": [
-		"Themes"
-	],
-	"keywords": [
-		"acrylic",
-		"fluent design",
-		"mac os",
-		"animation",
-		"transparent",
-		"theme",
-		"blur",
-		"menu"
-	],
-	"extensionKind": [
-		"ui"
-	],
-	"capabilities": {
-		"untrustedWorkspaces": {
-			"supported": true
-		}
-	},
-	"activationEvents": [
-		"onStartupFinished"
-	],
-	"main": "./out/extension.js",
-	"contributes": {
-		"commands": [
-			{
-				"command": "frosted-glass-theme.enableTheme",
-				"title": "Frosted Glass Theme: Enable"
-			},
-			{
-				"command": "frosted-glass-theme.disableTheme",
-				"title": "Frosted Glass Theme: Disable"
-			},
-			{
-				"command": "frosted-glass-theme.applyConfig",
-				"title": "Frosted Glass Theme: Apply Configuration"
-			},
-			{
-				"command": "frosted-glass-theme.openCSS",
-				"title": "Frosted Glass Theme: Open CSS"
-			},
-			{
-				"command": "frosted-glass-theme.openJS",
-				"title": "Frosted Glass Theme: Open JS"
-			}
-		],
-		"configuration": [
-			{
-				"title": "General",
-				"properties": {
-					"frosted-glass-theme.backdropFilter": {
-						"type": "string",
-						"order": 0,
-						"default": "blur(30px)",
-						"description": "Menu backdrop filter"
-					},
-					"frosted-glass-theme.backgroundColor": {
-						"type": "string",
-						"order": 1,
-						"default": "",
-						"markdownDescription": "Menu background color. Use css color. This will overwrite `#frosted-glass-theme.opacity.menu#`. Leave this blank to use `#frosted-glass-theme.opacity.menu#`"
-					},
-					"frosted-glass-theme.transition": {
-						"type": "string",
-						"order": 2,
-						"default": "300ms",
-						"description": "CSS transition"
-					}
-				}
-			},
-			{
-				"title": "Opacity",
-				"properties": {
-					"frosted-glass-theme.opacity.menu": {
-						"type": "number",
-						"default": 0.4,
-						"description": "Menu background opacity. This will blend into your theme color"
-					},
-					"frosted-glass-theme.opacity.selection": {
-						"type": "number",
-						"default": 1,
-						"description": "Menu selection opacity. This will blend into your theme color"
-					},
-					"frosted-glass-theme.opacity.border": {
-						"type": "number",
-						"default": 0.4,
-						"description": "Border opacity. This will blend into your theme color"
-					},
-					"frosted-glass-theme.opacity.separator": {
-						"type": "number",
-						"default": 0.75,
-						"description": "Menu separator opacity. This will blend into your theme color"
-					},
-					"frosted-glass-theme.opacity.minimap": {
-						"type": "number",
-						"default": 0.4,
-						"description": "Minimap opacity."
-					},
-					"frosted-glass-theme.opacity.panelHeader": {
-						"type": "number",
-						"default": 0.4,
-						"description": "Panel header opacity. This will blend into your theme color"
-					}
-				}
-			},
-			{
-				"title": "Animation",
-				"properties": {
-					"frosted-glass-theme.animation.menu": {
-						"type": "string",
-						"default": "300ms cubic-bezier(0, 0.8, 0.2, 1) 0s 1 forwards fgtDropdown",
-						"markdownDescription": "CSS animation for menu. Set to blank or `none` to disable the animation"
-					},
-					"frosted-glass-theme.animation.dialog": {
-						"type": "string",
-						"default": "300ms cubic-bezier(0, 0.8, 0.2, 1) 0s 1 forwards fgtZoomIn",
-						"markdownDescription": "CSS animation for dialog. Set to blank or `none` to disable the animation"
-					}
-				}
-			},
-			{
-				"title": "Reveal Effect",
-				"properties": {
-					"frosted-glass-theme.revealEffect.enabled": {
-						"type": "boolean",
-						"default": true,
-						"order": 0,
-						"description": "Enable reveal effect"
-					},
-					"frosted-glass-theme.revealEffect.opacity": {
-						"type": "number",
-						"default": 0.1,
-						"markdownDescription": "Reveal effect gradient opacity. The color can be controlled by `menu.selectionBackground` inside `#workbench.colorCustomizations#`"
-					},
-					"frosted-glass-theme.revealEffect.gradientSize": {
-						"type": "number",
-						"default": 200,
-						"description": "Reveal effect gradient size"
-					},
-					"frosted-glass-theme.revealEffect.clickEffect": {
-						"type": "boolean",
-						"default": true,
-						"description": "Enable click effect"
-					}
-				}
-			}
-		]
-	},
-	"scripts": {
-		"vscode:prepublish": "npm run build",
-		"build": "tsc -noEmit && node ./build.mjs",
-		"lint": "eslint src --ext ts",
-		"watch": "node ./build.mjs watch",
-		"pretest": "npm run lint",
-		"test": "node ./out/test/runTest.js",
-		"package": "vsce package"
-	},
-	"devDependencies": {
-		"@types/node": "^20.11.24",
-		"@types/uuid": "^9.0.8",
-		"@types/vscode": "1.64.0",
-		"@typescript-eslint/eslint-plugin": "^7.1.1",
-		"@typescript-eslint/parser": "^7.1.1",
-		"@vscode/test-electron": "^2.3.9",
-		"esbuild": "0.20.1",
-		"eslint": "^8.57.0",
-		"generate-license-file": "^3.0.1",
-		"typescript": "^5.3.3"
-	},
-	"dependencies": {
-		"@vscode/sudo-prompt": "^9.3.1",
-		"fluent-reveal-effect": "^3.0.11",
-		"uuid": "^9.0.1"
-	}
+  "name": "frosted-glass-theme",
+  "displayName": "Frosted Glass Theme",
+  "icon": "icon/icon.png",
+  "galleryBanner": {
+    "color": "#4b0082",
+    "theme": "dark"
+  },
+  "publisher": "RichardLuo",
+  "description": "Bring frosted glass menu (like windows acrylic or mac os) to your vscode!",
+  "version": "0.7.5",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RichardLuo0/vscode-frosted-glass-theme"
+  },
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.64.0"
+  },
+  "categories": [
+    "Themes"
+  ],
+  "keywords": [
+    "acrylic",
+    "fluent design",
+    "mac os",
+    "animation",
+    "transparent",
+    "theme",
+    "blur",
+    "menu"
+  ],
+  "extensionKind": [
+    "ui"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": true
+    }
+  },
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "frosted-glass-theme.enableTheme",
+        "title": "Frosted Glass Theme: Enable"
+      },
+      {
+        "command": "frosted-glass-theme.disableTheme",
+        "title": "Frosted Glass Theme: Disable"
+      },
+      {
+        "command": "frosted-glass-theme.applyConfig",
+        "title": "Frosted Glass Theme: Apply Configuration"
+      },
+      {
+        "command": "frosted-glass-theme.openCSS",
+        "title": "Frosted Glass Theme: Open CSS"
+      },
+      {
+        "command": "frosted-glass-theme.openJS",
+        "title": "Frosted Glass Theme: Open JS"
+      }
+    ],
+    "configuration": [
+      {
+        "title": "General",
+        "properties": {
+          "frosted-glass-theme.backdropFilter": {
+            "type": "string",
+            "order": 0,
+            "default": "blur(30px)",
+            "description": "Menu backdrop filter"
+          },
+          "frosted-glass-theme.backgroundColor": {
+            "type": "string",
+            "order": 1,
+            "default": "",
+            "markdownDescription": "Menu background color. Use css color. This will overwrite `#frosted-glass-theme.opacity.menu#`. Leave this blank to use `#frosted-glass-theme.opacity.menu#`"
+          },
+          "frosted-glass-theme.transition": {
+            "type": "string",
+            "order": 2,
+            "default": "300ms",
+            "description": "CSS transition"
+          }
+        }
+      },
+      {
+        "title": "Opacity",
+        "properties": {
+          "frosted-glass-theme.opacity.menu": {
+            "type": "number",
+            "default": 0.4,
+            "description": "Menu background opacity. This will blend into your theme color"
+          },
+          "frosted-glass-theme.opacity.selection": {
+            "type": "number",
+            "default": 1,
+            "description": "Menu selection opacity. This will blend into your theme color"
+          },
+          "frosted-glass-theme.opacity.border": {
+            "type": "number",
+            "default": 0.4,
+            "description": "Border opacity. This will blend into your theme color"
+          },
+          "frosted-glass-theme.opacity.separator": {
+            "type": "number",
+            "default": 0.75,
+            "description": "Menu separator opacity. This will blend into your theme color"
+          },
+          "frosted-glass-theme.opacity.minimap": {
+            "type": "number",
+            "default": 0.4,
+            "description": "Minimap opacity."
+          },
+          "frosted-glass-theme.opacity.panelHeader": {
+            "type": "number",
+            "default": 0.4,
+            "description": "Panel header opacity. This will blend into your theme color"
+          }
+        }
+      },
+      {
+        "title": "Animation",
+        "properties": {
+          "frosted-glass-theme.animation.menu": {
+            "type": "string",
+            "default": "300ms cubic-bezier(0, 0.8, 0.2, 1) 0s 1 forwards fgtDropdown",
+            "markdownDescription": "CSS animation for menu. Set to blank or `none` to disable the animation"
+          },
+          "frosted-glass-theme.animation.dialog": {
+            "type": "string",
+            "default": "300ms cubic-bezier(0, 0.8, 0.2, 1) 0s 1 forwards fgtZoomIn",
+            "markdownDescription": "CSS animation for dialog. Set to blank or `none` to disable the animation"
+          }
+        }
+      },
+      {
+        "title": "Reveal Effect",
+        "properties": {
+          "frosted-glass-theme.revealEffect.enabled": {
+            "type": "boolean",
+            "default": true,
+            "order": 0,
+            "description": "Enable reveal effect"
+          },
+          "frosted-glass-theme.revealEffect.opacity": {
+            "type": "number",
+            "default": 0.1,
+            "markdownDescription": "Reveal effect gradient opacity. The color can be controlled by `menu.selectionBackground` inside `#workbench.colorCustomizations#`"
+          },
+          "frosted-glass-theme.revealEffect.gradientSize": {
+            "type": "number",
+            "default": 200,
+            "description": "Reveal effect gradient size"
+          },
+          "frosted-glass-theme.revealEffect.clickEffect": {
+            "type": "boolean",
+            "default": true,
+            "description": "Enable click effect"
+          }
+        }
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run build",
+    "build": "tsc -noEmit && node ./build.mjs",
+    "lint": "eslint src --ext ts",
+    "watch": "node ./build.mjs watch",
+    "pretest": "npm run lint",
+    "test": "node ./out/test/runTest.js",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.7",
+    "@types/uuid": "^9.0.8",
+    "@types/vscode": "1.64.0",
+    "@typescript-eslint/eslint-plugin": "^7.7.0",
+    "@typescript-eslint/parser": "^7.7.0",
+    "@vscode/test-electron": "^2.3.9",
+    "esbuild": "0.20.2",
+    "eslint": "^8.57.0",
+    "generate-license-file": "^3.2.0",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "@vscode/sudo-prompt": "^9.3.1",
+    "fluent-reveal-effect": "^3.0.11",
+    "uuid": "^9.0.1"
+  }
 }

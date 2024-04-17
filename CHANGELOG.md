@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.7.5]
+- 3be3076: fix: run as admin does not work
+- b71e6e6: perf: save a bit memory storing css file path
+
 ## [0.7.4]
 - 61f306b: feat: make separator color a separate setting
 - 584d965: feat: add `--vscode-menu-separatorBackground`
