@@ -23,6 +23,7 @@ if (revealEffect.enabled) {
   fgtSheet.insertRule(
     `.monaco-menu-container ul.actions-container > li > a.action-menu-item {
       background-color: transparent !important;
+      outline: none !important;
     }`
   );
 }
