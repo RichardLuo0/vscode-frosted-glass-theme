@@ -8,7 +8,7 @@ const { revealEffect } = config;
 // `position: fixed` will be invalid if `backdrop-filter` or `transform` is set on ancestor.
 // 1. Clone and replace the `div.monaco-action-bar` to keep the layout and style things.
 // 2. Move the original `div.monaco-action-bar` with event listeners to top level and remove any styles.
-// 2. Move sub menu below `div.monaco-action-bar` to avoid those properties being present on the ancestors.
+// 3. Move sub menu below `div.monaco-action-bar` to avoid those properties being present on the ancestors.
 export function fixMenu(menuContainer: string | Node) {
   if (!isHTMLElement(menuContainer)) return;
 

@@ -11,7 +11,7 @@
 ![SearchBar](image/SearchBar.jpg) \
 ![CommandPanel](image/CommandPanel.jpg) \
 ![PanelHeader](image/PanelHeader.jpg)
-## 直接安装
+## 安装
 * 从vscode插件商店搜索Frosted Glass Theme安装
 * 打开命令面板，输入“Frosted Glass Theme: Enable”，回车
 * **你可以在vscode设置中改变菜单颜色等等，每次更改设置，请执行“Frosted Glass Theme: Apply Configuration”应用**
