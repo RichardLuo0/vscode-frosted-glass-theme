@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.7.6]
+- defc794: fix: some theme has a outline to `action-menu-item`
+- e082dd3: feat: add `borderRadius` settings
+
 ## [0.7.5]
 - 3be3076: fix: run as admin does not work
 - b71e6e6: perf: save a bit memory storing css file path
