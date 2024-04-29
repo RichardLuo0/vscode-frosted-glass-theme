@@ -1,6 +1,5 @@
 {
   "backdropFilter": "blur(30px)",
-  "backgroundColor": "",
   "transition": "300ms",
   "opacity": {
     "menu": 0.4,

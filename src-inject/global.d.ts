@@ -2,7 +2,6 @@ declare module "*.css";
 declare module "*.json" {
   const config: {
     backdropFilter: string;
-    backgroundColor: string;
     transition: string;
     opacity: {
       menu: number;

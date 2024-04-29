@@ -75,12 +75,6 @@
             "default": "blur(30px)",
             "description": "Menu backdrop filter"
           },
-          "frosted-glass-theme.backgroundColor": {
-            "type": "string",
-            "order": 1,
-            "default": "",
-            "markdownDescription": "Menu background color. Use css color. This will overwrite `#frosted-glass-theme.opacity.menu#`. Leave this blank to use `#frosted-glass-theme.opacity.menu#`"
-          },
           "frosted-glass-theme.transition": {
             "type": "string",
             "order": 2,

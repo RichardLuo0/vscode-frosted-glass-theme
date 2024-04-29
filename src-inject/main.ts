@@ -9,7 +9,6 @@ const { opacity, revealEffect, borderRadius } = config;
 fgtSheet.insertRule(
   `:root { 
     --fgt-backdrop-filter: ${config.backdropFilter};
-    --fgt-background-color: ${config.backgroundColor};
     --fgt-transition: ${config.transition};
     --fgt-animation-menu: ${config.animation.menu};
     --fgt-animation-dialog: ${config.animation.dialog};

@@ -1,7 +1,6 @@
 import config from "./config.json" assert { type: "json" };
 
 const { opacity } = config;
-const useThemeColor = config.backgroundColor.length === 0;
 
 const colorVarMap = new Map([
   ["--vscode-quickInputList-focusBackground", opacity.selection],
@@ -43,17 +42,15 @@ export function observeThemeColorChange(monacoWorkbench: HTMLElement) {
   if (!contributedColorTheme) return;
 
   setupColor(monacoWorkbench, contributedColorTheme);
-  if (useThemeColor) {
-    const observer = new MutationObserver(
-      setupColor.bind(globalThis, monacoWorkbench, contributedColorTheme)
-    );
-    observer.observe(contributedColorTheme, {
-      characterData: false,
-      attributes: false,
-      childList: true,
-      subtree: false,
-    });
-  }
+  const observer = new MutationObserver(
+    setupColor.bind(globalThis, monacoWorkbench, contributedColorTheme)
+  );
+  observer.observe(contributedColorTheme, {
+    characterData: false,
+    attributes: false,
+    childList: true,
+    subtree: false,
+  });
 }
 
 function applyOpacity(color: string, opacity: number) {
@@ -93,19 +90,10 @@ function setupColor(monacoWorkbench: HTMLElement, ownerNode: Element) {
   if (!(cssRule instanceof CSSStyleRule)) return;
   const cssStyle = cssRule.style;
 
-  if (useThemeColor) {
-    colorVarMap.forEach((opacity, colorVar) => {
-      monacoWorkbench.style.setProperty(
-        colorVar,
-        applyOpacity(cssStyle.getPropertyValue(colorVar), opacity)
-      );
-    });
-  } else {
-    backgroundVarList.forEach((colorVar) => {
-      monacoWorkbench.style.setProperty(
-        colorVar,
-        "var(--fgt-background-color)"
-      );
-    });
-  }
+  colorVarMap.forEach((opacity, colorVar) => {
+    monacoWorkbench.style.setProperty(
+      colorVar,
+      applyOpacity(cssStyle.getPropertyValue(colorVar), opacity)
+    );
+  });
 }
