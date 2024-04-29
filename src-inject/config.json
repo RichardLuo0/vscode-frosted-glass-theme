@@ -19,5 +19,10 @@
     "opacity": 0.1,
     "gradientSize": 200,
     "clickEffect": true
+  },
+  "borderRadius": {
+    "menu": "",
+    "menuItem": "",
+    "suggestWidget": ""
   }
 }

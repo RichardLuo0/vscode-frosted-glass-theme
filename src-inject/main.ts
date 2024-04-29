@@ -4,7 +4,7 @@ import { observeThemeColorChange } from "./observeThemeColor";
 import { proxy, useHTMLElement, useRet } from "./proxy";
 import fgtSheet from "./vscode-frosted-glass-theme.css" assert { type: "css" };
 
-const { opacity, revealEffect } = config;
+const { opacity, revealEffect, borderRadius } = config;
 
 fgtSheet.insertRule(
   `:root { 
@@ -24,6 +24,29 @@ if (revealEffect.enabled) {
     `.monaco-menu-container ul.actions-container > li > a.action-menu-item {
       background-color: transparent !important;
       outline: none !important;
+    }`
+  );
+} else if (borderRadius.menuItem) {
+  fgtSheet.insertRule(
+    `.monaco-menu-container ul.actions-container > li > a.action-menu-item {
+      border-radius: ${borderRadius.menuItem} !important;
+    }`
+  );
+}
+
+if (borderRadius.menu) {
+  fgtSheet.insertRule(
+    `.monaco-menu-container .monaco-scrollable-element {
+      border-radius: ${borderRadius.menu} !important;
+    }`
+  );
+}
+
+if (borderRadius.suggestWidget) {
+  fgtSheet.insertRule(
+    `.editor-widget.suggest-widget {
+      border-radius: ${borderRadius.suggestWidget} !important;
+      overflow: hidden;
     }`
   );
 }

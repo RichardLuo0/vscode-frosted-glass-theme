@@ -22,6 +22,11 @@ declare module "*.json" {
       gradientSize: number;
       clickEffect: boolean;
     };
+    borderRadius: {
+      menu: string;
+      menuItem: string;
+      suggestWidget: string;
+    };
   };
   export default config;
 }
