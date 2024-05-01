@@ -1,0 +1,329 @@
+/* Title Bar */
+.window-title {
+  transition: var(--fgt-transition);
+}
+
+.window-icon {
+  transition: var(--fgt-transition);
+}
+
+/* Action Bar */
+.action-label.codicon {
+  transition: var(--fgt-transition);
+}
+
+/* Editor Widget */
+.editor-widget {
+  backdrop-filter: var(--fgt-backdrop-filter);
+}
+
+/* Hover */
+.monaco-hover {
+  backdrop-filter: var(--fgt-backdrop-filter);
+}
+
+/* Suggest Widget */
+.monaco-editor .suggest-details {
+  backdrop-filter: var(--fgt-backdrop-filter);
+}
+
+/* Dialog Box */
+.monaco-dialog-box {
+  backdrop-filter: var(--fgt-backdrop-filter);
+}
+
+/* Command Panel */
+.quick-input-widget {
+  backdrop-filter: var(--fgt-backdrop-filter);
+}
+
+.quick-input-widget .monaco-list-rows {
+  background-color: transparent !important;
+}
+
+/* Input Box */
+.monaco-inputbox.idle {
+  background-color: transparent !important;
+}
+
+.monaco-inputbox.idle .wrapper {
+  background-color: transparent;
+}
+
+.monaco-inputbox.idle .mirror {
+  background-color: transparent;
+}
+
+/* Menu */
+.monaco-menu-container .monaco-scrollable-element {
+  backdrop-filter: var(--fgt-backdrop-filter);
+}
+
+.monaco-scrollable-element .invisible {
+  opacity: 0 !important;
+  pointer-events: none;
+}
+
+/* Search & Replace */
+.editor-widget.find-widget {
+  background-color: var(--vscode-editorWidget-background) !important;
+}
+
+/* Notification Panel */
+.notifications-center-header {
+  backdrop-filter: var(--fgt-backdrop-filter);
+  background-color: var(
+    --vscode-notificationCenterHeader-background
+  ) !important;
+}
+
+.notifications-list-container {
+  backdrop-filter: var(--fgt-backdrop-filter);
+}
+
+.notification-toast {
+  background-color: transparent !important;
+  transition: var(--fgt-transition);
+}
+
+/* Feedback Form */
+.feedback-form {
+  backdrop-filter: var(--fgt-backdrop-filter);
+}
+
+/* Minimap */
+.minimap {
+  backdrop-filter: var(--fgt-backdrop-filter);
+}
+
+.minimap canvas:not(.minimap-decorations-layer) {
+  opacity: var(--fgt-minimap-opacity);
+  transition: var(--fgt-transition);
+}
+
+.minimap:hover canvas:not(.minimap-decorations-layer) {
+  opacity: 1;
+  transition: var(--fgt-transition);
+}
+
+/* Scroll Bar */
+.slider {
+  backdrop-filter: var(--fgt-backdrop-filter);
+}
+
+.monaco-editor .scrollbar.vertical .slider {
+  backdrop-filter: none !important;
+}
+
+.monaco-editor .decorationsOverviewRuler {
+  backdrop-filter: var(--fgt-backdrop-filter);
+  background-color: var(--vscode-editorStickyScroll-background);
+}
+
+/* Setting Page */
+.setting-item-contents.settings-row-inner-container {
+  transition: var(--fgt-transition);
+}
+
+/* Breadcrumbs Picker */
+.monaco-breadcrumbs-picker > :not(.arrow) {
+  backdrop-filter: var(--fgt-backdrop-filter);
+  background-color: color-mix(
+    in srgb,
+    var(--vscode-breadcrumbPicker-background) var(--fgt-menu-opacity),
+    transparent
+  ) !important;
+}
+
+.monaco-breadcrumbs-picker .monaco-list-rows {
+  background-color: transparent !important;
+}
+
+/* Debug Tool Bar */
+.debug-toolbar {
+  backdrop-filter: var(--fgt-backdrop-filter);
+  background-color: color-mix(
+    in srgb,
+    var(--vscode-debugToolBar-background) var(--fgt-menu-opacity),
+    transparent
+  ) !important;
+}
+
+.debug-toolbar:has(.monaco-dropdown.active) {
+  backdrop-filter: none;
+  background-color: var(--vscode-debugToolBar-background) !important;
+}
+
+/* Debug Hover Widget */
+.debug-hover-widget {
+  backdrop-filter: var(--fgt-backdrop-filter);
+}
+
+.debug-hover-widget .monaco-list-rows {
+  background-color: transparent !important;
+}
+
+/* Code Action Widget */
+.action-widget {
+  backdrop-filter: var(--fgt-backdrop-filter);
+}
+
+/* Rename Box */
+.rename-box {
+  backdrop-filter: var(--fgt-backdrop-filter);
+  background-color: var(--vscode-editorWidget-background) !important;
+}
+
+.rename-box > input {
+  background-color: transparent !important;
+}
+
+/* Find Part */
+.monaco-workbench .simple-find-part {
+  backdrop-filter: var(--fgt-backdrop-filter);
+}
+
+/* Key Binding Widget */
+.defineKeybindingWidget {
+  backdrop-filter: var(--fgt-backdrop-filter);
+}
+
+/* Overlay Message */
+.monaco-editor-overlaymessage .message {
+  backdrop-filter: var(--fgt-backdrop-filter);
+}
+
+/* Custom Dialog Box */
+.dialog-shadow {
+  animation: var(--fgt-animation-dialog);
+}
+
+.dimmed {
+  animation: 300ms linear 0s 1 forwards fgtFadeIn;
+}
+
+@keyframes fgtZoomIn {
+  from {
+    transform: perspective(100px) translateZ(-100px);
+  }
+  to {
+    transform: perspective(100px) translateZ(0);
+  }
+}
+
+@keyframes fgtFadeIn {
+  from {
+    background-color: transparent;
+  }
+  to {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* Menu Dropdown Animation */
+.monaco-menu-container,
+.context-view {
+  overflow: clip !important;
+  overflow-clip-margin: 10px !important;
+}
+
+.monaco-menu-container .monaco-scrollable-element,
+.action-widget,
+.monaco-breadcrumbs-picker,
+.quick-input-widget {
+  animation: var(--fgt-animation-menu);
+}
+
+@keyframes fgtDropdown {
+  from {
+    transform: translateY(-100%);
+  }
+  0%,
+  99% {
+    pointer-events: none;
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Sticky Widget */
+.sticky-widget {
+  backdrop-filter: var(--fgt-backdrop-filter);
+}
+
+.sticky-widget > * {
+  background-color: transparent !important;
+}
+
+/* Tree Type Filter */
+.monaco-tree-type-filter {
+  backdrop-filter: var(--fgt-backdrop-filter);
+}
+
+/* Tree Sticky Container */
+.monaco-tree-sticky-container {
+  backdrop-filter: var(--fgt-backdrop-filter);
+  background-color: color-mix(
+    in srgb,
+    var(--vscode-sideBar-background) var(--fgt-menu-opacity),
+    transparent
+  ) !important;
+}
+
+.monaco-tree-sticky-container > * {
+  background-color: transparent !important;
+}
+
+/* Panel Header */
+.pane-header.expanded:has(.monaco-dropdown.active) {
+  z-index: 2500;
+  backdrop-filter: none;
+  background-color: var(--vscode-sideBarSectionHeader-background) !important;
+}
+
+.pane-header.expanded {
+  z-index: 15;
+  backdrop-filter: var(--fgt-backdrop-filter);
+  background-color: color-mix(
+    in srgb,
+    var(--vscode-sideBarSectionHeader-background)
+      var(--fgt-panel-header-opacity),
+    transparent
+  ) !important;
+}
+
+.pane-body {
+  z-index: 10;
+  pointer-events: none;
+}
+
+.pane-body > * {
+  pointer-events: auto;
+}
+
+.pane-body,
+.pane-body .monaco-list > .monaco-scrollable-element {
+  overflow: clip !important;
+  overflow-clip-margin: 22px;
+}
+
+.search-view .results,
+.test-explorer-tree {
+  overflow: hidden !important;
+}
+
+/* Cell Title Toolbar */
+.cell-title-toolbar {
+  backdrop-filter: var(--fgt-backdrop-filter);
+  background-color: color-mix(
+    in srgb,
+    var(--vscode-editor-background) var(--fgt-menu-opacity),
+    transparent
+  ) !important;
+}
+
+.cell-title-toolbar:has(.monaco-dropdown.active) {
+  backdrop-filter: none;
+  background-color: var(--vscode-editor-background) !important;
+}

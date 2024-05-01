@@ -26,6 +26,7 @@
     },
   }
   ```
+* 如果你想要用另一个拓展加载本主题，或者你更喜欢自己维护`workbench.html`，你只需要引入`inject\vscode-frosted-glass-theme.js` (设定为 `type="module"`)。另外，`inject\vscode-frosted-glass-theme.css`必须放在js文件旁边。
 ### 对于Linux和MacOS用户
 你需要把 `window.titleBarStyle` 设置为 `custom` 。否则效果很有限。
 ## 卸载

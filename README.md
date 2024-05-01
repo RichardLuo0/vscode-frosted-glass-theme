@@ -26,6 +26,7 @@ Bring frosted glass menu (like windows acrylic or mac os) to your vscode!
     },
   }
   ```
+* If you want to load this theme by another extension or you prefer to maintain the `workbench.html` yourself, you may just import only the `inject\vscode-frosted-glass-theme.js` (with `type="module"`). In addition, the `inject\vscode-frosted-glass-theme.css` must be put alongside the js file.
 ### For Linux and perhaps MacOS user
 You need to set `window.titleBarStyle` to `custom` to see the effect. Otherwise the effect is very limited.
 ## Uninstall
