@@ -2,8 +2,13 @@
 Bring frosted glass menu (like windows acrylic or mac os) to your vscode!
 
 [中文版](READMECN.md)
-## This is not a theme by itself. It can work with any other theme
-## Plz read this document before installation
+
+<span style="font-size: 24px;font-weight: bold">
+This is not a theme by itself. It can work with any other theme
+<br>
+Plz read this document before installation
+</span>
+
 ## Preview
 ![Animation](image/Animation.gif) \
 ![CodeHover](image/CodeHover.jpg) \

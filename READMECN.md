@@ -2,8 +2,13 @@
 为你的vscode带来类似Mac OS或是Windows的acrylic material效果的菜单！
 
 [English](README.md)
-## 这本身不是一个主题，它可以与其他主题一起安装
-## 安装前请阅读此文档
+
+<span style="font-size: 24px;font-weight: bold">
+这本身不是一个主题，它可以与其他主题一起安装
+<br>
+安装前请阅读此文档
+</span>
+
 ## 预览图
 ![Animation](image/Animation.gif) \
 ![CodeHover](image/CodeHover.jpg) \
