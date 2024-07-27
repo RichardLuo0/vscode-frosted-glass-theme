@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.7.7]
+- bb468cf: feat: `backgroundColor` is deprecated
+- a08d55f: fix: not work for compact menu bar
+
 ## [0.7.6]
 - defc794: fix: some theme has a outline to `action-menu-item`
 - e082dd3: feat: add `borderRadius` settings
