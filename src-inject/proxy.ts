@@ -27,6 +27,22 @@ export function proxy<
   src[funcName]._hiddenTag = true;
 }
 
+export function proxyAll<
+  SrcType extends Record<string, any>,
+  FuncName extends string,
+  FuncType extends SrcType[FuncName]
+>(
+  src: SrcType,
+  funcNames: FuncName[],
+  newFunc: (
+    this: SrcType,
+    oldFunc: FuncType,
+    ...args: Parameters<SrcType[FuncName[number]]>
+  ) => ReturnType<SrcType[FuncName[number]]>
+) {
+  for (const funcName of funcNames) proxy(src, funcName, newFunc);
+}
+
 export function useRet<SrcType, ArgsType extends any[], RetType>(
   f: (this: SrcType, oldRet: RetType, ...args: ArgsType) => RetType
 ) {

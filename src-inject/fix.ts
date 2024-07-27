@@ -1,9 +1,22 @@
 import { applyElementsEffect } from "fluent-reveal-effect";
 import config from "./config.json" assert { type: "json" };
-import { proxy, useArgs, useRet } from "./proxy";
+import { proxy, proxyAll, useArgs, useHTMLElement, useRet } from "./proxy";
 import { isHTMLElement } from "./utils";
 
 const { revealEffect } = config;
+
+function applyAndProxy(
+  parent: Element,
+  className: string,
+  funcName: string | string[],
+  func: (e: Element) => void
+) {
+  const e = parent.querySelector("div." + className);
+  if (e) func(e);
+  if (funcName instanceof Array)
+    proxyAll(parent, funcName, useHTMLElement(className, func));
+  else proxy(parent, funcName, useHTMLElement(className, func));
+}
 
 // `position: fixed` will be invalid if `backdrop-filter` or `transform` is set on ancestor.
 // 1. Clone and replace the `div.monaco-action-bar` to keep the layout and style things.
@@ -110,20 +123,54 @@ export function fixMenu(menuContainer: string | Node) {
 
 // Fix top bar menu
 export function fixMenuBar(gridView: HTMLElement) {
-  function fixMenuBotton(menu: string | Node) {
+  const fixMenuButton = (menu: Node) => {
     if (!isHTMLElement(menu)) return;
-    proxy(menu, "append", useArgs(fixMenu));
-    proxy(menu, "appendChild", useArgs(fixMenu));
+    proxyAll(menu, ["append", "appendChild"], useArgs(fixMenu));
+  };
+  // Classic
+  (function () {
+    const titlebar = gridView.querySelector(
+      "#workbench\\.parts\\.titlebar > div > div.titlebar-left"
+    );
+    if (!titlebar) return;
+    const fixClassicMenuBar = (menuBar: Element) => {
+      const menus = menuBar.querySelectorAll("div.menubar-menu-button");
+      menus.forEach(fixMenuButton);
+      proxyAll(
+        menuBar,
+        ["append", "appendChild", "insertBefore"],
+        useArgs(fixMenuButton)
+      );
+    };
+    applyAndProxy(titlebar, "menubar", "append", fixClassicMenuBar);
+  })();
+  // Compact
+  function fixCompat(container: Element | null) {
+    if (!container) return;
+    const fixCompactMenuBar = (menuBar: Element) => {
+      applyAndProxy(
+        menuBar,
+        "menubar-menu-button",
+        "appendChild",
+        fixMenuButton
+      );
+    };
+    applyAndProxy(container, "menubar", "prepend", fixCompactMenuBar);
   }
-  const menuBar = gridView.querySelector(
-    "#workbench\\.parts\\.titlebar > div > div.titlebar-left > div.menubar"
+  fixCompat(
+    gridView.querySelector("#workbench\\.parts\\.activitybar > div.content")
   );
-  if (!menuBar) return;
-  const menus = menuBar.querySelectorAll("div.menubar-menu-button");
-  menus.forEach(fixMenuBotton);
-  proxy(menuBar, "append", useArgs(fixMenuBotton));
-  proxy(menuBar, "appendChild", useArgs(fixMenuBotton));
-  proxy(menuBar, "insertBefore", useArgs(fixMenuBotton));
+  const sidebar = gridView.querySelector("#workbench\\.parts\\.sidebar");
+  if (sidebar) {
+    const fixComposite = (composite: Element) =>
+      fixCompat(composite.querySelector("div.composite-bar-container"));
+    applyAndProxy(
+      sidebar,
+      "composite",
+      ["insertBefore", "appendChild"],
+      fixComposite
+    );
+  }
 }
 
 export const fixContextMenu = fixMenu;
