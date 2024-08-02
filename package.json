@@ -178,6 +178,36 @@
             "description": "Editor widget border radius (with unit). Set to blank to use default"
           }
         }
+      },
+      {
+        "title": "Fake Mica",
+        "properties": {
+          "frosted-glass-theme.fakeMica.enabled": {
+            "type": "boolean",
+            "default": false,
+            "description": "Enable fake mica"
+          },
+          "frosted-glass-theme.fakeMica.url": {
+            "type": "string",
+            "default": "C:/Windows/Web/Wallpaper/Windows/img0.jpg",
+            "markdownDescription": "Url to wallpaper. Default to windows default wallpaper. For spotlight, you can use `C:/Users/<username>/AppData/Roaming/Microsoft/Windows/Themes/TranscodedWallpaper`"
+          },
+          "frosted-glass-theme.fakeMica.filter": {
+            "type": "string",
+            "default": "var(--fgt-backdrop-filter) brightness(30%)",
+            "description": "CSS filter"
+          },
+          "frosted-glass-theme.fakeMica.titlebarHack": {
+            "type": "boolean",
+            "default": true,
+            "description": "Fix titlebar opacity"
+          },
+          "frosted-glass-theme.fakeMica.titlebarOpacity": {
+            "type": "number",
+            "default": 0.6,
+            "description": "Titlebar opacity if titlebarHack is true"
+          }
+        }
       }
     ]
   },

@@ -4,7 +4,7 @@ import { observeThemeColorChange } from "./observeThemeColor";
 import { proxy, useHTMLElement, useRet } from "./proxy";
 import fgtSheet from "./vscode-frosted-glass-theme.css" assert { type: "css" };
 
-const { opacity, revealEffect, borderRadius } = config;
+const { opacity, revealEffect, borderRadius, fakeMica } = config;
 
 fgtSheet.insertRule(
   `:root { 
@@ -50,6 +50,20 @@ if (borderRadius.suggestWidget) {
   );
 }
 
+if (fakeMica.titlebarHack) {
+  fgtSheet.insertRule(
+    `#workbench\\.parts\\.titlebar {
+      background-color: color-mix(
+        in srgb,
+        var(--vscode-titleBar-activeBackground) ${
+          fakeMica.titlebarOpacity * 100
+        }%,
+        transparent
+      ) !important;
+    }`
+  );
+}
+
 document.adoptedStyleSheets.push(fgtSheet);
 
 proxy(
@@ -67,6 +81,17 @@ proxy(
       "appendChild",
       useHTMLElement("context-view", fixContextMenu)
     );
+    if (fakeMica.enabled) {
+      const fakeMicaLayer = document.createElement("div");
+      fakeMicaLayer.style.background = `url("vscode-file://vscode-app/${fakeMica.url}") center center / cover no-repeat`;
+      fakeMicaLayer.style.width = "100%";
+      fakeMicaLayer.style.height = "100%";
+      fakeMicaLayer.style.position = "absolute";
+      fakeMicaLayer.style.top = "0px";
+      fakeMicaLayer.style.zIndex = "-1000";
+      fakeMicaLayer.style.filter = fakeMica.filter;
+      monacoWorkbench.appendChild(fakeMicaLayer);
+    }
   })
 );
 
