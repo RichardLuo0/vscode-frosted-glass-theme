@@ -327,3 +327,8 @@
   backdrop-filter: none;
   background-color: var(--vscode-editor-background) !important;
 }
+
+/* Terminal Overlay */
+.hover-overlay {
+  backdrop-filter: var(--fgt-backdrop-filter);
+}

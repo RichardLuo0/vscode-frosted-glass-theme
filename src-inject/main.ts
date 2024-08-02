@@ -82,14 +82,14 @@ proxy(
       useHTMLElement("context-view", fixContextMenu)
     );
     if (fakeMica.enabled) {
+      monacoWorkbench.style.background = `url("vscode-file://vscode-app/${fakeMica.url}") center center / cover no-repeat`;
       const fakeMicaLayer = document.createElement("div");
-      fakeMicaLayer.style.background = `url("vscode-file://vscode-app/${fakeMica.url}") center center / cover no-repeat`;
       fakeMicaLayer.style.width = "100%";
       fakeMicaLayer.style.height = "100%";
       fakeMicaLayer.style.position = "absolute";
       fakeMicaLayer.style.top = "0px";
       fakeMicaLayer.style.zIndex = "-1000";
-      fakeMicaLayer.style.filter = fakeMica.filter;
+      fakeMicaLayer.style.backdropFilter = fakeMica.filter;
       monacoWorkbench.appendChild(fakeMicaLayer);
     }
   })
