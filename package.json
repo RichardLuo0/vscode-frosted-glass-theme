@@ -190,7 +190,7 @@
           "frosted-glass-theme.fakeMica.url": {
             "type": "string",
             "default": "C:/Windows/Web/Wallpaper/Windows/img0.jpg",
-            "markdownDescription": "Url to wallpaper. Default to windows default wallpaper. For spotlight, you can use `C:/Users/<username>/AppData/Roaming/Microsoft/Windows/Themes/TranscodedWallpaper`"
+            "markdownDescription": "Url to wallpaper. Default to windows default wallpaper. For spotlight, you can use `C:/Users/<username>/AppData/Roaming/Microsoft/Windows/Themes/CachedFiles/<Something>.jpg`"
           },
           "frosted-glass-theme.fakeMica.filter": {
             "type": "string",
