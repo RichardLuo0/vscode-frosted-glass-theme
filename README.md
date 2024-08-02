@@ -16,7 +16,8 @@ Plz read this document before installation
 ![MenuBar](image/MenuBar.jpg) \
 ![SearchBar](image/SearchBar.jpg) \
 ![CommandPanel](image/CommandPanel.jpg) \
-![PanelHeader](image/PanelHeader.jpg)
+![PanelHeader](image/PanelHeader.jpg) \
+![FakeMica](image/FakeMica.jpg)
 ## Install
 * From microsoft vscode marketplace, search for "Frosted Glass Theme", install
 * Open command panel, type in `Frosted Glass Theme: Enable`, press enter
@@ -26,12 +27,35 @@ Plz read this document before installation
   ```json
   "workbench.colorCustomizations": {
     "[Default Dark Modern]": {
-        "menu.selectionBackground": "#ffffff",
-        "menu.background": "#000000"
+      "menu.selectionBackground": "#ffffff",
+      "menu.background": "#000000"
     },
   }
   ```
 * If you want to load this theme by another extension or you prefer to maintain the `workbench.html` yourself, you may just import only the `inject\vscode-frosted-glass-theme.js` (with `type="module"`). In addition, the `inject\vscode-frosted-glass-theme.css` must be put alongside the js file.
+* `Fake mica` is by default turned off. You need to enable it with `frosted-glass-theme.fakeMica.enabled` settings. You may need to change the colors at the same time, here is an example:
+  ```json
+  "workbench.colorCustomizations": {
+    "[Default Dark Modern]": {
+      "menu.selectionBackground": "#ffffff",
+      "editor.background": "#282c344d",
+      // Title bar opacity not work because: https://github.com/microsoft/vscode/blob/444d7a4b35745ed7733c700a8008f55cd659eb1d/src/vs/workbench/browser/parts/titlebar/titlebarPart.ts#L682
+      // "titleBar.activeBackground": "#00000000",
+      "tab.inactiveBackground": "#00000000",
+      "editorGroupHeader.tabsBackground": "#00000000",
+      "breadcrumb.background": "#00000000",
+      "panel.background": "#282c3499",
+      "terminal.background": "#00000000",
+      "sideBar.background": "#00000000",
+      "statusBar.background": "#21252bcc",
+      "statusBar.noFolderBackground": "#21252bcc",
+      "input.background": "#1d1f234d",
+      "dropdown.background": "#21252b4d",
+      "dropdown.border": "#21252b4d",
+      "editorPane.background": "#00000000",
+    },
+  }
+  ```
 ### For Linux and perhaps MacOS user
 You need to set `window.titleBarStyle` to `custom` to see the effect. Otherwise the effect is very limited.
 ## Uninstall

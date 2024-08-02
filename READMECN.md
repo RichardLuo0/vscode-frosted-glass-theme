@@ -16,7 +16,8 @@
 ![MenuBar](image/MenuBar.jpg) \
 ![SearchBar](image/SearchBar.jpg) \
 ![CommandPanel](image/CommandPanel.jpg) \
-![PanelHeader](image/PanelHeader.jpg)
+![PanelHeader](image/PanelHeader.jpg) \
+![FakeMica](image/FakeMica.jpg)
 ## 安装
 * 从vscode拓展商店搜索Frosted Glass Theme安装
 * 打开命令面板，输入`Frosted Glass Theme: Enable`，回车
@@ -26,12 +27,35 @@
   ```json
   "workbench.colorCustomizations": {
     "[Default Dark Modern]": {
-        "menu.selectionBackground": "#ffffff",
-        "menu.background": "#000000"
+      "menu.selectionBackground": "#ffffff",
+      "menu.background": "#000000"
     },
   }
   ```
 * 如果你想要用另一个拓展加载本主题，或者你更喜欢自己维护`workbench.html`，你只需要引入`inject\vscode-frosted-glass-theme.js` (设定为`type="module"`)。另外，`inject\vscode-frosted-glass-theme.css`必须放在js文件旁边。
+* `Fake mica` 默认关闭。你需要用 `frosted-glass-theme.fakeMica.enabled` 设置开启此功能。你也许需要同时改变颜色，以下是一个示例:
+  ```json
+  "workbench.colorCustomizations": {
+    "[Default Dark Modern]": {
+      "menu.selectionBackground": "#ffffff",
+      "editor.background": "#282c344d",
+      // 标题栏透明度无效因为: https://github.com/microsoft/vscode/blob/444d7a4b35745ed7733c700a8008f55cd659eb1d/src/vs/workbench/browser/parts/titlebar/titlebarPart.ts#L682
+      // "titleBar.activeBackground": "#00000000",
+      "tab.inactiveBackground": "#00000000",
+      "editorGroupHeader.tabsBackground": "#00000000",
+      "breadcrumb.background": "#00000000",
+      "panel.background": "#282c3499",
+      "terminal.background": "#00000000",
+      "sideBar.background": "#00000000",
+      "statusBar.background": "#21252bcc",
+      "statusBar.noFolderBackground": "#21252bcc",
+      "input.background": "#1d1f234d",
+      "dropdown.background": "#21252b4d",
+      "dropdown.border": "#21252b4d",
+      "editorPane.background": "#00000000",
+    },
+  }
+  ```
 ### 对于Linux和MacOS用户
 你需要把 `window.titleBarStyle` 设置为 `custom` 。否则效果很有限。
 ## 卸载

@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.7.8]
+- 13e9e9a: feat: fakeMica effect
+- 8006990: feat: add hover-overlay
+
 ## [0.7.7]
 - bb468cf: feat: `backgroundColor` is deprecated
 - a08d55f: fix: not work for compact menu bar
