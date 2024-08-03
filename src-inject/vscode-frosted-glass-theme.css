@@ -41,19 +41,6 @@
   background-color: transparent !important;
 }
 
-/* Input Box */
-.monaco-inputbox.idle {
-  background-color: transparent !important;
-}
-
-.monaco-inputbox.idle .wrapper {
-  background-color: transparent;
-}
-
-.monaco-inputbox.idle .mirror {
-  background-color: transparent;
-}
-
 /* Menu */
 .monaco-menu-container .monaco-scrollable-element {
   backdrop-filter: var(--fgt-backdrop-filter);
