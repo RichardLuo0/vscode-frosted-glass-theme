@@ -185,17 +185,20 @@
           "frosted-glass-theme.fakeMica.enabled": {
             "type": "boolean",
             "default": false,
-            "description": "Enable fake mica"
+            "description": "Enable fake mica",
+            "order": 0
           },
           "frosted-glass-theme.fakeMica.url": {
             "type": "string",
             "default": "C:/Windows/Web/Wallpaper/Windows/img0.jpg",
-            "markdownDescription": "Url to wallpaper. Default to windows default wallpaper. For spotlight, you can use `C:/Users/<username>/AppData/Roaming/Microsoft/Windows/Themes/CachedFiles/<Something>.jpg`"
+            "markdownDescription": "Url to wallpaper. Default to windows default wallpaper. For spotlight, you can use `C:/Users/<username>/AppData/Roaming/Microsoft/Windows/Themes/CachedFiles/<Something>.jpg`",
+            "order": 1
           },
           "frosted-glass-theme.fakeMica.filter": {
             "type": "string",
             "default": "var(--fgt-backdrop-filter) brightness(30%)",
-            "description": "CSS filter"
+            "description": "CSS filter",
+            "order": 2
           },
           "frosted-glass-theme.fakeMica.titlebarFix": {
             "type": "boolean",
