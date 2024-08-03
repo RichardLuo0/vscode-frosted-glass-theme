@@ -54,24 +54,20 @@ export function observeThemeColorChange(monacoWorkbench: HTMLElement) {
 }
 
 function applyOpacity(color: string, opacity: number) {
-  const alpha = Math.round(opacity * 255).toString(16);
   color = color.trim();
   // Hexadecimal format
-  if (color.startsWith("#"))
+  if (color.startsWith("#")) {
+    const alpha = Math.round(opacity * 255).toString(16);
     return color.length === 7 ? color + alpha : color.substring(0, 7) + alpha;
-  // RGB format
-  if (color.startsWith("rgb(")) {
-    // Remove the 'rgb(' and ')' symbols
-    color = color.slice(4, -1);
-    const [red, green, blue] = color.split(",").map(Number);
-    return `rgba(${red}, ${green}, ${blue}, ${alpha})`;
   }
-  // Check if the color is in HSL format
-  if (color.startsWith("hsl(")) {
-    // Remove the 'hsl(' and ')' symbols
-    color = color.slice(4, -1);
-    const [hue, saturation, lightness] = color.split(",").map(parseFloat);
-    return `hsla(${hue}, ${saturation}%, ${lightness}%, ${alpha})`;
+  const data = color.slice(color.indexOf("(") + 1, -1);
+  if (color.startsWith("rgb")) {
+    const [red, green, blue] = data.split(",").map(Number);
+    return `rgba(${red}, ${green}, ${blue}, ${opacity})`;
+  }
+  if (color.startsWith("hsl")) {
+    const [hue, saturation, lightness] = data.split(",").map(parseFloat);
+    return `hsla(${hue}, ${saturation}%, ${lightness}%, ${opacity})`;
   }
   return color;
 }
