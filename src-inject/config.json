@@ -28,7 +28,9 @@
     "enabled": false,
     "url": "C:/Windows/Web/Wallpaper/Windows/img0.jpg",
     "filter": "var(--fgt-backdrop-filter) brightness(30%)",
-    "titlebarHack": true,
-    "titlebarOpacity": 0.6
+    "titlebarFix": true,
+    "titlebarOpacity": 0.6,
+    "listBackgroundFix": true,
+    "editorBackgroundFix": true
   }
 }

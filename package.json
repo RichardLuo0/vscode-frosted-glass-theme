@@ -197,7 +197,7 @@
             "default": "var(--fgt-backdrop-filter) brightness(30%)",
             "description": "CSS filter"
           },
-          "frosted-glass-theme.fakeMica.titlebarHack": {
+          "frosted-glass-theme.fakeMica.titlebarFix": {
             "type": "boolean",
             "default": true,
             "description": "Fix titlebar opacity"
@@ -206,6 +206,16 @@
             "type": "number",
             "default": 0.6,
             "description": "Titlebar opacity if titlebarHack is true"
+          },
+          "frosted-glass-theme.fakeMica.listBackgroundFix": {
+            "type": "boolean",
+            "default": true,
+            "description": "Fix list background by making it transparent"
+          },
+          "frosted-glass-theme.fakeMica.editorBackgroundFix": {
+            "type": "boolean",
+            "default": true,
+            "markdownDescription": "Fix editor overlapping background. Leave `editor-container` as the final color"
           }
         }
       }

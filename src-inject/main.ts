@@ -50,7 +50,7 @@ if (borderRadius.suggestWidget) {
   );
 }
 
-if (fakeMica.titlebarHack) {
+if (fakeMica.titlebarFix) {
   fgtSheet.insertRule(
     `#workbench\\.parts\\.titlebar {
       background-color: color-mix(
@@ -60,6 +60,22 @@ if (fakeMica.titlebarHack) {
         }%,
         transparent
       ) !important;
+    }`
+  );
+}
+
+if (fakeMica.listBackgroundFix) {
+  fgtSheet.insertRule(
+    `.monaco-list-rows {
+      background-color: transparent !important;
+    }`
+  );
+}
+
+if (fakeMica.editorBackgroundFix) {
+  fgtSheet.insertRule(
+    `.content:not(.empty), .monaco-editor, .monaco-editor-background {
+      background-color: transparent !important;
     }`
   );
 }
