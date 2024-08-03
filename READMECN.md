@@ -38,21 +38,24 @@
   "workbench.colorCustomizations": {
     "[One Dark Pro]": {
       "menu.selectionBackground": "#ffffff",
-      "editor.background": "#282c344d",
-      // 标题栏透明度无效因为: https://github.com/microsoft/vscode/blob/444d7a4b35745ed7733c700a8008f55cd659eb1d/src/vs/workbench/browser/parts/titlebar/titlebarPart.ts#L682
-      // "titleBar.activeBackground": "#00000000",
+      // Title bar opacity not work because: https://github.com/microsoft/vscode/blob/444d7a4b35745ed7733c700a8008f55cd659eb1d/src/vs/workbench/browser/parts/titlebar/titlebarPart.ts#L682
+      // "titleBar.activeBackground": "#00000000",  
+      "editor.background": "#282c3499",
+      "editorGutter.background": "#00000000",
+      "editor.lineHighlightBackground": "#2c313c4d",
+      "editorPane.background": "#00000000",
       "tab.inactiveBackground": "#00000000",
-      "editorGroupHeader.tabsBackground": "#00000000",
+      "editorGroupHeader.tabsBackground": "#282c34cc",
       "breadcrumb.background": "#00000000",
-      "panel.background": "#282c3499",
+      "panel.background": "#282c34cc",
       "terminal.background": "#00000000",
-      "sideBar.background": "#00000000",
+      "sideBar.background": "#21252bcc",
+      "sideBarTitle.background": "#00000000",
       "statusBar.background": "#21252bcc",
       "statusBar.noFolderBackground": "#21252bcc",
       "input.background": "#1d1f234d",
-      "dropdown.background": "#21252b4d",
+      "dropdown.background": "#21252bcc",
       "dropdown.border": "#21252b4d",
-      "editorPane.background": "#00000000",
     },
   }
   ```
