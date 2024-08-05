@@ -197,8 +197,14 @@
           "frosted-glass-theme.fakeMica.filter": {
             "type": "string",
             "default": "var(--fgt-backdrop-filter)",
-            "description": "CSS filter",
+            "description": "CSS filter on mica image",
             "order": 2
+          },
+          "frosted-glass-theme.fakeMica.filterDark": {
+            "type": "string",
+            "default": "var(--fgt-backdrop-filter) brightness(30%)",
+            "description": "CSS filter on mica image for dark mode",
+            "order": 3
           },
           "frosted-glass-theme.fakeMica.titlebarFix": {
             "type": "boolean",

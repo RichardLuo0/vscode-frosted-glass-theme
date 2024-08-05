@@ -51,6 +51,23 @@ if (borderRadius.suggestWidget) {
 }
 
 if (fakeMica.enabled) {
+  fgtSheet.insertRule(
+    `.monaco-workbench > .fgt-fake-mica-filter {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0px;
+      z-index: -1000;
+      backdrop-filter: ${fakeMica.filter}
+    }`
+  );
+  fgtSheet.insertRule(
+    `.monaco-workbench.vs-dark > .fgt-fake-mica-filter,
+    .monaco-workbench.hc-black > .fgt-fake-mica-filter {
+      backdrop-filter: ${fakeMica.filterDark}
+    }`
+  );
+
   if (fakeMica.titlebarFix) {
     fgtSheet.insertRule(
       `#workbench\\.parts\\.titlebar {
@@ -102,12 +119,7 @@ proxy(
     if (fakeMica.enabled) {
       monacoWorkbench.style.background = `url("vscode-file://vscode-app/${fakeMica.url}") center center / cover no-repeat`;
       const fakeMicaLayer = document.createElement("div");
-      fakeMicaLayer.style.width = "100%";
-      fakeMicaLayer.style.height = "100%";
-      fakeMicaLayer.style.position = "absolute";
-      fakeMicaLayer.style.top = "0px";
-      fakeMicaLayer.style.zIndex = "-1000";
-      fakeMicaLayer.style.backdropFilter = fakeMica.filter;
+      fakeMicaLayer.classList.add("fgt-fake-mica-filter");
       monacoWorkbench.appendChild(fakeMicaLayer);
     }
   })

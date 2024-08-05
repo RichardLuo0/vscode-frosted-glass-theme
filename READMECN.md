@@ -19,11 +19,11 @@
 ![PanelHeader](image/PanelHeader.jpg) \
 ![FakeMica](image/FakeMica.jpg)
 ## 安装
-* 从vscode拓展商店搜索Frosted Glass Theme安装
+* 安装本扩展
 * 打开命令面板，输入`Frosted Glass Theme: Enable`，回车
 * **你可以在vscode设置中自定义本主题。**
 * **每次vscode更新，你都必须重新运行`Frosted Glass Theme: Enable`。**
-* 菜单颜色由`menu.background`控制。Reveal effect 颜色由`menu.selectionBackground`控制（我建议使用 #000000 或者 #ffffff）。在本拓展设置中的透明度选项会被直接应用在这些颜色上。我建议如果有需要改变颜色，使用类似以下的格式。
+* 菜单颜色由`menu.background`控制。Reveal effect 颜色由`menu.selectionBackground`控制（我建议使用 #000000 或者 #ffffff）。在本扩展设置中的透明度选项会被直接应用在这些颜色上。我建议如果有需要改变颜色，使用类似以下的格式。
   ```json
   "workbench.colorCustomizations": {
     "[Default Dark Modern]": {
@@ -32,8 +32,8 @@
     },
   }
   ```
-* 如果你想要用另一个拓展加载本主题，或者你更喜欢自己维护`workbench.html`，你只需要引入`inject\vscode-frosted-glass-theme.js` (设定为`type="module"`)。另外，`inject\vscode-frosted-glass-theme.css`必须放在js文件旁边。
-* `Fake mica` 默认关闭。用 `frosted-glass-theme.fakeMica.enabled` 设置开启此功能。对于深色主题, 你也许需要添加 `brightness(30%)` 到 `frosted-glass-theme.fakeMica.filter`. 另外因为本拓展不会自动给你的主题添加透明度，你需要同时改变主题颜色，以下是一个示例:
+* 如果你想要用其他扩展加载本主题，或者你更喜欢自己维护`workbench.html`，你只需要引入`inject\vscode-frosted-glass-theme.js` (设定为`type="module"`)。另外，`inject\vscode-frosted-glass-theme.css`必须放在js文件旁边。
+* `Fake mica` 默认关闭。开启 `frosted-glass-theme.fakeMica.enabled` 设置以开启此功能。另外因为本扩展不会自动给你的主题添加透明度，你需要同时改变主题颜色，以下是一个示例:
   ```jsonc
   "workbench.colorCustomizations": {
     "[One Dark Pro]": {
@@ -63,11 +63,11 @@
 你需要把 `window.titleBarStyle` 设置为 `custom` 。否则效果很有限。
 ## 卸载
 * 打开命令面板，输入“Frosted Glass Theme: Disable”，回车
-* 用拓展面板正常卸载
+* 用扩展面板正常卸载
 ## 已知问题
 * 如果动画闪烁，尝试设置 `frosted-glass-theme.animation` 为 `none`
 ## 感谢
 * [be5invis/vscode-custom-css](https://github.com/be5invis/vscode-custom-css)
 ## 免责声明
-本拓展修改了 `vs\code\electron-sandbox\workbench\workbench.html` 来注入文件。风险自负。\
-本拓展在 `vs\code\workbench.*.bak-frosted-glass` 中保留备份，以防出现问题。
+本扩展修改了 `vs\code\electron-sandbox\workbench\workbench.html` 来注入文件。风险自负。\
+本扩展在 `vs\code\workbench.*.bak-frosted-glass` 中保留备份，以防出现问题。
