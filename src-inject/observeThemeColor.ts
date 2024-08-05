@@ -55,18 +55,21 @@ export function observeThemeColorChange(monacoWorkbench: HTMLElement) {
 
 function applyOpacity(color: string, opacity: number) {
   color = color.trim();
-  // Hexadecimal format
   if (color.startsWith("#")) {
     const alpha = Math.round(opacity * 255).toString(16);
-    return color.length === 7 ? color + alpha : color.substring(0, 7) + alpha;
+    return color.length === 7 ? color + alpha : color;
   }
   const data = color.slice(color.indexOf("(") + 1, -1);
   if (color.startsWith("rgb")) {
-    const [red, green, blue] = data.split(",").map(Number);
+    const splits = data.split(",");
+    if (splits.length >= 4) return color;
+    const [red, green, blue] = splits.map(Number);
     return `rgba(${red}, ${green}, ${blue}, ${opacity})`;
   }
   if (color.startsWith("hsl")) {
-    const [hue, saturation, lightness] = data.split(",").map(parseFloat);
+    const splits = data.split(",");
+    if (splits.length >= 4) return color;
+    const [hue, saturation, lightness] = splits.map(parseFloat);
     return `hsla(${hue}, ${saturation}%, ${lightness}%, ${opacity})`;
   }
   return color;
