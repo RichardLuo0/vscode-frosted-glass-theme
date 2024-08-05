@@ -11,13 +11,13 @@
 
 ## 预览图
 ![Animation](image/Animation.gif) \
+![FakeMica](image/FakeMica.jpg)\
 ![CodeHover](image/CodeHover.jpg) \
 ![ContextMenu](image/ContextMenu.jpg) \
 ![MenuBar](image/MenuBar.jpg) \
 ![SearchBar](image/SearchBar.jpg) \
 ![CommandPanel](image/CommandPanel.jpg) \
-![PanelHeader](image/PanelHeader.jpg) \
-![FakeMica](image/FakeMica.jpg)
+![PanelHeader](image/PanelHeader.jpg)
 ## 安装
 * 安装本扩展
 * 打开命令面板，输入`Frosted Glass Theme: Enable`，回车

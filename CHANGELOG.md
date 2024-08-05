@@ -1,5 +1,11 @@
 # Change Log
 
+## [0.7.10]
+- be29ed6: fix: option order
+- 4a030e6: fix: remove `brightness(30%)` from default mica filter
+- 6d1b10a: fix: mica fix is only enabled when fake mica is enabled
+- 99bcdaf: feat: add filter in dark mode for fake mica
+
 ## [0.7.8]
 - 13e9e9a: feat: fakeMica effect
 - 8006990: feat: add hover-overlay

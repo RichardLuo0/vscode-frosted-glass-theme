@@ -11,13 +11,13 @@ Plz read this document before installation
 
 ## Preview
 ![Animation](image/Animation.gif) \
+![FakeMica](image/FakeMica.jpg)\
 ![CodeHover](image/CodeHover.jpg) \
 ![ContextMenu](image/ContextMenu.jpg) \
 ![MenuBar](image/MenuBar.jpg) \
 ![SearchBar](image/SearchBar.jpg) \
 ![CommandPanel](image/CommandPanel.jpg) \
-![PanelHeader](image/PanelHeader.jpg) \
-![FakeMica](image/FakeMica.jpg)
+![PanelHeader](image/PanelHeader.jpg)
 ## Install
 * Install this extension
 * Open command panel, type in `Frosted Glass Theme: Enable`, press enter
