@@ -9,7 +9,8 @@
 
 /* Action Bar */
 .action-label.codicon {
-  transition: var(--fgt-transition);
+  transition: color var(--fgt-transition),
+    background-color var(--fgt-transition);
 }
 
 /* Editor Widget */
@@ -317,4 +318,9 @@
 /* Terminal Overlay */
 .hover-overlay {
   backdrop-filter: var(--fgt-backdrop-filter);
+  background-color: color-mix(
+    in srgb,
+    var(--vscode-panel-background) var(--fgt-menu-opacity),
+    transparent
+  ) !important;
 }

@@ -9,7 +9,8 @@
 
 /* Action Bar */
 .action-label.codicon {
-  transition: var(--fgt-transition);
+  transition: color var(--fgt-transition),
+    background-color var(--fgt-transition);
 }
 
 /* Editor Widget */
