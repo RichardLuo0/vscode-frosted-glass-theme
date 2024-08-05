@@ -33,7 +33,7 @@ Plz read this document before installation
   }
   ```
 * If you want to load this theme by another extension or you prefer to maintain the `workbench.html` yourself, you may just import only the `inject\vscode-frosted-glass-theme.js` (with `type="module"`). In addition, the `inject\vscode-frosted-glass-theme.css` must be put alongside the js file.
-* `Fake mica` is by default turned off. You need to enable it with `frosted-glass-theme.fakeMica.enabled` settings. You may need to change the colors at the same time, here is an example:
+* `Fake mica` is by default turned off. Enable it with `frosted-glass-theme.fakeMica.enabled` setting. For dark theme, you may want to add `brightness(30%)` to `frosted-glass-theme.fakeMica.filter`. You need to change the theme colors as well since this extension does not apply opacity to your theme automatically. Here is an example:
   ```jsonc
   "workbench.colorCustomizations": {
     "[One Dark Pro]": {

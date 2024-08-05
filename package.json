@@ -196,7 +196,7 @@
           },
           "frosted-glass-theme.fakeMica.filter": {
             "type": "string",
-            "default": "var(--fgt-backdrop-filter) brightness(30%)",
+            "default": "var(--fgt-backdrop-filter)",
             "description": "CSS filter",
             "order": 2
           },

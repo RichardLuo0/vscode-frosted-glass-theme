@@ -33,7 +33,7 @@
   }
   ```
 * 如果你想要用另一个拓展加载本主题，或者你更喜欢自己维护`workbench.html`，你只需要引入`inject\vscode-frosted-glass-theme.js` (设定为`type="module"`)。另外，`inject\vscode-frosted-glass-theme.css`必须放在js文件旁边。
-* `Fake mica` 默认关闭。你需要用 `frosted-glass-theme.fakeMica.enabled` 设置开启此功能。你也许需要同时改变颜色，以下是一个示例:
+* `Fake mica` 默认关闭。用 `frosted-glass-theme.fakeMica.enabled` 设置开启此功能。对于深色主题, 你也许需要添加 `brightness(30%)` 到 `frosted-glass-theme.fakeMica.filter`. 另外因为本拓展不会自动给你的主题添加透明度，你需要同时改变主题颜色，以下是一个示例:
   ```jsonc
   "workbench.colorCustomizations": {
     "[One Dark Pro]": {
