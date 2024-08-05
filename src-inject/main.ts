@@ -50,9 +50,10 @@ if (borderRadius.suggestWidget) {
   );
 }
 
-if (fakeMica.titlebarFix) {
-  fgtSheet.insertRule(
-    `#workbench\\.parts\\.titlebar {
+if (fakeMica.enabled) {
+  if (fakeMica.titlebarFix) {
+    fgtSheet.insertRule(
+      `#workbench\\.parts\\.titlebar {
       background-color: color-mix(
         in srgb,
         var(--vscode-titleBar-activeBackground) ${
@@ -61,23 +62,24 @@ if (fakeMica.titlebarFix) {
         transparent
       ) !important;
     }`
-  );
-}
+    );
+  }
 
-if (fakeMica.listBackgroundFix) {
-  fgtSheet.insertRule(
-    `.monaco-list-rows {
+  if (fakeMica.listBackgroundFix) {
+    fgtSheet.insertRule(
+      `.monaco-list-rows {
       background-color: transparent !important;
     }`
-  );
-}
+    );
+  }
 
-if (fakeMica.editorBackgroundFix) {
-  fgtSheet.insertRule(
-    `.content:not(.empty), .monaco-editor, .monaco-editor-background {
+  if (fakeMica.editorBackgroundFix) {
+    fgtSheet.insertRule(
+      `.content:not(.empty), .monaco-editor, .monaco-editor-background {
       background-color: transparent !important;
     }`
-  );
+    );
+  }
 }
 
 document.adoptedStyleSheets.push(fgtSheet);
