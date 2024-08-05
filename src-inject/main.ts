@@ -70,7 +70,7 @@ if (fakeMica.enabled) {
 
   if (fakeMica.titlebarFix) {
     fgtSheet.insertRule(
-      `#workbench\\.parts\\.titlebar {
+      `.part.titlebar {
       background-color: color-mix(
         in srgb,
         var(--vscode-titleBar-activeBackground) ${
@@ -149,16 +149,25 @@ proxy(
   useRet((newWindow) => {
     if (!newWindow) return newWindow;
     const global = newWindow as Window & typeof globalThis;
-    const document = newWindow.document;
+    const newDocument = newWindow.document;
     const sheet = new global.CSSStyleSheet();
     for (let i = 0; i < fgtSheet.cssRules.length; i++) {
       sheet.insertRule(fgtSheet.cssRules[i].cssText);
     }
-    document.adoptedStyleSheets.push(sheet);
+    newDocument.adoptedStyleSheets.push(sheet);
     proxy(
-      document.body,
+      newDocument.body,
       "append",
-      useHTMLElement(null, observeThemeColorChange)
+      useHTMLElement(null, (application) => {
+        observeThemeColorChange(application);
+        if (fakeMica.enabled) {
+          application.style.background = `url("vscode-file://vscode-app/${fakeMica.url}") center center / cover no-repeat`;
+          // https://github.com/microsoft/vscode/blob/773fa66c2b6530a3f7dcfd20e46876d74b75169d/src/vs/workbench/services/auxiliaryWindow/browser/auxiliaryWindowService.ts#L367
+          const fakeMicaLayer = document.createElement("div");
+          fakeMicaLayer.classList.add("fgt-fake-mica-filter");
+          application.appendChild(fakeMicaLayer);
+        }
+      })
     );
     return newWindow;
   })
