@@ -23,7 +23,7 @@
 * 打开命令面板，输入`Frosted Glass Theme: Enable`，回车
 * **你可以在vscode设置中自定义本主题。**
 * **每次vscode更新，你都必须重新运行`Frosted Glass Theme: Enable`。**
-* 菜单颜色由`menu.background`控制。Reveal effect 颜色由`menu.selectionBackground`控制（我建议使用 #000000 或者 #ffffff）。在本扩展设置中的透明度选项会被直接应用在这些颜色上。我建议如果有需要改变颜色，使用类似以下的格式。
+* 菜单颜色由`menu.background`控制。Reveal effect 颜色由`menu.selectionBackground`控制（我建议使用 #000000 或者 #ffffff）。在设置中的透明度选项会被直接应用在主题颜色上，除非他们已经有透明度了。如果有需要改变颜色，我建议使用类似以下的格式：
   ```json
   "workbench.colorCustomizations": {
     "[Default Dark Modern]": {

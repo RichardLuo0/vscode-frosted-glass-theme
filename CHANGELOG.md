@@ -1,5 +1,10 @@
 # Change Log
 
+## [0.7.11]
+- f82f2e0: fix: ignore original transparency
+- 368c3c6: fix: `.codicon` transition should only react to color change
+- 262f04b: feat: fake mica now supports floating window
+
 ## [0.7.10]
 - be29ed6: fix: option order
 - 4a030e6: fix: remove `brightness(30%)` from default mica filter

@@ -318,9 +318,4 @@
 /* Terminal Overlay */
 .hover-overlay {
   backdrop-filter: var(--fgt-backdrop-filter);
-  background-color: color-mix(
-    in srgb,
-    var(--vscode-panel-background) var(--fgt-menu-opacity),
-    transparent
-  ) !important;
 }

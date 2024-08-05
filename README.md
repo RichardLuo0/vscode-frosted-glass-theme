@@ -23,7 +23,7 @@ Plz read this document before installation
 * Open command panel, type in `Frosted Glass Theme: Enable`, press enter
 * **You can customize this theme in vscode settings.**
 * **Every time vscode updates, you have to re-run `Frosted Glass Theme: Enable`.**
-* Menu color is controlled by `menu.background`. Reveal effect color is controlled by `menu.selectionBackground` (I suggest using #000000 or #ffffff). The opacity in this extension's settings will be applied directly on these color. I suggest using the following format if you need to change color.
+* Menu color is controlled by `menu.background`. Reveal effect color is controlled by `menu.selectionBackground` (I suggest using #000000 or #ffffff). The opacity settings will be applied directly on theme colors unless they already have opacity. I suggest using the following format if you need to change color:
   ```json
   "workbench.colorCustomizations": {
     "[Default Dark Modern]": {
