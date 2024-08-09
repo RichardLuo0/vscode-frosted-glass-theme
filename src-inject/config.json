@@ -5,7 +5,7 @@
     "menu": 0.4,
     "selection": 1,
     "border": 0.4,
-    "separator": 0.75,
+    "separator": 0.7,
     "minimap": 0.4,
     "panelHeader": 0.4
   },
@@ -30,7 +30,7 @@
     "filter": "var(--fgt-backdrop-filter)",
     "filterDark": "var(--fgt-backdrop-filter) brightness(30%)",
     "titlebarFix": true,
-    "titlebarOpacity": 0.6,
+    "titlebarOpacity": 0.8,
     "listBackgroundFix": true,
     "editorBackgroundFix": true
   }

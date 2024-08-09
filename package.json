@@ -109,7 +109,7 @@
           },
           "frosted-glass-theme.opacity.separator": {
             "type": "number",
-            "default": 0.75,
+            "default": 0.7,
             "description": "Menu separator opacity. This will blend into your theme color"
           },
           "frosted-glass-theme.opacity.minimap": {
@@ -219,8 +219,8 @@
           },
           "frosted-glass-theme.fakeMica.titlebarOpacity": {
             "type": "number",
-            "default": 0.6,
-            "description": "Titlebar opacity if titlebarHack is true"
+            "default": 0.8,
+            "description": "Titlebar opacity if titlebarFix is true"
           },
           "frosted-glass-theme.fakeMica.listBackgroundFix": {
             "type": "boolean",
