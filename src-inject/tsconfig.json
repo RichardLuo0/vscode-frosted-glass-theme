@@ -7,8 +7,9 @@
     "rootDir": ".",
     "baseUrl": "..",
     "lib": [
-      "DOM"
+      "DOM",
+      "ES2021"
     ]
   },
-  "exclude":[]
+  "exclude": []
 }

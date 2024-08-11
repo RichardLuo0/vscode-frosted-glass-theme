@@ -1,0 +1,15 @@
+<!DOCTYPE xml>
+<svg xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="fgt-mica">
+      <feFlood result="lumColor" flood-color="var(--fgt-mica-luminosity)"
+        flood-opacity="var(--fgt-luminosity-opacity)" />
+      <feGaussianBlur result="blur" in="SourceGraphic" stdDeviation="30" />
+      <feBlend result="blurLum" in="lumColor" in2="blur" mode="luminosity" />
+
+      <feMerge>
+        <feMergeNode in="blurLum" />
+      </feMerge>
+    </filter>
+  </defs>
+</svg>

@@ -1,8 +1,8 @@
-import config from "./config.json" assert { type: "json" };
+import config from "./config.json" with { type: "json" };
 
 const { opacity } = config;
 
-const colorVarMap = new Map([
+const colorVarList: [string, number, string?][] = [
   ["--vscode-quickInputList-focusBackground", opacity.selection],
   ["--vscode-editorSuggestWidget-selectedBackground", opacity.selection],
   ["--vscode-menu-border", opacity.border],
@@ -11,27 +11,44 @@ const colorVarMap = new Map([
   ["--vscode-editorHoverWidget-border", opacity.border],
   ["--vscode-editorSuggestWidget-border", opacity.border],
   ["--vscode-menu-separatorBackground", opacity.separator],
-]);
-
-if (!config.revealEffect.enabled)
-  colorVarMap.set("--vscode-menu-selectionBackground", opacity.selection);
-
-const backgroundVarList = [
-  "--vscode-editorHoverWidget-background",
-  "--vscode-editorSuggestWidget-background",
-  "--vscode-peekViewResult-background",
-  "--vscode-quickInput-background",
-  "--vscode-menu-background",
-  "--vscode-notifications-background",
-  "--vscode-editorHoverWidget-statusBarBackground",
-  "--vscode-editorStickyScroll-background",
-  "--vscode-listFilterWidget-background",
-  "--vscode-editorWidget-background",
-  "--vscode-notificationCenterHeader-background",
+  ["--vscode-sideBarSectionHeader-background", opacity.panelHeader],
 ];
-backgroundVarList.forEach((colorVar) => {
-  colorVarMap.set(colorVar, opacity.menu);
-});
+
+{
+  if (!config.revealEffect.enabled)
+    colorVarList.push(["--vscode-menu-selectionBackground", opacity.selection]);
+
+  [
+    "--vscode-editorHoverWidget-background",
+    "--vscode-editorSuggestWidget-background",
+    "--vscode-peekViewResult-background",
+    "--vscode-quickInput-background",
+    "--vscode-menu-background",
+    "--vscode-notifications-background",
+    "--vscode-notificationCenterHeader-background",
+    "--vscode-editorHoverWidget-statusBarBackground",
+    "--vscode-editorStickyScroll-background",
+    "--vscode-listFilterWidget-background",
+    "--vscode-editorWidget-background",
+    "--vscode-breadcrumbPicker-background",
+    "--vscode-debugToolBar-background",
+  ].forEach((colorVar) => {
+    colorVarList.push([colorVar, opacity.background]);
+  });
+
+  colorVarList.push(
+    [
+      "--vscode-sideBarStickyScroll-background",
+      opacity.background,
+      "--fgt-treeStickyContainer-background",
+    ],
+    [
+      "--vscode-editorStickyScroll-background",
+      opacity.background,
+      "--fgt-cellTitleToolbar-background",
+    ]
+  );
+}
 
 export function observeThemeColorChange(monacoWorkbench: HTMLElement) {
   const document = monacoWorkbench.ownerDocument;
@@ -89,10 +106,10 @@ function setupColor(monacoWorkbench: HTMLElement, ownerNode: Element) {
   if (!(cssRule instanceof CSSStyleRule)) return;
   const cssStyle = cssRule.style;
 
-  colorVarMap.forEach((opacity, colorVar) => {
+  colorVarList.forEach((entry) => {
     monacoWorkbench.style.setProperty(
-      colorVar,
-      applyOpacity(cssStyle.getPropertyValue(colorVar), opacity)
+      entry[2] ?? entry[0],
+      applyOpacity(cssStyle.getPropertyValue(entry[0]), entry[1])
     );
   });
 }

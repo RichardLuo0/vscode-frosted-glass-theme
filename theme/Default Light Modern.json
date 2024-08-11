@@ -1,0 +1,27 @@
+{
+  "workbench.colorCustomizations": {
+    "[Default Light Modern]": {
+      "menu.background": "#ffffff99",
+      "activityBar.background": "#ffffffcc",
+      "breadcrumb.background": "#00000000",
+      "dropdown.background": "#ffffffcc",
+      "dropdown.border": "#cecece4d",
+      "editor.background": "#ffffffcc",
+      "editor.lineHighlightBorder": "#eeeeee4d",
+      "editorGroupHeader.tabsBackground": "#f8f8f8cc",
+      "editorGutter.background": "#00000000",
+      "editorPane.background": "#00000000",
+      "input.background": "#ffffff4d",
+      "menu.selectionBackground": "#000000",
+      "menu.selectionForeground": "#000000",
+      "panel.background": "#ffffffcc",
+      "sideBar.background": "#f8f8f8cc",
+      "sideBarTitle.background": "#00000000",
+      "statusBar.background": "#f8f8f8cc",
+      "statusBar.noFolderBackground": "#f8f8f8cc",
+      "tab.inactiveBackground": "#00000000",
+      "terminal.background": "#00000000",
+      "editorStickyScroll.background": "#ffffff66"
+    }
+  }
+}

@@ -11,7 +11,7 @@
 
 ## 预览图
 ![Animation](image/Animation.gif) \
-![FakeMica](image/FakeMica.jpg)\
+![FakeMica](image/FakeMica.jpg) \
 ![CodeHover](image/CodeHover.jpg) \
 ![ContextMenu](image/ContextMenu.jpg) \
 ![MenuBar](image/MenuBar.jpg) \
@@ -19,10 +19,15 @@
 ![CommandPanel](image/CommandPanel.jpg) \
 ![PanelHeader](image/PanelHeader.jpg)
 ## 安装
-* 安装本扩展
-* 打开命令面板，输入`Frosted Glass Theme: Enable`，回车
-* **你可以在vscode设置中自定义本主题。**
-* **每次vscode更新，你都必须重新运行`Frosted Glass Theme: Enable`。**
+1. 安装本扩展
+1. 打开命令面板，输入`Frosted Glass Theme: Enable`，回车
+1. **你可以在vscode设置中自定义本主题。**
+1. **每次vscode更新，你都必须重新运行`Frosted Glass Theme: Enable`。**
+
+如果你想要用其他扩展加载本主题，或者你更喜欢自己维护`workbench.html`，下载整个`inject` 文件夹，然后引入`inject\vscode-frosted-glass-theme.js` (使用`type="module"`)。
+### 对于Linux和MacOS用户
+你需要把 `window.titleBarStyle` 设置为 `custom` 。否则效果很有限。
+## 自定义
 * 菜单颜色由`menu.background`控制。Reveal effect 颜色由`menu.selectionBackground`控制（我建议使用 #000000 或者 #ffffff）。在设置中的透明度选项会被直接应用在主题颜色上，除非他们已经有透明度了。如果有需要改变颜色，我建议使用类似以下的格式：
   ```json
   "workbench.colorCustomizations": {
@@ -32,7 +37,6 @@
     },
   }
   ```
-* 如果你想要用其他扩展加载本主题，或者你更喜欢自己维护`workbench.html`，你只需要引入`inject\vscode-frosted-glass-theme.js` (设定为`type="module"`)。另外，`inject\vscode-frosted-glass-theme.css`必须放在js文件旁边。
 * `Fake mica` 默认关闭。开启 `frosted-glass-theme.fakeMica.enabled` 设置以开启此功能。另外因为本扩展不会自动给你的主题添加透明度，你需要同时改变主题颜色，以下是一个示例:
   ```jsonc
   "workbench.colorCustomizations": {
@@ -59,8 +63,12 @@
     },
   }
   ```
-### 对于Linux和MacOS用户
-你需要把 `window.titleBarStyle` 设置为 `custom` 。否则效果很有限。
+  在`theme`文件夹中有更多示例，我欢迎大家来发pull request。
+* `frosted-glass-theme.svg` 只是从url中加载一张svg。产生的svg元素是静态的并且只能使用从 `monaco-workbench` 继承的css变量。
+* `frosted-glass-theme.tintSvg` 为 `frosted-glass-theme.filter` 中定义的每一个key产生不同的svg，并且 `<filter>` 上的id被改成了 `id-key`。在svg里，你可以使用一个特殊的css变量 `--fgt-current-background`，他代表元素的背景颜色。\
+* `frosted-glass-theme.filter` 设置是一个代表每个元素使用的filter的对象。他的key在 `src-inject/acrylic.ts` 的 `colorVarList` 中定义。值表示你想要使用的filter (包含全部 `backdrop-filter` 的filter)。\
+有一个特殊的key `default`, 相当于一个默认值。你可以使用一个特殊的关键字 `{key}` 来表示当前的key。和 `tintSvg` 一起用，你就可以为每个元素创建不同颜色的svg。\
+比如，你创建了一张svg，其中包含一个 `<filter>` 的 `id` 为 `fgt-acrylic`，并且你把它添加到了 `tintSvg` 中。然后你就可以设置一个值 `url(#fgt-acrylic-{key})`，那么它就会自动使用元素的背景颜色。
 ## 卸载
 * 打开命令面板，输入“Frosted Glass Theme: Disable”，回车
 * 用扩展面板正常卸载

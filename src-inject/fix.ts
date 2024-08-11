@@ -1,22 +1,9 @@
 import { applyElementsEffect } from "fluent-reveal-effect";
-import config from "./config.json" assert { type: "json" };
-import { proxy, proxyAll, useArgs, useHTMLElement, useRet } from "./proxy";
+import config from "./config.json" with { type: "json" };
+import { applyAndProxy, proxy, proxyAll, useArgs, useRet } from "./proxy";
 import { isHTMLElement } from "./utils";
 
 const { revealEffect } = config;
-
-function applyAndProxy(
-  parent: Element,
-  className: string,
-  funcName: string | string[],
-  func: (e: Element) => void
-) {
-  const e = parent.querySelector("div." + className);
-  if (e) func(e);
-  if (funcName instanceof Array)
-    proxyAll(parent, funcName, useHTMLElement(className, func));
-  else proxy(parent, funcName, useHTMLElement(className, func));
-}
 
 // `position: fixed` will be invalid if `backdrop-filter` or `transform` is set on ancestor.
 // 1. Clone and replace the `div.monaco-action-bar` to keep the layout and style things.
@@ -25,10 +12,13 @@ function applyAndProxy(
 export function fixMenu(menuContainer: string | Node) {
   if (!isHTMLElement(menuContainer)) return;
 
-  // If `scrollable-element` exists, fix it now, otherwise, wait for `appendChild`
-  if (menuContainer.childElementCount <= 0)
-    proxy(menuContainer, "appendChild", (oldFunc, e) => oldFunc(fix(e)));
-  else fix(menuContainer.querySelector("div.monaco-scrollable-element"));
+  proxy(menuContainer, "appendChild", (oldFunc, e) =>
+    oldFunc(
+      isHTMLElement(e) && e.classList.contains("monaco-scrollable-element")
+        ? fix(e)
+        : e
+    )
+  );
 
   function moveSubMenu(src: Element, parent: Element) {
     const _src = src as Element & { _currentSubMenu: Node };
@@ -75,19 +65,8 @@ export function fixMenu(menuContainer: string | Node) {
     src.replaceChild = (e, e2) => parent.replaceChild(fixSubMenu(e), e2);
   }
 
-  function fix<NodeType extends Node | null>(scrollableElement: NodeType) {
-    if (
-      !isHTMLElement(scrollableElement) ||
-      !scrollableElement.classList.contains("monaco-scrollable-element")
-    )
-      return scrollableElement;
-
-    // Replace `outline` with `border` to fix the bug which causes white halo
-    if (scrollableElement.style.outline.length !== 0) {
-      scrollableElement.style.border = scrollableElement.style.outline;
-      scrollableElement.style.margin = "-1px";
-      scrollableElement.style.outline = "";
-    }
+  function fix(scrollableElement: Node) {
+    if (!isHTMLElement(scrollableElement)) return scrollableElement;
 
     const actionBar = scrollableElement.querySelector("div.monaco-action-bar");
     if (!actionBar) return scrollableElement;
@@ -111,7 +90,7 @@ export function fixMenu(menuContainer: string | Node) {
       applyElementsEffect(menuItemList, {
         lightColor: `color-mix(in srgb, var(--vscode-menu-selectionBackground) ${
           revealEffect.opacity * 100
-        }%, transparent )`,
+        }%, transparent)`,
         gradientSize: revealEffect.gradientSize,
         clickEffect: revealEffect.clickEffect,
       });

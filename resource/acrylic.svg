@@ -1,0 +1,27 @@
+<!DOCTYPE xml>
+<svg xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="fgt-acrylic">
+      <feFlood result="lumColor" flood-color="var(--fgt-current-background)"
+        flood-opacity="var(--fgt-luminosity-opacity)" />
+      <feGaussianBlur result="blur" in="SourceGraphic" stdDeviation="30" />
+      <feBlend result="blurLum" in="lumColor" in2="blur" mode="luminosity" />
+
+      <feFlood result="tint" flood-color="var(--fgt-current-background)" />
+
+      <feTurbulence result="noiseImage" baseFrequency="0.4" numOctaves="3"
+        seed="0"
+        stitchTiles="stitch" />
+      <feColorMatrix result="grayNoise" in="noiseImage" type="saturate" values="0.10" />
+      <feComponentTransfer result="noise" in="grayNoise">
+        <feFuncA type="linear" slope="0.02" />
+      </feComponentTransfer>
+
+      <feMerge>
+        <feMergeNode in="blurLum" />
+        <feMergeNode in="tint" />
+        <feMergeNode in="noise" />
+      </feMerge>
+    </filter>
+  </defs>
+</svg>

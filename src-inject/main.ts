@@ -1,21 +1,40 @@
-import config from "./config.json" assert { type: "json" };
+import { applyAcrylic, applyAcrylicOnMenu } from "./acrylic";
+import config from "./config.json" with { type: "json" };
+import { applyFakeMica } from "./fakeMica";
 import { fixContextMenu, fixMenu, fixMenuBar } from "./fix";
+import { loadSvgs } from "./loadSvg";
 import { observeThemeColorChange } from "./observeThemeColor";
 import { proxy, useHTMLElement, useRet } from "./proxy";
-import fgtSheet from "./vscode-frosted-glass-theme.css" assert { type: "css" };
+import fgtSheet from "./vscode-frosted-glass-theme.css" with { type: "css" };
 
-const { opacity, revealEffect, borderRadius, fakeMica } = config;
+const { opacity, revealEffect, borderRadius } = config;
 
 fgtSheet.insertRule(
-  `:root { 
-    --fgt-backdrop-filter: ${config.backdropFilter};
+  `[role="application"] {
     --fgt-transition: ${config.transition};
     --fgt-animation-menu: ${config.animation.menu};
     --fgt-animation-dialog: ${config.animation.dialog};
-    --fgt-menu-opacity: ${opacity.menu * 100}%;
-    --fgt-panel-header-opacity: ${opacity.panelHeader * 100}%;
     --fgt-minimap-opacity: ${opacity.minimap * 100}%;
   }`
+);
+
+fgtSheet.insertRule(
+  `[role="application"] {
+      ${Object.entries(config.variable).reduce((total, pair) => {
+        const [key, value] = pair;
+        return total + `--${key}: ${value};`;
+      }, "")}
+    }`
+);
+
+fgtSheet.insertRule(
+  `[role="application"].vs-dark,
+    [role="application"].hc-black {
+      ${Object.entries(config.variableDark).reduce((total, pair) => {
+        const [key, value] = pair;
+        return total + `--${key}: ${value};`;
+      }, "")}
+    }`
 );
 
 if (revealEffect.enabled) {
@@ -50,62 +69,18 @@ if (borderRadius.suggestWidget) {
   );
 }
 
-if (fakeMica.enabled) {
-  fgtSheet.insertRule(
-    `.monaco-workbench > .fgt-fake-mica-filter {
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      top: 0px;
-      z-index: -1000;
-      backdrop-filter: ${fakeMica.filter}
-    }`
-  );
-  fgtSheet.insertRule(
-    `.monaco-workbench.vs-dark > .fgt-fake-mica-filter,
-    .monaco-workbench.hc-black > .fgt-fake-mica-filter {
-      backdrop-filter: ${fakeMica.filterDark}
-    }`
-  );
-
-  if (fakeMica.titlebarFix) {
-    fgtSheet.insertRule(
-      `.part.titlebar {
-      background-color: color-mix(
-        in srgb,
-        var(--vscode-titleBar-activeBackground) ${
-          fakeMica.titlebarOpacity * 100
-        }%,
-        transparent
-      ) !important;
-    }`
-    );
-  }
-
-  if (fakeMica.listBackgroundFix) {
-    fgtSheet.insertRule(
-      `.monaco-list-rows {
-      background-color: transparent !important;
-    }`
-    );
-  }
-
-  if (fakeMica.editorBackgroundFix) {
-    fgtSheet.insertRule(
-      `.content:not(.empty), .monaco-editor, .monaco-editor-background {
-      background-color: transparent !important;
-    }`
-    );
-  }
-}
-
 document.adoptedStyleSheets.push(fgtSheet);
+
+const mountSvgTo = loadSvgs(config.svg);
 
 proxy(
   document.body,
   "appendChild",
   useHTMLElement("monaco-workbench", (monacoWorkbench) => {
     observeThemeColorChange(monacoWorkbench);
+    const svgMounted = mountSvgTo(monacoWorkbench);
+    applyFakeMica(monacoWorkbench, svgMounted);
+    applyAcrylic(monacoWorkbench);
     proxy(
       monacoWorkbench,
       "prepend",
@@ -116,12 +91,6 @@ proxy(
       "appendChild",
       useHTMLElement("context-view", fixContextMenu)
     );
-    if (fakeMica.enabled) {
-      monacoWorkbench.style.background = `url("vscode-file://vscode-app/${fakeMica.url}") center center / cover no-repeat`;
-      const fakeMicaLayer = document.createElement("div");
-      fakeMicaLayer.classList.add("fgt-fake-mica-filter");
-      monacoWorkbench.appendChild(fakeMicaLayer);
-    }
   })
 );
 
@@ -133,6 +102,7 @@ proxy(
     shadowDom.adoptedStyleSheets.push(
       ...shadowDom.ownerDocument.adoptedStyleSheets
     );
+    applyAcrylicOnMenu(shadowDom);
     proxy(
       shadowDom,
       "appendChild",
@@ -158,15 +128,11 @@ proxy(
     proxy(
       newDocument.body,
       "append",
-      useHTMLElement(null, (application) => {
-        observeThemeColorChange(application);
-        if (fakeMica.enabled) {
-          application.style.background = `url("vscode-file://vscode-app/${fakeMica.url}") center center / cover no-repeat`;
-          // https://github.com/microsoft/vscode/blob/773fa66c2b6530a3f7dcfd20e46876d74b75169d/src/vs/workbench/services/auxiliaryWindow/browser/auxiliaryWindowService.ts#L367
-          const fakeMicaLayer = document.createElement("div");
-          fakeMicaLayer.classList.add("fgt-fake-mica-filter");
-          application.appendChild(fakeMicaLayer);
-        }
+      useHTMLElement(null, (monacoWorkbench) => {
+        observeThemeColorChange(monacoWorkbench);
+        const svgMounted = mountSvgTo(monacoWorkbench);
+        applyFakeMica(monacoWorkbench, svgMounted);
+        applyAcrylic(monacoWorkbench);
       })
     );
     return newWindow;

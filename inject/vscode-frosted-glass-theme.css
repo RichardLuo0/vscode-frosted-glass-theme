@@ -9,81 +9,29 @@
 
 /* Action Bar */
 .action-label.codicon {
-  transition: color var(--fgt-transition),
+  transition:
+    color var(--fgt-transition),
     background-color var(--fgt-transition);
 }
 
-/* Editor Widget */
-.editor-widget {
-  backdrop-filter: var(--fgt-backdrop-filter);
-}
-
-/* Hover */
-.monaco-hover {
-  backdrop-filter: var(--fgt-backdrop-filter);
-}
-
-/* Suggest Widget */
-.monaco-editor .suggest-details {
-  backdrop-filter: var(--fgt-backdrop-filter);
-}
-
-/* Dialog Box */
-.monaco-dialog-box {
-  backdrop-filter: var(--fgt-backdrop-filter);
-}
-
 /* Command Panel */
-.quick-input-widget {
-  backdrop-filter: var(--fgt-backdrop-filter);
-}
-
 .quick-input-widget .monaco-list-rows {
   background-color: transparent !important;
 }
 
 /* Menu */
-.monaco-menu-container .monaco-scrollable-element {
-  backdrop-filter: var(--fgt-backdrop-filter);
-}
-
 .monaco-scrollable-element .invisible {
   opacity: 0 !important;
   pointer-events: none;
 }
 
-/* Search & Replace */
-.editor-widget.find-widget {
-  background-color: var(--vscode-editorWidget-background) !important;
-}
-
 /* Notification Panel */
-.notifications-center-header {
-  backdrop-filter: var(--fgt-backdrop-filter);
-  background-color: var(
-    --vscode-notificationCenterHeader-background
-  ) !important;
-}
-
-.notifications-list-container {
-  backdrop-filter: var(--fgt-backdrop-filter);
-}
-
 .notification-toast {
   background-color: transparent !important;
   transition: var(--fgt-transition);
 }
 
-/* Feedback Form */
-.feedback-form {
-  backdrop-filter: var(--fgt-backdrop-filter);
-}
-
 /* Minimap */
-.minimap {
-  backdrop-filter: var(--fgt-backdrop-filter);
-}
-
 .minimap canvas:not(.minimap-decorations-layer) {
   opacity: var(--fgt-minimap-opacity);
   transition: var(--fgt-transition);
@@ -95,17 +43,8 @@
 }
 
 /* Scroll Bar */
-.slider {
-  backdrop-filter: var(--fgt-backdrop-filter);
-}
-
 .monaco-editor .scrollbar.vertical .slider {
   backdrop-filter: none !important;
-}
-
-.monaco-editor .decorationsOverviewRuler {
-  backdrop-filter: var(--fgt-backdrop-filter);
-  background-color: var(--vscode-editorStickyScroll-background);
 }
 
 /* Setting Page */
@@ -114,71 +53,19 @@
 }
 
 /* Breadcrumbs Picker */
-.monaco-breadcrumbs-picker > :not(.arrow) {
-  backdrop-filter: var(--fgt-backdrop-filter);
-  background-color: color-mix(
-    in srgb,
-    var(--vscode-breadcrumbPicker-background) var(--fgt-menu-opacity),
-    transparent
-  ) !important;
-}
-
 .monaco-breadcrumbs-picker .monaco-list-rows {
   background-color: transparent !important;
 }
 
 /* Debug Tool Bar */
-.debug-toolbar {
-  backdrop-filter: var(--fgt-backdrop-filter);
-  background-color: color-mix(
-    in srgb,
-    var(--vscode-debugToolBar-background) var(--fgt-menu-opacity),
-    transparent
-  ) !important;
-}
-
 .debug-toolbar:has(.monaco-dropdown.active) {
   backdrop-filter: none;
   background-color: var(--vscode-debugToolBar-background) !important;
 }
 
 /* Debug Hover Widget */
-.debug-hover-widget {
-  backdrop-filter: var(--fgt-backdrop-filter);
-}
-
 .debug-hover-widget .monaco-list-rows {
   background-color: transparent !important;
-}
-
-/* Code Action Widget */
-.action-widget {
-  backdrop-filter: var(--fgt-backdrop-filter);
-}
-
-/* Rename Box */
-.rename-box {
-  backdrop-filter: var(--fgt-backdrop-filter);
-  background-color: var(--vscode-editorWidget-background) !important;
-}
-
-.rename-box > input {
-  background-color: transparent !important;
-}
-
-/* Find Part */
-.monaco-workbench .simple-find-part {
-  backdrop-filter: var(--fgt-backdrop-filter);
-}
-
-/* Key Binding Widget */
-.defineKeybindingWidget {
-  backdrop-filter: var(--fgt-backdrop-filter);
-}
-
-/* Overlay Message */
-.monaco-editor-overlaymessage .message {
-  backdrop-filter: var(--fgt-backdrop-filter);
 }
 
 /* Custom Dialog Box */
@@ -199,6 +86,8 @@
   }
 }
 
+/* Always `rgba(0, 0, 0, 0.3)`
+https://github.com/microsoft/vscode/blob/4b78857fd9c934cab979171380573452ffdc612e/src/vs/base/browser/ui/dialog/dialog.css#L20 */
 @keyframes fgtFadeIn {
   from {
     background-color: transparent;
@@ -236,29 +125,11 @@
 }
 
 /* Sticky Widget */
-.sticky-widget {
-  backdrop-filter: var(--fgt-backdrop-filter);
-}
-
 .sticky-widget > * {
   background-color: transparent !important;
 }
 
-/* Tree Type Filter */
-.monaco-tree-type-filter {
-  backdrop-filter: var(--fgt-backdrop-filter);
-}
-
 /* Tree Sticky Container */
-.monaco-tree-sticky-container {
-  backdrop-filter: var(--fgt-backdrop-filter);
-  background-color: color-mix(
-    in srgb,
-    var(--vscode-sideBar-background) var(--fgt-menu-opacity),
-    transparent
-  ) !important;
-}
-
 .monaco-tree-sticky-container > * {
   background-color: transparent !important;
 }
@@ -267,18 +138,10 @@
 .pane-header.expanded:has(.monaco-dropdown.active) {
   z-index: 2500;
   backdrop-filter: none;
-  background-color: var(--vscode-sideBarSectionHeader-background) !important;
 }
 
 .pane-header.expanded {
   z-index: 15;
-  backdrop-filter: var(--fgt-backdrop-filter);
-  background-color: color-mix(
-    in srgb,
-    var(--vscode-sideBarSectionHeader-background)
-      var(--fgt-panel-header-opacity),
-    transparent
-  ) !important;
 }
 
 .pane-body {
@@ -301,15 +164,6 @@
 }
 
 /* Cell Title Toolbar */
-.cell-title-toolbar {
-  backdrop-filter: var(--fgt-backdrop-filter);
-  background-color: color-mix(
-    in srgb,
-    var(--vscode-editor-background) var(--fgt-menu-opacity),
-    transparent
-  ) !important;
-}
-
 .cell-title-toolbar:has(.monaco-dropdown.active) {
   backdrop-filter: none;
   background-color: var(--vscode-editor-background) !important;

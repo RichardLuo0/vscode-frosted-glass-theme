@@ -24,6 +24,7 @@
     "acrylic",
     "fluent",
     "mac",
+    "macos",
     "animation",
     "transparent",
     "theme",
@@ -75,42 +76,89 @@
       {
         "title": "General",
         "properties": {
-          "frosted-glass-theme.backdropFilter": {
-            "type": "string",
+          "frosted-glass-theme.filter": {
+            "type": "object",
             "order": 0,
-            "default": "blur(30px)",
-            "description": "Menu backdrop filter"
+            "default": {
+              "default": "url(#fgt-acrylic-{key})",
+              "minimap": "url(#fgt-mica)",
+              "decorationsOverviewRuler": "url(#fgt-mica)",
+              "terminalOverlay": "url(#fgt-mica)"
+            },
+            "description": "The filter used for all frosted glassed elements."
           },
           "frosted-glass-theme.transition": {
             "type": "string",
-            "order": 2,
+            "order": 1,
             "default": "300ms",
-            "description": "CSS transition"
+            "description": "CSS transition."
+          },
+          "frosted-glass-theme.svg": {
+            "type": "array",
+            "order": 2,
+            "default": [
+              "../resource/mica.svg"
+            ],
+            "description": "The svg that gets loaded on start. No tint (ie. no element current background info)."
+          },
+          "frosted-glass-theme.tintSvg": {
+            "type": "array",
+            "order": 3,
+            "default": [
+              "../resource/acrylic.svg"
+            ],
+            "markdownDescription": "The tint svg that gets loaded on start. `--fgt-current-background` indicts current element background color."
+          },
+          "frosted-glass-theme.disableBackgroundColor": {
+            "type": "boolean",
+            "order": 4,
+            "default": true,
+            "markdownDescription": "The background is set to transparent so that `filter` will provide a color."
+          },
+          "frosted-glass-theme.variable": {
+            "type": "object",
+            "order": 5,
+            "default": {
+              "fgt-luminosity-opacity": "45%",
+              "fgt-mica-luminosity": "hsl(0, 0%, 80%)",
+              "fgt-mica-brightness": ""
+            },
+            "description": "CSS variable. You may use them in settings and svg."
+          },
+          "frosted-glass-theme.variableDark": {
+            "type": "object",
+            "order": 6,
+            "default": {
+              "fgt-luminosity-opacity": "85%",
+              "fgt-mica-luminosity": "hsl(0, 0%, 20%)",
+              "fgt-mica-brightness": "brightness(30%)"
+            },
+            "description": "CSS variable in dark mode. You may use them in settings and svg."
           }
         }
       },
       {
         "title": "Opacity",
         "properties": {
-          "frosted-glass-theme.opacity.menu": {
+          "frosted-glass-theme.opacity.background": {
             "type": "number",
             "default": 0.4,
-            "description": "Menu background opacity. This will blend into your theme color"
+            "description": "Background opacity. This will blend into your theme color."
           },
           "frosted-glass-theme.opacity.selection": {
             "type": "number",
             "default": 1,
-            "description": "Menu selection opacity. This will blend into your theme color"
+            "description": "Menu selection opacity. This will blend into your theme color."
           },
           "frosted-glass-theme.opacity.border": {
             "type": "number",
             "default": 0.4,
-            "description": "Border opacity. This will blend into your theme color"
+            "description": "Border opacity. This will blend into your theme color."
           },
           "frosted-glass-theme.opacity.separator": {
             "type": "number",
             "default": 0.7,
-            "description": "Menu separator opacity. This will blend into your theme color"
+            "description": "Menu separator opacity. This will blend into your theme color."
           },
           "frosted-glass-theme.opacity.minimap": {
             "type": "number",
@@ -120,7 +168,7 @@
           "frosted-glass-theme.opacity.panelHeader": {
             "type": "number",
             "default": 0.4,
-            "description": "Panel header opacity. This will blend into your theme color"
+            "description": "Panel header opacity. This will blend into your theme color."
           }
         }
       },
@@ -130,12 +178,12 @@
           "frosted-glass-theme.animation.menu": {
             "type": "string",
             "default": "300ms cubic-bezier(0, 0.8, 0.2, 1) 0s 1 forwards fgtDropdown",
-            "markdownDescription": "CSS animation for menu. Set to blank or `none` to disable the animation"
+            "markdownDescription": "CSS animation for menu. Set to blank or `none` to disable the animation."
           },
           "frosted-glass-theme.animation.dialog": {
             "type": "string",
             "default": "300ms cubic-bezier(0, 0.8, 0.2, 1) 0s 1 forwards fgtZoomIn",
-            "markdownDescription": "CSS animation for dialog. Set to blank or `none` to disable the animation"
+            "markdownDescription": "CSS animation for dialog. Set to blank or `none` to disable the animation."
           }
         }
       },
@@ -146,22 +194,22 @@
             "type": "boolean",
             "default": true,
             "order": 0,
-            "description": "Enable reveal effect"
+            "description": "Enable reveal effect."
           },
           "frosted-glass-theme.revealEffect.opacity": {
             "type": "number",
             "default": 0.1,
-            "markdownDescription": "Reveal effect gradient opacity. The color can be controlled by `menu.selectionBackground` inside `#workbench.colorCustomizations#`"
+            "markdownDescription": "Reveal effect gradient opacity. The color can be controlled by `menu.selectionBackground` inside `#workbench.colorCustomizations#`."
           },
           "frosted-glass-theme.revealEffect.gradientSize": {
             "type": "number",
             "default": 200,
-            "description": "Reveal effect gradient size"
+            "description": "Reveal effect gradient size."
           },
           "frosted-glass-theme.revealEffect.clickEffect": {
             "type": "boolean",
             "default": true,
-            "description": "Enable click effect"
+            "description": "Enable click effect."
           }
         }
       },
@@ -171,17 +219,17 @@
           "frosted-glass-theme.borderRadius.menu": {
             "type": "string",
             "default": "",
-            "description": "Menu border radius (with unit). Set to blank to use default"
+            "description": "Menu border radius (with unit). Set to blank to use default."
           },
           "frosted-glass-theme.borderRadius.menuItem": {
             "type": "string",
             "default": "",
-            "description": "Menu item border radius (with unit). Set to blank to use default"
+            "description": "Menu item border radius (with unit). Set to blank to use default."
           },
           "frosted-glass-theme.borderRadius.suggestWidget": {
             "type": "string",
             "default": "",
-            "description": "Editor widget border radius (with unit). Set to blank to use default"
+            "description": "Editor widget border radius (with unit). Set to blank to use default."
           }
         }
       },
@@ -191,46 +239,40 @@
           "frosted-glass-theme.fakeMica.enabled": {
             "type": "boolean",
             "default": false,
-            "description": "Enable fake mica",
+            "description": "Enable fake mica.",
             "order": 0
           },
           "frosted-glass-theme.fakeMica.url": {
             "type": "string",
             "default": "C:/Windows/Web/Wallpaper/Windows/img0.jpg",
-            "markdownDescription": "Url to wallpaper. Default to windows default wallpaper. For spotlight, you can use `C:/Users/<username>/AppData/Roaming/Microsoft/Windows/Themes/CachedFiles/<Something>.jpg`",
+            "markdownDescription": "Url to wallpaper. Default to windows default wallpaper. For spotlight, you can use `C:/Users/<username>/AppData/Roaming/Microsoft/Windows/Themes/CachedFiles/<Something>.jpg`.",
             "order": 1
           },
           "frosted-glass-theme.fakeMica.filter": {
             "type": "string",
-            "default": "var(--fgt-backdrop-filter)",
-            "description": "CSS filter on mica image",
+            "default": "url(#fgt-mica) var(--fgt-mica-brightness)",
+            "description": "The filter used for fake mica background.",
             "order": 2
-          },
-          "frosted-glass-theme.fakeMica.filterDark": {
-            "type": "string",
-            "default": "var(--fgt-backdrop-filter) brightness(30%)",
-            "description": "CSS filter on mica image for dark mode",
-            "order": 3
           },
           "frosted-glass-theme.fakeMica.titlebarFix": {
             "type": "boolean",
             "default": true,
-            "description": "Fix titlebar opacity"
+            "description": "Fix titlebar opacity."
           },
           "frosted-glass-theme.fakeMica.titlebarOpacity": {
             "type": "number",
             "default": 0.8,
-            "description": "Titlebar opacity if titlebarFix is true"
+            "description": "Titlebar opacity if titlebarFix is true."
           },
           "frosted-glass-theme.fakeMica.listBackgroundFix": {
             "type": "boolean",
             "default": true,
-            "description": "Fix list background by making it transparent"
+            "description": "Fix list background by making it transparent."
           },
           "frosted-glass-theme.fakeMica.editorBackgroundFix": {
             "type": "boolean",
             "default": true,
-            "markdownDescription": "Fix editor overlapping background. Leave `editor-container` as the final color"
+            "markdownDescription": "Fix editor overlapping background. Leave `editor-container` as the final color."
           }
         }
       }
@@ -249,8 +291,8 @@
     "@types/node": "^22.1.0",
     "@types/uuid": "^10.0.0",
     "@types/vscode": "1.64.0",
-    "@typescript-eslint/eslint-plugin": "^8.0.0",
-    "@typescript-eslint/parser": "^8.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.1",
+    "@typescript-eslint/parser": "^8.0.1",
     "@vscode/test-electron": "^2.4.1",
     "esbuild": "0.23.0",
     "eslint": "^9.8.0",

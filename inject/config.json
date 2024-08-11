@@ -1,11 +1,33 @@
 {
-  "backdropFilter": "blur(30px)",
+  "filter": {
+    "default": "url(#fgt-acrylic-{key})",
+    "minimap": "url(#fgt-mica)",
+    "decorationsOverviewRuler": "url(#fgt-mica)",
+    "terminalOverlay": "url(#fgt-mica)"
+  },
   "transition": "300ms",
+  "svg": [
+    "../resource/mica.svg"
+  ],
+  "tintSvg": [
+    "../resource/acrylic.svg"
+  ],
+  "disableBackgroundColor": true,
+  "variable": {
+    "fgt-luminosity-opacity": "45%",
+    "fgt-mica-luminosity": "hsl(0, 0%, 80%)",
+    "fgt-mica-brightness": ""
+  },
+  "variableDark": {
+    "fgt-luminosity-opacity": "85%",
+    "fgt-mica-luminosity": "hsl(0, 0%, 20%)",
+    "fgt-mica-brightness": "brightness(30%)"
+  },
   "opacity": {
-    "menu": 0.4,
+    "background": 0.4,
     "selection": 1,
     "border": 0.4,
-    "separator": 0.75,
+    "separator": 0.7,
     "minimap": 0.4,
     "panelHeader": 0.4
   },
@@ -27,10 +49,9 @@
   "fakeMica": {
     "enabled": false,
     "url": "C:/Windows/Web/Wallpaper/Windows/img0.jpg",
-    "filter": "var(--fgt-backdrop-filter)",
-    "filterDark": "var(--fgt-backdrop-filter) brightness(30%)",
+    "filter": "url(#fgt-mica) var(--fgt-mica-brightness)",
     "titlebarFix": true,
-    "titlebarOpacity": 0.6,
+    "titlebarOpacity": 0.8,
     "listBackgroundFix": true,
     "editorBackgroundFix": true
   }

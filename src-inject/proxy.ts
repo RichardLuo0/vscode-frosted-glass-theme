@@ -6,7 +6,7 @@ import { isHTMLElement } from "./utils";
 export function proxy<
   SrcType extends Record<string, any>,
   FuncName extends string,
-  FuncType extends SrcType[FuncName]
+  FuncType extends SrcType[FuncName],
 >(
   src: SrcType,
   funcName: FuncName,
@@ -30,7 +30,7 @@ export function proxy<
 export function proxyAll<
   SrcType extends Record<string, any>,
   FuncName extends string,
-  FuncType extends SrcType[FuncName]
+  FuncType extends SrcType[FuncName],
 >(
   src: SrcType,
   funcNames: FuncName[],
@@ -78,4 +78,17 @@ export function useHTMLElement<SrcType, ArgsType extends any[]>(
       f.call(this, e, ...args);
     return oldFunc(e, ...args);
   };
+}
+
+export function applyAndProxy(
+  parent: Element,
+  className: string,
+  funcName: string | string[],
+  func: (e: Element) => void
+) {
+  const e = parent.querySelector("div." + className);
+  if (e) func(e);
+  if (funcName instanceof Array)
+    proxyAll(parent, funcName, useHTMLElement(className, func));
+  else proxy(parent, funcName, useHTMLElement(className, func));
 }

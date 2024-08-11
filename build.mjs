@@ -1,5 +1,7 @@
 import * as esbuild from "esbuild";
+import fs from "fs";
 import { generateLicenseFile } from "generate-license-file";
+import path from "path";
 
 const buildList = [];
 function build(options) {
@@ -12,14 +14,14 @@ const common = {
   bundle: true,
   platform: "node",
   target: ["node18"],
-  external: ["vscode"],
   logLevel: "silent",
   minify: true,
-  legalComments: 'none',
+  legalComments: "none",
 };
 
 const buildExtensionOptions = {
   ...common,
+  external: ["vscode"],
   entryPoints: ["src/extension.ts"],
   outfile: "out/extension.js",
 };
@@ -41,9 +43,9 @@ build({
 build({
   ...common,
   platform: "browser",
+  external: ["vs/base/browser/dompurify/dompurify"],
   target: ["esnext"],
   format: "esm",
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   loader: { ".css": "copy", ".json": "copy" },
   assetNames: "[name]",
   sourcemap: true,
@@ -77,8 +79,11 @@ for (var result of await Promise.all(buildList)) {
 }
 
 const thirdPartyLicenseFile = "3rdPartyLicense.txt";
+const licensesPath = "./licenses";
 await generateLicenseFile("./package.json", thirdPartyLicenseFile, {
-  append: ["./vscode-custom-css-license.txt"],
+  append: fs
+    .readdirSync(licensesPath)
+    .map((file) => path.join(licensesPath, file)),
 });
 console.log(thirdPartyLicenseFile);
 console.log("\u001b[32mDone\u001b[0m");
