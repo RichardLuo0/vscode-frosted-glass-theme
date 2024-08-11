@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.7.12]
+- f3b2b33: chore: default value changes
+- 29d36e5: feat: support svg filter
+
 ## [0.7.11]
 - f82f2e0: fix: ignore original transparency
 - 368c3c6: fix: `.codicon` transition should only react to color change
