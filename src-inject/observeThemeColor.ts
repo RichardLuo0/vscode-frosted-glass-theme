@@ -11,43 +11,16 @@ const colorVarList: [string, number, string?][] = [
   ["--vscode-editorHoverWidget-border", opacity.border],
   ["--vscode-editorSuggestWidget-border", opacity.border],
   ["--vscode-menu-separatorBackground", opacity.separator],
-  ["--vscode-sideBarSectionHeader-background", opacity.panelHeader],
 ];
+if (!config.revealEffect.enabled)
+  colorVarList.push(["--vscode-menu-selectionBackground", opacity.selection]);
 
-{
-  if (!config.revealEffect.enabled)
-    colorVarList.push(["--vscode-menu-selectionBackground", opacity.selection]);
-
-  [
-    "--vscode-editorHoverWidget-background",
-    "--vscode-editorSuggestWidget-background",
-    "--vscode-peekViewResult-background",
-    "--vscode-quickInput-background",
-    "--vscode-menu-background",
-    "--vscode-notifications-background",
-    "--vscode-notificationCenterHeader-background",
-    "--vscode-editorHoverWidget-statusBarBackground",
-    "--vscode-editorStickyScroll-background",
-    "--vscode-listFilterWidget-background",
-    "--vscode-editorWidget-background",
-    "--vscode-breadcrumbPicker-background",
-    "--vscode-debugToolBar-background",
-  ].forEach((colorVar) => {
-    colorVarList.push([colorVar, opacity.background]);
-  });
-
-  colorVarList.push(
-    [
-      "--vscode-sideBarStickyScroll-background",
-      opacity.background,
-      "--fgt-treeStickyContainer-background",
-    ],
-    [
-      "--vscode-editorStickyScroll-background",
-      opacity.background,
-      "--fgt-cellTitleToolbar-background",
-    ]
-  );
+export function registerColorVar(
+  colorVar: string,
+  opacity: number,
+  newColorVar?: string
+) {
+  colorVarList.push([colorVar, opacity, newColorVar]);
 }
 
 export function observeThemeColorChange(monacoWorkbench: HTMLElement) {

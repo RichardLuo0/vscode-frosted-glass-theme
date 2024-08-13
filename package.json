@@ -83,9 +83,13 @@
               "default": "url(#fgt-acrylic-{key})",
               "minimap": "url(#fgt-mica)",
               "decorationsOverviewRuler": "url(#fgt-mica)",
-              "terminalOverlay": "url(#fgt-mica)"
+              "terminalOverlay": "url(#fgt-mica)",
+              "editorStickyScroll": {
+                "filter": "url(#fgt-mica)",
+                "disableBackgroundColor": false
+              }
             },
-            "description": "The filter used for all frosted glassed elements."
+            "description": "The filter used for frosted glassed effect. Check README for detailed description."
           },
           "frosted-glass-theme.transition": {
             "type": "string",
@@ -109,15 +113,9 @@
             ],
             "markdownDescription": "The tint svg that gets loaded on start. `--fgt-current-background` indicts current element background color."
           },
-          "frosted-glass-theme.disableBackgroundColor": {
-            "type": "boolean",
-            "order": 4,
-            "default": true,
-            "markdownDescription": "The background is set to transparent so that `filter` will provide a color."
-          },
           "frosted-glass-theme.variable": {
             "type": "object",
-            "order": 5,
+            "order": 4,
             "default": {
               "fgt-luminosity-opacity": "45%",
               "fgt-mica-luminosity": "hsl(0, 0%, 80%)",
@@ -127,7 +125,7 @@
           },
           "frosted-glass-theme.variableDark": {
             "type": "object",
-            "order": 6,
+            "order": 5,
             "default": {
               "fgt-luminosity-opacity": "85%",
               "fgt-mica-luminosity": "hsl(0, 0%, 20%)",
@@ -140,11 +138,6 @@
       {
         "title": "Opacity",
         "properties": {
-          "frosted-glass-theme.opacity.background": {
-            "type": "number",
-            "default": 0.4,
-            "description": "Background opacity. This will blend into your theme color."
-          },
           "frosted-glass-theme.opacity.selection": {
             "type": "number",
             "default": 1,

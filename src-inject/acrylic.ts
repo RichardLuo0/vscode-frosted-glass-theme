@@ -1,16 +1,19 @@
 import config from "./config.json" with { type: "json" };
 import { loadSvgs } from "./loadSvg";
+import { registerColorVar } from "./observeThemeColor";
 import fgtSheet from "./vscode-frosted-glass-theme.css" with { type: "css" };
 
-const { filter, tintSvg, disableBackgroundColor } = config;
+const { filter, tintSvg } = config;
 
 const mountSvgTo = loadSvgs(tintSvg);
 
-const colorVarList: [string, string, string][] = [
+// the item type is of [key, colorVar, cssSelector, newColorVar?]
+const colorVarList: [string, string, string, string?][] = [
   [
-    "editor",
+    "multiDiffEditorHeader",
     "--vscode-editor-background",
     ".monaco-component.multiDiffEditor .header",
+    "--fgt-multiDiffEditorHeader-background",
   ],
   [
     "editorHoverWidget",
@@ -67,13 +70,15 @@ const colorVarList: [string, string, string][] = [
   ["debugToolBar", "--vscode-debugToolBar-background", ".debug-toolbar"],
   [
     "treeStickyContainer",
-    "--fgt-treeStickyContainer-background",
+    "--vscode-sideBarStickyScroll-background",
     ".monaco-tree-sticky-container",
+    "--fgt-treeStickyContainer-background",
   ],
   [
     "cellTitleToolbar",
-    "--fgt-cellTitleToolbar-background",
+    "--vscode-editorStickyScroll-background",
     ".cell-title-toolbar",
+    "--fgt-cellTitleToolbar-background",
   ],
   ["slider", "--vscode-scrollbarSlider-background", ".slider"],
   [
@@ -95,16 +100,52 @@ fgtSheet.insertRule(`[role="application"] {
     --fgt-transparent: transparent;
   }`);
 
+type Filter = {
+  filter: string;
+  disableBackgroundColor: boolean;
+  opacity: number;
+};
+type FilterOp = Partial<Filter>;
+let filterMap: {
+  default: Filter;
+  [key: string]: Filter | undefined;
+} = {
+  default: {
+    filter: "",
+    disableBackgroundColor: true,
+    opacity: 0.4,
+  },
+};
+{
+  const _filter = filter as {
+    [key: string]: string | FilterOp | undefined;
+  };
+  const _defaultFilter: FilterOp =
+    typeof _filter.default == "string"
+      ? {
+          filter: _filter.default,
+        }
+      : (_filter.default ?? {});
+  const defaultFilter = Object.assign(filterMap.default, _defaultFilter);
+  for (const key in _filter) {
+    if (key == "default") continue;
+    if (typeof _filter[key] == "string") {
+      filterMap[key] = {
+        ...defaultFilter,
+        filter: _filter[key],
+      };
+    } else filterMap[key] = { ...defaultFilter, ..._filter[key] };
+  }
+}
+
 colorVarList.forEach((entry) => {
-  const _filter = filter as { [key: string]: string | undefined };
-  const filterStr = (_filter[entry[0]] ?? filter.default).replaceAll(
-    "{key}",
-    entry[0]
-  );
+  const filter = filterMap[entry[0]] ?? filterMap.default;
+  registerColorVar(entry[1], filter.opacity, entry[3]);
+  const filterStr = filter.filter.replaceAll("{key}", entry[0]);
   fgtSheet.insertRule(
     `${entry[2]} {
       backdrop-filter: ${filterStr};
-      background: ${disableBackgroundColor ? "transparent" : `var(${entry[1]})`} !important;
+      background: ${filter.disableBackgroundColor ? "transparent" : `var(${entry[1]})`} !important;
     }`
   );
 });
