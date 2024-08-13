@@ -70,6 +70,10 @@
       {
         "command": "frosted-glass-theme.openJS",
         "title": "Frosted Glass Theme: Open JS"
+      },
+      {
+        "command": "frosted-glass-theme.openConfig",
+        "title": "Frosted Glass Theme: Open Config (readonly)"
       }
     ],
     "configuration": [

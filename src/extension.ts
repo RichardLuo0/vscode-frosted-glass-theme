@@ -3,6 +3,7 @@ import File from "./File";
 import Injection from "./Injection";
 import { msg } from "./msg";
 import { showChoiceMessage } from "./utils";
+import { readFile } from "fs/promises";
 
 export function activate(context: ExtensionContext) {
   const jsFile = new File(
@@ -99,6 +100,20 @@ export function activate(context: ExtensionContext) {
       .then(window.showTextDocument)
   );
 
+  const openConfig = commands.registerCommand(
+    "frosted-glass-theme.openConfig",
+    async () =>
+      workspace
+        .openTextDocument({
+          content: await readFile(
+            `${__dirname}/../inject/config.json`,
+            "utf-8"
+          ),
+          language: "json",
+        })
+        .then(window.showTextDocument)
+  );
+
   let isConfigChangedShowing = false;
   const onConfigureChanged = workspace.onDidChangeConfiguration(async (e) => {
     if (
@@ -118,8 +133,9 @@ export function activate(context: ExtensionContext) {
     disableTheme,
     applyConfig,
     openCSS,
-    onConfigureChanged,
-    openJS
+    openJS,
+    openConfig,
+    onConfigureChanged
   );
 }
 
