@@ -18,7 +18,8 @@ if (fakeMica.enabled) {
 
   fgtSheet.insertRule(
     `.fgt-mica-svg-loaded::before {
-      backdrop-filter: ${fakeMica.filter}
+      filter: ${fakeMica.filter};
+      background: url("vscode-file://vscode-app/${fakeMica.url}") center center / cover no-repeat
     }`
   );
 
@@ -56,7 +57,6 @@ export async function applyFakeMica(
   svgMounted: Promise<void>
 ) {
   if (fakeMica.enabled) {
-    element.style.background = `url("vscode-file://vscode-app/${fakeMica.url}") center center / cover no-repeat`;
     await svgMounted;
     element.classList.add("fgt-mica-svg-loaded");
   }
