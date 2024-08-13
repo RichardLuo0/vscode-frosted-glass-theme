@@ -63,8 +63,8 @@
         },
     }
     ```
-    在`theme`文件夹中有更多示例，我欢迎大家来发pull request。
-* `frosted-glass-theme.svg` 只是从url中加载一张svg。产生的svg元素是静态的并且只能使用从 `monaco-workbench` 继承的css变量。
+    在 `theme` 文件夹中有更多示例，我欢迎大家来发pull request。
+* `frosted-glass-theme.svg` 只是从url中加载一张svg。产生的svg元素是静态的并且只能使用从 `monaco-workbench` 继承的css变量。你可以在 `resource` 下找到更多svg。
 * `frosted-glass-theme.tintSvg` 为 `frosted-glass-theme.filter` 中定义的每一个key产生不同的svg，并且 `<filter>` 上的id被改成了 `id-key`。在svg里，你可以使用一个特殊的css变量 `--fgt-current-background`，代表元素的背景颜色。
 * `frosted-glass-theme.filter` 设置是一个代表每个元素使用的filter的对象。它的key在 `src-inject/acrylic.ts` 的 `colorVarList` 中定义。值类型定义如下：
     ```typescript

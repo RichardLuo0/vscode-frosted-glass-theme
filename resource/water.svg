@@ -1,0 +1,30 @@
+<!DOCTYPE xml>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <filter id="fgt-water">
+      <feFlood result="lumColor" flood-color="var(--fgt-mica-luminosity)"
+        flood-opacity="var(--fgt-luminosity-opacity)" />
+      <feGaussianBlur result="blur" in="SourceGraphic" stdDeviation="30" edgeMode="duplicate" />
+      <feBlend result="blurLum" in="lumColor" in2="blur" mode="luminosity" />
+
+      <feTurbulence result="ripple" numOctaves="3" seed="2" baseFrequency="0.02 0.05">
+        <animate attributeName="baseFrequency" dur="60s" keyTimes="0;0.5;1"
+          values="0.02 0.06;0.04 0.08;0.02 0.06" repeatCount="indefinite" />
+      </feTurbulence>
+
+      <feDisplacementMap result="surface" scale="20" in="blurLum"></feDisplacementMap>
+
+      <feSpecularLighting result="spec" in="ripple" specularExponent="20" lighting-color="white">
+        <feDistantLight azimuth="45" elevation="60" />
+      </feSpecularLighting>
+      <feComponentTransfer result="specWeaken" in="spec">
+        <feFuncA type="linear" slope="0.08" />
+      </feComponentTransfer>
+
+      <feMerge>
+        <feMergeNode in="surface" />
+        <feMergeNode in="specWeaken" />
+      </feMerge>
+    </filter>
+  </defs>
+</svg>

@@ -4,7 +4,7 @@
     <filter id="fgt-mica">
       <feFlood result="lumColor" flood-color="var(--fgt-mica-luminosity)"
         flood-opacity="var(--fgt-luminosity-opacity)" />
-      <feGaussianBlur result="blur" in="SourceGraphic" stdDeviation="30" />
+      <feGaussianBlur result="blur" in="SourceGraphic" stdDeviation="30" edgeMode="duplicate" />
       <feBlend result="blurLum" in="lumColor" in2="blur" mode="luminosity" />
 
       <feMerge>
