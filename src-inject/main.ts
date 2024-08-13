@@ -3,6 +3,7 @@ import config from "./config.json" with { type: "json" };
 import { applyFakeMica } from "./fakeMica";
 import { fixContextMenu, fixMenu, fixMenuBar } from "./fix";
 import { loadSvgs } from "./loadSvg";
+import "./miscellaneous";
 import { observeThemeColorChange } from "./observeThemeColor";
 import { proxy, useHTMLElement, useRet } from "./proxy";
 import fgtSheet from "./vscode-frosted-glass-theme.css" with { type: "css" };
@@ -20,21 +21,21 @@ fgtSheet.insertRule(
 
 fgtSheet.insertRule(
   `[role="application"] {
-      ${Object.entries(config.variable).reduce((total, pair) => {
-        const [key, value] = pair;
-        return total + `--${key}: ${value};`;
-      }, "")}
-    }`
+    ${Object.entries(config.variable).reduce((total, pair) => {
+      const [key, value] = pair;
+      return total + `--${key}: ${value};`;
+    }, "")}
+  }`
 );
 
 fgtSheet.insertRule(
   `[role="application"].vs-dark,
-    [role="application"].hc-black {
-      ${Object.entries(config.variableDark).reduce((total, pair) => {
-        const [key, value] = pair;
-        return total + `--${key}: ${value};`;
-      }, "")}
-    }`
+  [role="application"].hc-black {
+    ${Object.entries(config.variableDark).reduce((total, pair) => {
+      const [key, value] = pair;
+      return total + `--${key}: ${value};`;
+    }, "")}
+  }`
 );
 
 if (revealEffect.enabled) {

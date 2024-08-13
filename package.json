@@ -157,11 +157,6 @@
             "type": "number",
             "default": 0.4,
             "description": "Minimap opacity."
-          },
-          "frosted-glass-theme.opacity.panelHeader": {
-            "type": "number",
-            "default": 0.4,
-            "description": "Panel header opacity. This will blend into your theme color."
           }
         }
       },
@@ -266,6 +261,16 @@
             "type": "boolean",
             "default": true,
             "markdownDescription": "Fix editor overlapping background. Leave `editor-container` as the final color."
+          }
+        }
+      },
+      {
+        "title": "Miscellaneous",
+        "properties": {
+          "frosted-glass-theme.miscellaneous.progressBarBehindSectionHeader": {
+            "type": "boolean",
+            "default": false,
+            "markdownDescription": "Put progressBar behind sectionHeader so it glows behind header blur."
           }
         }
       }

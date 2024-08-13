@@ -55,5 +55,8 @@
     "titlebarOpacity": 0.8,
     "listBackgroundFix": true,
     "editorBackgroundFix": true
+  },
+  "miscellaneous": {
+    "progressBarBehindSectionHeader": false
   }
 }
