@@ -170,6 +170,6 @@ https://github.com/microsoft/vscode/blob/4b78857fd9c934cab979171380573452ffdc612
 }
 
 /* Terminal Overlay */
-.hover-overlay {
-  backdrop-filter: var(--fgt-backdrop-filter);
+.xterm-scrollable-element {
+  background-color: transparent !important;
 }
