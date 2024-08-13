@@ -1,13 +1,9 @@
 {
   "filter": {
     "default": "url(#fgt-acrylic-{key})",
-    "minimap": "url(#fgt-mica)",
-    "decorationsOverviewRuler": "url(#fgt-mica)",
-    "terminalOverlay": "url(#fgt-mica)",
-    "editorStickyScroll": {
-      "filter": "url(#fgt-mica)",
-      "disableBackgroundColor": false
-    }
+    "minimap": "blur(30px)",
+    "decorationsOverviewRuler": "blur(30px)",
+    "terminalOverlay": "blur(30px)"
   },
   "transition": "300ms",
   "svg": [
