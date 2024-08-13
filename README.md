@@ -4,11 +4,11 @@ Bring frosted glass menu (like windows acrylic or mac os) to your vscode!
 [中文版](READMECN.md)
 
 <span style="font-size: 24px;font-weight: bold">
-This is not a theme by itself. It can work with any other theme
+This is not a theme by itself. It can work with any other theme.
 <br>
-Plz read this document before installation
+Plz read this document before installation.
 <br>
-Custom SVG is supported
+Custom SVG is supported.
 </span>
 
 ## Preview

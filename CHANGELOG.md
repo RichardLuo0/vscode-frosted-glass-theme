@@ -1,5 +1,11 @@
 # Change Log
 
+## [0.7.13]
+- eac5f7b: perf: use `filter` for mica so it should be better
+- ef1ccdd: feat: opacity and disableBackgroundColor can be controlled per key
+- 5eea2e5: feat: add `progressBarBehindSectionHeader`
+- 7433e57: feat: add and fix some svgs
+
 ## [0.7.12]
 - f3b2b33: chore: default value changes
 - 29d36e5: feat: support svg filter

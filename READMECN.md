@@ -4,11 +4,11 @@
 [English](README.md)
 
 <span style="font-size: 24px;font-weight: bold">
-这本身不是一个主题，它可以与其他主题一起安装
+这本身不是一个主题，它可以与其他主题一起安装。
 <br>
-安装前请阅读此文档
+安装前请阅读此文档。
 <br>
-支持自定义SVG
+支持自定义SVG。
 </span>
 
 ## 预览图
