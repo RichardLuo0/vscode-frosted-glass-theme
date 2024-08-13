@@ -57,6 +57,12 @@ export default class InjectionNormal implements InjectionImpl {
 
     let injectHTML = this.computeInjectedHTML();
 
+    // Remove csp
+    html = html.replace(
+      /<meta\s+http-equiv="Content-Security-Policy"[\s\S]*?\/>/,
+      ""
+    );
+
     html = html.replace(
       /(<\/html>)/,
       `<!-- !! VSCODE-FROSTED-GLASS-THEME-SESSION-ID ${uuidSession} !! -->\n` +

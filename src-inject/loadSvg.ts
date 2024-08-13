@@ -1,4 +1,14 @@
-import config from "./config.json" with { type: "json" };
+declare const trustedTypes: any;
+
+const ttp = trustedTypes.createPolicy("fgtSvg", {
+  createHTML(html: any) {
+    return html;
+  },
+
+  createScriptURL(scriptUrl: any) {
+    return scriptUrl;
+  },
+});
 
 export function loadSvgs(svgList: string[]) {
   let fetchList = [];
@@ -20,21 +30,12 @@ export function loadSvgs(svgList: string[]) {
     if (!_this.svgs) {
       justCreated = true;
       _this.svgs = [];
-      const { sanitize } = require("vs/base/browser/dompurify/dompurify");
       for (const res of await Promise.all(fetchList)) {
         const svgStr = await res.text();
-        const svg = sanitize(svgStr, {
-          RETURN_DOM: true,
-          USE_PROFILES: { svg: true, svgFilters: true },
-          ADD_ATTR: [
-            "tableValues",
-            "slope",
-            "intercept",
-            "amplitude",
-            "exponent",
-            "offset",
-          ],
-        }).firstChild as SVGElement;
+        const svg = new DOMParser()
+          .parseFromString(ttp.createHTML(svgStr), "text/xml")
+          .querySelector<SVGElement>("svg");
+        if (!svg) throw res.url + " does not contain a valid svg!";
         svg.style.position = "absolute";
         svg.style.width = "0px";
         svg.style.height = "0px";
