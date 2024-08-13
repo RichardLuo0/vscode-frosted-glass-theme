@@ -45,6 +45,7 @@
 /* Scroll Bar */
 .monaco-editor .scrollbar.vertical .slider {
   backdrop-filter: none !important;
+  background-color: var(--vscode-scrollbarSlider-background) !important;
 }
 
 /* Setting Page */
