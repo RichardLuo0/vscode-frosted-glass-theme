@@ -43,9 +43,11 @@
 }
 
 /* Scroll Bar */
-.monaco-editor .scrollbar.vertical .slider {
-  backdrop-filter: none !important;
-  background-color: var(--vscode-scrollbarSlider-background) !important;
+:is(
+    .editor-scrollable > .scrollbar.horizontal > .slider,
+    .monaco-scrollable-element:not(.editor-scrollable) > .scrollbar > .slider
+  ):hover {
+  background-color: var(--vscode-scrollbarSlider-hoverBackground) !important;
 }
 
 /* Setting Page */

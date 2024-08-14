@@ -1,5 +1,11 @@
 # Change Log
 
+## [0.8.0]
+- 2caf410: feat: add open config in readonly mode
+- fd96bcd: feat: add localization
+- 6783a1e: feat: first time setup
+- 84a93aa: feat: modify light theme
+
 ## [0.7.13]
 - eac5f7b: perf: use `filter` for mica so it should be better
 - ef1ccdd: feat: opacity and disableBackgroundColor can be controlled per key
