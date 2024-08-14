@@ -45,7 +45,7 @@ if (fakeMica.enabled) {
 
   if (fakeMica.editorBackgroundFix) {
     fgtSheet.insertRule(
-      `.content:not(.empty), .monaco-editor, .monaco-editor-background {
+      `.content, .monaco-editor, .monaco-editor-background {
       background-color: transparent !important;
     }`
     );
