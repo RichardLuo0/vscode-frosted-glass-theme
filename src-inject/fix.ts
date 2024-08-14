@@ -48,7 +48,7 @@ export function fixMenu(menuContainer: string | Node) {
         )
       );
       // If submenu loses focus, dispatch to `<li>`
-      subMenu.addEventListener("focusout", (e) =>
+      subMenu.addEventListener("focusout", e =>
         setTimeout(() =>
           src.dispatchEvent(new Event(e.type, { ...e, bubbles: false }))
         )
@@ -60,8 +60,8 @@ export function fixMenu(menuContainer: string | Node) {
       return subMenu;
     }
 
-    src.append = (e) => parent.append(fixSubMenu(e));
-    src.removeChild = (e) => parent.removeChild(e);
+    src.append = e => parent.append(fixSubMenu(e));
+    src.removeChild = e => parent.removeChild(e);
     src.replaceChild = (e, e2) => parent.replaceChild(fixSubMenu(e), e2);
   }
 
@@ -82,7 +82,7 @@ export function fixMenu(menuContainer: string | Node) {
     const menuItemList = actionBar.querySelectorAll<HTMLElement>(
       "ul.actions-container > li:not(:has(a.separator))"
     );
-    menuItemList.forEach((menuItem) => {
+    menuItemList.forEach(menuItem => {
       moveSubMenu(menuItem, actionBar);
     });
 

@@ -56,7 +56,7 @@ export default class InjectionAdmin implements InjectionImpl {
           JSON.stringify(this.files)
         )}" "${this.base}" "${this.htmlFile}"`,
         { name: "Frosted Glass Theme", env },
-        (error) => {
+        error => {
           if (error) reject(error);
           else resolve(undefined);
         }

@@ -77,7 +77,7 @@ const mountSvgTo = loadSvgs(config.svg);
 proxy(
   document.body,
   "appendChild",
-  useHTMLElement("monaco-workbench", (monacoWorkbench) => {
+  useHTMLElement("monaco-workbench", monacoWorkbench => {
     observeThemeColorChange(monacoWorkbench);
     const svgMounted = mountSvgTo(monacoWorkbench);
     applyFakeMica(monacoWorkbench, svgMounted);
@@ -99,7 +99,7 @@ proxy(
 proxy(
   Element.prototype,
   "attachShadow",
-  useRet((shadowDom) => {
+  useRet(shadowDom => {
     shadowDom.adoptedStyleSheets.push(
       ...shadowDom.ownerDocument.adoptedStyleSheets
     );
@@ -117,7 +117,7 @@ proxy(
 proxy(
   window,
   "open",
-  useRet((newWindow) => {
+  useRet(newWindow => {
     if (!newWindow) return newWindow;
     const global = newWindow as Window & typeof globalThis;
     const newDocument = newWindow.document;
@@ -129,7 +129,7 @@ proxy(
     proxy(
       newDocument.body,
       "append",
-      useHTMLElement(null, (monacoWorkbench) => {
+      useHTMLElement(null, monacoWorkbench => {
         observeThemeColorChange(monacoWorkbench);
         const svgMounted = mountSvgTo(monacoWorkbench);
         applyFakeMica(monacoWorkbench, svgMounted);

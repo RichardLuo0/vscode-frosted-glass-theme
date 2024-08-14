@@ -67,7 +67,7 @@ function applyOpacity(color: string, opacity: number) {
 
 function findStyleSheetList(ownerNode: Element | null) {
   return Array.from(document.styleSheets).find(
-    (styleSheetList) => styleSheetList.ownerNode === ownerNode
+    styleSheetList => styleSheetList.ownerNode === ownerNode
   );
 }
 
@@ -79,7 +79,7 @@ function setupColor(monacoWorkbench: HTMLElement, ownerNode: Element) {
   if (!(cssRule instanceof CSSStyleRule)) return;
   const cssStyle = cssRule.style;
 
-  colorVarList.forEach((entry) => {
+  colorVarList.forEach(entry => {
     monacoWorkbench.style.setProperty(
       entry[2] ?? entry[0],
       applyOpacity(cssStyle.getPropertyValue(entry[0]), entry[1])

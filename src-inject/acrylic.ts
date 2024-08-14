@@ -142,7 +142,7 @@ let filterMap: {
   }
 }
 
-colorVarList.forEach((entry) => {
+colorVarList.forEach(entry => {
   const filter = filterMap[entry[0]] ?? filterMap.default;
   registerColorVar(entry[1], filter.opacity, entry[3]);
   const filterStr = filter.filter.replaceAll("{key}", entry[0]);
@@ -161,7 +161,7 @@ export async function applyAcrylic(element: HTMLElement) {
     await mountSvgTo(wrapper, true);
     wrapper
       .querySelectorAll("filter")
-      .forEach((f) => (f.id = f.id + "-" + entry[0]));
+      .forEach(f => (f.id = f.id + "-" + entry[0]));
     element.appendChild(wrapper);
   }
 }
@@ -173,6 +173,6 @@ export function applyAcrylicOnMenu(element: Node & ParentNode) {
     "var(--vscode-menu-background)"
   );
   mountSvgTo(wrapper, true);
-  wrapper.querySelectorAll("filter").forEach((f) => (f.id = f.id + "-menu"));
+  wrapper.querySelectorAll("filter").forEach(f => (f.id = f.id + "-menu"));
   element.appendChild(wrapper);
 }
