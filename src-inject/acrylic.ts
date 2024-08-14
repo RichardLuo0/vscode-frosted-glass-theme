@@ -80,7 +80,11 @@ const colorVarList: [string, string, string, string?][] = [
     ".cell-title-toolbar",
     "--fgt-cellTitleToolbar-background",
   ],
-  ["slider", "--vscode-scrollbarSlider-background", ".slider"],
+  [
+    "slider",
+    "--vscode-scrollbarSlider-background",
+    ".editor-scrollable > .scrollbar.horizontal > .slider, .monaco-scrollable-element:not(.editor-scrollable) > .scrollbar > .slider",
+  ],
   [
     "sideBarSectionHeader",
     "--vscode-sideBarSectionHeader-background",
