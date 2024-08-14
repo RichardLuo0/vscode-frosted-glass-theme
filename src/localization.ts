@@ -1,7 +1,7 @@
 import { readFileSync } from "fs";
 import path from "path";
 
-let dictionary: { [key: string]: string };
+let dictionary: { [key: string]: string | undefined };
 const config = JSON.parse(process.env.VSCODE_NLS_CONFIG as string);
 const i18nPath = path.join(__dirname, "../i18n");
 try {
@@ -20,7 +20,7 @@ try {
 export function localize(key: string, ...args: string[]) {
   const translated = dictionary[key];
   for (let i = 0; i < args.length; i++) {
-    translated.replaceAll(`{${i}}`, args[i]);
+    translated?.replaceAll(`{${i}}`, args[i]);
   }
-  return translated.length == 0 ? key : translated;
+  return translated && translated.length != 0 ? translated : key;
 }
