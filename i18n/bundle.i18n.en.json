@@ -1,0 +1,13 @@
+{
+  "tryAdminMsg": "Require admin privileges to apply changes.",
+  "admin": "Run VS Code with admin privileges so the changes can be applied.",
+  "enabled": "Frosted glass theme enabled. Restart to take effect. If Code complains about it is corrupted, CLICK DON'T SHOW AGAIN. See README for more detail.",
+  "applied": "Changes have been applied. Restart to take effect. `Developer: Reload Window` sometimes does not work. See README for more detail.",
+  "configChanged": "Detected config change. Click this button to apply.",
+  "disabled": "Frosted glass theme disabled and reverted to default. Restart to take effect.",
+  "reenableAfterUpdated": "Frosted glass theme updated. Re-enabling...",
+  "somethingWrong": "Something went wrong: {0}",
+  "restartIde": "Restart Visual Studio Code",
+  "applyChanges": "Apply Changes",
+  "tryAsAdmin": "Try as Admin"
+}

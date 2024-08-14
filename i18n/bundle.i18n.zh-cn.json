@@ -1,0 +1,13 @@
+{
+  "tryAdminMsg": "需要管理员权限以应用更改。",
+  "admin": "以管理员权限运行 VS Code 来应用更改。",
+  "enabled": "毛玻璃主题已启用。重启以生效。如果 Code 提示已损坏，请点击“不要再提示”，查看 `README` 获取更多信息。",
+  "applied": "更改已被应用。重启以生效。`Developer: Reload Window` 有些时候无效。查看 `README` 获取更多信息。",
+  "configChanged": "检测到配置更改。请点击此按钮来应用更改。",
+  "disabled": "毛玻璃主题已禁用并且恢复到默认。重启以生效。",
+  "reenableAfterUpdated": "毛玻璃主题已更新。重新启用中。。。",
+  "somethingWrong": "发生了一些错误：{0}",
+  "restartIde": "重启 Visual Studio Code",
+  "applyChanges": "应用更改",
+  "tryAsAdmin": "以管理员权限尝试"
+}

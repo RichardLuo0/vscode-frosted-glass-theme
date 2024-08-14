@@ -4,7 +4,7 @@ import { window } from "vscode";
 import File from "./File";
 import InjectionAdmin from "./InjectionAdmin";
 import InjectionNormal from "./InjectionNormal";
-import { msg } from "./msg";
+import { localize } from "./localization";
 
 export interface InjectionImpl {
   inject(): Promise<void>;
@@ -43,7 +43,7 @@ export default class Injection implements InjectionImpl {
     try {
       await this.injectionImpl!.inject();
     } catch (e) {
-      window.showErrorMessage(msg.admin);
+      window.showErrorMessage(localize("admin"));
       throw e;
     }
   }
@@ -53,7 +53,7 @@ export default class Injection implements InjectionImpl {
     try {
       await this.injectionImpl!.restore();
     } catch (e) {
-      window.showErrorMessage(msg.admin);
+      window.showErrorMessage(localize("admin"));
       throw e;
     }
   }

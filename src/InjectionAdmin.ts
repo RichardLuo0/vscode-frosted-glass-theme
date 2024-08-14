@@ -1,8 +1,8 @@
 import sudoPrompt from "@vscode/sudo-prompt";
 import File from "./File";
 import { InjectionImpl } from "./Injection";
+import { localize } from "./localization";
 import { showChoiceMessage } from "./utils";
-import { msg } from "./msg";
 
 function escape(src: string) {
   return process.platform === "win32"
@@ -36,7 +36,12 @@ export default class InjectionAdmin implements InjectionImpl {
 
   private async runAsAdmin(funcName: string): Promise<void> {
     return new Promise(async (resolve, reject) => {
-      if (!(await showChoiceMessage(msg.tryAdmin, msg.tryAsAdmin))) {
+      if (
+        !(await showChoiceMessage(
+          localize("tryAdminMsg"),
+          localize("tryAsAdmin")
+        ))
+      ) {
         reject("user cancelled");
         return;
       }

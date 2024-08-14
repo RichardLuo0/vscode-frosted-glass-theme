@@ -1,13 +1,13 @@
+import { readFile } from "fs/promises";
 import { commands, ExtensionContext, Uri, window, workspace } from "vscode";
 import File from "./File";
 import Injection from "./Injection";
-import { msg } from "./msg";
+import { localize } from "./localization";
 import { showChoiceMessage } from "./utils";
-import { readFile } from "fs/promises";
 
 export function activate(context: ExtensionContext) {
   const jsFile = new File(
-    `${__dirname}/../inject/vscode-frosted-glass-theme.js`
+    context.asAbsolutePath("inject/vscode-frosted-glass-theme.js")
   );
   const injection = new Injection([jsFile]);
 
@@ -17,7 +17,7 @@ export function activate(context: ExtensionContext) {
   if (currentVersion !== lastVersion) {
     context.globalState.update("extensionVersion", currentVersion);
     if (context.globalState.get<boolean>("injected")) {
-      window.showInformationMessage(msg.reenableAfterUpdated);
+      window.showInformationMessage(localize("reenableAfterUpdated"));
       commands.executeCommand("frosted-glass-theme.enableTheme");
     }
   }
@@ -27,7 +27,7 @@ export function activate(context: ExtensionContext) {
   }
 
   function updateConfiguration() {
-    new File(`${__dirname}/../inject/config.json`)
+    new File(context.asAbsolutePath("inject/config.json"))
       .editor()
       .replaceAll(
         JSON.stringify(
@@ -46,11 +46,13 @@ export function activate(context: ExtensionContext) {
         updateConfiguration();
         await injection.inject();
         context.globalState.update("injected", true);
-        if (await showChoiceMessage(msg.enabled, msg.restartIde))
+        if (
+          await showChoiceMessage(localize("enabled"), localize("restartIde"))
+        )
           reloadWindow();
-      } catch (e) {
+      } catch (e: any) {
         console.error(e);
-        window.showErrorMessage(msg.somethingWrong + e);
+        window.showErrorMessage(localize("somethingWrong", e));
       }
     }
   );
@@ -61,11 +63,13 @@ export function activate(context: ExtensionContext) {
       try {
         await injection.restore();
         context.globalState.update("injected", false);
-        if (await showChoiceMessage(msg.disabled, msg.restartIde))
+        if (
+          await showChoiceMessage(localize("disabled"), localize("restartIde"))
+        )
           reloadWindow();
-      } catch (e) {
+      } catch (e: any) {
         console.error(e);
-        window.showErrorMessage(msg.somethingWrong + e);
+        window.showErrorMessage(localize("somethingWrong", e));
       }
     }
   );
@@ -75,11 +79,13 @@ export function activate(context: ExtensionContext) {
     async () => {
       try {
         updateConfiguration();
-        if (await showChoiceMessage(msg.applied, msg.restartIde))
+        if (
+          await showChoiceMessage(localize("applied"), localize("restartIde"))
+        )
           reloadWindow();
-      } catch (e) {
+      } catch (e: any) {
         console.error(e);
-        window.showErrorMessage(msg.somethingWrong + e);
+        window.showErrorMessage(localize("somethingWrong", e));
       }
     }
   );
@@ -121,7 +127,12 @@ export function activate(context: ExtensionContext) {
       e.affectsConfiguration("frosted-glass-theme")
     ) {
       isConfigChangedShowing = true;
-      if (await showChoiceMessage(msg.configChanged, msg.applyChanges)) {
+      if (
+        await showChoiceMessage(
+          localize("configChanged"),
+          localize("applyChanges")
+        )
+      ) {
         commands.executeCommand("frosted-glass-theme.applyConfig");
       }
       isConfigChangedShowing = false;
