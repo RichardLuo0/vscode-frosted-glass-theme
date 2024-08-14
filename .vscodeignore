@@ -17,5 +17,5 @@ icon/*
 node_modules/**
 build.*
 .*.json
-theme/**
 licenses/**
+TODO.md

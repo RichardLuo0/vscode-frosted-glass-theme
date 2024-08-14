@@ -3,6 +3,7 @@ import { commands, ExtensionContext, Uri, window, workspace } from "vscode";
 import File from "./File";
 import Injection from "./Injection";
 import { localize } from "./localization";
+import { setup as setupFunc } from "./setup";
 import { showChoiceMessage } from "./utils";
 
 export function activate(context: ExtensionContext) {
@@ -43,7 +44,10 @@ export function activate(context: ExtensionContext) {
     "frosted-glass-theme.enableTheme",
     async () => {
       try {
-        updateConfiguration();
+        if (context.globalState.get<boolean>("firstTimeSetup", true)) {
+          await commands.executeCommand("frosted-glass-theme.setup");
+          context.globalState.update("firstTimeSetup", false);
+        } else updateConfiguration();
         await injection.inject();
         context.globalState.update("injected", true);
         if (
@@ -90,11 +94,22 @@ export function activate(context: ExtensionContext) {
     }
   );
 
+  const setup = commands.registerCommand(
+    "frosted-glass-theme.setup",
+    async () => {
+      blockConfigChangedMsg = true;
+      if (await setupFunc(context)) updateConfiguration();
+      blockConfigChangedMsg = false;
+    }
+  );
+
   const openCSS = commands.registerCommand("frosted-glass-theme.openCSS", () =>
     workspace
       .openTextDocument(
         Uri.parse(
-          new File(`${__dirname}/../inject/vscode-frosted-glass-theme.css`).path
+          new File(
+            context.asAbsolutePath("inject/vscode-frosted-glass-theme.css")
+          ).path
         )
       )
       .then(window.showTextDocument)
@@ -112,7 +127,7 @@ export function activate(context: ExtensionContext) {
       workspace
         .openTextDocument({
           content: await readFile(
-            `${__dirname}/../inject/config.json`,
+            context.asAbsolutePath("inject/config.json"),
             "utf-8"
           ),
           language: "json",
@@ -120,13 +135,13 @@ export function activate(context: ExtensionContext) {
         .then(window.showTextDocument)
   );
 
-  let isConfigChangedShowing = false;
-  const onConfigureChanged = workspace.onDidChangeConfiguration(async (e) => {
+  let blockConfigChangedMsg = false;
+  const onConfigureChanged = workspace.onDidChangeConfiguration(async e => {
     if (
-      !isConfigChangedShowing &&
+      !blockConfigChangedMsg &&
       e.affectsConfiguration("frosted-glass-theme")
     ) {
-      isConfigChangedShowing = true;
+      blockConfigChangedMsg = true;
       if (
         await showChoiceMessage(
           localize("configChanged"),
@@ -135,7 +150,7 @@ export function activate(context: ExtensionContext) {
       ) {
         commands.executeCommand("frosted-glass-theme.applyConfig");
       }
-      isConfigChangedShowing = false;
+      blockConfigChangedMsg = false;
     }
   });
 
@@ -143,6 +158,7 @@ export function activate(context: ExtensionContext) {
     enableTheme,
     disableTheme,
     applyConfig,
+    setup,
     openCSS,
     openJS,
     openConfig,

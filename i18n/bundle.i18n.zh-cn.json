@@ -9,5 +9,10 @@
   "somethingWrong": "发生了一些错误：{0}",
   "restartIde": "重启 Visual Studio Code",
   "applyChanges": "应用更改",
-  "tryAsAdmin": "以管理员权限尝试"
+  "tryAsAdmin": "以管理员权限尝试",
+  "setup.enableMica": "是否启用mica特效？",
+  "setup.chooseWallpaper": "选择一张壁纸",
+  "setup.inputWallpaper": "壁纸文件路径",
+  "setup.chooseThemeMod": "选择一个主题修改器使mica特效能够穿透",
+  "setup.complete": "配置完成。"
 }

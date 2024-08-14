@@ -9,5 +9,10 @@
   "somethingWrong": "Something went wrong: {0}",
   "restartIde": "Restart Visual Studio Code",
   "applyChanges": "Apply Changes",
-  "tryAsAdmin": "Try as Admin"
+  "tryAsAdmin": "Try as Admin",
+  "setup.enableMica": "Enable fake mica?",
+  "setup.chooseWallpaper": "Choose a wallpaper",
+  "setup.inputWallpaper": "Wallpaper file path",
+  "setup.chooseThemeMod": "Choose a theme modification for mica effect to pass through",
+  "setup.complete": "Setup complete."
 }

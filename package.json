@@ -64,6 +64,10 @@
         "title": "Frosted Glass Theme: Apply Configuration"
       },
       {
+        "command": "frosted-glass-theme.setup",
+        "title": "Frosted Glass Theme: Setup"
+      },
+      {
         "command": "frosted-glass-theme.openCSS",
         "title": "Frosted Glass Theme: Open CSS"
       },

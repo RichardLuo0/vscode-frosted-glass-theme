@@ -17,22 +17,23 @@
       "list.inactiveSelectionBackground": "#32384299",
       "menu.background": "#21252b99",
       "menu.selectionBackground": "#ffffff",
+      "multiDiffEditor.headerBackground": "#00000000",
+      "notebook.cellEditorBackground": "#00000000",
       "panel.background": "#282c34cc",
       "settings.focusedRowBackground": "#00000000",
       "sideBar.background": "#21252bcc",
+      "sideBarSectionHeader.background": "#282c344d",
+      "sideBarStickyScroll.background": "#21252b66",
       "sideBarTitle.background": "#00000000",
       "statusBar.background": "#21252bcc",
       "statusBar.noFolderBackground": "#21252bcc",
       "tab.activeBackground": "#282c3499",
-      "tab.inactiveBackground": "#00000000",
-      "tab.border": "#00000000",
       "tab.activeBorder": "#b4b4b499",
+      "tab.border": "#00000000",
+      "tab.inactiveBackground": "#00000000",
       "terminal.background": "#00000000",
       "welcomePage.tileBackground": "#21252b4d",
-      "welcomePage.tileHoverBackground": "#282c3499",
-      "multiDiffEditor.headerBackground": "#00000000",
-      "notebook.cellEditorBackground": "#00000000",
-      "sideBarSectionHeader.background": "#282c344d"
+      "welcomePage.tileHoverBackground": "#282c3499"
     }
   }
 }
