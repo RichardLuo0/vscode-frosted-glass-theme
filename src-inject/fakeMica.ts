@@ -49,6 +49,11 @@ if (fakeMica.enabled) {
       background-color: transparent !important;
     }`
     );
+    fgtSheet.insertRule(
+      `.editor-group-container.empty {
+      background-color: var(--vscode-editor-background);
+    }`
+    );
   }
 }
 
