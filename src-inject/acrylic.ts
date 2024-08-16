@@ -90,6 +90,11 @@ const colorVarList: [string, string, string, string?][] = [
     "--vscode-sideBarSectionHeader-background",
     ".pane-header.expanded",
   ],
+  [
+    "dropdown",
+    "--vscode-dropdown-background",
+    ".select-box-dropdown-list-container",
+  ],
   // Background color is embedded into canvas so can not remove
   ["minimap", "--fgt-transparent", ".minimap"],
   [
