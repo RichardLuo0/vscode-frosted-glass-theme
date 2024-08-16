@@ -93,8 +93,7 @@ async function chooseThemeMod(
 ) {
   const useCurrent: QuickPickItem & { _path?: string } = {
     label: "Use current theme",
-    description:
-      "No change, you need to modify `colorCustomizations` yourself.",
+    detail: "No change, you need to modify `colorCustomizations` yourself.",
   };
   const themeModItem = await window.showQuickPick(
     listFilesInDir(context.asAbsolutePath("theme")).then(
