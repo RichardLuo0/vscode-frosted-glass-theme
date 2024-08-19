@@ -1,3 +1,5 @@
+import { makeAbsolutePath } from "./utils";
+
 declare const trustedTypes: any;
 
 const ttp = trustedTypes.createPolicy("fgtSvg", {
@@ -12,14 +14,8 @@ const ttp = trustedTypes.createPolicy("fgtSvg", {
 
 export function loadSvgs(svgList: string[]) {
   let fetchList = [];
-  const path = import.meta.url;
-  const currentPath = path.substring(0, path.lastIndexOf("/") + 1);
   for (const svg of svgList) {
-    let absoluteURL =
-      svg.startsWith(".") || svg.startsWith("..")
-        ? currentPath + svg
-        : `vscode-file://vscode-app/${svg}`;
-    fetchList.push(fetch(absoluteURL));
+    fetchList.push(fetch(makeAbsolutePath(svg)));
   }
   return async function mountSvgTo(
     element: Node & ParentNode,

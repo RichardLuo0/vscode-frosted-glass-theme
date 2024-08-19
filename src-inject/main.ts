@@ -6,6 +6,7 @@ import { loadSvgs } from "./loadSvg";
 import "./miscellaneous";
 import { observeThemeColorChange } from "./observeThemeColor";
 import { proxy, useHTMLElement, useRet } from "./proxy";
+import { makeAbsolutePath } from "./utils";
 import fgtSheet from "./vscode-frosted-glass-theme.css" with { type: "css" };
 
 const { opacity, borderRadius } = config;
@@ -18,6 +19,14 @@ fgtSheet.insertRule(
     --fgt-minimap-opacity: ${opacity.minimap * 100}%;
   }`
 );
+
+for (const style of config.additionalStyle as string[]) {
+  const styleElement = document.createElement("link");
+  styleElement.setAttribute("rel", "stylesheet");
+  styleElement.setAttribute("type", "text/css");
+  styleElement.setAttribute("href", makeAbsolutePath(style));
+  document.head.append(styleElement);
+}
 
 function insertVariables(cssSelector: string, variables: object) {
   fgtSheet.insertRule(

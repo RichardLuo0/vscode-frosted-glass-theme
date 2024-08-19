@@ -8,3 +8,15 @@ export function isHTMLElementWithClass<T>(
 ): a is HTMLElement & T {
   return isHTMLElement(a) && a.classList.contains(className);
 }
+
+const path = import.meta.url;
+const scriptPath = path.substring(0, path.lastIndexOf("/") + 1);
+export function getScriptPath() {
+  return scriptPath;
+}
+
+export function makeAbsolutePath(url: string) {
+  return url.startsWith(".") || url.startsWith("..")
+    ? getScriptPath() + url
+    : `vscode-file://vscode-app/${url}`;
+}
