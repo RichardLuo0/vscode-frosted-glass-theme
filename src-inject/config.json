@@ -36,7 +36,9 @@
     "enabled": true,
     "opacity": 0.1,
     "gradientSize": 200,
-    "clickEffect": true
+    "clickEffect": true,
+    "focusBackground": true,
+    "disableForDisabledItem": false
   },
   "borderRadius": {
     "menu": "",

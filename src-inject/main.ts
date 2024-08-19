@@ -8,7 +8,7 @@ import { observeThemeColorChange } from "./observeThemeColor";
 import { proxy, useHTMLElement, useRet } from "./proxy";
 import fgtSheet from "./vscode-frosted-glass-theme.css" with { type: "css" };
 
-const { opacity, revealEffect, borderRadius } = config;
+const { opacity, borderRadius } = config;
 
 fgtSheet.insertRule(
   `[role="application"] {
@@ -36,7 +36,7 @@ insertVariables(
   config.variableDark
 );
 
-if (revealEffect.enabled) {
+if (config.revealEffect.enabled) {
   fgtSheet.insertRule(
     `.monaco-menu-container ul.actions-container > li > a.action-menu-item {
       background-color: transparent !important;

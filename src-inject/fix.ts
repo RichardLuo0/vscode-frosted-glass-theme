@@ -1,9 +1,6 @@
-import { applyElementsEffect } from "fluent-reveal-effect";
-import config from "./config.json" with { type: "json" };
 import { applyAndProxy, proxy, proxyAll, useArgs, useRet } from "./proxy";
+import { applyRevealEffect } from "./revealEffect";
 import { isHTMLElement } from "./utils";
-
-const { revealEffect } = config;
 
 // `position: fixed` will be invalid if `backdrop-filter` or `transform` is set on ancestor.
 // 1. Clone and replace the `div.monaco-action-bar` to keep the layout and style things.
@@ -20,12 +17,14 @@ export function fixMenu(menuContainer: string | Node) {
     )
   );
 
-  function moveSubMenu(src: Element, parent: Element) {
-    const _src = src as Element & { _currentSubMenu: Node };
-    function fixSubMenu<NodeType extends string | Node>(subMenu: NodeType) {
-      if (!isHTMLElement(subMenu)) return subMenu;
-      const _subMenu = subMenu as HTMLElement & { _hiddenTag: boolean };
-      if (_subMenu._hiddenTag) return subMenu;
+  function moveSubMenu(
+    src: HTMLElement & { _subMenu?: Node },
+    parent: Element
+  ) {
+    function fixSubMenu<NodeType extends string | Node>(
+      subMenu: NodeType & { _hiddenTag?: boolean }
+    ) {
+      if (!isHTMLElement(subMenu) || subMenu._hiddenTag) return subMenu;
 
       // https://github.com/microsoft/vscode/blob/5cd507ba17ec7a0d8a822c35bfcde8eca33de861/src/vs/base/browser/dom.ts#L581
       // Fake parent, thus `dom.isAncestor` will always return `true`
@@ -35,16 +34,14 @@ export function fixMenu(menuContainer: string | Node) {
         },
       });
       // https://github.com/microsoft/vscode/blob/3e452bfef11522d0151fd2e884bb8bf869d7d2fa/src/vs/base/browser/dom.ts#L632
-      // Changes since vscode 1.84.0
-      _src._currentSubMenu = subMenu;
+      // Change since vscode 1.84.0
+      src._subMenu = subMenu;
       proxy(
         src,
         "contains",
         useRet(
           (ret, e) =>
-            ret ||
-            _src._currentSubMenu === e ||
-            _src._currentSubMenu.contains(e)
+            ret || src._subMenu === e || (src._subMenu?.contains(e) ?? false)
         )
       );
       // If submenu loses focus, dispatch to `<li>`
@@ -56,7 +53,7 @@ export function fixMenu(menuContainer: string | Node) {
       // Recursively fix new menu
       fixMenu(subMenu);
 
-      _subMenu._hiddenTag = true;
+      subMenu._hiddenTag = true;
       return subMenu;
     }
 
@@ -79,22 +76,13 @@ export function fixMenu(menuContainer: string | Node) {
 
     actionBar.className = "";
     actionBar.appendChild(scrollableElement);
-    const menuItemList = actionBar.querySelectorAll<HTMLElement>(
-      "ul.actions-container > li:not(:has(a.separator))"
-    );
-    menuItemList.forEach(menuItem => {
-      moveSubMenu(menuItem, actionBar);
-    });
+    actionBar
+      .querySelectorAll<HTMLElement>(
+        "ul.actions-container > li:has(> .monaco-submenu-item)"
+      )
+      .forEach(menuItem => moveSubMenu(menuItem, actionBar));
 
-    if (revealEffect.enabled) {
-      applyElementsEffect(menuItemList, {
-        lightColor: `color-mix(in srgb, var(--vscode-menu-selectionBackground) ${
-          revealEffect.opacity * 100
-        }%, transparent)`,
-        gradientSize: revealEffect.gradientSize,
-        clickEffect: revealEffect.clickEffect,
-      });
-    }
+    applyRevealEffect(actionBar);
 
     return actionBar;
   }

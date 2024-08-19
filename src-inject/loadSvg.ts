@@ -25,7 +25,7 @@ export function loadSvgs(svgList: string[]) {
     element: Node & ParentNode,
     copy: boolean = false
   ) {
-    let _this = mountSvgTo as unknown as { svgs: Node[] };
+    let _this = mountSvgTo as typeof mountSvgTo & { svgs?: Node[] };
     let justCreated = false;
     if (!_this.svgs) {
       justCreated = true;
