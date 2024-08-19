@@ -93,7 +93,7 @@ const colorVarList: [string, string, string, string?][] = [
   [
     "dropdown",
     "--vscode-dropdown-background",
-    ".select-box-dropdown-list-container",
+    ".select-box-dropdown-list-container, .select-box-details-pane",
   ],
   // Background color is embedded into canvas so can not remove
   ["minimap", "--fgt-transparent", ".minimap"],
