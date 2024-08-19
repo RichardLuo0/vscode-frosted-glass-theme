@@ -19,23 +19,21 @@ fgtSheet.insertRule(
   }`
 );
 
-fgtSheet.insertRule(
-  `[role="application"] {
-    ${Object.entries(config.variable).reduce((total, pair) => {
+function insertVariables(cssSelector: string, variables: object) {
+  fgtSheet.insertRule(
+    `${cssSelector} {
+    ${Object.entries(variables).reduce((total, pair) => {
       const [key, value] = pair;
       return total + `--${key}: ${value};`;
     }, "")}
   }`
-);
+  );
+}
 
-fgtSheet.insertRule(
-  `[role="application"].vs-dark,
-  [role="application"].hc-black {
-    ${Object.entries(config.variableDark).reduce((total, pair) => {
-      const [key, value] = pair;
-      return total + `--${key}: ${value};`;
-    }, "")}
-  }`
+insertVariables('[role="application"]', config.variable);
+insertVariables(
+  '[role="application"].vs-dark, [role="application"].hc-black',
+  config.variableDark
 );
 
 if (revealEffect.enabled) {
