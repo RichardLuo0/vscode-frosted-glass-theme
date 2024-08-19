@@ -8,7 +8,7 @@
   },
   "publisher": "RichardLuo",
   "description": "Bring frosted glass menu (like windows acrylic or mac os) to your vscode!",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/RichardLuo0/vscode-frosted-glass-theme"
@@ -136,6 +136,12 @@
               "fgt-mica-brightness": "brightness(30%)"
             },
             "description": "CSS variable in dark mode. You may use them in settings and svg."
+          },
+          "frosted-glass-theme.additionalStyle": {
+            "type": "array",
+            "order": 6,
+            "default": [],
+            "description": "Additional style. They will be appended to <head>. You can add custom animations or styles."
           }
         }
       },
@@ -202,6 +208,16 @@
             "type": "boolean",
             "default": true,
             "description": "Enable click effect."
+          },
+          "frosted-glass-theme.revealEffect.focusBackground": {
+            "type": "boolean",
+            "default": true,
+            "description": "Enable background for focused menu items."
+          },
+          "frosted-glass-theme.revealEffect.disableForDisabledItem": {
+            "type": "boolean",
+            "default": false,
+            "description": "Disable reveal effect for disabled menu item."
           }
         }
       },
@@ -290,13 +306,13 @@
     "package": "vsce package"
   },
   "devDependencies": {
-    "@types/node": "^22.3.0",
+    "@types/node": "^22.4.1",
     "@types/uuid": "^10.0.0",
     "@types/vscode": "^1.64.0",
     "@typescript-eslint/eslint-plugin": "^8.1.0",
     "@typescript-eslint/parser": "^8.1.0",
     "@vscode/test-electron": "^2.4.1",
-    "esbuild": "0.23.0",
+    "esbuild": "0.23.1",
     "eslint": "^9.9.0",
     "generate-license-file": "^3.5.1",
     "typescript": "^5.5.4"

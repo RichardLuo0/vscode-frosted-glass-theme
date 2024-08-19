@@ -1,5 +1,11 @@
 # Change Log
 
+## [0.8.1]
+- 6f4f2bb: feat: add `dropdown` acrylic
+- bc29941: feat: add animation to dropdown
+- 1941ddc: feat: focusBackground and disableForDisabledItem
+- f16eef7: feat: add `additionalStyle`
+
 ## [0.8.0]
 - 2caf410: feat: add open config in readonly mode
 - fd96bcd: feat: add localization

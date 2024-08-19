@@ -110,7 +110,8 @@ https://github.com/microsoft/vscode/blob/4b78857fd9c934cab979171380573452ffdc612
 .monaco-menu-container .monaco-scrollable-element,
 .action-widget,
 .monaco-breadcrumbs-picker,
-.quick-input-widget {
+.quick-input-widget,
+.monaco-select-box-dropdown-container {
   animation: var(--fgt-animation-menu);
 }
 

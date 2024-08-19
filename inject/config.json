@@ -22,6 +22,7 @@
     "fgt-mica-luminosity": "hsl(0, 0%, 20%)",
     "fgt-mica-brightness": "brightness(30%)"
   },
+  "additionalStyle": [],
   "opacity": {
     "selection": 1,
     "border": 0.4,
@@ -36,7 +37,9 @@
     "enabled": true,
     "opacity": 0.1,
     "gradientSize": 200,
-    "clickEffect": true
+    "clickEffect": true,
+    "focusBackground": true,
+    "disableForDisabledItem": false
   },
   "borderRadius": {
     "menu": "",
