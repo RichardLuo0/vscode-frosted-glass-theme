@@ -45,9 +45,12 @@ if (fakeMica.enabled) {
 
   if (fakeMica.editorBackgroundFix) {
     fgtSheet.insertRule(
-      `.content, .monaco-editor, .monaco-editor-background {
-      background-color: transparent !important;
-    }`
+      `.content,
+      .monaco-editor,
+      .monaco-editor-background,
+      .view-overlays .selected-text:has(+ .monaco-editor-background) {
+        background-color: transparent !important;
+      }`
     );
     fgtSheet.insertRule(
       `.editor-group-container.empty {
