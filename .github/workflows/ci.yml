@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI for testing
+name: CI for Testing
 
 # Controls when the workflow will run
 on:
@@ -37,4 +37,6 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
+          name: vsix
           path: ./*.vsix
+          compression-level: 0
