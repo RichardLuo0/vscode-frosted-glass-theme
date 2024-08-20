@@ -26,20 +26,20 @@ if (fakeMica.enabled) {
   if (fakeMica.titlebarFix) {
     fgtSheet.insertRule(
       `.part.titlebar {
-      background-color: color-mix(
-        in srgb,
-        var(--vscode-titleBar-activeBackground) ${
-          fakeMica.titlebarOpacity * 100
-        }%, transparent) !important;
-    }`
+        background-color: color-mix(
+          in srgb,
+          var(--vscode-titleBar-activeBackground) ${
+            fakeMica.titlebarOpacity * 100
+          }%, transparent) !important;
+      }`
     );
   }
 
   if (fakeMica.listBackgroundFix) {
     fgtSheet.insertRule(
       `.monaco-list-rows {
-      background-color: transparent !important;
-    }`
+        background-color: transparent !important;
+      }`
     );
   }
 
@@ -54,8 +54,8 @@ if (fakeMica.enabled) {
     );
     fgtSheet.insertRule(
       `.editor-group-container.empty {
-      background-color: var(--vscode-editor-background);
-    }`
+        background-color: var(--vscode-editor-background);
+      }`
     );
   }
 }
