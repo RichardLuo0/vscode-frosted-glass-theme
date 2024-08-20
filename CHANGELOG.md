@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.8.2]
+- 059f3db: fix: extra space before selected text
+
 ## [0.8.1]
 - 6f4f2bb: feat: add `dropdown` acrylic
 - bc29941: feat: add animation to dropdown

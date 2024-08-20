@@ -15,16 +15,19 @@ var Fe=Object.create;var le=Object.defineProperty;var Be=Object.getOwnPropertyDe
       filter: ${E.filter};
       background: url("vscode-file://vscode-app/${E.url}") center center / cover no-repeat
     }`),E.titlebarFix&&M.insertRule(`.part.titlebar {
-      background-color: color-mix(
-        in srgb,
-        var(--vscode-titleBar-activeBackground) ${E.titlebarOpacity*100}%, transparent) !important;
-    }`),E.listBackgroundFix&&M.insertRule(`.monaco-list-rows {
-      background-color: transparent !important;
-    }`),E.editorBackgroundFix&&(M.insertRule(`.content, .monaco-editor, .monaco-editor-background {
-      background-color: transparent !important;
-    }`),M.insertRule(`.editor-group-container.empty {
-      background-color: var(--vscode-editor-background);
-    }`)));async function Z(e,t){E.enabled&&(await t,e.classList.add("fgt-mica-svg-loaded"))}function m(e,t,o){if(!e||!e[t]||e[t]._hiddenTag)return;let n=e[t];e[t]=function(...r){return o.call(this,n.bind(this),...r)},e[t]._hiddenTag=!0}function z(e,t,o){for(let n of t)m(e,n,o)}function H(e){return function(t,...o){return e.call(this,t(...o),...o)}}function ee(e){return function(t,...o){return e.call(this,...o),t(...o)}}function C(e,t){return function(o,n,...r){return k(n)&&(e===null||n.classList.contains(e))&&t.call(this,n,...r),o(n,...r)}}function P(e,t,o,n){let r=e.querySelector("div."+t);r&&n(r),o instanceof Array?z(e,o,C(t,n)):m(e,o,C(t,n))}var ve=Pe(he());import De from"./config.json"with{type:"json"};import Xe from"./vscode-frosted-glass-theme.css"with{type:"css"};var{revealEffect:w}=De;w.enabled&&w.focusBackground&&Xe.insertRule(`ul.actions-container .action-item.focused { 
+        background-color: color-mix(
+          in srgb,
+          var(--vscode-titleBar-activeBackground) ${E.titlebarOpacity*100}%, transparent) !important;
+      }`),E.listBackgroundFix&&M.insertRule(`.monaco-list-rows {
+        background-color: transparent !important;
+      }`),E.editorBackgroundFix&&(M.insertRule(`.content,
+      .monaco-editor,
+      .monaco-editor-background,
+      .view-overlays .selected-text:has(+ .monaco-editor-background) {
+        background-color: transparent !important;
+      }`),M.insertRule(`.editor-group-container.empty {
+        background-color: var(--vscode-editor-background);
+      }`)));async function Z(e,t){E.enabled&&(await t,e.classList.add("fgt-mica-svg-loaded"))}function m(e,t,o){if(!e||!e[t]||e[t]._hiddenTag)return;let n=e[t];e[t]=function(...r){return o.call(this,n.bind(this),...r)},e[t]._hiddenTag=!0}function z(e,t,o){for(let n of t)m(e,n,o)}function H(e){return function(t,...o){return e.call(this,t(...o),...o)}}function ee(e){return function(t,...o){return e.call(this,...o),t(...o)}}function C(e,t){return function(o,n,...r){return k(n)&&(e===null||n.classList.contains(e))&&t.call(this,n,...r),o(n,...r)}}function P(e,t,o,n){let r=e.querySelector("div."+t);r&&n(r),o instanceof Array?z(e,o,C(t,n)):m(e,o,C(t,n))}var ve=Pe(he());import De from"./config.json"with{type:"json"};import Xe from"./vscode-frosted-glass-theme.css"with{type:"css"};var{revealEffect:w}=De;w.enabled&&w.focusBackground&&Xe.insertRule(`ul.actions-container .action-item.focused { 
       background-color: color-mix(in srgb, var(--vscode-menu-selectionBackground) ${w.opacity*100}%, transparent) 
     }`);function Se(e){if(w.enabled){let t=e.querySelectorAll(w.disableForDisabledItem?"ul.actions-container > li:not(.disabled)":"ul.actions-container > li:not(:has(> a.separator))");(0,ve.applyElementsEffect)(t,{lightColor:`color-mix(in srgb, var(--vscode-menu-selectionBackground) ${w.opacity*100}%, transparent)`,gradientSize:w.gradientSize,clickEffect:w.clickEffect})}}function N(e){if(!k(e))return;m(e,"appendChild",(n,r)=>n(k(r)&&r.classList.contains("monaco-scrollable-element")?o(r):r));function t(n,r){function u(d){return!k(d)||d._hiddenTag||(Object.defineProperty(d,"parentNode",{get(){return n}}),n._subMenu=d,m(n,"contains",H((g,B)=>g||n._subMenu===B||(n._subMenu?.contains(B)??!1))),d.addEventListener("focusout",g=>setTimeout(()=>n.dispatchEvent(new Event(g.type,{...g,bubbles:!1})))),N(d),d._hiddenTag=!0),d}n.append=d=>r.append(u(d)),n.removeChild=d=>r.removeChild(d),n.replaceChild=(d,g)=>r.replaceChild(u(d),g)}function o(n){if(!k(n))return n;let r=n.querySelector("div.monaco-action-bar");if(!r)return n;let u=r.cloneNode();for(let d of Array.from(r.children))u.appendChild(d);return r.parentNode?.replaceChild(u,r),r.className="",r.appendChild(n),r.querySelectorAll("ul.actions-container > li:has(> .monaco-submenu-item)").forEach(d=>t(d,r)),Se(r),r}}function Te(e){let t=r=>{k(r)&&z(r,["append","appendChild"],ee(N))};(function(){let r=e.querySelector("#workbench\\.parts\\.titlebar > div > div.titlebar-left");if(!r)return;P(r,"menubar","append",d=>{d.querySelectorAll("div.menubar-menu-button").forEach(t),z(d,["append","appendChild","insertBefore"],ee(t))})})();function o(r){if(!r)return;P(r,"menubar","prepend",d=>{P(d,"menubar-menu-button","appendChild",t)})}o(e.querySelector("#workbench\\.parts\\.activitybar > div.content"));let n=e.querySelector("#workbench\\.parts\\.sidebar");n&&P(n,"composite",["insertBefore","appendChild"],u=>o(u.querySelector("div.composite-bar-container")))}var xe=N;import Ye from"./config.json"with{type:"json"};import ne from"./vscode-frosted-glass-theme.css"with{type:"css"};var{miscellaneous:Ge}=Ye;Ge.progressBarBehindSectionHeader?(ne.insertRule(`
     .pane > .monaco-progress-container {
