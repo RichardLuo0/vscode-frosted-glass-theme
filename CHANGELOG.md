@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.8.5]
+- 47bbda1: fix: use vscode default animation if not presented
+
 ## [0.8.4]
 - 87f8c51: feat: add validation to settings
 - 9d52f4f: feat: separate dropdown animation
