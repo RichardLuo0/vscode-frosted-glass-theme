@@ -100,7 +100,7 @@ https://github.com/microsoft/vscode/blob/4b78857fd9c934cab979171380573452ffdc612
   }
 }
 
-/* Menu Dropdown Animation */
+/* Menu Animation */
 .monaco-menu-container,
 .context-view {
   overflow: clip !important;
@@ -110,9 +110,22 @@ https://github.com/microsoft/vscode/blob/4b78857fd9c934cab979171380573452ffdc612
 .monaco-menu-container .monaco-scrollable-element,
 .action-widget,
 .monaco-breadcrumbs-picker,
-.quick-input-widget,
-.monaco-select-box-dropdown-container {
+.quick-input-widget {
   animation: var(--fgt-animation-menu);
+}
+
+/* Dropdown Animation */
+.monaco-select-box-dropdown-container {
+  animation: var(--fgt-animation-dropdown);
+}
+
+/* Hover Animation */
+div[widgetid="editor.contrib.resizableContentHoverWidget"] {
+  overflow: clip !important;
+}
+
+.monaco-hover {
+  animation: var(--fgt-animation-hover);
 }
 
 @keyframes fgtDropdown {

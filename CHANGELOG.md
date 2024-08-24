@@ -1,5 +1,10 @@
 # Change Log
 
+## [0.8.4]
+- 87f8c51: feat: add validation to settings
+- 9d52f4f: feat: separate dropdown animation
+- a8e4bea: feat: add hover animation (defaults to `none`)
+
 ## [0.8.2]
 - 059f3db: fix: extra space before selected text
 
