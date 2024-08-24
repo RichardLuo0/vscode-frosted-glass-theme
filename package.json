@@ -93,7 +93,26 @@
               "decorationsOverviewRuler": "blur(30px)",
               "terminalOverlay": "blur(30px)"
             },
-            "description": "The filter used for frosted glassed effect. Check README for detailed description."
+            "description": "The filter used for frosted glassed effect. Check README for detailed description.",
+            "patternProperties": {
+              ".*": {
+                "type": [
+                  "string",
+                  "object"
+                ],
+                "properties": {
+                  "filter": {
+                    "type": "string"
+                  },
+                  "disableBackgroundColor": {
+                    "type": "boolean"
+                  },
+                  "opacity": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
           },
           "frosted-glass-theme.transition": {
             "type": "string",
@@ -107,7 +126,10 @@
             "default": [
               "../resource/mica.svg"
             ],
-            "description": "The svg that gets loaded on start. No tint (ie. no element current background info)."
+            "description": "The svg that gets loaded on start. No tint (ie. no element current background info).",
+            "items": {
+              "type": "string"
+            }
           },
           "frosted-glass-theme.tintSvg": {
             "type": "array",
@@ -115,7 +137,10 @@
             "default": [
               "../resource/acrylic.svg"
             ],
-            "markdownDescription": "The tint svg that gets loaded on start. `--fgt-current-background` indicts current element background color."
+            "markdownDescription": "The tint svg that gets loaded on start. `--fgt-current-background` indicts current element background color.",
+            "items": {
+              "type": "string"
+            }
           },
           "frosted-glass-theme.variable": {
             "type": "object",
@@ -125,7 +150,12 @@
               "fgt-mica-luminosity": "hsl(0, 0%, 80%)",
               "fgt-mica-brightness": ""
             },
-            "description": "CSS variable. You may use them in settings and svg."
+            "description": "CSS variable. You may use them in settings and svg.",
+            "patternProperties": {
+              ".*": {
+                "type": "string"
+              }
+            }
           },
           "frosted-glass-theme.variableDark": {
             "type": "object",
@@ -135,13 +165,21 @@
               "fgt-mica-luminosity": "hsl(0, 0%, 20%)",
               "fgt-mica-brightness": "brightness(30%)"
             },
-            "description": "CSS variable in dark mode. You may use them in settings and svg."
+            "description": "CSS variable in dark mode. You may use them in settings and svg.",
+            "patternProperties": {
+              ".*": {
+                "type": "string"
+              }
+            }
           },
           "frosted-glass-theme.additionalStyle": {
             "type": "array",
             "order": 6,
             "default": [],
-            "description": "Additional style. They will be appended to <head>. You can add custom animations or styles."
+            "description": "Additional style paths. They will be appended to <head>. You can add custom animations or styles.",
+            "items": {
+              "type": "string"
+            }
           }
         }
       },
@@ -306,14 +344,14 @@
     "package": "vsce package"
   },
   "devDependencies": {
-    "@types/node": "^22.4.1",
+    "@types/node": "^22.5.0",
     "@types/uuid": "^10.0.0",
     "@types/vscode": "^1.64.0",
     "@typescript-eslint/eslint-plugin": "^8.2.0",
     "@typescript-eslint/parser": "^8.2.0",
     "@vscode/test-electron": "^2.4.1",
     "esbuild": "0.23.1",
-    "eslint": "^9.9.0",
+    "eslint": "^9.9.1",
     "generate-license-file": "^3.5.1",
     "typescript": "^5.5.4"
   },
