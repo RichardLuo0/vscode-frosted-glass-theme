@@ -14,5 +14,7 @@
   "setup.chooseWallpaper": "选择一张壁纸",
   "setup.inputWallpaper": "壁纸文件路径",
   "setup.chooseThemeMod": "选择一个主题修改器使mica特效能够穿透",
+  "setup.useCurrentThemeLabel": "使用当前主题（无更改）",
+  "setup.useCurrentThemeDetail": "你需要修改自行修改 `colorCustomizations`",
   "setup.complete": "配置完成。"
 }

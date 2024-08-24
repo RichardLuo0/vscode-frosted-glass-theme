@@ -92,8 +92,8 @@ async function chooseThemeMod(
   fgtConfig: WorkspaceConfiguration
 ) {
   const useCurrent: QuickPickItem & { _path?: string } = {
-    label: "Use current theme",
-    detail: "No change, you need to modify `colorCustomizations` yourself.",
+    label: localize("setup.useCurrentThemeLabel"),
+    detail: localize("setup.useCurrentThemeDetail"),
   };
   const themeModItem = await window.showQuickPick(
     listFilesInDir(context.asAbsolutePath("theme")).then(
