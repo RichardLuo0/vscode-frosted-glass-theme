@@ -226,6 +226,11 @@
             "type": "string",
             "default": "var(--fgt-animation-curve) fgtDropdown",
             "markdownDescription": "CSS animation for dropdown. Set to blank or `none` to disable the animation."
+          },
+          "frosted-glass-theme.animation.hover": {
+            "type": "string",
+            "default": "none",
+            "markdownDescription": "CSS animation for editor widget. Set to blank or `none` to disable the animation."
           }
         }
       },
