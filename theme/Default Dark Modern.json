@@ -1,0 +1,38 @@
+{
+  "workbench.colorCustomizations": {
+    "[Default Dark Modern]": {
+      "activityBar.background": "#181818cc",
+      "breadcrumb.background": "#00000000",
+      "button.background": "#0078D499",
+      "dropdown.background": "#3131314d",
+      "dropdown.border": "#3C3C3C4d",
+      "editor.background": "#1F1F1F99",
+      "editor.lineHighlightBorder": "#2828284d",
+      "editorGroupHeader.tabsBackground": "#181818cc",
+      "editorGutter.background": "#00000000",
+      "editorPane.background": "#00000000",
+      "input.background": "#3131314d",
+      "list.activeSelectionBackground": "#04395e99",
+      "list.hoverBackground": "#1F1F1F99",
+      "list.inactiveSelectionBackground": "#37373d99",
+      "menu.background": "#1F1F1F99",
+      "menu.selectionBackground": "#ffffff",
+      "multiDiffEditor.headerBackground": "#00000000",
+      "notebook.cellEditorBackground": "#00000000",
+      "panel.background": "#181818cc",
+      "settings.focusedRowBackground": "#00000000",
+      "sideBar.background": "#181818cc",
+      "sideBarSectionHeader.background": "#1818184d",
+      "sideBarStickyScroll.background": "#18181866",
+      "statusBar.background": "#181818cc",
+      "statusBar.noFolderBackground": "#1F1F1Fcc",
+      "tab.activeBackground": "#1F1F1F99",
+      "tab.activeBorder": "#1F1F1F99",
+      "tab.inactiveBackground": "#00000000",
+      "terminal.background": "#00000000",
+      "tree.tableOddRowsBackground": "#00000000",
+      "welcomePage.tileBackground": "#2B2B2B4d",
+      "welcomePage.tileHoverBackground": "#26262699"
+    }
+  }
+}
