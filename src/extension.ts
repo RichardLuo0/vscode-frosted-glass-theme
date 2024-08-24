@@ -98,7 +98,7 @@ export function activate(context: ExtensionContext) {
     "frosted-glass-theme.setup",
     async () => {
       blockConfigChangedMsg = true;
-      if (await setupFunc(context)) updateConfiguration();
+      if (await setupFunc()) updateConfiguration();
       blockConfigChangedMsg = false;
     }
   );

@@ -18,4 +18,5 @@ node_modules/**
 build.*
 .*.json
 licenses/**
+theme/**
 TODO.md
