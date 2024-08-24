@@ -1,4 +1,6 @@
 {
+  "yes": "Yes",
+  "no": "No",
   "tryAdminMsg": "Require admin privileges to apply changes.",
   "admin": "Run VS Code with admin privileges so the changes can be applied.",
   "enabled": "Frosted glass theme enabled. Restart to take effect. If Code complains about it is corrupted, CLICK DON'T SHOW AGAIN. See README for more detail.",
