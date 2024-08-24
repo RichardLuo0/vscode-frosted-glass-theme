@@ -215,22 +215,22 @@
           "frosted-glass-theme.animation.menu": {
             "type": "string",
             "default": "var(--fgt-animation-curve) fgtDropdown",
-            "markdownDescription": "CSS animation for menu. Set to blank or `none` to disable the animation."
+            "description": "CSS animation for menu. Set to blank to use vscode default animation."
           },
           "frosted-glass-theme.animation.dialog": {
             "type": "string",
             "default": "var(--fgt-animation-curve) fgtZoomIn",
-            "markdownDescription": "CSS animation for dialog. Set to blank or `none` to disable the animation."
+            "description": "CSS animation for dialog. Set to blank to use vscode default animation."
           },
           "frosted-glass-theme.animation.dropdown": {
             "type": "string",
             "default": "var(--fgt-animation-curve) fgtDropdown",
-            "markdownDescription": "CSS animation for dropdown. Set to blank or `none` to disable the animation."
+            "description": "CSS animation for dropdown. Set to blank to use vscode default animation."
           },
           "frosted-glass-theme.animation.hover": {
             "type": "string",
-            "default": "none",
-            "markdownDescription": "CSS animation for hover. Set to blank or `none` to disable the animation."
+            "default": "",
+            "description": "CSS animation for hover. Set to blank to use vscode default animation."
           }
         }
       },

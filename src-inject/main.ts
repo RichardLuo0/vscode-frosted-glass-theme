@@ -1,4 +1,5 @@
 import { applyAcrylic, applyAcrylicOnMenu } from "./acrylic";
+import "./animation";
 import config from "./config.json" with { type: "json" };
 import { applyFakeMica } from "./fakeMica";
 import { fixContextMenu, fixMenu, fixMenuBar } from "./fix";
@@ -14,10 +15,6 @@ const { opacity, borderRadius } = config;
 fgtSheet.insertRule(
   `[role="application"] {
     --fgt-transition: ${config.transition};
-    --fgt-animation-menu: ${config.animation.menu};
-    --fgt-animation-dialog: ${config.animation.dialog};
-    --fgt-animation-dropdown: ${config.animation.dropdown};
-    --fgt-animation-hover: ${config.animation.hover};
     --fgt-minimap-opacity: ${opacity.minimap * 100}%;
   }`
 );

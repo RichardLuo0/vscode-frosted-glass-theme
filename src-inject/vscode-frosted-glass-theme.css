@@ -72,10 +72,6 @@
 }
 
 /* Custom Dialog Box */
-.dialog-shadow {
-  animation: var(--fgt-animation-dialog);
-}
-
 .dimmed {
   animation: 300ms linear 0s 1 forwards fgtFadeIn;
 }
@@ -107,25 +103,9 @@ https://github.com/microsoft/vscode/blob/4b78857fd9c934cab979171380573452ffdc612
   overflow-clip-margin: 10px !important;
 }
 
-.monaco-menu-container .monaco-scrollable-element,
-.action-widget,
-.monaco-breadcrumbs-picker,
-.quick-input-widget {
-  animation: var(--fgt-animation-menu);
-}
-
-/* Dropdown Animation */
-.monaco-select-box-dropdown-container {
-  animation: var(--fgt-animation-dropdown);
-}
-
 /* Hover Animation */
 div[widgetid="editor.contrib.resizableContentHoverWidget"] {
   overflow: clip !important;
-}
-
-.monaco-hover {
-  animation: var(--fgt-animation-hover);
 }
 
 @keyframes fgtDropdown {
