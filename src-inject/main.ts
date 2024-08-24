@@ -16,6 +16,7 @@ fgtSheet.insertRule(
     --fgt-transition: ${config.transition};
     --fgt-animation-menu: ${config.animation.menu};
     --fgt-animation-dialog: ${config.animation.dialog};
+    --fgt-animation-dropdown: ${config.animation.dropdown};
     --fgt-minimap-opacity: ${opacity.minimap * 100}%;
   }`
 );

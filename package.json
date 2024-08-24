@@ -148,7 +148,8 @@
             "default": {
               "fgt-luminosity-opacity": "45%",
               "fgt-mica-luminosity": "hsl(0, 0%, 80%)",
-              "fgt-mica-brightness": ""
+              "fgt-mica-brightness": "",
+              "fgt-animation-curve": "300ms cubic-bezier(0, 0.8, 0.2, 1) 0s 1 forwards"
             },
             "description": "CSS variable. You may use them in settings and svg.",
             "patternProperties": {
@@ -213,13 +214,18 @@
         "properties": {
           "frosted-glass-theme.animation.menu": {
             "type": "string",
-            "default": "300ms cubic-bezier(0, 0.8, 0.2, 1) 0s 1 forwards fgtDropdown",
+            "default": "var(--fgt-animation-curve) fgtDropdown",
             "markdownDescription": "CSS animation for menu. Set to blank or `none` to disable the animation."
           },
           "frosted-glass-theme.animation.dialog": {
             "type": "string",
-            "default": "300ms cubic-bezier(0, 0.8, 0.2, 1) 0s 1 forwards fgtZoomIn",
+            "default": "var(--fgt-animation-curve) fgtZoomIn",
             "markdownDescription": "CSS animation for dialog. Set to blank or `none` to disable the animation."
+          },
+          "frosted-glass-theme.animation.dropdown": {
+            "type": "string",
+            "default": "var(--fgt-animation-curve) fgtDropdown",
+            "markdownDescription": "CSS animation for dropdown. Set to blank or `none` to disable the animation."
           }
         }
       },

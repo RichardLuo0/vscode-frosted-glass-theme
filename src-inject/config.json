@@ -15,7 +15,8 @@
   "variable": {
     "fgt-luminosity-opacity": "45%",
     "fgt-mica-luminosity": "hsl(0, 0%, 80%)",
-    "fgt-mica-brightness": ""
+    "fgt-mica-brightness": "",
+    "fgt-animation-curve": "300ms cubic-bezier(0, 0.8, 0.2, 1) 0s 1 forwards"
   },
   "variableDark": {
     "fgt-luminosity-opacity": "85%",
@@ -30,8 +31,9 @@
     "minimap": 0.4
   },
   "animation": {
-    "menu": "300ms cubic-bezier(0, 0.8, 0.2, 1) 0s 1 forwards fgtDropdown",
-    "dialog": "300ms cubic-bezier(0, 0.8, 0.2, 1) 0s 1 forwards fgtZoomIn"
+    "menu": "var(--fgt-animation-curve) fgtDropdown",
+    "dialog": "var(--fgt-animation-curve) fgtZoomIn",
+    "dropdown": "var(--fgt-animation-curve) fgtDropdown",
   },
   "revealEffect": {
     "enabled": true,
