@@ -103,6 +103,11 @@ https://github.com/microsoft/vscode/blob/4b78857fd9c934cab979171380573452ffdc612
   overflow-clip-margin: 10px !important;
 }
 
+/* Dropdown Animation */
+.select-container > .context-view {
+  overflow-clip-margin: 0px !important;
+}
+
 /* Hover Animation */
 div[widgetid="editor.contrib.resizableContentHoverWidget"] {
   overflow: clip !important;

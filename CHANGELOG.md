@@ -1,5 +1,11 @@
 # Change Log
 
+## [0.8.6]
+- bd2bb66: feat: add Default Dark Modern theme mod
+- 799d6bc: feat: setup will load theme mod from github
+- c10472b: fix: no need to reserve space for dropdown
+- 0444142: i18n: improve translation
+
 ## [0.8.5]
 - 47bbda1: fix: use vscode default animation if not presented
 
