@@ -1,6 +1,10 @@
 # vscode-frosted-glass-theme
 Bring frosted glass menu (like windows acrylic or mac os) to your vscode!
 
+![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/RichardLuo.frosted-glass-theme?style=for-the-badge)
+![GitHub Repo stars](https://img.shields.io/github/stars/RichardLuo0/vscode-frosted-glass-theme?style=for-the-badge)
+![Visual Studio Marketplace Rating](https://img.shields.io/visual-studio-marketplace/r/RichardLuo.frosted-glass-theme?style=for-the-badge)
+
 [中文版](READMECN.md)
 
 <span style="font-size: 24px;font-weight: bold">

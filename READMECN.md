@@ -1,6 +1,10 @@
 # vscode 毛玻璃主题
 为你的vscode带来类似Mac OS或是Windows的acrylic material效果的菜单！
 
+![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/RichardLuo.frosted-glass-theme?style=for-the-badge)
+![GitHub Repo stars](https://img.shields.io/github/stars/RichardLuo0/vscode-frosted-glass-theme?style=for-the-badge)
+![Visual Studio Marketplace Rating](https://img.shields.io/visual-studio-marketplace/r/RichardLuo.frosted-glass-theme?style=for-the-badge)
+
 [English](README.md)
 
 <span style="font-size: 24px;font-weight: bold">
