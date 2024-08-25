@@ -16,7 +16,7 @@
   "setup.chooseWallpaper": "Choose a wallpaper",
   "setup.inputWallpaper": "Wallpaper file path",
   "setup.chooseThemeMod": "Choose a theme modification for mica effect to pass through",
-  "setup.useCurrentThemeLabel": "Use current theme (no change)",
-  "setup.useCurrentThemeDetail": "You need to modify `colorCustomizations` yourself.",
+  "setup.noChangeLabel": "No change",
+  "setup.noChangeDetail": "You need to modify `colorCustomizations` yourself.",
   "setup.complete": "Setup complete."
 }

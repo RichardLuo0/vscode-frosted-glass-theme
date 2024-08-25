@@ -87,9 +87,9 @@ async function chooseWallpaper(fgtConfig: WorkspaceConfiguration) {
 }
 
 async function chooseThemeMod(fgtConfig: WorkspaceConfiguration) {
-  const useCurrent: QuickPickItem & { _path?: string } = {
-    label: localize("setup.useCurrentThemeLabel"),
-    detail: localize("setup.useCurrentThemeDetail"),
+  const noChange: QuickPickItem & { _path?: string } = {
+    label: localize("setup.noChangeLabel"),
+    detail: localize("setup.noChangeDetail"),
   };
   const themeModItem = await window.showQuickPick(
     fetch(
@@ -101,14 +101,14 @@ async function chooseThemeMod(fgtConfig: WorkspaceConfiguration) {
       )
       .then(
         pathList => [
-          useCurrent,
+          noChange,
           ...pathList.map(p => ({
             label: p.name,
             detail: p.download_url,
             _path: p.download_url,
           })),
         ],
-        () => [useCurrent]
+        () => [noChange]
       ),
     {
       title: localize("setup.chooseThemeMod"),
