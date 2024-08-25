@@ -25,8 +25,8 @@ Custom SVG is supported.
 ![CommandPanel](image/CommandPanel.jpg) \
 ![PanelHeader](image/PanelHeader.jpg)
 ## Install
-1. Install this extension
-1. Open command panel, type in `Frosted Glass Theme: Enable`, press enter
+1. Install this extension.
+1. Open command panel, type in `Frosted Glass Theme: Enable`, press enter.
 1. **You can customize this theme in vscode settings.**
 1. **Every time vscode updates, you have to re-run `Frosted Glass Theme: Enable`.**
 
