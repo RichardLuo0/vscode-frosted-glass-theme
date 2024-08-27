@@ -1,9 +1,10 @@
-# vscode-frosted-glass-theme
+# Frosted Glass Theme
 Bring frosted glass menu (like windows acrylic or mac os) to your vscode!
 
-![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/RichardLuo.frosted-glass-theme?style=for-the-badge)
-![GitHub Repo stars](https://img.shields.io/github/stars/RichardLuo0/vscode-frosted-glass-theme?style=for-the-badge)
-![Visual Studio Marketplace Rating](https://img.shields.io/visual-studio-marketplace/r/RichardLuo.frosted-glass-theme?style=for-the-badge)
+![Visual Studio Marketplace Last Updated](https://img.shields.io/visual-studio-marketplace/last-updated/RichardLuo.frosted-glass-theme?style=for-the-badge&color=%234CAF50)
+![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/RichardLuo.frosted-glass-theme?style=for-the-badge&color=%232196F3)
+![GitHub Repo stars](https://img.shields.io/github/stars/RichardLuo0/vscode-frosted-glass-theme?style=for-the-badge&link=https%3A%2F%2Fgithub.com%2FRichardLuo0%2Fvscode-frosted-glass-theme&color=%23FF9800)
+![Visual Studio Marketplace Rating](https://img.shields.io/visual-studio-marketplace/r/RichardLuo.frosted-glass-theme?style=for-the-badge&link=https%3A%2F%2Fmarketplace.visualstudio.com%2Fitems%3FitemName%3DRichardLuo.frosted-glass-theme%26ssr%3Dfalse%23review-details&color=%239C27B0)
 
 [中文版](READMECN.md)
 
@@ -84,7 +85,7 @@ You need to set `window.titleBarStyle` to `custom` to see the effect. Otherwise 
     ```
     The `disableBackgroundColor` disables backgrounds except `minimap`, `decorationsOverviewRuler` and `terminalOverlay`. They are based on canvas and draw its own background color, thus you must specify a filter that does not provide a background color to them. \
     There is a special key `default` which acts like a fallback. You can use a special keyword `{key}` to represent the current key. Together with `tintSvg` you can create different color svg for each element. \
-    For example, you created a svg that contains a `<filter>` whose `id` is `fgt-acrylic`, and you add it to `tintSvg`. You can then set a value `url(#fgt-acrylic-{key})`, so it will automatically use that element's background color.
+    For example, you created a svg that contains a `<filter>` whose `id` is `fgt-acrylic`, and you add it to `tintSvg`. You can then set a value `url(#fgt-acrylic-{key})`, so it will automatically use that element's background color. The default config is in `inject/config.json`.
 ## Uninstall
 1. Open command panel, type in "Frosted Glass Theme: Disable", press enter
 1. Uninstall from the extension panel as usual

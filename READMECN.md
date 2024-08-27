@@ -1,9 +1,10 @@
-# vscode 毛玻璃主题
+# 毛玻璃主题
 为你的vscode带来类似Mac OS或是Windows的acrylic material效果的菜单！
 
-![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/RichardLuo.frosted-glass-theme?style=for-the-badge)
-![GitHub Repo stars](https://img.shields.io/github/stars/RichardLuo0/vscode-frosted-glass-theme?style=for-the-badge)
-![Visual Studio Marketplace Rating](https://img.shields.io/visual-studio-marketplace/r/RichardLuo.frosted-glass-theme?style=for-the-badge)
+![Visual Studio Marketplace Last Updated](https://img.shields.io/visual-studio-marketplace/last-updated/RichardLuo.frosted-glass-theme?style=for-the-badge&color=%234CAF50)
+![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/RichardLuo.frosted-glass-theme?style=for-the-badge&color=%232196F3)
+![GitHub Repo stars](https://img.shields.io/github/stars/RichardLuo0/vscode-frosted-glass-theme?style=for-the-badge&link=https%3A%2F%2Fgithub.com%2FRichardLuo0%2Fvscode-frosted-glass-theme&color=%23FF9800)
+![Visual Studio Marketplace Rating](https://img.shields.io/visual-studio-marketplace/r/RichardLuo.frosted-glass-theme?style=for-the-badge&link=https%3A%2F%2Fmarketplace.visualstudio.com%2Fitems%3FitemName%3DRichardLuo.frosted-glass-theme%26ssr%3Dfalse%23review-details&color=%239C27B0)
 
 [English](README.md)
 
@@ -84,7 +85,7 @@
     ```
     `frosted-glass-theme.disableBackgroundColor` 会关闭所有受影响元素的背景颜色，除了 `minimap` 、`decorationsOverviewRuler` 以及 `terminalOverlay`,他们基于canvas绘制并且自己提供背景色，因此你必须为他们指定一个无背景色的filter。\
     有一个特殊的key `default`, 相当于一个默认值。你可以使用一个特殊的关键字 `{key}` 来表示当前的key。和 `tintSvg` 一起用，你就可以为每个元素创建不同颜色的svg。\
-    比如，你创建了一张svg，其中包含一个 `<filter>` 的 `id` 为 `fgt-acrylic`，并且你把它添加到了 `tintSvg` 中。然后你就可以设置一个值 `url(#fgt-acrylic-{key})`，那么它就会自动使用元素的背景颜色。
+    比如，你创建了一张svg，其中包含一个 `<filter>` 的 `id` 为 `fgt-acrylic`，并且你把它添加到了 `tintSvg` 中。然后你就可以设置一个值 `url(#fgt-acrylic-{key})`，那么它就会自动使用元素的背景颜色。默认的设定在 `inject/config.json` 中。
 ## 卸载
 * 打开命令面板，输入“Frosted Glass Theme: Disable”，回车
 * 用扩展面板正常卸载
