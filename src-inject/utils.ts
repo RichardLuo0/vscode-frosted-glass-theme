@@ -9,14 +9,18 @@ export function isHTMLElementWithClass<T>(
   return isHTMLElement(a) && a.classList.contains(className);
 }
 
-const path = import.meta.url;
-const scriptPath = path.substring(0, path.lastIndexOf("/") + 1);
-export function getScriptPath() {
-  return scriptPath;
+let scriptFolder: string | undefined = undefined;
+export function getScriptFolder() {
+  if (scriptFolder) return scriptFolder;
+  const scriptPath = import.meta.url;
+  return (scriptFolder = scriptPath.substring(
+    0,
+    scriptPath.lastIndexOf("/") + 1
+  ));
 }
 
 export function makeAbsolutePath(url: string) {
   return url.startsWith(".") || url.startsWith("..")
-    ? getScriptPath() + url
+    ? getScriptFolder() + url
     : `vscode-file://vscode-app/${url}`;
 }
