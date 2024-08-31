@@ -121,8 +121,8 @@ let filterMap: {
 } = {
   default: {
     filter: "",
-    disableBackgroundColor: true,
-    opacity: 0.4,
+    disableBackgroundColor: false,
+    opacity: 1,
   },
 };
 {

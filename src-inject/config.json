@@ -1,6 +1,10 @@
 {
   "filter": {
-    "default": "url(#fgt-acrylic-{key})",
+    "default": {
+      "filter": "url(#fgt-acrylic-{key})",
+      "disableBackgroundColor": true,
+      "opacity": 0.4
+    },
     "minimap": "blur(30px)",
     "decorationsOverviewRuler": "blur(30px)",
     "terminalOverlay": "blur(30px)"
