@@ -6,7 +6,7 @@ import { isHTMLElement } from "./utils";
 // 1. Clone and replace the `div.monaco-action-bar` to keep the layout and style things.
 // 2. Move the original `div.monaco-action-bar` with event listeners to top level and remove any styles.
 // 3. Move sub menu below `div.monaco-action-bar` to avoid those properties being present on the ancestors.
-export function fixMenu(menuContainer: string | Node) {
+export function fixMenu(menuContainer?: string | Node) {
   if (!isHTMLElement(menuContainer)) return;
 
   proxy(menuContainer, "appendChild", (oldFunc, e) =>
@@ -22,9 +22,9 @@ export function fixMenu(menuContainer: string | Node) {
     parent: Element
   ) {
     function fixSubMenu<NodeType extends string | Node>(
-      subMenu: NodeType & { _hiddenTag?: boolean }
+      subMenu: NodeType & { _fixedSubMenu?: boolean }
     ) {
-      if (!isHTMLElement(subMenu) || subMenu._hiddenTag) return subMenu;
+      if (!isHTMLElement(subMenu) || subMenu._fixedSubMenu) return subMenu;
 
       // https://github.com/microsoft/vscode/blob/5cd507ba17ec7a0d8a822c35bfcde8eca33de861/src/vs/base/browser/dom.ts#L581
       // Fake parent, thus `dom.isAncestor` will always return `true`
@@ -53,7 +53,7 @@ export function fixMenu(menuContainer: string | Node) {
       // Recursively fix new menu
       fixMenu(subMenu);
 
-      subMenu._hiddenTag = true;
+      subMenu._fixedSubMenu = true;
       return subMenu;
     }
 
@@ -90,7 +90,7 @@ export function fixMenu(menuContainer: string | Node) {
 
 // Fix top bar menu
 export function fixMenuBar(gridView: HTMLElement) {
-  const fixMenuButton = (menu: Node) => {
+  const fixMenuButton = (menu?: string | Node) => {
     if (!isHTMLElement(menu)) return;
     proxyAll(menu, ["append", "appendChild"], useArgs(fixMenu));
   };

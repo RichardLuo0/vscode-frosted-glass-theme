@@ -1,94 +1,92 @@
 import { isHTMLElement } from "./utils";
 
-/**
- * Proxy function on src
- */
+type AnyFunction = (this: any, ...args: any) => unknown;
+
+type NewFunc<OldFunc extends AnyFunction> = OldFunc extends (
+  this: infer This,
+  ...args: infer Args
+) => infer Ret
+  ? (this: This, oldFunc: OmitThisParameter<OldFunc>, ...args: Args) => Ret
+  : never;
+
+// Proxy function on src
 export function proxy<
-  SrcType extends Record<string, any>,
+  Src extends Record<
+    FuncName,
+    AnyFunction & {
+      _proxied?: boolean;
+    }
+  >,
   FuncName extends string,
-  FuncType extends SrcType[FuncName],
->(
-  src: SrcType,
-  funcName: FuncName,
-  newFunc: (
-    this: SrcType,
-    oldFunc: FuncType,
-    ...args: Parameters<SrcType[FuncName]>
-  ) => ReturnType<SrcType[FuncName]>
-) {
-  if (!src || !src[funcName] || src[funcName]._hiddenTag) return;
+>(src: Src, funcName: FuncName, newFunc: NewFunc<Src[FuncName]>) {
+  if (!src[funcName] || src[funcName]._proxied) return;
   const oldFunc = src[funcName];
   src[funcName] = function (
-    this: SrcType,
-    ...args: Parameters<SrcType[FuncName]>
+    this: ThisParameterType<Src[FuncName]>,
+    ...args: Parameters<Src[FuncName]>
   ) {
     return newFunc.call(this, oldFunc.bind(this), ...args);
-  } as FuncType;
-  src[funcName]._hiddenTag = true;
+  } as Src[FuncName];
+  src[funcName]._proxied = true;
 }
 
 export function proxyAll<
-  SrcType extends Record<string, any>,
-  FuncName extends string,
-  FuncType extends SrcType[FuncName],
->(
-  src: SrcType,
-  funcNames: FuncName[],
-  newFunc: (
-    this: SrcType,
-    oldFunc: FuncType,
-    ...args: Parameters<SrcType[FuncName[number]]>
-  ) => ReturnType<SrcType[FuncName[number]]>
-) {
+  Src extends Record<FuncNames, AnyFunction>,
+  FuncNames extends string,
+>(src: Src, funcNames: FuncNames[], newFunc: NewFunc<Src[FuncNames]>) {
   for (const funcName of funcNames) proxy(src, funcName, newFunc);
 }
 
-export function useRet<SrcType, ArgsType extends any[], RetType>(
-  f: (this: SrcType, oldRet: RetType, ...args: ArgsType) => RetType
+export function useRet<This, Args extends any[], Ret>(
+  f: (this: This, oldRet: Ret, ...args: Args) => Ret
 ) {
-  type BoundFuncType = (...args: ArgsType) => RetType;
-  return function (this: SrcType, oldFunc: BoundFuncType, ...args: ArgsType) {
+  return function (this: This, oldFunc: (...args: any) => Ret, ...args: Args) {
     return f.call(this, oldFunc(...args), ...args);
   };
 }
 
-export function useArgs<SrcType, ArgsType extends any[]>(
-  f: (this: SrcType, ...args: ArgsType) => void
+export function useArgs<This, Args extends any[]>(
+  f: (this: This, ...args: Args) => void
 ) {
-  type BoundFuncType = (...args: ArgsType) => any;
-  return function (this: SrcType, oldFunc: BoundFuncType, ...args: ArgsType) {
+  return function <OldFunc extends AnyFunction>(
+    this: This,
+    oldFunc: OldFunc,
+    ...args: Args
+  ) {
     f.call(this, ...args);
-    return oldFunc(...args);
+    return oldFunc(...args) as ReturnType<OldFunc>;
   };
 }
 
-export function useHTMLElement<SrcType, ArgsType extends any[]>(
+export function useHTMLElement<This, Args extends any[]>(
   className: string | null,
-  f: (this: SrcType, e: HTMLElement, ...args: ArgsType) => void
+  f: (this: This, e: HTMLElement, ...args: Args) => void
 ) {
-  type BoundFuncType = (e: any, ...args: ArgsType) => any;
-  return function (
-    this: SrcType,
-    oldFunc: BoundFuncType,
-    e: any,
-    ...args: ArgsType
+  return function <OldFunc extends AnyFunction>(
+    this: This,
+    oldFunc: OldFunc,
+    e: unknown,
+    ...args: Args
   ) {
     isHTMLElement(e) &&
       (className === null || e.classList.contains(className)) &&
       f.call(this, e, ...args);
-    return oldFunc(e, ...args);
+    return oldFunc(e, ...args) as ReturnType<OldFunc>;
   };
 }
 
-export function applyAndProxy(
-  parent: Element,
+export function applyAndProxy<FunNames extends string>(
+  parent: Element &
+    Record<FunNames, (this: any, e: any, ...args: any) => unknown>,
   className: string,
-  funcName: string | string[],
-  func: (e: Element) => void
+  funcName: FunNames | FunNames[],
+  func: (e: Element, ...args: any[]) => void
 ) {
   const e = parent.querySelector("div." + className);
   if (e) func(e);
-  if (funcName instanceof Array)
-    proxyAll(parent, funcName, useHTMLElement(className, func));
-  else proxy(parent, funcName, useHTMLElement(className, func));
+  const newFunc = useHTMLElement(className, func) as NewFunc<
+    (typeof parent)[FunNames]
+  >;
+  if (funcName instanceof Array) proxyAll(parent, funcName, newFunc);
+  else proxy(parent, funcName, newFunc);
 }
