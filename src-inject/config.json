@@ -1,7 +1,7 @@
 {
   "filter": {
     "default": {
-      "filter": "url(#fgt-acrylic-{key})",
+      "filter": "saturate(var(--fgt-saturate)) url(#fgt-acrylic-{key})",
       "disableBackgroundColor": true,
       "opacity": 0.4
     },
@@ -17,6 +17,7 @@
     "../resource/acrylic.svg"
   ],
   "variable": {
+    "fgt-saturate": "120%",
     "fgt-luminosity-opacity": "45%",
     "fgt-mica-luminosity": "hsl(0, 0%, 80%)",
     "fgt-mica-brightness": "",
@@ -56,7 +57,7 @@
   "fakeMica": {
     "enabled": false,
     "url": "C:/Windows/Web/Wallpaper/Windows/img0.jpg",
-    "filter": "url(#fgt-mica) var(--fgt-mica-brightness)",
+    "filter": "saturate(var(--fgt-saturate)) url(#fgt-mica) var(--fgt-mica-brightness)",
     "titlebarFix": true,
     "titlebarOpacity": 0.8,
     "listBackgroundFix": true,
