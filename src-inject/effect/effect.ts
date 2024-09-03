@@ -8,19 +8,21 @@ const {
   effect: { enabled, disableMenuFocusBackground, disableForDisabledItem },
 } = config;
 
+const actionItemSelector = disableForDisabledItem
+  ? " li.action-item:not(.disabled)"
+  : " li.action-item:not(:has(> a.separator))";
+
 const selectorMap = {
-  menu: `.monaco-menu-container ${
-    disableForDisabledItem
-      ? " li.action-item:not(.disabled)"
-      : " li.action-item:not(:has(> a.separator))"
-  }`,
+  menuItem: ".monaco-menu-container " + actionItemSelector,
   button: ".monaco-button",
   tab: ".tabs-container > .tab",
-  list: ".monaco-list-row",
-  statusbar: ".statusbar-item-label",
+  listItem: ".monaco-list-row",
+  statusbarItem: ".statusbar-item-label",
   activitybar:
-    ":is(.activitybar, .sidebar.pane-composite-part .composite-bar)  li.action-item",
+    ":is(.activitybar, .sidebar.pane-composite-part .composite-bar) " +
+    actionItemSelector,
   commandCenter: ".command-center-center",
+  titlebarButton: ".titlebar-container " + actionItemSelector,
 };
 
 const effectMap = {

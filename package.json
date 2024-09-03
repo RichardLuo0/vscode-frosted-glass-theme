@@ -247,13 +247,14 @@
           "frosted-glass-theme.effect.enabled": {
             "type": "object",
             "default": {
-              "menu": "fgt-revealEffect",
+              "menuItem": "fgt-revealEffect",
               "button": "fgt-revealEffect, fgt-flipEffect",
               "tab": "fgt-revealEffect",
-              "list": "fgt-revealEffect",
-              "statusbar": "fgt-revealEffect",
+              "listItem": "fgt-revealEffect",
+              "statusbarItem": "fgt-revealEffect",
               "activitybar": "fgt-revealEffect",
-              "commandCenter": "fgt-revealEffect"
+              "commandCenter": "fgt-revealEffect",
+              "titlebarButton": "fgt-flipEffect"
             },
             "order": 0,
             "description": "Enable effect. Key can also be css selector.",

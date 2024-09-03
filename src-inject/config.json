@@ -45,13 +45,14 @@
   },
   "effect": {
     "enabled": {
-      "menu": "fgt-revealEffect",
+      "menuItem": "fgt-revealEffect",
       "button": "fgt-revealEffect, fgt-flipEffect",
       "tab": "fgt-revealEffect",
-      "list": "fgt-revealEffect",
-      "statusbar": "fgt-revealEffect",
+      "listItem": "fgt-revealEffect",
+      "statusbarItem": "fgt-revealEffect",
       "activitybar": "fgt-revealEffect",
-      "commandCenter": "fgt-revealEffect"
+      "commandCenter": "fgt-revealEffect",
+      "titlebarButton": "fgt-flipEffect"
     },
     "revealEffect": {
       "lightColor": "var(--fgt-revealEffect-lightColor)",
