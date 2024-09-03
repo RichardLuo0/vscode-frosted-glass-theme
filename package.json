@@ -154,7 +154,7 @@
               "fgt-luminosity-opacity": "45%",
               "fgt-mica-luminosity": "hsl(0, 0%, 80%)",
               "fgt-mica-brightness": "",
-              "fgt-animation-curve": "300ms cubic-bezier(0, 0.8, 0.2, 1) 0s 1 forwards",
+              "fgt-animation-curve": "300ms cubic-bezier(0, 0.8, 0.2, 1)",
               "fgt-revealEffect-lightColor": "#00000014"
             },
             "description": "CSS variable. You may use them in settings and svg.",
@@ -432,11 +432,11 @@
     "package": "vsce package"
   },
   "devDependencies": {
-    "@types/node": "^22.5.0",
+    "@types/node": "^22.5.2",
     "@types/uuid": "^10.0.0",
     "@types/vscode": "^1.64.0",
-    "@typescript-eslint/eslint-plugin": "^8.2.0",
-    "@typescript-eslint/parser": "^8.2.0",
+    "@typescript-eslint/eslint-plugin": "^8.4.0",
+    "@typescript-eslint/parser": "^8.4.0",
     "@vscode/test-electron": "^2.4.1",
     "esbuild": "0.23.1",
     "eslint": "^9.9.1",
