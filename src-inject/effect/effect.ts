@@ -22,7 +22,7 @@ const selectorMap = {
     ":is(.activitybar, .sidebar.pane-composite-part .composite-bar) " +
     actionItemSelector,
   commandCenter: ".command-center-center",
-  titlebarButton: `.titlebar-container ${actionItemSelector}:not(.command-center-center)`,
+  titlebarButton: `.titlebar-container .menu-entry`,
 };
 
 const effectMap = {
