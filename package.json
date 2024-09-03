@@ -252,10 +252,11 @@
               "tab": "fgt-revealEffect",
               "list": "fgt-revealEffect",
               "statusbar": "fgt-revealEffect",
-              "activitybar": "fgt-revealEffect"
+              "activitybar": "fgt-revealEffect",
+              "commandCenter": "fgt-revealEffect"
             },
             "order": 0,
-            "description": "Enable effect.",
+            "description": "Enable effect. Key can also be css selector.",
             "patternProperties": {
               ".*": {
                 "type": "string"

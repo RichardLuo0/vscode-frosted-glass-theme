@@ -40,6 +40,12 @@ for (const key in enabled) {
         animation: ${effectList};
       }`
     );
+  else
+    fgtSheet.insertRule(
+      `${key} {
+        animation: ${effectList};
+      }`
+    );
 }
 
 if (disableMenuFocusBackground)
