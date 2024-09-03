@@ -5,7 +5,7 @@ import { applyFlipEffect } from "./flipEffect";
 import { applyRevealEffect } from "./revealEffect";
 
 const {
-  effect: { enabled, disableForDisabledItem },
+  effect: { enabled, disableMenuFocusBackground, disableForDisabledItem },
 } = config;
 
 const selectorMap = {
@@ -40,6 +40,14 @@ for (const key in enabled) {
       }`
     );
 }
+
+if (disableMenuFocusBackground)
+  fgtSheet.insertRule(
+    `.monaco-menu-container ul.actions-container > li > a.action-menu-item {
+      background-color: transparent !important;
+      outline: none !important;
+    }`
+  );
 
 export function applyEffect(element: HTMLElement | ShadowRoot) {
   element.addEventListener("animationstart", (e: Event | AnimationEvent) => {

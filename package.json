@@ -335,6 +335,11 @@
               }
             }
           },
+          "frosted-glass-theme.effect.disableMenuFocusBackground": {
+            "type": "boolean",
+            "default": true,
+            "description": "Disable menu focus background. So effect can apply its own background."
+          },
           "frosted-glass-theme.effect.disableForDisabledItem": {
             "type": "boolean",
             "default": false,

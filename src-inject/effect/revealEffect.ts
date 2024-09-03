@@ -60,23 +60,12 @@ function startClickAnimation(
   element._revealEffectAnimation = requestAnimationFrame(step);
 }
 
-let isDisabledMenuSelectionBackground = false;
-function disableMenuSelectionBackground() {
-  if (isDisabledMenuSelectionBackground) return;
+if (revealEffect.focusBackground)
   fgtSheet.insertRule(
-    `.monaco-menu-container ul.actions-container > li > a.action-menu-item {
-        background-color: transparent !important;
-        outline: none !important;
-      }`
+    `.monaco-menu-container ul.actions-container .action-item.focused {
+      background-color: ${revealEffect.focusBackground.color}
+    }`
   );
-  if (revealEffect.focusBackground)
-    fgtSheet.insertRule(
-      `.monaco-menu-container ul.actions-container .action-item.focused {
-          background-color: ${revealEffect.focusBackground.color}
-        }`
-    );
-  isDisabledMenuSelectionBackground = true;
-}
 
 export function applyRevealEffect(
   element: Element & {
@@ -86,9 +75,6 @@ export function applyRevealEffect(
   }
 ) {
   if (element._appliedRevealEffect || !isHTMLElement(element)) return;
-
-  if (element.classList.contains("action-item"))
-    disableMenuSelectionBackground();
 
   const oriBackground = element.style.backgroundImage;
 

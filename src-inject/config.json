@@ -67,6 +67,7 @@
       "degree": 10,
       "transition": "var(--fgt-animation-curve)"
     },
+    "disableMenuFocusBackground": true,
     "disableForDisabledItem": false
   },
   "borderRadius": {
