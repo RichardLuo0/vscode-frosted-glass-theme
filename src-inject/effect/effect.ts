@@ -41,8 +41,9 @@ for (const key in enabled) {
     );
 }
 
-export function applyEffect(element: HTMLElement) {
-  element.addEventListener("animationstart", e => {
+export function applyEffect(element: HTMLElement | ShadowRoot) {
+  element.addEventListener("animationstart", (e: Event | AnimationEvent) => {
+    if (!("animationName" in e)) return;
     if (!(e.target instanceof Element)) return;
     if (isKeyInObject(e.animationName, effectMap))
       effectMap[e.animationName](e.target);

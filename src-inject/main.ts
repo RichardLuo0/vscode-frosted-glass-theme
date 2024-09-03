@@ -107,6 +107,7 @@ proxy(
       ...shadowDom.ownerDocument.adoptedStyleSheets
     );
     applyAcrylicOnMenu(shadowDom);
+    applyEffect(shadowDom);
     proxy(
       shadowDom,
       "appendChild",

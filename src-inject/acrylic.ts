@@ -105,9 +105,11 @@ const colorVarList: [string, string, string, string?][] = [
   ["terminalOverlay", "--fgt-transparent", ".hover-overlay"],
 ];
 
-fgtSheet.insertRule(`[role="application"] {
+fgtSheet.insertRule(
+  `[role="application"] {
     --fgt-transparent: transparent;
-  }`);
+  }`
+);
 
 type Filter = {
   filter: string;
