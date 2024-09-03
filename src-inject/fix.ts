@@ -1,5 +1,4 @@
 import { applyAndProxy, proxy, proxyAll, useArgs, useRet } from "./proxy";
-import { applyRevealEffect } from "./revealEffect";
 import { isHTMLElement } from "./utils";
 
 // `position: fixed` will be invalid if `backdrop-filter` or `transform` is set on ancestor.
@@ -81,9 +80,6 @@ export function fixMenu(menuContainer?: string | Node) {
         "ul.actions-container > li:has(> .monaco-submenu-item)"
       )
       .forEach(menuItem => moveSubMenu(menuItem, actionBar));
-
-    applyRevealEffect(actionBar);
-
     return actionBar;
   }
 }
@@ -95,12 +91,12 @@ export function fixMenuBar(gridView: HTMLElement) {
     proxyAll(menu, ["append", "appendChild"], useArgs(fixMenu));
   };
   // Classic
-  (function () {
+  {
     const titlebar = gridView.querySelector(
       "#workbench\\.parts\\.titlebar > div > div.titlebar-left"
     );
     if (!titlebar) return;
-    const fixClassicMenuBar = (menuBar: Element) => {
+    applyAndProxy(titlebar, "menubar", "append", (menuBar: Element) => {
       const menus = menuBar.querySelectorAll("div.menubar-menu-button");
       menus.forEach(fixMenuButton);
       proxyAll(
@@ -108,36 +104,32 @@ export function fixMenuBar(gridView: HTMLElement) {
         ["append", "appendChild", "insertBefore"],
         useArgs(fixMenuButton)
       );
-    };
-    applyAndProxy(titlebar, "menubar", "append", fixClassicMenuBar);
-  })();
+    });
+  }
   // Compact
   function fixCompat(container: Element | null) {
     if (!container) return;
-    const fixCompactMenuBar = (menuBar: Element) => {
+    applyAndProxy(container, "menubar", "prepend", (menuBar: Element) => {
       applyAndProxy(
         menuBar,
         "menubar-menu-button",
         "appendChild",
         fixMenuButton
       );
-    };
-    applyAndProxy(container, "menubar", "prepend", fixCompactMenuBar);
+    });
   }
   fixCompat(
     gridView.querySelector("#workbench\\.parts\\.activitybar > div.content")
   );
   const sidebar = gridView.querySelector("#workbench\\.parts\\.sidebar");
-  if (sidebar) {
-    const fixComposite = (composite: Element) =>
-      fixCompat(composite.querySelector("div.composite-bar-container"));
+  if (sidebar)
     applyAndProxy(
       sidebar,
       "composite",
       ["insertBefore", "appendChild"],
-      fixComposite
+      (composite: Element) =>
+        fixCompat(composite.querySelector("div.composite-bar-container"))
     );
-  }
 }
 
 export const fixContextMenu = fixMenu;

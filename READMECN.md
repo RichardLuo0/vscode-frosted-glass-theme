@@ -35,15 +35,7 @@
 ### 对于Linux和MacOS用户
 你需要把 `window.titleBarStyle` 设置为 `custom` 。否则效果很有限。
 ## 自定义
-* 菜单颜色由`menu.background`控制。Reveal effect 颜色由`menu.selectionBackground`控制（我建议使用 #000000 或者 #ffffff）。在设置中的透明度选项会被直接应用在主题颜色上，除非他们已经有透明度了。如果有需要改变颜色，我建议使用类似以下的格式：
-    ```json
-    "workbench.colorCustomizations": {
-      "[Default Dark Modern]": {
-        "menu.selectionBackground": "#ffffff",
-        "menu.background": "#000000"
-      },
-    }
-    ```
+* 设置中的透明度选项会与主题颜色混合，除非他们已经有透明度了。
 * `Fake mica` 默认关闭。开启 `frosted-glass-theme.fakeMica.enabled` 设置以开启此功能。另外因为本扩展不会自动给你的主题添加透明度，你需要同时改变主题颜色，以下是一个示例:
     ```jsonc
     "workbench.colorCustomizations": {

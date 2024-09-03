@@ -3,6 +3,7 @@ import config from "./config.json" with { type: "json" };
 const { opacity } = config;
 
 const colorVarList: [string, number, string?][] = [
+  ["--vscode-menu-selectionBackground", opacity.selection],
   ["--vscode-quickInputList-focusBackground", opacity.selection],
   ["--vscode-editorSuggestWidget-selectedBackground", opacity.selection],
   ["--vscode-menu-border", opacity.border],
@@ -12,8 +13,6 @@ const colorVarList: [string, number, string?][] = [
   ["--vscode-editorSuggestWidget-border", opacity.border],
   ["--vscode-menu-separatorBackground", opacity.separator],
 ];
-if (!config.revealEffect.enabled)
-  colorVarList.push(["--vscode-menu-selectionBackground", opacity.selection]);
 
 export function registerColorVar(
   colorVar: string,

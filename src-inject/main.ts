@@ -1,14 +1,17 @@
 import { applyAcrylic, applyAcrylicOnMenu } from "./acrylic";
-import "./animation";
 import config from "./config.json" with { type: "json" };
+import { applyEffect } from "./effect/effect";
 import { applyFakeMica } from "./fakeMica";
 import { fixContextMenu, fixMenu, fixMenuBar } from "./fix";
 import { loadSvgs } from "./loadSvg";
-import "./miscellaneous";
 import { observeThemeColorChange } from "./observeThemeColor";
 import { proxy, useHTMLElement, useRet } from "./proxy";
 import { makeAbsolutePath } from "./utils";
 import fgtSheet from "./vscode-frosted-glass-theme.css" with { type: "css" };
+
+import "./animation";
+import "./effect/effect";
+import "./miscellaneous";
 
 const { opacity, borderRadius } = config;
 
@@ -44,14 +47,7 @@ insertVariables(
   config.variableDark
 );
 
-if (config.revealEffect.enabled) {
-  fgtSheet.insertRule(
-    `.monaco-menu-container ul.actions-container > li > a.action-menu-item {
-      background-color: transparent !important;
-      outline: none !important;
-    }`
-  );
-} else if (borderRadius.menuItem) {
+if (borderRadius.menuItem) {
   fgtSheet.insertRule(
     `.monaco-menu-container ul.actions-container > li > a.action-menu-item {
       border-radius: ${borderRadius.menuItem} !important;
@@ -88,6 +84,7 @@ proxy(
     const svgMounted = mountSvgTo(monacoWorkbench);
     applyFakeMica(monacoWorkbench, svgMounted);
     applyAcrylic(monacoWorkbench);
+    applyEffect(monacoWorkbench);
     proxy(
       monacoWorkbench,
       "prepend",
@@ -140,6 +137,7 @@ proxy(
         const svgMounted = mountSvgTo(monacoWorkbench);
         applyFakeMica(monacoWorkbench, svgMounted);
         applyAcrylic(monacoWorkbench);
+        applyEffect(monacoWorkbench);
       })
     );
     return newWindow;

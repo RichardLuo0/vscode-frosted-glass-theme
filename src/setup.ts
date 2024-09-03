@@ -1,10 +1,9 @@
 import path from "path";
 import {
-  ExtensionContext,
   QuickPickItem,
   window,
   workspace,
-  WorkspaceConfiguration,
+  WorkspaceConfiguration
 } from "vscode";
 import { localize } from "./localization";
 import { AbsolutePath, listFilesInDir } from "./utils";

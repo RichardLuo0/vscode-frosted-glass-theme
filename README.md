@@ -35,15 +35,7 @@ If you want to load this theme with other extension or you prefer to maintain th
 ### For Linux and perhaps MacOS user
 You need to set `window.titleBarStyle` to `custom` to see the effect. Otherwise the effect is very limited.
 ## Customization
-* Menu color is controlled by `menu.background`. Reveal effect color is controlled by `menu.selectionBackground` (I suggest using #000000 or #ffffff). The opacity settings will be applied directly on theme colors unless they already have opacity. I suggest using the following format if you need to change color:
-    ```json
-    "workbench.colorCustomizations": {
-      "[Default Dark Modern]": {
-        "menu.selectionBackground": "#ffffff",
-        "menu.background": "#000000"
-      },
-    }
-    ```
+* The opacity settings will blend into theme colors unless they already have opacity.
 * `Fake mica` is by default turned off. Enable it with `frosted-glass-theme.fakeMica.enabled` setting. You need to change the theme colors as well since this extension does not apply opacity to your theme automatically. Here is an example:
     ```jsonc
     "workbench.colorCustomizations": {

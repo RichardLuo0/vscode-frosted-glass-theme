@@ -6,7 +6,7 @@ import path from "path";
 const buildList = [];
 function build(options) {
   buildList.push(
-    esbuild.build(options).then((result) => ({ ...result, options }))
+    esbuild.build(options).then(result => ({ ...result, options }))
   );
 }
 
@@ -83,7 +83,7 @@ const licensesPath = "./licenses";
 await generateLicenseFile("./package.json", thirdPartyLicenseFile, {
   append: fs
     .readdirSync(licensesPath)
-    .map((file) => path.join(licensesPath, file)),
+    .map(file => path.join(licensesPath, file)),
 });
 console.log(thirdPartyLicenseFile);
 console.log("\u001b[32mDone\u001b[0m");
