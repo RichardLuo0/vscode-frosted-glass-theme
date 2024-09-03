@@ -18,11 +18,11 @@ const selectorMap = {
   tab: ".tabs-container > .tab",
   listItem: ".monaco-list-row",
   statusbarItem: ".statusbar-item-label",
-  activitybar:
+  activitybarItem:
     ":is(.activitybar, .sidebar.pane-composite-part .composite-bar) " +
     actionItemSelector,
   commandCenter: ".command-center-center",
-  titlebarButton: ".titlebar-container " + actionItemSelector,
+  titlebarButton: `.titlebar-container ${actionItemSelector}:not(.command-center-center)`,
 };
 
 const effectMap = {

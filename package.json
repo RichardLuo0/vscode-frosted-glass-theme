@@ -252,7 +252,7 @@
               "tab": "fgt-revealEffect",
               "listItem": "fgt-revealEffect",
               "statusbarItem": "fgt-revealEffect",
-              "activitybar": "fgt-revealEffect",
+              "activitybarItem": "fgt-revealEffect",
               "commandCenter": "fgt-revealEffect",
               "titlebarButton": "fgt-flipEffect"
             },
