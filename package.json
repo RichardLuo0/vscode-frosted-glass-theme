@@ -219,25 +219,21 @@
       {
         "title": "Animation",
         "properties": {
-          "frosted-glass-theme.animation.menu": {
-            "type": "string",
-            "default": "var(--fgt-animation-curve) fgtDropdown",
-            "description": "CSS animation for menu. Set to blank to use vscode default animation."
-          },
-          "frosted-glass-theme.animation.dialog": {
-            "type": "string",
-            "default": "var(--fgt-animation-curve) fgtZoomIn",
-            "description": "CSS animation for dialog. Set to blank to use vscode default animation."
-          },
-          "frosted-glass-theme.animation.dropdown": {
-            "type": "string",
-            "default": "var(--fgt-animation-curve) fgtDropdown",
-            "description": "CSS animation for dropdown. Set to blank to use vscode default animation."
-          },
-          "frosted-glass-theme.animation.hover": {
-            "type": "string",
-            "default": "",
-            "description": "CSS animation for hover. Set to blank to use vscode default animation."
+          "frosted-glass-theme.animation": {
+            "type": "object",
+            "default": {
+              "menu": "var(--fgt-animation-curve) fgtDropdown",
+              "dialog": "var(--fgt-animation-curve) fgtZoomIn",
+              "dropdown": "var(--fgt-animation-curve) fgtDropdown",
+              "hover": "",
+              "notificationCenter": "var(--fgt-animation-curve) fgtFlyout"
+            },
+            "description": "CSS animation. Key can also be css selector.",
+            "patternProperties": {
+              ".*": {
+                "type": "string"
+              }
+            }
           }
         }
       },

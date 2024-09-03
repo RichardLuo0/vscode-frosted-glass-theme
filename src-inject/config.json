@@ -41,7 +41,8 @@
     "menu": "var(--fgt-animation-curve) fgtDropdown",
     "dialog": "var(--fgt-animation-curve) fgtZoomIn",
     "dropdown": "var(--fgt-animation-curve) fgtDropdown",
-    "hover": ""
+    "hover": "",
+    "notificationCenter": "var(--fgt-animation-curve) fgtFlyout"
   },
   "effect": {
     "enabled": {

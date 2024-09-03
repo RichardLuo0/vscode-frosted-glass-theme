@@ -9,15 +9,22 @@ const selectorMap = {
   dialog: ".dialog-shadow",
   dropdown: ".monaco-select-box-dropdown-container",
   hover: ".monaco-hover",
+  notificationCenter: ".notifications-center",
 };
 
 for (const key in animation) {
   const value = animation[key as keyof typeof animation];
-  if (value.length != 0 && isKeyInObject(key, selectorMap)) {
-    fgtSheet.insertRule(
-      `${selectorMap[key]} {
-        animation: ${value};
-      }`
-    );
-  }
+  if (value.length != 0)
+    if (isKeyInObject(key, selectorMap))
+      fgtSheet.insertRule(
+        `${selectorMap[key]} {
+          animation: ${value};
+        }`
+      );
+    else
+      fgtSheet.insertRule(
+        `${key} {
+          animation: ${value};
+        }`
+      );
 }

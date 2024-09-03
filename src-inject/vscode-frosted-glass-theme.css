@@ -1,3 +1,46 @@
+/* Animation */
+@keyframes fgtZoomIn {
+  from {
+    transform: perspective(100px) translateZ(-100px);
+  }
+  to {
+    transform: perspective(100px) translateZ(0);
+  }
+}
+
+/* Always `rgba(0, 0, 0, 0.3)`
+https://github.com/microsoft/vscode/blob/4b78857fd9c934cab979171380573452ffdc612e/src/vs/base/browser/ui/dialog/dialog.css#L20 */
+@keyframes fgtFadeIn {
+  from {
+    background-color: transparent;
+  }
+  to {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+}
+
+@keyframes fgtDropdown {
+  from {
+    transform: translateY(-100%);
+  }
+  0%,
+  99% {
+    pointer-events: none;
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes fgtFlyout {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
 /* Title Bar */
 .window-title {
   transition: var(--fgt-transition);
@@ -76,26 +119,6 @@
   animation: 300ms linear 0s 1 forwards fgtFadeIn;
 }
 
-@keyframes fgtZoomIn {
-  from {
-    transform: perspective(100px) translateZ(-100px);
-  }
-  to {
-    transform: perspective(100px) translateZ(0);
-  }
-}
-
-/* Always `rgba(0, 0, 0, 0.3)`
-https://github.com/microsoft/vscode/blob/4b78857fd9c934cab979171380573452ffdc612e/src/vs/base/browser/ui/dialog/dialog.css#L20 */
-@keyframes fgtFadeIn {
-  from {
-    background-color: transparent;
-  }
-  to {
-    background-color: rgba(0, 0, 0, 0.3);
-  }
-}
-
 /* Menu Animation */
 .monaco-menu-container,
 .context-view {
@@ -111,19 +134,6 @@ https://github.com/microsoft/vscode/blob/4b78857fd9c934cab979171380573452ffdc612
 /* Hover Animation */
 div[widgetid="editor.contrib.resizableContentHoverWidget"] {
   overflow: clip !important;
-}
-
-@keyframes fgtDropdown {
-  from {
-    transform: translateY(-100%);
-  }
-  0%,
-  99% {
-    pointer-events: none;
-  }
-  to {
-    transform: translateY(0);
-  }
 }
 
 /* Sticky Widget */
