@@ -20,6 +20,7 @@ const selectorMap = {
   statusbar: ".statusbar-item-label",
   activitybar:
     ":is(.activitybar, .sidebar.pane-composite-part .composite-bar)  li.action-item",
+  commandCenter: ".command-center-center",
 };
 
 const effectMap = {

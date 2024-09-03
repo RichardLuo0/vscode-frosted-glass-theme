@@ -50,7 +50,8 @@
       "tab": "fgt-revealEffect",
       "list": "fgt-revealEffect",
       "statusbar": "fgt-revealEffect",
-      "activitybar": "fgt-revealEffect"
+      "activitybar": "fgt-revealEffect",
+      "commandCenter": "fgt-revealEffect"
     },
     "revealEffect": {
       "lightColor": "var(--fgt-revealEffect-lightColor)",
