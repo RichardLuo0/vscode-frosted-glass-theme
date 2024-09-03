@@ -1,5 +1,13 @@
 # Change Log
 
+## [0.8.7]
+- de0c5f3: feat: add saturate to filter
+- f306186: feat: reveal effect now applies to more elements; add flip effect
+- 440e1d5: feat: add command center to effect
+- 0faf619: feat: allow custom css selector to be used as effect target
+- 02c7f30: feat: add `titlebarButton` to effect; change some key names
+- 6c328b5: feat: add `notificationCenter`; allow custom css selector as animation target
+
 ## [0.8.6]
 - bd2bb66: feat: add Default Dark Modern theme mod
 - 799d6bc: feat: setup will load theme mod from github

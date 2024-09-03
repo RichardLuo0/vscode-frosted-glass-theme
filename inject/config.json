@@ -1,6 +1,10 @@
 {
   "filter": {
-    "default": "url(#fgt-acrylic-{key})",
+    "default": {
+      "filter": "saturate(var(--fgt-saturate)) url(#fgt-acrylic-{key})",
+      "disableBackgroundColor": true,
+      "opacity": 0.4
+    },
     "minimap": "blur(30px)",
     "decorationsOverviewRuler": "blur(30px)",
     "terminalOverlay": "blur(30px)"
@@ -13,15 +17,18 @@
     "../resource/acrylic.svg"
   ],
   "variable": {
+    "fgt-saturate": "120%",
     "fgt-luminosity-opacity": "45%",
     "fgt-mica-luminosity": "hsl(0, 0%, 80%)",
     "fgt-mica-brightness": "",
-    "fgt-animation-curve": "300ms cubic-bezier(0, 0.8, 0.2, 1) 0s 1 forwards"
+    "fgt-animation-curve": "300ms cubic-bezier(0, 0.8, 0.2, 1)",
+    "fgt-revealEffect-lightColor": "#00000014"
   },
   "variableDark": {
     "fgt-luminosity-opacity": "85%",
     "fgt-mica-luminosity": "hsl(0, 0%, 20%)",
-    "fgt-mica-brightness": "brightness(30%)"
+    "fgt-mica-brightness": "brightness(30%)",
+    "fgt-revealEffect-lightColor": "#ffffff14"
   },
   "additionalStyle": [],
   "opacity": {
@@ -34,14 +41,36 @@
     "menu": "var(--fgt-animation-curve) fgtDropdown",
     "dialog": "var(--fgt-animation-curve) fgtZoomIn",
     "dropdown": "var(--fgt-animation-curve) fgtDropdown",
-    "hover": ""
+    "hover": "",
+    "notificationCenter": "var(--fgt-animation-curve) fgtFlyout"
   },
-  "revealEffect": {
-    "enabled": true,
-    "opacity": 0.1,
-    "gradientSize": 200,
-    "clickEffect": true,
-    "focusBackground": true,
+  "effect": {
+    "enabled": {
+      "menuItem": "fgt-revealEffect",
+      "button": "fgt-revealEffect, fgt-flipEffect",
+      "tab": "fgt-revealEffect",
+      "listItem": "fgt-revealEffect",
+      "statusbarItem": "fgt-revealEffect",
+      "activitybarItem": "fgt-revealEffect",
+      "commandCenter": "fgt-revealEffect",
+      "titlebarButton": "fgt-flipEffect"
+    },
+    "revealEffect": {
+      "lightColor": "var(--fgt-revealEffect-lightColor)",
+      "gradientSize": "100%",
+      "clickEffect": {
+        "size": 40,
+        "speed": 0.8
+      },
+      "focusBackground": {
+        "color": "var(--fgt-revealEffect-lightColor)"
+      }
+    },
+    "flipEffect": {
+      "degree": 10,
+      "transition": "var(--fgt-animation-curve)"
+    },
+    "disableMenuFocusBackground": true,
     "disableForDisabledItem": false
   },
   "borderRadius": {
@@ -52,7 +81,7 @@
   "fakeMica": {
     "enabled": false,
     "url": "C:/Windows/Web/Wallpaper/Windows/img0.jpg",
-    "filter": "url(#fgt-mica) var(--fgt-mica-brightness)",
+    "filter": "saturate(var(--fgt-saturate)) url(#fgt-mica) var(--fgt-mica-brightness)",
     "titlebarFix": true,
     "titlebarOpacity": 0.8,
     "listBackgroundFix": true,
