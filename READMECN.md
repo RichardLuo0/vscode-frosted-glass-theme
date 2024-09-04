@@ -63,9 +63,9 @@
     }
     ```
     在 `theme` 文件夹中有更多示例，我欢迎大家来发pull request。
-* `frosted-glass-theme.svg` 只是从url中加载一张svg。产生的svg元素是静态的并且只能使用从 `monaco-workbench` 继承的css变量。你可以在 `resource` 下找到更多svg。
+* `frosted-glass-theme.svg` 从url中加载一张svg。产生的svg元素是静态的并且只能使用从 `monaco-workbench` 继承的css变量。你可以在 `resource` 文件夹下找到更多svg。
 * `frosted-glass-theme.tintSvg` 为 `frosted-glass-theme.filter` 中定义的每一个key产生不同的svg，并且 `<filter>` 上的id被改成了 `id-key`。在svg里，你可以使用一个特殊的css变量 `--fgt-current-background`，代表元素的背景颜色。
-* `frosted-glass-theme.filter` 设置是一个代表每个元素使用的filter的对象。它的key在 `src-inject/acrylic.ts` 的 `colorVarList` 中定义。值类型定义如下：
+* `frosted-glass-theme.filter` 设置是一个代表每个元素使用的filter的对象。它的key定义在 `src-inject/acrylic.ts` 的 `colorVarList` 中。值类型定义如下：
     ```typescript
     type Filter = {
         filter: string;
@@ -75,14 +75,15 @@
     type FilterOp = Partial<Filter>;
     const value = string | FilterOp | undefined;
     ```
-    `frosted-glass-theme.disableBackgroundColor` 会关闭所有受影响元素的背景颜色，除了 `minimap` 、`decorationsOverviewRuler` 以及 `terminalOverlay`,他们基于canvas绘制并且自己提供背景色，因此你必须为他们指定一个无背景色的filter。\
+    `frosted-glass-theme.disableBackgroundColor` 会关闭元素的背景颜色（filter 应该提供一个颜色）。然而 `minimap` 、`decorationsOverviewRuler` 以及 `terminalOverlay` 基于canvas绘制并且自己提供背景色，因此你必须为他们指定一个无背景色的filter。\
     有一个特殊的key `default`, 相当于一个默认值。你可以使用一个特殊的关键字 `{key}` 来表示当前的key。和 `tintSvg` 一起用，你就可以为每个元素创建不同颜色的svg。\
-    比如，你创建了一张svg，其中包含一个 `<filter>` 的 `id` 为 `fgt-acrylic`，并且你把它添加到了 `tintSvg` 中。然后你就可以设置一个值 `url(#fgt-acrylic-{key})`，那么它就会自动使用元素的背景颜色。默认的设定在 `inject/config.json` 中。
+    比如，你创建了一张svg，其中包含一个 `<filter>` 的 `id` 为 `fgt-acrylic`，并且你把它添加到了 `tintSvg` 中。然后你就可以设置一个值 `url(#fgt-acrylic-{key})`，那么它就会自动使用元素的背景颜色。
+* The `frosted-glass-theme.animation` 的key定义在 `src-inject/animation.ts` 的 `selectorMap` 中，或者也可以是css选择器。值可以是定义在 `src-inject/vscode-frosted-glass-theme.css` 的 `Animation` 中的css动画或者定义在 `src-inject/effect/effect.ts` 的 `effectMap` 中的effect。然而，effect不会被css timing function影响，他们只是被 `animationstart` 事件触发。
+* 你可以通过调用 `window._fgtTheme.registerEffect(key: string, func: (e: Element) => void)` 添加自己的effect。
+* 默认的设定在 `inject/config.json` 中。
 ## 卸载
-* 打开命令面板，输入“Frosted Glass Theme: Disable”，回车
-* 用扩展面板正常卸载
-## 已知问题
-* 如果动画闪烁，尝试设置 `frosted-glass-theme.animation` 为 `none`
+* 打开命令面板，输入“Frosted Glass Theme: Disable”，回车。
+* 用扩展面板正常卸载。
 ## 感谢
 * [be5invis/vscode-custom-css](https://github.com/be5invis/vscode-custom-css)
 ## 免责声明

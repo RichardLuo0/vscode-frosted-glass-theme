@@ -62,10 +62,10 @@ You need to set `window.titleBarStyle` to `custom` to see the effect. Otherwise 
       },
     }
     ```
-    There are more examples in `theme`. I welcome everyone to send pull request.
-* The `frosted-glass-theme.svg` simply loads svg from a url. The generated svg element is static and only use the css variable from `monaco-workbench`. More svgs can be found in `resource`.
+    There are more examples in `theme` folder. I welcome everyone to send pull request.
+* The `frosted-glass-theme.svg` simply loads svg from a url. The generated svg element is static and only use the css variable from `monaco-workbench`. More svgs can be found in `resource` folder.
 * The `frosted-glass-theme.tintSvg` generate different svgs for each key defined in `frosted-glass-theme.filter` and the id on `<filter>` is changed to `id-key`. Inside svg, you can use a special css variable `--fgt-current-background` representing the element's background color.
-* The `frosted-glass-theme.filter` settings is a object that represents the filter to use with each element. The key of it is defined in `src-inject/acrylic.ts`s' `colorVarList`. The value is of the type:
+* The `frosted-glass-theme.filter` settings is a object that represents the filter to use with each element. The key is defined in `src-inject/acrylic.ts`s' `colorVarList`. The value is of the type:
     ```typescript
     type Filter = {
       filter: string;
@@ -75,14 +75,15 @@ You need to set `window.titleBarStyle` to `custom` to see the effect. Otherwise 
     type FilterOp = Partial<Filter>;
     const value = string | FilterOp | undefined;
     ```
-    The `disableBackgroundColor` disables backgrounds except `minimap`, `decorationsOverviewRuler` and `terminalOverlay`. They are based on canvas and draw its own background color, thus you must specify a filter that does not provide a background color to them. \
+    The `disableBackgroundColor` disables backgrounds (the filter should provide it). However, `minimap`, `decorationsOverviewRuler` and `terminalOverlay` are based on canvas and draw their own background color, thus you must specify a filter that does not provide a background color for them. \
     There is a special key `default` which acts like a fallback. You can use a special keyword `{key}` to represent the current key. Together with `tintSvg` you can create different color svg for each element. \
-    For example, you created a svg that contains a `<filter>` whose `id` is `fgt-acrylic`, and you add it to `tintSvg`. You can then set a value `url(#fgt-acrylic-{key})`, so it will automatically use that element's background color. The default config is in `inject/config.json`.
+    For example, you created a svg that contains a `<filter>` whose `id` is `fgt-acrylic`, and you add it to `tintSvg`. You can then set a value `url(#fgt-acrylic-{key})`, so it will automatically use that element's background color. 
+* The `frosted-glass-theme.animation`'s key is defined in `src-inject/animation.ts`'s `selectorMap`, or the key can also be css selector. The value can be either css animation defined in `src-inject/vscode-frosted-glass-theme.css`'s `Animation` or effect defined in `src-inject/effect/effect.ts`'s `effectMap`. However, effects are not affected by css timing function, they are just triggered by `animationstart` event.
+* You can add your own effect by calling `window._fgtTheme.registerEffect(key: string, func: (e: Element) => void)`.
+* The default config is in `inject/config.json`.
 ## Uninstall
-1. Open command panel, type in "Frosted Glass Theme: Disable", press enter
-1. Uninstall from the extension panel as usual
-## Known issues
-* If the animation is flickering, try turn it off by setting `frosted-glass-theme.animation` to `none`
+1. Open command panel, type in "Frosted Glass Theme: Disable", press enter.
+1. Uninstall from the extension panel as usual.
 ## Thanks
 * [be5invis/vscode-custom-css](https://github.com/be5invis/vscode-custom-css)
 ## Disclaimer
