@@ -17,7 +17,8 @@ const selectorMap = {
   tab: ".tabs-container > .tab",
   listItem:
     ":not(.settings-tree-container, .notifications-list-container) > .monaco-list .monaco-list-row",
-  statusbarItem: ".statusbar-item-label",
+  statusbarItem:
+    ".statusbar-item:not(.has-background-color) > .statusbar-item-label, .statusbar-item.has-background-color",
   activitybarItem:
     ":is(.activitybar, .sidebar.pane-composite-part .composite-bar) li.action-item:not(:has(> a.separator))",
   commandCenter: ".command-center-center",
