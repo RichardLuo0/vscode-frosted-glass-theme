@@ -82,10 +82,10 @@
     "enabled": false,
     "url": "C:/Windows/Web/Wallpaper/Windows/img0.jpg",
     "filter": "saturate(var(--fgt-saturate)) url(#fgt-mica) var(--fgt-mica-brightness)",
-    "titlebarFix": true,
-    "titlebarOpacity": 0.8,
+    "titlebarFix": 0.8,
     "listBackgroundFix": true,
-    "editorBackgroundFix": true
+    "editorBackgroundFix": true,
+    "settingsSelectedBackgroundFix": true
   },
   "miscellaneous": {
     "progressBarBehindSectionHeader": false

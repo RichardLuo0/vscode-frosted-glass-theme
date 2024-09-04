@@ -29,7 +29,7 @@ if (fakeMica.enabled) {
         background-color: color-mix(
           in srgb,
           var(--vscode-titleBar-activeBackground) ${
-            fakeMica.titlebarOpacity * 100
+            fakeMica.titlebarFix * 100
           }%, transparent) !important;
       }`
     );
@@ -55,6 +55,14 @@ if (fakeMica.enabled) {
     fgtSheet.insertRule(
       `.editor-group-container.empty {
         background-color: var(--vscode-editor-background);
+      }`
+    );
+  }
+
+  if (fakeMica.settingsSelectedBackgroundFix) {
+    fgtSheet.insertRule(
+      `.settings-body .monaco-list-row.focused.selected {
+        background-color: transparent !important;
       }`
     );
   }

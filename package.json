@@ -387,14 +387,12 @@
             "order": 2
           },
           "frosted-glass-theme.fakeMica.titlebarFix": {
-            "type": "boolean",
-            "default": true,
-            "description": "Fix titlebar opacity."
-          },
-          "frosted-glass-theme.fakeMica.titlebarOpacity": {
-            "type": "number",
+            "type": [
+              "number",
+              "null"
+            ],
             "default": 0.8,
-            "description": "Titlebar opacity if titlebarFix is true."
+            "description": "Fix titlebar opacity."
           },
           "frosted-glass-theme.fakeMica.listBackgroundFix": {
             "type": "boolean",
@@ -405,6 +403,11 @@
             "type": "boolean",
             "default": true,
             "markdownDescription": "Fix editor overlapping background. Leave `editor-container` as the final color."
+          },
+          "frosted-glass-theme.fakeMica.settingsSelectedBackgroundFix": {
+            "type": "boolean",
+            "default": true,
+            "markdownDescription": "Fix settings selected background."
           }
         }
       },
