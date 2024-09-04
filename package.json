@@ -226,7 +226,16 @@
               "dialog": "var(--fgt-animation-curve) fgtZoomIn",
               "dropdown": "var(--fgt-animation-curve) fgtDropdown",
               "hover": "",
-              "notificationCenter": "var(--fgt-animation-curve) fgtFlyout"
+              "notificationCenter": "var(--fgt-animation-curve) fgtFlyout, fgt-revealEffect",
+              "menuItem": "fgt-revealEffect",
+              "button": "fgt-revealEffect, fgt-flipEffect",
+              "tab": "fgt-revealEffect",
+              "listItem": "fgt-revealEffect",
+              "statusbarItem": "fgt-revealEffect",
+              "activitybarItem": "fgt-revealEffect",
+              "commandCenter": "fgt-revealEffect",
+              "titlebarButton": "fgt-flipEffect",
+              "settingsTreeItem": "fgt-revealEffect"
             },
             "description": "CSS animation. Key can also be css selector.",
             "patternProperties": {
@@ -240,26 +249,6 @@
       {
         "title": "Effect",
         "properties": {
-          "frosted-glass-theme.effect.enabled": {
-            "type": "object",
-            "default": {
-              "menuItem": "fgt-revealEffect",
-              "button": "fgt-revealEffect, fgt-flipEffect",
-              "tab": "fgt-revealEffect",
-              "listItem": "fgt-revealEffect",
-              "statusbarItem": "fgt-revealEffect",
-              "activitybarItem": "fgt-revealEffect",
-              "commandCenter": "fgt-revealEffect",
-              "titlebarButton": "fgt-flipEffect"
-            },
-            "order": 0,
-            "description": "Enable effect. Key can also be css selector.",
-            "patternProperties": {
-              ".*": {
-                "type": "string"
-              }
-            }
-          },
           "frosted-glass-theme.effect.revealEffect": {
             "type": "object",
             "default": {
