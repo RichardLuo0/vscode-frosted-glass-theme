@@ -316,7 +316,9 @@
             "type": "object",
             "default": {
               "degree": 10,
-              "transition": "var(--fgt-animation-curve)"
+              "transition": "var(--fgt-animation-curve)",
+              "perspective": "60cm",
+              "translateZ": 3
             },
             "description": "Flip effect config.",
             "properties": {
@@ -325,6 +327,13 @@
               },
               "transition": {
                 "type": "string"
+              },
+              "perspective": {
+                "type": "string"
+              },
+              "translateZ": {
+                "type": "number",
+                "description": "Max translateZ in `cm`."
               }
             }
           },

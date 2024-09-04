@@ -70,7 +70,9 @@
     },
     "flipEffect": {
       "degree": 10,
-      "transition": "var(--fgt-animation-curve)"
+      "transition": "var(--fgt-animation-curve)",
+      "perspective": "60cm",
+      "translateZ": 3
     },
     "disableMenuFocusBackground": true,
     "disableForDisabledItem": false

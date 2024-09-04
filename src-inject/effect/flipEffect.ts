@@ -19,7 +19,10 @@ function transform(element: HTMLElement, e: MouseEvent) {
       ? flipEffect.degree
       : 20 - 0.008 * radius * radius + flipEffect.degree;
   const distance = Math.sqrt(vector[0] * vector[0] + vector[1] * vector[1]);
-  element.style.transform = `rotate3d(${axis[0]}, ${axis[1]}, 0, ${maxDegree * quad(distance / radius)}deg)`;
+  const perspective = `perspective(${flipEffect.perspective})`;
+  const rotate3d = `rotate3d(${axis[0]}, ${axis[1]}, 0, ${maxDegree * quad(distance / radius)}deg)`;
+  const translateZ = `translateZ(-${flipEffect.translateZ * (1 - quad(distance / radius))}cm)`;
+  element.style.transform = `${perspective} ${translateZ} ${rotate3d}`;
 }
 
 export function applyFlipEffect(
