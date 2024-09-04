@@ -1,5 +1,5 @@
 # 毛玻璃主题
-为你的vscode带来类似Mac OS或是Windows的acrylic material效果的菜单！
+对 vscode 外观的全面增强。主要功能包括亚克力效果，云母背景，reveal效果，翻转效果，动画以及更多功能！完全可定制。设计为与其他颜色主题兼容。
 
 ![Visual Studio Marketplace Last Updated](https://img.shields.io/visual-studio-marketplace/last-updated/RichardLuo.frosted-glass-theme?style=for-the-badge&color=%234CAF50)
 ![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/RichardLuo.frosted-glass-theme?style=for-the-badge&color=%232196F3)
@@ -9,7 +9,7 @@
 [English](README.md)
 
 <span style="font-size: 24px;font-weight: bold">
-这本身不是一个主题，它可以与其他主题一起安装。
+这是一个侵入式主题，它可以与其他颜色主题一起安装。
 <br>
 安装前请阅读此文档。
 <br>

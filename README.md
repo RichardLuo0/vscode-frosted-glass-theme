@@ -1,5 +1,5 @@
 # Frosted Glass Theme
-Bring frosted glass menu (like windows acrylic or mac os) to your vscode!
+An enhancement to vscode appearance. Major feature includes acrylic effect, mica background, reveal effect, flip effect, animations and more! Fully customizable. Designed to be compatible with other color themes.
 
 ![Visual Studio Marketplace Last Updated](https://img.shields.io/visual-studio-marketplace/last-updated/RichardLuo.frosted-glass-theme?style=for-the-badge&color=%234CAF50)
 ![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/RichardLuo.frosted-glass-theme?style=for-the-badge&color=%232196F3)
@@ -9,7 +9,7 @@ Bring frosted glass menu (like windows acrylic or mac os) to your vscode!
 [中文版](READMECN.md)
 
 <span style="font-size: 24px;font-weight: bold">
-This is not a theme by itself. It can work with any other theme.
+This is a intrusive theme. Can work with any other color themes.
 <br>
 Plz read this document before installation.
 <br>
