@@ -1,4 +1,5 @@
 import config from "../config.json" with { type: "json" };
+import globalExport from "../globalExport";
 import { isKeyInObject } from "../utils";
 import fgtSheet from "../vscode-frosted-glass-theme.css" with { type: "css" };
 import { applyFlipEffect } from "./flipEffect";
@@ -8,14 +9,20 @@ const {
   effect: { disableMenuFocusBackground, disableForDisabledItem },
 } = config;
 
-const effectMap = {
+const effectMap: Record<string, (e: Element) => void> = {
   "fgt-revealEffect": applyRevealEffect,
   "fgt-flipEffect": applyFlipEffect,
-} satisfies Record<string, (e: Element) => void>;
+};
 
 for (const key in effectMap) {
   fgtSheet.insertRule(`@keyframes ${key} {}`);
 }
+
+// Export the register function so you can add your own effect
+globalExport.registerEffect = (key: string, func: (e: Element) => void) => {
+  effectMap[key] = func;
+  fgtSheet.insertRule(`@keyframes ${key} {}`);
+};
 
 if (disableMenuFocusBackground)
   fgtSheet.insertRule(
