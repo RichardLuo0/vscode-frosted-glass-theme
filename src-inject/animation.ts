@@ -10,6 +10,8 @@ const selectorMap = {
   dropdown: ".monaco-select-box-dropdown-container",
   hover: ".monaco-hover",
   notificationCenter: ".notifications-center, .notification-toast",
+  notificationCenterHeader: ".notifications-center-header",
+  notification: ".notifications-list-container .monaco-list-row",
   menuItem: ".monaco-menu-container li.action-item:not(:has(> a.separator))",
   button: ".monaco-button",
   tab: ".tabs-container > .tab",
