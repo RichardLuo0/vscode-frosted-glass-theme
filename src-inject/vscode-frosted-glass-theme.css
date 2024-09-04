@@ -8,17 +8,6 @@
   }
 }
 
-/* Always `rgba(0, 0, 0, 0.3)`
-https://github.com/microsoft/vscode/blob/4b78857fd9c934cab979171380573452ffdc612e/src/vs/base/browser/ui/dialog/dialog.css#L20 */
-@keyframes fgtFadeIn {
-  from {
-    background-color: transparent;
-  }
-  to {
-    background-color: rgba(0, 0, 0, 0.3);
-  }
-}
-
 @keyframes fgtDropdown {
   from {
     transform: translateY(-100%);
@@ -115,6 +104,24 @@ https://github.com/microsoft/vscode/blob/4b78857fd9c934cab979171380573452ffdc612
 }
 
 /* Custom Dialog Box */
+[role="application"] {
+  --fgt-dimmed-background: rgba(255, 255, 255, 0.3);
+}
+
+[role="application"].vs-dark,
+[role="application"].hc-black {
+  --fgt-dimmed-background: rgba(0, 0, 0, 0.3);
+}
+
+@keyframes fgtFadeIn {
+  from {
+    background-color: transparent;
+  }
+  to {
+    background-color: var(--fgt-dimmed-background);
+  }
+}
+
 .dimmed {
   animation: 300ms linear 0s 1 forwards fgtFadeIn;
 }
