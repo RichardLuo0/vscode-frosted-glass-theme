@@ -1,5 +1,12 @@
 # Change Log
 
+## [0.8.8]
+- 43d8c20: feat: set settings selected background to transparent; merge titlebarFix and titlebarOpacity
+- e16a651: feat: light mode uses white dimmed color
+- a2aee9d: feat: allow users to register their own effect
+- cc0b025: feat: add notificationCenterHeader and notification
+- 9aecc1a: fix: deprecate `effect.enabled`
+
 ## [0.8.7]
 - de0c5f3: feat: add saturate to filter
 - f306186: feat: reveal effect now applies to more elements; add flip effect

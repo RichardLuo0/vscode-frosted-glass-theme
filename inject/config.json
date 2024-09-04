@@ -41,26 +41,28 @@
     "menu": "var(--fgt-animation-curve) fgtDropdown",
     "dialog": "var(--fgt-animation-curve) fgtZoomIn",
     "dropdown": "var(--fgt-animation-curve) fgtDropdown",
-    "hover": "",
-    "notificationCenter": "var(--fgt-animation-curve) fgtFlyout"
+    "hover": "var(--fgt-animation-curve) fgtDropdown",
+    "notificationCenter": "var(--fgt-animation-curve) fgtFlyout, fgt-flipEffect",
+    "notificationCenterHeader": "fgt-revealEffect",
+    "notification": "",
+    "menuItem": "fgt-revealEffect, fgt-flipEffect",
+    "button": "fgt-revealEffect, fgt-flipEffect",
+    "tab": "fgt-revealEffect, fgt-flipEffect",
+    "listItem": "fgt-revealEffect, fgt-flipEffect",
+    "statusbarItem": "fgt-revealEffect, fgt-flipEffect",
+    "activitybarItem": "fgt-revealEffect, fgt-flipEffect",
+    "commandCenter": "fgt-revealEffect",
+    "titlebarButton": "fgt-flipEffect",
+    "settingsTreeItem": "fgt-revealEffect"
   },
   "effect": {
-    "enabled": {
-      "menuItem": "fgt-revealEffect",
-      "button": "fgt-revealEffect, fgt-flipEffect",
-      "tab": "fgt-revealEffect",
-      "listItem": "fgt-revealEffect",
-      "statusbarItem": "fgt-revealEffect",
-      "activitybarItem": "fgt-revealEffect",
-      "commandCenter": "fgt-revealEffect",
-      "titlebarButton": "fgt-flipEffect"
-    },
     "revealEffect": {
       "lightColor": "var(--fgt-revealEffect-lightColor)",
       "gradientSize": "100%",
       "clickEffect": {
         "size": 40,
-        "speed": 0.8
+        "speed": 0.8,
+        "duration": 300
       },
       "focusBackground": {
         "color": "var(--fgt-revealEffect-lightColor)"
@@ -68,7 +70,9 @@
     },
     "flipEffect": {
       "degree": 10,
-      "transition": "var(--fgt-animation-curve)"
+      "transition": "var(--fgt-animation-curve)",
+      "perspective": "60cm",
+      "translateZ": 3
     },
     "disableMenuFocusBackground": true,
     "disableForDisabledItem": false
@@ -82,9 +86,7 @@
     "enabled": false,
     "url": "C:/Windows/Web/Wallpaper/Windows/img0.jpg",
     "filter": "saturate(var(--fgt-saturate)) url(#fgt-mica) var(--fgt-mica-brightness)",
-    "titlebarFix": true,
-    "titlebarOpacity": 0.8,
-    "listBackgroundFix": true,
+    "titlebarFix": 0.8,
     "editorBackgroundFix": true
   },
   "miscellaneous": {
