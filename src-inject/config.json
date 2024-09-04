@@ -83,9 +83,7 @@
     "url": "C:/Windows/Web/Wallpaper/Windows/img0.jpg",
     "filter": "saturate(var(--fgt-saturate)) url(#fgt-mica) var(--fgt-mica-brightness)",
     "titlebarFix": 0.8,
-    "listBackgroundFix": true,
-    "editorBackgroundFix": true,
-    "settingsSelectedBackgroundFix": true
+    "editorBackgroundFix": true
   },
   "miscellaneous": {
     "progressBarBehindSectionHeader": false

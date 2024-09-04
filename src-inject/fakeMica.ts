@@ -23,6 +23,20 @@ if (fakeMica.enabled) {
     }`
   );
 
+  // Fix list background
+  fgtSheet.insertRule(
+    `.monaco-list-rows {
+      background-color: transparent !important;
+    }`
+  );
+
+  // Fix settings row background
+  fgtSheet.insertRule(
+    `.settings-body .monaco-list-row {
+      background-color: transparent !important;
+    }`
+  );
+
   if (fakeMica.titlebarFix) {
     fgtSheet.insertRule(
       `.part.titlebar {
@@ -31,14 +45,6 @@ if (fakeMica.enabled) {
           var(--vscode-titleBar-activeBackground) ${
             fakeMica.titlebarFix * 100
           }%, transparent) !important;
-      }`
-    );
-  }
-
-  if (fakeMica.listBackgroundFix) {
-    fgtSheet.insertRule(
-      `.monaco-list-rows {
-        background-color: transparent !important;
       }`
     );
   }
@@ -55,14 +61,6 @@ if (fakeMica.enabled) {
     fgtSheet.insertRule(
       `.editor-group-container.empty {
         background-color: var(--vscode-editor-background);
-      }`
-    );
-  }
-
-  if (fakeMica.settingsSelectedBackgroundFix) {
-    fgtSheet.insertRule(
-      `.settings-body .monaco-list-row.focused.selected {
-        background-color: transparent !important;
       }`
     );
   }
