@@ -22,8 +22,13 @@ function lightHoverEffect(x: number, y: number, size: number) {
   return `radial-gradient(circle ${size}px at ${x}px ${y}px, ${revealEffect.lightColor}, transparent)`;
 }
 
-function lightClickEffect(x: number, y: number, size: number) {
-  return `radial-gradient(circle ${size}px at ${x}px ${y}px, transparent, ${revealEffect.lightColor}, transparent)`;
+function lightClickEffect(
+  x: number,
+  y: number,
+  size: number,
+  lightColor: string
+) {
+  return `radial-gradient(circle ${size}px at ${x}px ${y}px, transparent, ${lightColor}, transparent)`;
 }
 
 function startClickAnimation(
@@ -35,22 +40,29 @@ function startClickAnimation(
 ) {
   if (element._revealEffectAnimation)
     cancelAnimationFrame(element._revealEffectAnimation);
-  element._revealEffectAnimation = undefined;
 
   const [x, y] = getRelativePos(element, e);
   const speed = revealEffect.clickEffect.speed;
   const startSize = getSize(element, revealEffect.clickEffect.size);
+  const duration = revealEffect.clickEffect.duration;
+  const distance = duration * speed;
 
   let start: DOMHighResTimeStamp | undefined;
   function step(time: DOMHighResTimeStamp) {
     if (start === undefined) start = time;
     const elapsed = time - start;
     const hoverEffect = element._revealEffectHover;
-    if (elapsed < 300) {
+    if (elapsed < duration) {
+      const percentage = elapsed / duration;
       element.style.backgroundImage =
         hoverEffect +
         ", " +
-        lightClickEffect(x, y, speed * elapsed + startSize);
+        lightClickEffect(
+          x,
+          y,
+          distance * percentage + startSize,
+          `color-mix(in srgb, ${revealEffect.lightColor}, transparent ${percentage * 100}%)`
+        );
       element._revealEffectAnimation = requestAnimationFrame(step);
     } else {
       element.style.backgroundImage = hoverEffect ?? "";

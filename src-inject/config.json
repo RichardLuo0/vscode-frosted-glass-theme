@@ -59,7 +59,8 @@
       "gradientSize": "100%",
       "clickEffect": {
         "size": 40,
-        "speed": 0.8
+        "speed": 0.8,
+        "duration": 300
       },
       "focusBackground": {
         "color": "var(--fgt-revealEffect-lightColor)"

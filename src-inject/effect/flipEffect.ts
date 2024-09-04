@@ -1,13 +1,10 @@
 import { getRelativePos, isHTMLElement } from "src-inject/utils";
 import config from "../config.json" with { type: "json" };
+import { quad } from "./timingFunction";
 
 const {
   effect: { flipEffect },
 } = config;
-
-function quad(x: number) {
-  return -x * x + 2 * x;
-}
 
 function transform(element: HTMLElement, e: MouseEvent) {
   const mouse = getRelativePos(element, e);
