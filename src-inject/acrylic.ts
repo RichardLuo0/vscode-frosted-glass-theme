@@ -156,7 +156,7 @@ colorVarList.forEach(entry => {
   fgtSheet.insertRule(
     `${entry[2]} {
       backdrop-filter: ${filterStr};
-      background: ${filter.disableBackgroundColor ? "transparent" : `var(${entry[1]})`} !important;
+      background-color: ${filter.disableBackgroundColor ? "transparent" : `var(${entry[1]})`} !important;
     }`
   );
 });
