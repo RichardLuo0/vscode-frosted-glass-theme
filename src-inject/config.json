@@ -42,19 +42,18 @@
     "dialog": "var(--fgt-animation-curve) fgtZoomIn",
     "dropdown": "var(--fgt-animation-curve) fgtDropdown",
     "hover": "",
-    "notificationCenter": "var(--fgt-animation-curve) fgtFlyout"
+    "notificationCenter": "var(--fgt-animation-curve) fgtFlyout, fgt-revealEffect",
+    "menuItem": "fgt-revealEffect",
+    "button": "fgt-revealEffect, fgt-flipEffect",
+    "tab": "fgt-revealEffect",
+    "listItem": "fgt-revealEffect",
+    "statusbarItem": "fgt-revealEffect",
+    "activitybarItem": "fgt-revealEffect",
+    "commandCenter": "fgt-revealEffect",
+    "titlebarButton": "fgt-flipEffect",
+    "settingsTreeItem": "fgt-revealEffect"
   },
   "effect": {
-    "enabled": {
-      "menuItem": "fgt-revealEffect",
-      "button": "fgt-revealEffect, fgt-flipEffect",
-      "tab": "fgt-revealEffect",
-      "listItem": "fgt-revealEffect",
-      "statusbarItem": "fgt-revealEffect",
-      "activitybarItem": "fgt-revealEffect",
-      "commandCenter": "fgt-revealEffect",
-      "titlebarButton": "fgt-flipEffect"
-    },
     "revealEffect": {
       "lightColor": "var(--fgt-revealEffect-lightColor)",
       "gradientSize": "100%",

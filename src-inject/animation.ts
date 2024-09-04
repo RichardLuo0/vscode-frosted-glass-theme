@@ -9,7 +9,18 @@ const selectorMap = {
   dialog: ".dialog-shadow",
   dropdown: ".monaco-select-box-dropdown-container",
   hover: ".monaco-hover",
-  notificationCenter: ".notifications-center",
+  notificationCenter: ".notifications-center, .notification-toast",
+  menuItem: ".monaco-menu-container li.action-item:not(:has(> a.separator))",
+  button: ".monaco-button",
+  tab: ".tabs-container > .tab",
+  listItem:
+    ":not(.settings-tree-container, .notifications-list-container) > .monaco-list .monaco-list-row",
+  statusbarItem: ".statusbar-item-label",
+  activitybarItem:
+    ":is(.activitybar, .sidebar.pane-composite-part .composite-bar) li.action-item:not(:has(> a.separator))",
+  commandCenter: ".command-center-center",
+  titlebarButton: `.titlebar-container .menu-entry`,
+  settingsTreeItem: ".settings-tree-container .settings-row-inner-container",
 };
 
 for (const key in animation) {
