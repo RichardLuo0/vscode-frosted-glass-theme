@@ -1,5 +1,5 @@
-import { getRelativePos, isHTMLElement } from "src-inject/utils";
 import config from "../config.json" with { type: "json" };
+import { getRelativePos, isHTMLElement } from "../utils";
 import { quad } from "./timingFunction";
 
 const {
