@@ -225,16 +225,16 @@
               "menu": "var(--fgt-animation-curve) fgtDropdown",
               "dialog": "var(--fgt-animation-curve) fgtZoomIn",
               "dropdown": "var(--fgt-animation-curve) fgtDropdown",
-              "hover": "",
+              "hover": "var(--fgt-animation-curve) fgtDropdown",
               "notificationCenter": "var(--fgt-animation-curve) fgtFlyout, fgt-flipEffect",
               "notificationCenterHeader": "fgt-revealEffect",
               "notification": "",
-              "menuItem": "fgt-revealEffect",
+              "menuItem": "fgt-revealEffect, fgt-flipEffect",
               "button": "fgt-revealEffect, fgt-flipEffect",
-              "tab": "fgt-revealEffect",
-              "listItem": "fgt-revealEffect",
-              "statusbarItem": "fgt-revealEffect",
-              "activitybarItem": "fgt-revealEffect",
+              "tab": "fgt-revealEffect, fgt-flipEffect",
+              "listItem": "fgt-revealEffect, fgt-flipEffect",
+              "statusbarItem": "fgt-revealEffect, fgt-flipEffect",
+              "activitybarItem": "fgt-revealEffect, fgt-flipEffect",
               "commandCenter": "fgt-revealEffect",
               "titlebarButton": "fgt-flipEffect",
               "settingsTreeItem": "fgt-revealEffect"
@@ -258,7 +258,8 @@
               "gradientSize": "100%",
               "clickEffect": {
                 "size": 40,
-                "speed": 0.8
+                "speed": 0.8,
+                "duration": 300
               },
               "focusBackground": {
                 "color": "var(--fgt-revealEffect-lightColor)"
@@ -290,6 +291,9 @@
                     "description": "A number in px or a string type percentage ends with %."
                   },
                   "speed": {
+                    "type": "number"
+                  },
+                  "duration": {
                     "type": "number"
                   }
                 }
