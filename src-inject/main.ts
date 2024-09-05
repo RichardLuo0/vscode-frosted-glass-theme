@@ -10,10 +10,10 @@ import { makeAbsolutePath } from "./utils";
 import fgtSheet from "./vscode-frosted-glass-theme.css" with { type: "css" };
 
 import "./animation";
-import "./effect/effect";
+import "./borderRadius";
 import "./miscellaneous";
 
-const { opacity, borderRadius } = config;
+const { opacity } = config;
 
 fgtSheet.insertRule(
   `[role="application"] {
@@ -46,31 +46,6 @@ insertVariables(
   '[role="application"].vs-dark, [role="application"].hc-black',
   config.variableDark
 );
-
-if (borderRadius.menuItem) {
-  fgtSheet.insertRule(
-    `.monaco-menu-container ul.actions-container > li > a.action-menu-item {
-      border-radius: ${borderRadius.menuItem} !important;
-    }`
-  );
-}
-
-if (borderRadius.menu) {
-  fgtSheet.insertRule(
-    `.monaco-menu-container .monaco-scrollable-element {
-      border-radius: ${borderRadius.menu} !important;
-    }`
-  );
-}
-
-if (borderRadius.suggestWidget) {
-  fgtSheet.insertRule(
-    `.editor-widget.suggest-widget {
-      border-radius: ${borderRadius.suggestWidget} !important;
-      overflow: hidden;
-    }`
-  );
-}
 
 document.adoptedStyleSheets.push(fgtSheet);
 
