@@ -91,7 +91,7 @@
               "default": {
                 "filter": "saturate(var(--fgt-saturate)) url(#fgt-acrylic-{key})",
                 "disableBackgroundColor": true,
-                "opacity": 0.4
+                "opacity": 0.6
               },
               "minimap": "blur(30px)",
               "decorationsOverviewRuler": "blur(30px)",
