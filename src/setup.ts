@@ -3,7 +3,7 @@ import {
   QuickPickItem,
   window,
   workspace,
-  WorkspaceConfiguration
+  WorkspaceConfiguration,
 } from "vscode";
 import { localize } from "./localization";
 import { AbsolutePath, listFilesInDir } from "./utils";
@@ -86,11 +86,7 @@ async function chooseWallpaper(fgtConfig: WorkspaceConfiguration) {
 }
 
 async function chooseThemeMod(fgtConfig: WorkspaceConfiguration) {
-  const noChange: QuickPickItem & { _path?: string } = {
-    label: localize("setup.noChangeLabel"),
-    detail: localize("setup.noChangeDetail"),
-  };
-  const themeModItem = await window.showQuickPick(
+  const themeModItems = await window.showQuickPick(
     fetch(
       "https://api.github.com/repos/RichardLuo0/vscode-frosted-glass-theme/contents/theme?ref=release"
     )
@@ -99,26 +95,29 @@ async function chooseThemeMod(fgtConfig: WorkspaceConfiguration) {
           (await res.json()) as [{ name: string; download_url: string }]
       )
       .then(
-        pathList => [
-          noChange,
-          ...pathList.map(p => ({
+        pathList =>
+          pathList.map(p => ({
             label: p.name,
             detail: p.download_url,
             _path: p.download_url,
           })),
-        ],
-        () => [noChange]
+        () => []
       ),
     {
       title: localize("setup.chooseThemeMod"),
+      placeHolder: localize("setup.chooseThemeModPlaceHolder"),
+      canPickMany: true,
     }
   );
-  if (themeModItem?._path) {
-    applyThemeMod(
-      fgtConfig,
-      (await (await fetch(themeModItem._path)).json()) as { [key: string]: any }
-    );
-  }
+  themeModItems?.forEach(async themeModItem => {
+    if (themeModItem._path)
+      applyThemeMod(
+        fgtConfig,
+        (await (await fetch(themeModItem._path)).json()) as {
+          [key: string]: any;
+        }
+      );
+  });
 }
 
 export async function setup() {
