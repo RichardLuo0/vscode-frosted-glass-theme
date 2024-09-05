@@ -90,6 +90,7 @@
     "editorBackgroundFix": true
   },
   "miscellaneous": {
-    "progressBarBehindSectionHeader": false
+    "progressBarBehindSectionHeader": false,
+    "disableFocusOutline": false
   }
 }

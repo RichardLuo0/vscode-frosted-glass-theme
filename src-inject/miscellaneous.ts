@@ -21,3 +21,9 @@ if (miscellaneous.progressBarBehindSectionHeader) {
       z-index: 20;
     }`);
 }
+
+if (miscellaneous.disableFocusOutline)
+  fgtSheet.insertRule(`
+    .monaco-workbench .synthetic-focus, .monaco-workbench [tabindex="-1"]:focus, .monaco-workbench [tabindex="0"]:focus, .monaco-workbench button:focus, .monaco-workbench input[type=button]:focus, .monaco-workbench input[type=checkbox]:focus, .monaco-workbench input[type=search]:focus, .monaco-workbench input[type=text]:focus, .monaco-workbench select:focus, .monaco-workbench textarea:focus {
+      outline: none !important;
+    }`);

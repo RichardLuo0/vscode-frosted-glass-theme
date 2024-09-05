@@ -411,7 +411,12 @@
           "frosted-glass-theme.miscellaneous.progressBarBehindSectionHeader": {
             "type": "boolean",
             "default": false,
-            "markdownDescription": "Put progressBar behind sectionHeader so it glows behind header blur."
+            "description": "Put progressBar behind sectionHeader so it glows behind header blur."
+          },
+          "frosted-glass-theme.miscellaneous.disableFocusOutline": {
+            "type": "boolean",
+            "default": false,
+            "description": "Remove outline from focused elements."
           }
         }
       }
