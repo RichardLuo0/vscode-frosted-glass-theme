@@ -16,7 +16,7 @@ const selectorMap = {
   button: ".monaco-button",
   tab: ".tabs-container > .tab",
   listItem:
-    ":not(.settings-tree-container, .notifications-list-container) > .monaco-list .monaco-list-row",
+    ":not(.settings-tree-container, .notifications-list-container, .profile-tree) > .monaco-list .monaco-list-row",
   statusbarItem:
     ".statusbar-item:not(.has-background-color) > .statusbar-item-label, .statusbar-item.has-background-color",
   activitybarItem:
