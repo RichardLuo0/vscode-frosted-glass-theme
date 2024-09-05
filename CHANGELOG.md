@@ -1,5 +1,11 @@
 # Change Log
 
+## [0.8.9]
+- 82f5e94: feat: allow multiple selections in setup
+- 7f6d3d0: fix(flipEffect): rotate3d does not involve a quad func now
+- e5f772e: feat: add disableFocusOutline
+- 64d6aa8: build: remove excess spaces from css rules
+
 ## [0.8.8]
 - 43d8c20: feat: set settings selected background to transparent; merge titlebarFix and titlebarOpacity
 - e16a651: feat: light mode uses white dimmed color

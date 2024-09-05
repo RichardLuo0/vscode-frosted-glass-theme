@@ -88,4 +88,4 @@ You need to set `window.titleBarStyle` to `custom` to see the effect. Otherwise 
 * [be5invis/vscode-custom-css](https://github.com/be5invis/vscode-custom-css)
 ## Disclaimer
 This extension modifies `vs\code\electron-sandbox\workbench\workbench.html` to inject files. So use at your own risk. \
-This extension keep a backup in `vs\code\workbench.*.bak-frosted-glass` in case something goes wrong.
+Also, the extension keeps a backup in `vs\code\workbench.*.bak-frosted-glass` in case anything goes wrong.
