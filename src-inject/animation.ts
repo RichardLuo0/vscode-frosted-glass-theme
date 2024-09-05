@@ -23,7 +23,8 @@ const selectorMap = {
     ":is(.activitybar, .sidebar.pane-composite-part .composite-bar) li.action-item:not(:has(> a.separator))",
   commandCenter: ".command-center-center",
   titlebarButton: `.titlebar-container .menu-entry`,
-  settingsTreeItem: ".settings-tree-container .settings-row-inner-container",
+  settingsTreeItem:
+    ".settings-tree-container .monaco-list-rows .settings-row-inner-container",
 };
 
 for (const key in animation) {
