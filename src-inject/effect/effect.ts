@@ -1,6 +1,6 @@
 import config from "../config.json" with { type: "json" };
 import globalExport from "../globalExport";
-import { isKeyInObject } from "../utils";
+import { css, isKeyInObject } from "../utils";
 import fgtSheet from "../vscode-frosted-glass-theme.css" with { type: "css" };
 import { applyFlipEffect } from "./flipEffect";
 import { applyRevealEffect } from "./revealEffect";
@@ -15,22 +15,28 @@ const effectMap: Record<string, (e: Element) => void> = {
 };
 
 for (const key in effectMap) {
-  fgtSheet.insertRule(`@keyframes ${key} {}`);
+  fgtSheet.insertRule(css`
+    @keyframes ${key} {
+    }
+  `);
 }
 
 // Export the register function so you can add your own effect
 globalExport.registerEffect = (key: string, func: (e: Element) => void) => {
   effectMap[key] = func;
-  fgtSheet.insertRule(`@keyframes ${key} {}`);
+  fgtSheet.insertRule(css`
+    @keyframes ${key} {
+    }
+  `);
 };
 
 if (disableMenuFocusBackground)
-  fgtSheet.insertRule(
-    `.monaco-menu-container ul.actions-container > li > a.action-menu-item {
+  fgtSheet.insertRule(css`
+    .monaco-menu-container ul.actions-container > li > a.action-menu-item {
       background-color: transparent !important;
       outline: none !important;
-    }`
-  );
+    }
+  `);
 
 export function applyEffect(element: HTMLElement | ShadowRoot) {
   element.addEventListener("animationstart", (e: Event | AnimationEvent) => {

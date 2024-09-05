@@ -38,3 +38,9 @@ export function getRelativePos(element: HTMLElement, e: MouseEvent) {
   const y = e.pageY - offset.top - window.scrollY;
   return [x, y];
 }
+
+export const css = (sa: TemplateStringsArray, ...args: any[]) =>
+  sa.reduce((acc, cur, i) => {
+    const arg = args[i];
+    return arg ? acc + cur + arg : acc + cur;
+  }, "");

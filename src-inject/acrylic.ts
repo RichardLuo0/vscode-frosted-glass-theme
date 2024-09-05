@@ -1,6 +1,7 @@
 import config from "./config.json" with { type: "json" };
 import { loadSvgs } from "./loadSvg";
 import { registerColorVar } from "./observeThemeColor";
+import { css } from "./utils";
 import fgtSheet from "./vscode-frosted-glass-theme.css" with { type: "css" };
 
 const { filter, tintSvg } = config;
@@ -105,11 +106,11 @@ const colorVarList: [string, string, string, string?][] = [
   ["terminalOverlay", "--fgt-transparent", ".hover-overlay"],
 ];
 
-fgtSheet.insertRule(
-  `[role="application"] {
+fgtSheet.insertRule(css`
+  [role="application"] {
     --fgt-transparent: transparent;
-  }`
-);
+  }
+`);
 
 type Filter = {
   filter: string;
@@ -153,12 +154,14 @@ colorVarList.forEach(entry => {
   const filter = filterMap[entry[0]] ?? filterMap.default;
   registerColorVar(entry[1], filter.opacity, entry[3]);
   const filterStr = filter.filter.replaceAll("{key}", entry[0]);
-  fgtSheet.insertRule(
-    `${entry[2]} {
+  fgtSheet.insertRule(css`
+    ${entry[2]} {
       backdrop-filter: ${filterStr};
-      background-color: ${filter.disableBackgroundColor ? "transparent" : `var(${entry[1]})`} !important;
-    }`
-  );
+      background-color: ${filter.disableBackgroundColor
+        ? "transparent"
+        : `var(${entry[1]})`} !important;
+    }
+  `);
 });
 
 export async function applyAcrylic(element: HTMLElement) {

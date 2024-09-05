@@ -1,6 +1,7 @@
 import * as esbuild from "esbuild";
-import fs from "fs";
+import fs from "fs/promises";
 import { generateLicenseFile } from "generate-license-file";
+import { parseLiterals } from "parse-literals";
 import path from "path";
 
 const buildList = [];
@@ -10,6 +11,38 @@ function build(options) {
   );
 }
 
+function minifyLiteralsPlugin(tags) {
+  return {
+    name: "minifyLiteralsPlugin",
+    setup(build) {
+      const cache = new Map();
+      build.onLoad({ filter: /\.[jt]s$/ }, async ({ path }) => {
+        const content = await fs.readFile(path, "utf8");
+        const value = cache.get(path);
+        if (value && value.content === content) return value.output;
+        let result = "";
+        let index = 0;
+        for (const literal of parseLiterals(content)) {
+          if (tags.includes(literal.tag)) {
+            for (const part of literal.parts) {
+              result += content.substring(index, part.start);
+              result += part.text.replace(/\s+/gm, " ");
+              index = part.end;
+            }
+          }
+        }
+        result += content.substring(index);
+        const output = {
+          contents: result,
+          loader: path.endsWith(".ts") ? "ts" : "js",
+        };
+        cache.set(path, { content, output });
+        return output;
+      });
+    },
+  };
+}
+
 const common = {
   bundle: true,
   platform: "node",
@@ -17,6 +50,7 @@ const common = {
   logLevel: "silent",
   minify: true,
   legalComments: "none",
+  plugins: [minifyLiteralsPlugin(["css"])],
 };
 
 const buildExtensionOptions = {
@@ -81,9 +115,9 @@ for (var result of await Promise.all(buildList)) {
 const thirdPartyLicenseFile = "3rdPartyLicense.txt";
 const licensesPath = "./licenses";
 await generateLicenseFile("./package.json", thirdPartyLicenseFile, {
-  append: fs
-    .readdirSync(licensesPath)
-    .map(file => path.join(licensesPath, file)),
+  append: (await fs.readdir(licensesPath)).map(file =>
+    path.join(licensesPath, file)
+  ),
 });
 console.log(thirdPartyLicenseFile);
 console.log("\u001b[32mDone\u001b[0m");

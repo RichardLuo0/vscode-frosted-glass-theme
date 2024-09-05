@@ -1,5 +1,5 @@
 import config from "./config.json" with { type: "json" };
-import { isKeyInObject } from "./utils";
+import { css, isKeyInObject } from "./utils";
 import fgtSheet from "./vscode-frosted-glass-theme.css" with { type: "css" };
 
 const { animation } = config;
@@ -29,16 +29,9 @@ const selectorMap = {
 for (const key in animation) {
   const value = animation[key as keyof typeof animation];
   if (value.length != 0)
-    if (isKeyInObject(key, selectorMap))
-      fgtSheet.insertRule(
-        `${selectorMap[key]} {
-          animation: ${value};
-        }`
-      );
-    else
-      fgtSheet.insertRule(
-        `${key} {
-          animation: ${value};
-        }`
-      );
+    fgtSheet.insertRule(css`
+      ${isKeyInObject(key, selectorMap) ? selectorMap[key] : key} {
+        animation: ${value};
+      }
+    `);
 }

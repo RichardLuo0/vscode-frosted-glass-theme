@@ -6,7 +6,7 @@ import { fixContextMenu, fixMenu, fixMenuBar } from "./fix";
 import { loadSvgs } from "./loadSvg";
 import { observeThemeColorChange } from "./observeThemeColor";
 import { proxy, useHTMLElement, useRet } from "./proxy";
-import { makeAbsolutePath } from "./utils";
+import { css, makeAbsolutePath } from "./utils";
 import fgtSheet from "./vscode-frosted-glass-theme.css" with { type: "css" };
 
 import "./animation";
@@ -15,12 +15,12 @@ import "./miscellaneous";
 
 const { opacity } = config;
 
-fgtSheet.insertRule(
-  `[role="application"] {
+fgtSheet.insertRule(css`
+  [role="application"] {
     --fgt-transition: ${config.transition};
     --fgt-minimap-opacity: ${opacity.minimap * 100}%;
-  }`
-);
+  }
+`);
 
 for (const style of config.additionalStyle as string[]) {
   const styleElement = document.createElement("link");
@@ -31,14 +31,14 @@ for (const style of config.additionalStyle as string[]) {
 }
 
 function insertVariables(cssSelector: string, variables: object) {
-  fgtSheet.insertRule(
-    `${cssSelector} {
-    ${Object.entries(variables).reduce((total, pair) => {
-      const [key, value] = pair;
-      return total + `--${key}: ${value};`;
-    }, "")}
-  }`
-  );
+  fgtSheet.insertRule(css`
+    ${cssSelector} {
+      ${Object.entries(variables).reduce((total, pair) => {
+        const [key, value] = pair;
+        return total + `--${key}: ${value};`;
+      }, "")}
+    }
+  `);
 }
 
 insertVariables('[role="application"]', config.variable);

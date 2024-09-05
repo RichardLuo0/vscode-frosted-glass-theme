@@ -441,6 +441,7 @@
     "esbuild": "0.23.1",
     "eslint": "^9.9.1",
     "generate-license-file": "^3.5.1",
+    "parse-literals": "^1.2.1",
     "typescript": "^5.5.4"
   },
   "dependencies": {

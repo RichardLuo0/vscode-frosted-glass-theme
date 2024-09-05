@@ -1,11 +1,12 @@
 import config from "./config.json" with { type: "json" };
+import { css } from "./utils";
 import fgtSheet from "./vscode-frosted-glass-theme.css" with { type: "css" };
 
 const { fakeMica } = config;
 
 if (fakeMica.enabled) {
-  fgtSheet.insertRule(
-    `[role="application"]::before {
+  fgtSheet.insertRule(css`
+    [role="application"]::before {
       content: "";
       display: block;
       position: absolute;
@@ -13,56 +14,57 @@ if (fakeMica.enabled) {
       left: 0px;
       width: 100%;
       height: 100%;
-    }`
-  );
+    }
+  `);
 
-  fgtSheet.insertRule(
-    `.fgt-mica-svg-loaded::before {
+  fgtSheet.insertRule(css`
+    .fgt-mica-svg-loaded::before {
       filter: ${fakeMica.filter};
-      background: url("vscode-file://vscode-app/${fakeMica.url}") center center / cover no-repeat
-    }`
-  );
+      background: url("vscode-file://vscode-app/${fakeMica.url}") center center /
+        cover no-repeat;
+    }
+  `);
 
   // Fix list background
-  fgtSheet.insertRule(
-    `.monaco-list-rows {
+  fgtSheet.insertRule(css`
+    .monaco-list-rows {
       background-color: transparent !important;
-    }`
-  );
+    }
+  `);
 
   // Fix settings row background
-  fgtSheet.insertRule(
-    `.settings-body .monaco-list-row {
+  fgtSheet.insertRule(css`
+    .settings-body .monaco-list-row {
       background-color: transparent !important;
-    }`
-  );
+    }
+  `);
 
   if (fakeMica.titlebarFix) {
-    fgtSheet.insertRule(
-      `.part.titlebar {
+    fgtSheet.insertRule(css`
+      .part.titlebar {
         background-color: color-mix(
           in srgb,
-          var(--vscode-titleBar-activeBackground) ${
-            fakeMica.titlebarFix * 100
-          }%, transparent) !important;
-      }`
-    );
+          var(--vscode-titleBar-activeBackground) ${fakeMica.titlebarFix * 100}%,
+          transparent
+        ) !important;
+      }
+    `);
   }
 
   if (fakeMica.editorBackgroundFix) {
-    fgtSheet.insertRule(
-      `.content,
+    fgtSheet.insertRule(css`
+      .content,
       .monaco-editor,
       .monaco-editor-background,
       .view-overlays .selected-text:has(+ .monaco-editor-background) {
         background-color: transparent !important;
-      }`
-    );
-    fgtSheet.insertRule(
-      `.editor-group-container.empty {
+      }
+    `);
+    fgtSheet.insertRule(css`
+      .editor-group-container.empty {
         background-color: var(--vscode-editor-background);
-      }`
-    );
+      }
+    `);
   }
 }
 

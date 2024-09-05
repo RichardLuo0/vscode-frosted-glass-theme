@@ -1,5 +1,5 @@
 import config from "../config.json" with { type: "json" };
-import { getRelativePos, isHTMLElement } from "../utils";
+import { css, getRelativePos, isHTMLElement } from "../utils";
 import fgtSheet from "../vscode-frosted-glass-theme.css" with { type: "css" };
 
 const {
@@ -73,11 +73,11 @@ function startClickAnimation(
 }
 
 if (revealEffect.focusBackground)
-  fgtSheet.insertRule(
-    `.monaco-menu-container ul.actions-container .action-item.focused {
-      background-color: ${revealEffect.focusBackground.color}
-    }`
-  );
+  fgtSheet.insertRule(css`
+    .monaco-menu-container ul.actions-container .action-item.focused {
+      background-color: ${revealEffect.focusBackground.color};
+    }
+  `);
 
 export function applyRevealEffect(
   element: Element & {
