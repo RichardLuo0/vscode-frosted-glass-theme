@@ -117,41 +117,50 @@ type Filter = {
   disableBackgroundColor: boolean;
   opacity: number;
 };
-type FilterOp = Partial<Filter>;
-let filterMap: {
-  default: Filter;
+type FilterPart = Partial<Filter>;
+
+const filterMap: {
   [key: string]: Filter | undefined;
-} = {
-  default: {
+} = {};
+{
+  const fallbackFilter: Filter = {
     filter: "",
     disableBackgroundColor: false,
     opacity: 1,
-  },
-};
-{
-  const _filter = filter as {
-    [key: string]: string | FilterOp | undefined;
   };
-  const _defaultFilter: FilterOp =
-    typeof _filter.default == "string"
+
+  function generateFilter(
+    filterPart?: string | FilterPart,
+    defaultFallbackFilter = fallbackFilter
+  ): Filter | undefined {
+    if (filterPart === undefined) return undefined;
+    return typeof filterPart == "string"
       ? {
-          filter: _filter.default,
+          ...defaultFallbackFilter,
+          filter: filterPart,
         }
-      : (_filter.default ?? {});
-  const defaultFilter = Object.assign(filterMap.default, _defaultFilter);
+      : {
+          ...defaultFallbackFilter,
+          ...filterPart,
+        };
+  }
+
+  const _filter = filter as {
+    [key: string]: string | FilterPart | undefined;
+  };
+  filterMap.default = generateFilter(_filter.default);
   for (const key in _filter) {
     if (key == "default") continue;
-    if (typeof _filter[key] == "string") {
-      filterMap[key] = {
-        ...defaultFilter,
-        filter: _filter[key],
-      };
-    } else filterMap[key] = { ...defaultFilter, ..._filter[key] };
+    filterMap[key] = generateFilter(
+      _filter[key],
+      filterMap.default ?? fallbackFilter
+    );
   }
 }
 
 colorVarList.forEach(entry => {
   const filter = filterMap[entry[0]] ?? filterMap.default;
+  if (filter === undefined) return;
   registerColorVar(entry[1], filter.opacity, entry[3]);
   const filterStr = filter.filter.replaceAll("{key}", entry[0]);
   fgtSheet.insertRule(css`
@@ -164,7 +173,7 @@ colorVarList.forEach(entry => {
   `);
 });
 
-export async function applyAcrylic(element: HTMLElement) {
+export async function applyBackdropFilter(element: HTMLElement) {
   for (const entry of colorVarList) {
     const wrapper = document.createElement("div");
     wrapper.style.setProperty("--fgt-current-background", `var(${entry[1]})`);
@@ -176,7 +185,7 @@ export async function applyAcrylic(element: HTMLElement) {
   }
 }
 
-export function applyAcrylicOnMenu(element: Node & ParentNode) {
+export function applyBackdropFilterOnMenu(element: Node & ParentNode) {
   const wrapper = document.createElement("div");
   wrapper.style.setProperty(
     "--fgt-current-background",

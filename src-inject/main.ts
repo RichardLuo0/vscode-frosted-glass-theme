@@ -1,4 +1,4 @@
-import { applyAcrylic, applyAcrylicOnMenu } from "./acrylic";
+import { applyBackdropFilter, applyBackdropFilterOnMenu } from "./backdropFilter";
 import config from "./config.json" with { type: "json" };
 import { applyEffect } from "./effect/effect";
 import { applyFakeMica } from "./fakeMica";
@@ -58,7 +58,7 @@ proxy(
     observeThemeColorChange(monacoWorkbench);
     const svgMounted = mountSvgTo(monacoWorkbench);
     applyFakeMica(monacoWorkbench, svgMounted);
-    applyAcrylic(monacoWorkbench);
+    applyBackdropFilter(monacoWorkbench);
     applyEffect(monacoWorkbench);
     proxy(
       monacoWorkbench,
@@ -81,7 +81,7 @@ proxy(
     shadowDom.adoptedStyleSheets.push(
       ...shadowDom.ownerDocument.adoptedStyleSheets
     );
-    applyAcrylicOnMenu(shadowDom);
+    applyBackdropFilterOnMenu(shadowDom);
     applyEffect(shadowDom);
     proxy(
       shadowDom,
@@ -112,7 +112,7 @@ proxy(
         observeThemeColorChange(monacoWorkbench);
         const svgMounted = mountSvgTo(monacoWorkbench);
         applyFakeMica(monacoWorkbench, svgMounted);
-        applyAcrylic(monacoWorkbench);
+        applyBackdropFilter(monacoWorkbench);
         applyEffect(monacoWorkbench);
       })
     );
