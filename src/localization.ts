@@ -15,9 +15,9 @@ const dictionary: { [key: string]: string | undefined } = JSON.parse(
 );
 
 export function localize(key: string, ...args: string[]) {
-  const translated = dictionary[key];
+  let translated = dictionary[key];
   for (let i = 0; i < args.length; i++) {
-    translated?.replaceAll(`{${i}}`, args[i]);
+    translated = translated?.replaceAll(`{${i}}`, args[i]);
   }
   return translated && translated.length != 0 ? translated : key;
 }
