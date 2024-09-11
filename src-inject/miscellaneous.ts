@@ -28,7 +28,6 @@ if (miscellaneous.progressBarBehindSectionHeader) {
 
 if (miscellaneous.disableFocusOutline)
   fgtSheet.insertRule(css`
-    .monaco-workbench .synthetic-focus,
     .monaco-workbench [tabindex="-1"]:focus,
     .monaco-workbench [tabindex="0"]:focus,
     .monaco-workbench button:focus,
