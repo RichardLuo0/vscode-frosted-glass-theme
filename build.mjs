@@ -50,6 +50,7 @@ const common = {
   logLevel: "silent",
   minify: true,
   legalComments: "none",
+  sourcemap: true,
   plugins: [minifyLiteralsPlugin(["css"])],
 };
 
@@ -82,7 +83,6 @@ build({
   format: "esm",
   loader: { ".css": "copy", ".json": "copy" },
   assetNames: "[name]",
-  sourcemap: true,
   entryPoints: ["src-inject/main.ts"],
   outfile: "inject/vscode-frosted-glass-theme.js",
 });
