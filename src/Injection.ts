@@ -1,6 +1,6 @@
 import fs, { constants } from "fs";
 import path from "path";
-import { window } from "vscode";
+import { env, window } from "vscode";
 import File from "./File";
 import InjectionAdmin from "./InjectionAdmin";
 import InjectionNormal from "./InjectionNormal";
@@ -11,37 +11,60 @@ export interface InjectionImpl {
   restore(): Promise<void>;
 }
 
-export default class Injection implements InjectionImpl {
-  private injectionImpl?: InjectionImpl;
+const htmlFileCandidates = [
+  path.join(
+    "out",
+    "vs",
+    "code",
+    "electron-sandbox",
+    "workbench",
+    "workbench.html"
+  ), // 1.70.0
+  path.join(
+    "out",
+    "vs",
+    "code",
+    "electron-sandbox",
+    "workbench",
+    "workbench.esm.html"
+  ), // 1.94.0
+  path.join(
+    "out",
+    "vs",
+    "code",
+    "electron-browser",
+    "workbench",
+    "workbench.html"
+  ), // prior
+];
 
+export default class Injection implements InjectionImpl {
   constructor(private files: File[]) {}
 
+  private _injectionImpl?: InjectionImpl;
+
   private prepare() {
-    if (this.injectionImpl) return;
-    const appDir = require.main
-      ? path.dirname(require.main.filename)
-      : undefined;
-    if (appDir === undefined) throw new Error("appDir is not found");
-    const base = path.join(appDir, "vs", "code");
-    let baseDir = path.join(base, "electron-sandbox", "workbench");
-    let htmlFile = path.join(baseDir, "workbench.html");
-    // Since VS Code 1.70.0, the file is in electron-sandbox/workbench/workbench.html
-    if (!fs.existsSync(htmlFile)) {
-      baseDir = path.join(base, "electron-browser", "workbench");
-      htmlFile = path.join(baseDir, "workbench.html");
-    }
+    if (this._injectionImpl) return this._injectionImpl;
+    const appRoot = env.appRoot;
+    if (!appRoot) throw new Error("appRoot is not found");
+    const htmlFileRelative = htmlFileCandidates.find(c =>
+      fs.existsSync(path.join(appRoot, c))
+    );
+    if (htmlFileRelative === undefined)
+      throw new Error("htmlFile is not found");
+    const htmlFile = path.join(appRoot, htmlFileRelative);
     try {
       fs.accessSync(htmlFile, constants.R_OK | constants.W_OK);
-      this.injectionImpl = new InjectionNormal(this.files, base, htmlFile);
+      this._injectionImpl = new InjectionNormal(this.files, htmlFile);
     } catch (e) {
-      this.injectionImpl = new InjectionAdmin(this.files, base, htmlFile);
+      this._injectionImpl = new InjectionAdmin(this.files, htmlFile);
     }
+    return this._injectionImpl;
   }
 
   async inject(): Promise<void> {
-    this.prepare();
     try {
-      await this.injectionImpl!.inject();
+      await this.prepare().inject();
     } catch (e) {
       window.showErrorMessage(localize("admin"));
       throw e;
@@ -49,9 +72,8 @@ export default class Injection implements InjectionImpl {
   }
 
   async restore(): Promise<void> {
-    this.prepare();
     try {
-      await this.injectionImpl!.restore();
+      await this.prepare().restore();
     } catch (e) {
       window.showErrorMessage(localize("admin"));
       throw e;

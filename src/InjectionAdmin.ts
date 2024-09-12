@@ -22,7 +22,6 @@ function expandEnv(env: { [key: string]: string }): string {
 export default class InjectionAdmin implements InjectionImpl {
   constructor(
     private files: File[],
-    private base: string,
     private htmlFile: string
   ) {}
 
@@ -54,7 +53,7 @@ export default class InjectionAdmin implements InjectionImpl {
           process.execPath
         }" "${__dirname}/InjectionAdminMain.js" --no-sandbox ${funcName} "${escape(
           JSON.stringify(this.files)
-        )}" "${this.base}" "${this.htmlFile}"`,
+        )}" "${this.htmlFile}"`,
         { name: "Frosted Glass Theme", env },
         error => {
           if (error) reject(error);

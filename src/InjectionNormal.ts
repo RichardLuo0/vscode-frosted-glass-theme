@@ -5,11 +5,14 @@ import File from "./File";
 import { InjectionImpl } from "./Injection";
 
 export default class InjectionNormal implements InjectionImpl {
+  private base: string;
+
   constructor(
     private files: File[],
-    private base: string,
     private htmlFile: string
-  ) {}
+  ) {
+    this.base = path.dirname(htmlFile);
+  }
 
   public async inject() {
     const uuidSession = v4();
