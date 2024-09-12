@@ -1,4 +1,4 @@
-fluent-reveal-effect
+https://github.com/d2phap/fluent-reveal-effect
 
 MIT License
 

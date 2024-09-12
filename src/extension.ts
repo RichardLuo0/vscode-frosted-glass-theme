@@ -1,6 +1,7 @@
 import { readFile } from "fs/promises";
 import { commands, ExtensionContext, Uri, window, workspace } from "vscode";
 import File from "./File";
+import { generateThemeMod as generateThemeModFunc } from "./generateThemeMod";
 import Injection from "./Injection";
 import { localize } from "./localization";
 import { setup as setupFunc } from "./setup";
@@ -135,6 +136,11 @@ export function activate(context: ExtensionContext) {
         .then(window.showTextDocument)
   );
 
+  const generateThemeMod = commands.registerCommand(
+    "frosted-glass-theme.generateThemeMod",
+    generateThemeModFunc
+  );
+
   let blockConfigChangedMsg = false;
   const onConfigureChanged = workspace.onDidChangeConfiguration(async e => {
     if (
@@ -162,6 +168,7 @@ export function activate(context: ExtensionContext) {
     openCSS,
     openJS,
     openConfig,
+    generateThemeMod,
     onConfigureChanged
   );
 }

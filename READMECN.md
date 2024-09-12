@@ -62,7 +62,8 @@
       },
     }
     ```
-    在 `theme` 文件夹中有更多示例，我欢迎大家来发pull request。
+    在 `theme` 文件夹中有更多示例，我欢迎大家来发pull request。\
+    你也可以试试 `frosted-glass-theme.generateThemeMod` 指令以自动生成一个主题，然后把结果加入到 `colorCustomizations` 中。
 * `frosted-glass-theme.svg` 从url中加载一张svg。产生的svg元素是静态的并且只能使用从 `monaco-workbench` 继承的css变量。你可以在 `resource` 文件夹下找到更多svg。
 * `frosted-glass-theme.tintSvg` 为 `frosted-glass-theme.filter` 中定义的每一个key产生不同的svg，并且 `<filter>` 上的id被改成了 `id-key`。在svg里，你可以使用一个特殊的css变量 `--fgt-current-background`，代表元素的背景颜色。
 * `frosted-glass-theme.filter` 设置是一个代表每个元素使用的filter的对象。它的key定义在 `src-inject/acrylic.ts` 的 `colorVarList` 中。值类型定义如下：
@@ -72,8 +73,8 @@
         disableBackgroundColor: boolean;
         opacity: number;
     };
-    type FilterOp = Partial<Filter>;
-    const value = string | FilterOp | undefined;
+    type FilterPart = Partial<Filter>;
+    const value = string | FilterPart | undefined;
     ```
     `frosted-glass-theme.disableBackgroundColor` 会关闭元素的背景颜色（filter 应该提供一个颜色）。然而 `minimap` 、`decorationsOverviewRuler` 以及 `terminalOverlay` 基于canvas绘制并且自己提供背景色，因此你必须为他们指定一个无背景色的filter。\
     有一个特殊的key `default`, 相当于一个默认值。你可以使用一个特殊的关键字 `{key}` 来表示当前的key。和 `tintSvg` 一起用，你就可以为每个元素创建不同颜色的svg。\

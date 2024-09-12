@@ -62,7 +62,8 @@ You need to set `window.titleBarStyle` to `custom` to see the effect. Otherwise 
       },
     }
     ```
-    There are more examples in `theme` folder. I welcome everyone to send pull request.
+    There are more examples in `theme` folder. I welcome everyone to send pull request. \
+    You can also try the command `frosted-glass-theme.generateThemeMod` to automatically generate a theme, then add the result into `colorCustomizations`.
 * The `frosted-glass-theme.svg` simply loads svg from a url. The generated svg element is static and only use the css variable from `monaco-workbench`. More svgs can be found in `resource` folder.
 * The `frosted-glass-theme.tintSvg` generate different svgs for each key defined in `frosted-glass-theme.filter` and the id on `<filter>` is changed to `id-key`. Inside svg, you can use a special css variable `--fgt-current-background` representing the element's background color.
 * The `frosted-glass-theme.filter` settings is a object that represents the filter to use with each element. The key is defined in `src-inject/acrylic.ts`s' `colorVarList`. The value is of the type:
@@ -72,8 +73,8 @@ You need to set `window.titleBarStyle` to `custom` to see the effect. Otherwise 
       disableBackgroundColor: boolean;
       opacity: number;
     };
-    type FilterOp = Partial<Filter>;
-    const value = string | FilterOp | undefined;
+    type FilterPart = Partial<Filter>;
+    const value = string | FilterPart | undefined;
     ```
     The `disableBackgroundColor` disables backgrounds (the filter should provide it). However, `minimap`, `decorationsOverviewRuler` and `terminalOverlay` are based on canvas and draw their own background color, thus you must specify a filter that does not provide a background color for them. \
     There is a special key `default` which acts like a fallback. You can use a special keyword `{key}` to represent the current key. Together with `tintSvg` you can create different color svg for each element. \

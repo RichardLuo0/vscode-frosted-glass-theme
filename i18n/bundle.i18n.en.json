@@ -17,5 +17,6 @@
   "setup.inputWallpaper": "Wallpaper file path",
   "setup.chooseThemeMod": "Choose a theme modification for mica effect to pass through",
   "setup.chooseThemeModPlaceHolder": "If nothing is selected, you need to modify `colorCustomizations` yourself.",
-  "setup.complete": "Setup complete."
+  "setup.complete": "Setup complete.",
+  "generateThemeMod.opacity": "Opacity"
 }

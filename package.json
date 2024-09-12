@@ -78,6 +78,10 @@
       {
         "command": "frosted-glass-theme.openConfig",
         "title": "Frosted Glass Theme: Open Config (readonly)"
+      },
+      {
+        "command": "frosted-glass-theme.generateThemeMod",
+        "title": "Frosted Glass Theme: Generate Theme Modification"
       }
     ],
     "configuration": [
