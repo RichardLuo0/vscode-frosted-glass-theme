@@ -80,7 +80,8 @@
   "borderRadius": {
     "menu": "",
     "menuItem": "",
-    "suggestWidget": ""
+    "suggestWidget": "",
+    "tab": "6px 6px 0 0"
   },
   "fakeMica": {
     "enabled": false,

@@ -356,20 +356,20 @@
       {
         "title": "Border Radius",
         "properties": {
-          "frosted-glass-theme.borderRadius.menu": {
-            "type": "string",
-            "default": "",
-            "description": "Menu border radius (with unit). Set to blank to use default."
-          },
-          "frosted-glass-theme.borderRadius.menuItem": {
-            "type": "string",
-            "default": "",
-            "description": "Menu item border radius (with unit). Set to blank to use default."
-          },
-          "frosted-glass-theme.borderRadius.suggestWidget": {
-            "type": "string",
-            "default": "",
-            "description": "Editor widget border radius (with unit). Set to blank to use default."
+          "frosted-glass-theme.borderRadius": {
+            "type": "object",
+            "default": {
+              "menu": "",
+              "menuItem": "",
+              "suggestWidget": "",
+              "tab": "6px 6px 0 0"
+            },
+            "description": "Border radius (with unit). Key can also be css selector.",
+            "patternProperties": {
+              ".*": {
+                "type": "string"
+              }
+            }
           }
         }
       },

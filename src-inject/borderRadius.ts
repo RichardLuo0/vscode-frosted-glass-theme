@@ -1,30 +1,24 @@
 import config from "./config.json" with { type: "json" };
-import { css } from "./utils";
+import { css, isKeyInObject } from "./utils";
 import fgtSheet from "./vscode-frosted-glass-theme.css" with { type: "css" };
 
 const { borderRadius } = config;
 
-if (borderRadius.menuItem) {
-  fgtSheet.insertRule(css`
-    .monaco-menu-container ul.actions-container > li > a.action-menu-item {
-      border-radius: ${borderRadius.menuItem} !important;
-    }
-  `);
-}
+const selectorMap = {
+  menuItem:
+    ".monaco-menu-container ul.actions-container > li > a.action-menu-item",
+  menu: ".monaco-menu-container .monaco-scrollable-element",
+  suggestWidget: ".editor-widget.suggest-widget",
+  tab: ".tab",
+};
 
-if (borderRadius.menu) {
-  fgtSheet.insertRule(css`
-    .monaco-menu-container .monaco-scrollable-element {
-      border-radius: ${borderRadius.menu} !important;
-    }
-  `);
-}
-
-if (borderRadius.suggestWidget) {
-  fgtSheet.insertRule(css`
-    .editor-widget.suggest-widget {
-      border-radius: ${borderRadius.suggestWidget} !important;
-      overflow: hidden;
-    }
-  `);
+for (const key in borderRadius) {
+  const value = borderRadius[key as keyof typeof borderRadius];
+  if (value.length != 0)
+    fgtSheet.insertRule(css`
+      ${isKeyInObject(key, selectorMap) ? selectorMap[key] : key} {
+        border-radius: ${value} !important;
+        overflow: hidden;
+      }
+    `);
 }
