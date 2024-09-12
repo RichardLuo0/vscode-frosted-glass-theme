@@ -1,5 +1,12 @@
 # Change Log
 
+## [0.8.10]
+- 14171e5: fix: localization doesn't correctly replace args
+- 0582e0e: fix: add back dropdown focus
+- bc07d4c: fix: html file not found since 1.94.0 insider
+- a259516: feat: automatically generate color theme with opacity
+- d4db229: feat: add tab border radius
+
 ## [0.8.9]
 - 82f5e94: feat: allow multiple selections in setup
 - 7f6d3d0: fix(flipEffect): rotate3d does not involve a quad func now

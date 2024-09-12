@@ -1,7 +1,7 @@
 {
   "filter": {
     "default": {
-      "filter": "saturate(var(--fgt-saturate)) url(#fgt-acrylic-{key})",
+      "filter": "var(--fgt-saturate) url(#fgt-acrylic-{key})",
       "disableBackgroundColor": true,
       "opacity": 0.6
     },
@@ -17,7 +17,7 @@
     "../resource/acrylic.svg"
   ],
   "variable": {
-    "fgt-saturate": "120%",
+    "fgt-saturate": "saturate(120%)",
     "fgt-luminosity-opacity": "45%",
     "fgt-mica-luminosity": "hsl(0, 0%, 80%)",
     "fgt-mica-brightness": "",
@@ -80,12 +80,13 @@
   "borderRadius": {
     "menu": "",
     "menuItem": "",
-    "suggestWidget": ""
+    "suggestWidget": "",
+    "tab": "6px 6px 0 0"
   },
   "fakeMica": {
     "enabled": false,
     "url": "C:/Windows/Web/Wallpaper/Windows/img0.jpg",
-    "filter": "saturate(var(--fgt-saturate)) url(#fgt-mica) var(--fgt-mica-brightness)",
+    "filter": "var(--fgt-saturate) url(#fgt-mica) var(--fgt-mica-brightness)",
     "titlebarFix": 0.8,
     "editorBackgroundFix": true
   },
