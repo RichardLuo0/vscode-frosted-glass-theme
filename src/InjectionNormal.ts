@@ -2,9 +2,9 @@ import fs from "fs";
 import path from "path";
 import { v4 } from "uuid";
 import File from "./File";
-import { InjectionImpl } from "./Injection";
+import { IInjection } from "./Injection";
 
-export default class InjectionNormal implements InjectionImpl {
+export default class InjectionNormal implements IInjection {
   private base: string;
 
   constructor(

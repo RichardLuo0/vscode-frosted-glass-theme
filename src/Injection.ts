@@ -5,13 +5,14 @@ import File from "./File";
 import InjectionAdmin from "./InjectionAdmin";
 import InjectionNormal from "./InjectionNormal";
 import { localize } from "./localization";
+import { lazy } from "./utils";
 
-export interface InjectionImpl {
+export interface IInjection {
   inject(): Promise<void>;
   restore(): Promise<void>;
 }
 
-const htmlFileCandidates = [
+const getHtmlFileCandidates = lazy(() => [
   path.join(
     "out",
     "vs",
@@ -36,18 +37,15 @@ const htmlFileCandidates = [
     "workbench",
     "workbench.html"
   ), // prior
-];
+]);
 
-export default class Injection implements InjectionImpl {
+export default class Injection implements IInjection {
   constructor(private files: File[]) {}
 
-  private _injectionImpl?: InjectionImpl;
-
-  private prepare() {
-    if (this._injectionImpl) return this._injectionImpl;
+  private getInjectionImpl = lazy(() => {
     const appRoot = env.appRoot;
     if (!appRoot) throw new Error("appRoot is not found");
-    const htmlFileRelative = htmlFileCandidates.find(c =>
+    const htmlFileRelative = getHtmlFileCandidates().find(c =>
       fs.existsSync(path.join(appRoot, c))
     );
     if (htmlFileRelative === undefined)
@@ -55,16 +53,15 @@ export default class Injection implements InjectionImpl {
     const htmlFile = path.join(appRoot, htmlFileRelative);
     try {
       fs.accessSync(htmlFile, constants.R_OK | constants.W_OK);
-      this._injectionImpl = new InjectionNormal(this.files, htmlFile);
+      return new InjectionNormal(this.files, htmlFile);
     } catch (e) {
-      this._injectionImpl = new InjectionAdmin(this.files, htmlFile);
+      return new InjectionAdmin(this.files, htmlFile);
     }
-    return this._injectionImpl;
-  }
+  });
 
   async inject(): Promise<void> {
     try {
-      await this.prepare().inject();
+      await this.getInjectionImpl().inject();
     } catch (e) {
       window.showErrorMessage(localize("admin"));
       throw e;
@@ -73,7 +70,7 @@ export default class Injection implements InjectionImpl {
 
   async restore(): Promise<void> {
     try {
-      await this.prepare().restore();
+      await this.getInjectionImpl().restore();
     } catch (e) {
       window.showErrorMessage(localize("admin"));
       throw e;
