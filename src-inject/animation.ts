@@ -20,7 +20,7 @@ const selectorMap = {
   statusbarItem:
     ".statusbar-item:not(.has-background-color) > .statusbar-item-label, .statusbar-item.has-background-color",
   activitybarItem:
-    ":is(.activitybar, .sidebar.pane-composite-part .composite-bar) li.action-item:not(:has(> a.separator))",
+    ":is(.activitybar, .pane-composite-part .composite-bar) li.action-item:not(:has(> a.separator))",
   commandCenter: ".command-center-center",
   titlebarButton: `.titlebar-container .menu-entry`,
   settingsTreeItem:
