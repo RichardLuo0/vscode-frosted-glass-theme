@@ -65,6 +65,14 @@ if (fakeMica.enabled) {
         background-color: var(--vscode-editor-background);
       }
     `);
+    // VScode puts a top margin so that there will be a gap on the top.
+    // Fix it by replacing with padding.
+    fgtSheet.insertRule(css`
+      .profiles-editor {
+        margin: 0 auto 0 !important;
+        padding-top: 20px;
+      }
+    `);
   }
 }
 
