@@ -19,8 +19,9 @@ const selectorMap = {
     ":not(.settings-tree-container, .notifications-list-container, .profile-tree) > .monaco-list .monaco-list-row",
   statusbarItem:
     ".statusbar-item:not(.has-background-color) > .statusbar-item-label, .statusbar-item.has-background-color",
-  activitybarItem:
-    ":is(.activitybar, .pane-composite-part .composite-bar) li.action-item:not(:has(> a.separator))",
+  activitybarItem: ".activitybar li.action-item:not(:has(> a.separator))",
+  compositeBarItem:
+    ".pane-composite-part .composite-bar li.action-item:not(:has(> a.separator))",
   commandCenter: ".command-center-center",
   titlebarButton: `.titlebar-container .menu-entry`,
   settingsTreeItem:

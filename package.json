@@ -239,6 +239,7 @@
               "listItem": "fgt-revealEffect, fgt-flipEffect",
               "statusbarItem": "fgt-revealEffect, fgt-flipEffect",
               "activitybarItem": "fgt-revealEffect, fgt-flipEffect",
+              "compositeBarItem": "fgt-revealEffect, fgt-flipEffect",
               "commandCenter": "fgt-revealEffect",
               "titlebarButton": "fgt-flipEffect",
               "settingsTreeItem": "fgt-revealEffect"
