@@ -1,8 +1,11 @@
-import { applyBackdropFilter, applyBackdropFilterOnMenu } from "./backdropFilter";
+import {
+  applyBackdropFilter,
+  applyBackdropFilterOnMenu,
+} from "./backdropFilter";
 import config from "./config.json" with { type: "json" };
 import { applyEffect } from "./effect/effect";
 import { applyFakeMica } from "./fakeMica";
-import { fixContextMenu, fixMenu, fixMenuBar } from "./fix";
+import { fixContextMenu, fixMenu, fixMenuBar } from "./fixMenu";
 import { loadSvgs } from "./loadSvg";
 import { observeThemeColorChange } from "./observeThemeColor";
 import { proxy, useHTMLElement, useRet } from "./proxy";
@@ -11,6 +14,7 @@ import fgtSheet from "./vscode-frosted-glass-theme.css" with { type: "css" };
 
 import "./animation";
 import "./borderRadius";
+import "./fixClipPath";
 import "./miscellaneous";
 
 const { opacity } = config;

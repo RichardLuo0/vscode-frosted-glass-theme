@@ -126,31 +126,6 @@
   animation: 300ms linear 0s 1 forwards fgtFadeIn;
 }
 
-/* Menu Animation */
-.monaco-menu-container,
-.context-view {
-  clip-path: inset(-1px calc(-infinity * 1px) calc(-infinity * 1px));
-}
-
-@supports not (clip-path: inset(1px)) {
-  .monaco-menu-container,
-  .context-view {
-    overflow: clip !important;
-    overflow-clip-margin: 10px !important;
-  }
-}
-
-/* Dropdown Animation */
-.select-container > .context-view {
-  clip-path: inset(0px calc(-infinity * 1px) calc(-infinity * 1px));
-}
-
-@supports not (clip-path: inset(1px)) {
-  .select-container > .context-view {
-    overflow-clip-margin: 0px !important;
-  }
-}
-
 /* Hover Animation */
 div[widgetid="editor.contrib.resizableContentHoverWidget"] {
   overflow: clip !important;
@@ -191,15 +166,6 @@ div[widgetid="editor.contrib.resizableContentHoverWidget"] {
 .pane-body,
 .pane-body .monaco-list > .monaco-scrollable-element {
   overflow: visible !important;
-  clip-path: inset(-22px);
-}
-
-@supports not (clip-path: inset(1px)) {
-  .pane-body,
-  .pane-body .monaco-list > .monaco-scrollable-element {
-    overflow: clip !important;
-    overflow-clip-margin: 22px;
-  }
 }
 
 .search-view .results,
