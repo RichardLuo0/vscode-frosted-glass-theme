@@ -14,6 +14,7 @@
       "input.background": "#ffffff4d",
       "menu.background": "#ffffff99",
       "menu.selectionForeground": "#000000",
+      "multiDiffEditor.background": "#00000000",
       "notebook.cellEditorBackground": "#00000000",
       "panel.background": "#ffffffcc",
       "peekViewEditorGutter.background": "#00000000",
