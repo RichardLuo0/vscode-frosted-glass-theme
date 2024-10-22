@@ -36,7 +36,8 @@ if (miscellaneous.disableFocusOutline)
     .monaco-workbench input[type="search"]:focus,
     .monaco-workbench input[type="text"]:focus,
     .monaco-workbench select:focus,
-    .monaco-workbench textarea:focus {
+    .monaco-workbench textarea:focus,
+    .monaco-list::before {
       outline: none !important;
     }
   `);
