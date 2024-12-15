@@ -6,6 +6,9 @@
 ![GitHub Repo stars](https://img.shields.io/github/stars/RichardLuo0/vscode-frosted-glass-theme?style=for-the-badge&link=https%3A%2F%2Fgithub.com%2FRichardLuo0%2Fvscode-frosted-glass-theme&color=%23FF9800)
 ![Visual Studio Marketplace Rating](https://img.shields.io/visual-studio-marketplace/r/RichardLuo.frosted-glass-theme?style=for-the-badge&link=https%3A%2F%2Fmarketplace.visualstudio.com%2Fitems%3FitemName%3DRichardLuo.frosted-glass-theme%26ssr%3Dfalse%23review-details&color=%239C27B0)
 
+[从VSCode市场获取](https://marketplace.visualstudio.com/items?itemName=RichardLuo.frosted-glass-theme)
+[从Open-VSX获取](https://open-vsx.org/extension/RichardLuo/frosted-glass-theme)
+
 [English](README.md)
 
 <span style="font-size: 24px;font-weight: bold">
