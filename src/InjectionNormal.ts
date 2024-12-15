@@ -103,9 +103,8 @@ export default class InjectionNormal implements IInjection {
     const ext = path.extname(url);
 
     url =
-      process.platform === "win32"
-        ? "vscode-file://vscode-app/"
-        : "vscode-file://vscode-app" + url;
+      "vscode-file://vscode-app" +
+      (process.platform === "win32" ? "/" + url : url);
     url = url.replace(/\\/g, "/");
 
     switch (ext) {
