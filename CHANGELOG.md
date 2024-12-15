@@ -1,5 +1,10 @@
 # Change Log
 
+## [0.8.14]
+- 7ad167b: feat: add pane-header to animation list
+- 63ba521: fix: open css not work on vscodium+linux
+- 8cfbc8e: fix: url is not appended on win32
+
 ## [0.8.13]
 - f17f664: feat: `disableMenuFocusBackground` instead of two settings
 - dc04f07: feat: add iconActionLabel and menubarTitle in animation
