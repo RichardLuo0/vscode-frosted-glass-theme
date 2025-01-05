@@ -20,6 +20,7 @@ Custom SVG is supported.
 </span>
 
 ## Preview
+[![Video](https://img.youtube.com/vi/rpnfE7YDdg4/0.jpg)](https://www.youtube.com/watch?v=rpnfE7YDdg4) \
 ![Animation](image/Animation.gif) \
 ![FakeMica](image/FakeMica.jpg) \
 ![CodeHover](image/CodeHover.jpg) \
