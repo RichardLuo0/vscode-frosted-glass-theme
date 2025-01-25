@@ -89,6 +89,10 @@ You need to set `window.titleBarStyle` to `custom` to see the effect. Otherwise 
 ## Uninstall
 1. Open command panel, type in "Frosted Glass Theme: Disable", press enter.
 1. Uninstall from the extension panel as usual.
+## Known Issue
+Since Windows 24H2, Microsoft may have changed the wallpaper location. Follow the steps: 
+1. Create a hard link: `cd $env:AppData\Microsoft\Windows\Themes; cmd /c mklink /H .\TranscodedWallpaper.jpg .\TranscodedWallpaper`.
+1. Change `frosted-glass-theme.fakeMica.url` to `<your user home>\AppData\Roaming\Microsoft\Windows\Themes\TranscodedWallpaper.jpg`.
 ## Thanks
 * [be5invis/vscode-custom-css](https://github.com/be5invis/vscode-custom-css)
 ## Disclaimer
