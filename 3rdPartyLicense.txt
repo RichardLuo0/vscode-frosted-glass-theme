@@ -3,7 +3,7 @@ https://www.npmjs.com/package/generate-license-file
 
 The following npm package may be included in this product:
 
- - uuid@11.0.3
+ - uuid@11.1.0
 
 This package contains the following license:
 
