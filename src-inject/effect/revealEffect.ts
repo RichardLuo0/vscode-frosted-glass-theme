@@ -5,16 +5,35 @@ const {
   effect: { revealEffect },
 } = config;
 
-function getSize(element: HTMLElement, pxOrPer: number | string) {
-  if (typeof pxOrPer == "number") return pxOrPer;
-  else if (pxOrPer.endsWith("%")) {
-    const rect = element.getBoundingClientRect();
-    return (
-      (Math.max(rect.width, rect.height) *
-        Number.parseFloat(pxOrPer.substring(0, pxOrPer.length - 1))) /
-      100
-    );
-  } else return Number.parseFloat(pxOrPer);
+enum SizeType {
+  Px,
+  Per,
+}
+
+type CachedSize = {
+  type: SizeType;
+  value: number;
+};
+
+function getSizeCached(value: string | number): CachedSize {
+  if (typeof value == "number") return { type: SizeType.Px, value };
+  else if (value.endsWith("%"))
+    return { type: SizeType.Per, value: parseFloat(value) / 100 };
+  else return { type: SizeType.Px, value: parseFloat(value) };
+}
+
+const gradientSize = getSizeCached(revealEffect.gradientSize);
+const clickSize = getSizeCached(revealEffect.clickEffect.size);
+
+function getSize(element: HTMLElement, cachedSize: CachedSize) {
+  const { value } = cachedSize;
+  switch (cachedSize.type) {
+    case SizeType.Per:
+      const rect = element.getBoundingClientRect();
+      return Math.max(rect.width, rect.height) * value;
+    default:
+      return value;
+  }
 }
 
 function lightHoverEffect(x: number, y: number, size: number) {
@@ -42,7 +61,7 @@ function startClickAnimation(
 
   const [x, y] = getRelativePos(element, e);
   const speed = revealEffect.clickEffect.speed;
-  const startSize = getSize(element, revealEffect.clickEffect.size);
+  const startSize = getSize(element, clickSize);
   const duration = revealEffect.clickEffect.duration;
   const distance = duration * speed;
 
@@ -84,11 +103,7 @@ export function applyRevealEffect(
 
   element.addEventListener("mousemove", e => {
     const [x, y] = getRelativePos(element, e);
-    const hoverEffect = lightHoverEffect(
-      x,
-      y,
-      getSize(element, revealEffect.gradientSize)
-    );
+    const hoverEffect = lightHoverEffect(x, y, getSize(element, gradientSize));
     if (!element._revealEffectAnimation)
       element.style.backgroundImage = hoverEffect;
     element._revealEffectHover = hoverEffect;
