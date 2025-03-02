@@ -11,9 +11,8 @@ taskList.push(
     "src-inject/config.schema.json",
     "src-inject/config.json",
     "frosted-glass-theme."
-  )
+  ).then(() => mergeLicense())
 );
-taskList.push(mergeLicense());
 
 const common = {
   bundle: true,
@@ -165,7 +164,7 @@ async function build(options) {
 
 async function mergeLicense(outputFile = "3rdPartyLicense.txt") {
   const licensesPath = "./licenses";
-  generateLicenseFile("./package.json", outputFile, {
+  await generateLicenseFile("./package.json", outputFile, {
     append: (await fs.readdir(licensesPath)).map(file =>
       path.join(licensesPath, file)
     ),
