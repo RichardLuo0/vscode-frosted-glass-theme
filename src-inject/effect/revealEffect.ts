@@ -91,19 +91,15 @@ export function applyRevealEffect(
     );
     if (!element._revealEffectAnimation)
       element.style.backgroundImage = hoverEffect;
-    else element._revealEffectHover = hoverEffect;
+    element._revealEffectHover = hoverEffect;
   });
   element.addEventListener("mouseleave", () => {
     element.style.backgroundImage = oriBackground;
     element._revealEffectHover = oriBackground;
   });
 
-  if (revealEffect.clickEffect && !element.classList.contains("disabled")) {
-    element.addEventListener("mousedown", e => {
-      element._revealEffectHover = element.style.backgroundImage;
-      startClickAnimation(element, e);
-    });
-  }
+  if (revealEffect.clickEffect && !element.classList.contains("disabled"))
+    element.addEventListener("mousedown", e => startClickAnimation(element, e));
 
   element._appliedRevealEffect = true;
 }
