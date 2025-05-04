@@ -4,6 +4,8 @@ import { generateLicenseFile } from "generate-license-file";
 import { parseLiterals } from "parse-literals";
 import path from "path";
 
+const debug = process.env["NODE_ENV"] === "development";
+
 const taskList = [];
 
 taskList.push(
@@ -19,9 +21,9 @@ const common = {
   platform: "node",
   target: ["node18"],
   logLevel: "silent",
-  minify: true,
+  minify: !debug,
   legalComments: "none",
-  sourcemap: true,
+  sourcemap: debug,
   plugins: [minifyLiteralsPlugin(["css"])],
 };
 

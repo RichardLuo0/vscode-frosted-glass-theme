@@ -414,6 +414,7 @@
   "scripts": {
     "vscode:prepublish": "npm run build",
     "build": "tsc -noEmit && node ./build.mjs",
+    "debug": "cross-env NODE_ENV=development node ./build.mjs",
     "lint": "eslint src --ext ts",
     "watch": "node ./build.mjs watch",
     "pretest": "npm run lint",
