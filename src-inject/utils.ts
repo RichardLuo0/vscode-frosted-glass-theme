@@ -50,3 +50,48 @@ export function getChromeMainVersion() {
   const mainVerStr = vscode.process.versions.chrome.match(/^\d+/)?.[0];
   return (chromeMainVersion = mainVerStr ? parseInt(mainVerStr, 10) : 0);
 }
+
+export function applyOpacity(color: string, opacity: number) {
+  color = color.trim();
+  if (color.startsWith("#")) {
+    const alpha = Math.round(opacity * 255).toString(16);
+    return color.length === 7 ? color + alpha : color;
+  }
+
+  const data = color.slice(color.indexOf("(") + 1, -1).split(",");
+  if (data.length < 4) {
+    let prefix: string | undefined = undefined;
+    if (color.startsWith("rgb")) prefix = "rgba";
+    else if (color.startsWith("hsl")) prefix = "hsla";
+    if (prefix !== undefined)
+      return `${prefix}(${data[0]}, ${data[1]}, ${data[2]}, ${opacity})`;
+  }
+
+  return color;
+}
+
+export function extractOpacity(
+  color: string,
+  opacity: number | undefined
+): [string, number] {
+  const fallback = opacity ?? 1;
+  color = color.trim();
+  if (color.startsWith("#"))
+    if (color.length === 9)
+      return [color.substring(0, 7), parseInt(color.substring(7, 9), 16) / 255];
+    else return [color, fallback];
+
+  const data = color.slice(color.indexOf("(") + 1, -1).split(",");
+  if (data.length === 4) {
+    let prefix: string | undefined = undefined;
+    if (color.startsWith("rgba")) prefix = "rgb";
+    else if (color.startsWith("hsla")) prefix = "hsl";
+    if (prefix !== undefined)
+      return [
+        `${prefix}(${data[0]}, ${data[1]}, ${data[2]})`,
+        parseFloat(data[3].trim()),
+      ];
+  }
+
+  return [color, fallback];
+}

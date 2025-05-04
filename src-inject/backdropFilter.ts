@@ -1,20 +1,25 @@
 import config from "./config.json" with { type: "json" };
-import { loadSvgs } from "./loadSvg";
-import { registerColorVar } from "./observeThemeColor";
-import { css } from "./utils";
+import { loadSvgs, MountSvgTo } from "./loadSvg";
+import { registerColorChangeListener } from "./observeThemeColor";
+import { applyOpacity, css, extractOpacity } from "./utils";
 import fgtSheet from "./vscode-frosted-glass-theme.css" with { type: "css" };
 
-const { filter, tintSvg } = config;
+const { filter } = config;
 
-const mountSvgTo = loadSvgs(tintSvg);
+// [key, colorVar, cssSelector]
+type Entry = [string, string, string];
 
-// the item type is of [key, colorVar, cssSelector, newColorVar?]
-const colorVarList: [string, string, string, string?][] = [
+const menuEntry: Entry = [
+  "menu",
+  "--vscode-menu-background",
+  ".monaco-menu-container .monaco-scrollable-element",
+];
+const entryList: Entry[] = [
+  menuEntry,
   [
     "multiDiffEditorHeader",
     "--vscode-editor-background",
     ".monaco-component.multiDiffEditor .header",
-    "--fgt-multiDiffEditorHeader-background",
   ],
   [
     "editorHoverWidget",
@@ -32,11 +37,7 @@ const colorVarList: [string, string, string, string?][] = [
     ".monaco-tree-type-filter",
   ],
   ["quickInput", "--vscode-quickInput-background", ".quick-input-widget"],
-  [
-    "menu",
-    "--vscode-menu-background",
-    ".monaco-menu-container .monaco-scrollable-element",
-  ],
+
   [
     "notifications",
     "--vscode-notifications-background",
@@ -73,13 +74,11 @@ const colorVarList: [string, string, string, string?][] = [
     "treeStickyContainer",
     "--vscode-sideBarStickyScroll-background",
     ".monaco-tree-sticky-container",
-    "--fgt-treeStickyContainer-background",
   ],
   [
     "cellTitleToolbar",
     "--vscode-editorStickyScroll-background",
     ".cell-title-toolbar",
-    "--fgt-cellTitleToolbar-background",
   ],
   [
     "slider",
@@ -134,7 +133,7 @@ const filterMap: {
     defaultFallbackFilter = fallbackFilter
   ): Filter | undefined {
     if (filterPart === undefined) return undefined;
-    return typeof filterPart == "string"
+    return typeof filterPart === "string"
       ? {
           ...defaultFallbackFilter,
           filter: filterPart,
@@ -150,7 +149,7 @@ const filterMap: {
   };
   filterMap.default = generateFilter(_filter.default);
   for (const key in _filter) {
-    if (key == "default") continue;
+    if (key === "default") continue;
     filterMap[key] = generateFilter(
       _filter[key],
       filterMap.default ?? fallbackFilter
@@ -158,40 +157,63 @@ const filterMap: {
   }
 }
 
-colorVarList.forEach(entry => {
-  const filter = filterMap[entry[0]] ?? filterMap.default;
+function getFilter(key: string) {
+  return filterMap[key] ?? filterMap.default;
+}
+
+entryList.forEach(entry => {
+  const filter = getFilter(entry[0]);
   if (filter === undefined) return;
-  registerColorVar(entry[1], filter.opacity, entry[3]);
   const filterStr = filter.filter.replaceAll("{key}", entry[0]);
   fgtSheet.insertRule(css`
     ${entry[2]} {
       backdrop-filter: ${filterStr};
       background-color: ${filter.disableBackgroundColor
         ? "transparent"
-        : `var(${entry[1]})`} !important;
+        : `var(--fgt-${entry[0]}-background)`} !important;
     }
   `);
 });
 
-export async function applyBackdropFilter(element: HTMLElement) {
-  for (const entry of colorVarList) {
-    const wrapper = document.createElement("div");
-    wrapper.style.setProperty("--fgt-current-background", `var(${entry[1]})`);
-    await mountSvgTo(wrapper, true);
-    wrapper
-      .querySelectorAll("filter")
-      .forEach(f => (f.id = f.id + "-" + entry[0]));
-    element.appendChild(wrapper);
-  }
+async function applyBackdropFilterOnEntry(
+  element: Node & ParentNode,
+  entry: Entry,
+  mountSvgTo: MountSvgTo
+) {
+  const wrapper = document.createElement("div");
+  registerColorChangeListener(entry[1], (color, style) => {
+    const filterOpacity = getFilter(entry[0])?.opacity;
+    if (filterOpacity !== undefined)
+      style.setProperty(
+        `--fgt-${entry[0]}-background`,
+        applyOpacity(color, filterOpacity)
+      );
+
+    const [solid, opacity] = extractOpacity(color, filterOpacity);
+    wrapper.style.setProperty("--fgt-current-background", solid);
+    wrapper.style.setProperty("--fgt-current-opacity", `${opacity * 100}%`);
+  });
+  await mountSvgTo(wrapper, true);
+  wrapper
+    .querySelectorAll("filter")
+    .forEach(f => (f.id = f.id + "-" + entry[0]));
+  element.appendChild(wrapper);
 }
 
-export function applyBackdropFilterOnMenu(element: Node & ParentNode) {
+export function applyBackdropFilter(
+  element: HTMLElement,
+  mountSvgTo: MountSvgTo
+) {
   const wrapper = document.createElement("div");
-  wrapper.style.setProperty(
-    "--fgt-current-background",
-    "var(--vscode-menu-background)"
+  entryList.forEach(entry =>
+    applyBackdropFilterOnEntry(wrapper, entry, mountSvgTo)
   );
-  mountSvgTo(wrapper, true);
-  wrapper.querySelectorAll("filter").forEach(f => (f.id = f.id + "-menu"));
   element.appendChild(wrapper);
+}
+
+export function applyBackdropFilterOnShadowDOM(
+  element: Node & ParentNode,
+  mountSvgTo: MountSvgTo
+) {
+  applyBackdropFilterOnEntry(element, menuEntry, mountSvgTo);
 }

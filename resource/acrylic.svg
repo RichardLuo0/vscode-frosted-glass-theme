@@ -8,7 +8,7 @@
       <feGaussianBlur result="blur" in="SourceGraphic" stdDeviation="30" edgeMode="duplicate" />
       <feBlend result="blurLum" in="lumColor" in2="blur" mode="luminosity" />
 
-      <feFlood result="tint" flood-color="var(--fgt-current-background)" />
+      <feFlood result="tint" flood-color="color-mix(in srgb, var(--fgt-current-background) var(--fgt-current-opacity), transparent)" />
 
       <feTurbulence result="noiseImage" baseFrequency="0.4" numOctaves="3"
         seed="0"

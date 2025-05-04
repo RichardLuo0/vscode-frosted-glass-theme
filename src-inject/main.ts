@@ -1,6 +1,6 @@
 import {
   applyBackdropFilter,
-  applyBackdropFilterOnMenu,
+  applyBackdropFilterOnShadowDOM,
 } from "./backdropFilter";
 import config from "./config.json" with { type: "json" };
 import { applyEffect } from "./effect/effect";
@@ -12,17 +12,15 @@ import { proxy, useHTMLElement, useRet } from "./proxy";
 import { css, makeAbsolutePath } from "./utils";
 import fgtSheet from "./vscode-frosted-glass-theme.css" with { type: "css" };
 
+import "./opacity";
 import "./animation";
 import "./borderRadius";
 import "./fixClipPath";
 import "./miscellaneous";
 
-const { opacity } = config;
-
 fgtSheet.insertRule(css`
   [role="application"] {
     --fgt-transition: ${config.transition};
-    --fgt-minimap-opacity: ${opacity.minimap * 100}%;
   }
 `);
 
@@ -54,16 +52,17 @@ insertVariables(
 document.adoptedStyleSheets.push(fgtSheet);
 
 const mountSvgTo = loadSvgs(config.svg);
+const mountTintSvgTo = loadSvgs(config.tintSvg);
 
 proxy(
   document.body,
   "appendChild",
   useHTMLElement("monaco-workbench", monacoWorkbench => {
-    observeThemeColorChange(monacoWorkbench);
     const svgMounted = mountSvgTo(monacoWorkbench);
     applyFakeMica(monacoWorkbench, svgMounted);
-    applyBackdropFilter(monacoWorkbench);
+    applyBackdropFilter(monacoWorkbench, mountTintSvgTo);
     applyEffect(monacoWorkbench);
+    observeThemeColorChange(monacoWorkbench);
     proxy(
       monacoWorkbench,
       "prepend",
@@ -85,7 +84,7 @@ proxy(
     shadowDom.adoptedStyleSheets.push(
       ...shadowDom.ownerDocument.adoptedStyleSheets
     );
-    applyBackdropFilterOnMenu(shadowDom);
+    applyBackdropFilterOnShadowDOM(shadowDom, mountTintSvgTo);
     applyEffect(shadowDom);
     proxy(
       shadowDom,
@@ -113,11 +112,11 @@ proxy(
       newDocument.body,
       "append",
       useHTMLElement(null, monacoWorkbench => {
-        observeThemeColorChange(monacoWorkbench);
         const svgMounted = mountSvgTo(monacoWorkbench);
         applyFakeMica(monacoWorkbench, svgMounted);
-        applyBackdropFilter(monacoWorkbench);
+        applyBackdropFilter(monacoWorkbench, mountTintSvgTo);
         applyEffect(monacoWorkbench);
+        observeThemeColorChange(monacoWorkbench);
       })
     );
     return newWindow;
