@@ -69,7 +69,7 @@ You need to set `window.titleBarStyle` to `custom` to see the effect. Otherwise 
     There are more examples in `theme` folder. I welcome everyone to send pull request. \
     You can also try the command `frosted-glass-theme.generateThemeMod` to automatically generate a theme, then add the result into `colorCustomizations`.
 * The `frosted-glass-theme.svg` simply loads svg from a url. The generated svg element is static and only use the css variable from `monaco-workbench`. More svgs can be found in `resource` folder.
-* The `frosted-glass-theme.tintSvg` generate different svgs for each key defined in `frosted-glass-theme.filter` and the id on `<filter>` is changed to `id-key`. Inside svg, you can use a special css variable `--fgt-current-background` representing the element's background color.
+* The `frosted-glass-theme.tintSvg` generate different svgs for each key defined in `frosted-glass-theme.filter` and the id on `<filter>` is changed to `id-key`. Inside svg, you can use some special css variables: `--fgt-current-background` representing the element's solid background color, `--fgt-current-opacity` representing opacity.
 * The `frosted-glass-theme.filter` settings is a object that represents the filter to use with each element. The key is defined in `src-inject/acrylic.ts`s' `colorVarList`. The value is of the type:
     ```typescript
     type Filter = {
