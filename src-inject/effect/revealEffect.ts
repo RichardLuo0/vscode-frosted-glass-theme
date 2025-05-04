@@ -16,7 +16,7 @@ type CachedSize = {
 };
 
 function getSizeCached(value: string | number): CachedSize {
-  if (typeof value == "number") return { type: SizeType.Px, value };
+  if (typeof value === "number") return { type: SizeType.Px, value };
   else if (value.endsWith("%"))
     return { type: SizeType.Per, value: parseFloat(value) / 100 };
   else return { type: SizeType.Px, value: parseFloat(value) };

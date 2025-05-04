@@ -18,7 +18,7 @@ function positiveRoot(a: number, b: number, c: number) {
 // r: radius
 // d: reduced distance = reducedPercentage * radius;
 // z = adjacent * p / (r - d) - p - opposite
-// when z = 0, let a = r - d, c is cos\theta, solve (p^2r^2/a^2 + r^2)c^2 - 2p^2rc/a + p^2 - r^2
+// when z = 0, let a = r - d, c is cos\theta, solve (p^2r^2/a^2 + r^2)c^2 - 2p^2rc/a + p^2 - r^2 = 0
 function transform(element: HTMLElement, e: MouseEvent) {
   const mouse = getRelativePos(element, e);
   const rect = element.getBoundingClientRect();

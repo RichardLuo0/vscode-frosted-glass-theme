@@ -48,7 +48,7 @@ async function chooseWallpaper(fgtConfig: WorkspaceConfiguration) {
           detail: p.absPath,
           _path: p.absPath,
         }));
-    if (process.platform == "win32") {
+    if (process.platform === "win32") {
       promiseList.push(
         listFilesInDir(
           `C:/Users/${process.env.USERNAME}/AppData/Roaming/Microsoft/Windows/Themes/CachedFiles`
@@ -70,7 +70,7 @@ async function chooseWallpaper(fgtConfig: WorkspaceConfiguration) {
     }
     items.push(
       ...(await Promise.allSettled(promiseList))
-        .filter(result => result.status == "fulfilled")
+        .filter(result => result.status === "fulfilled")
         .map(result => result.value)
         .flat()
     );
