@@ -41,7 +41,7 @@
     "tintSvg": {
       "type": "array",
       "order": 3,
-      "markdownDescription": "The tint svgs that load on start. `--fgt-current-background` indicts current element background color.",
+      "markdownDescription": "The tint svgs that load on start. `--fgt-current-background` indicates current element solid background color and `--fgt-current-opacity` indicates current opacity.",
       "items": {
         "type": "string"
       }
