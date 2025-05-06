@@ -2,22 +2,21 @@
 <svg xmlns="http://www.w3.org/2000/svg">
   <defs>
     <filter id="fgt-frosted-glass">
-      <feFlood result="lumColor"
-        flood-color="color-mix(in srgb, var(--fgt-current-background) var(--fgt-luminosity-opacity), transparent)"
-      />
+      <feFlood result="lumColor" flood-color="var(--fgt-current-background)"
+        flood-opacity="var(--fgt-luminosity-opacity)" />
       <feGaussianBlur result="blur" in="SourceGraphic" stdDeviation="30" />
       <feBlend result="blurLum" in="lumColor" in2="blur" mode="luminosity" />
 
-      <feFlood result="tint" flood-color="color-mix(in srgb, var(--fgt-current-background) var(--fgt-current-opacity), transparent)" />
+      <feFlood result="tint" flood-color="var(--fgt-current-background)"
+        flood-opacity="var(--fgt-current-opacity)" />
 
-      <feTurbulence result="noise" baseFrequency="0.8" numOctaves="3"
-        seed="0"
+      <feTurbulence result="noiseImage" type="fractalNoise" baseFrequency="0.67" numOctaves="3"
         stitchTiles="stitch" />
-      <feSpecularLighting result="spec" in="noise" specularExponent="20" lighting-color="white">
+      <feSpecularLighting result="spec" in="noiseImage" specularExponent="20" lighting-color="white">
         <feDistantLight azimuth="45" elevation="60" />
       </feSpecularLighting>
       <feComponentTransfer result="specWeaken" in="spec">
-        <feFuncA type="linear" slope="0.02" />
+        <feFuncA type="linear" slope="0.04" />
       </feComponentTransfer>
 
       <feMerge>
