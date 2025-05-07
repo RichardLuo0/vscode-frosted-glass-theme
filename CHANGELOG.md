@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.8.18]
+- 6a5e77a: feat: separate --fgt-current-background and --fgt-current-opacity
+
 ## [0.8.14]
 - 7ad167b: feat: add pane-header to animation list
 - 63ba521: fix: open css not work on vscodium+linux
