@@ -33,10 +33,7 @@ export function loadSvgs(svgList: string[]): MountSvgTo {
       return svg;
     })
   );
-  return async function mountSvgTo(
-    element: Node & ParentNode,
-    copy: boolean = false
-  ) {
+  return async (element, copy = false) => {
     const svgList = await Promise.all(fetchList);
     if (copy) svgList.forEach(svg => element.appendChild(svg.cloneNode(true)));
     else element.append(...svgList);

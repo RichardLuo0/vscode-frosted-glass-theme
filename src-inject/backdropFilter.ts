@@ -188,7 +188,7 @@ async function applyBackdropFilterOnEntry(
         `--fgt-${entry[0]}-background`,
         applyOpacity(color, filterOpacity)
       );
-
+    // Bind color to svg
     const [solid, opacity] = extractOpacity(color, filterOpacity);
     wrapper.style.setProperty("--fgt-current-background", solid);
     wrapper.style.setProperty("--fgt-current-opacity", `${opacity * 100}%`);

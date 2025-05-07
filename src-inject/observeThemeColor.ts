@@ -50,24 +50,21 @@ function findStyleSheetList(ownerNode: Element | null) {
 }
 
 function callListeners(ownerNode: Element, monacoWorkbench: HTMLElement) {
-  if (foundCssStyle === undefined) {
-    const monacoWorkbenchCSSRule = findStyleSheetList(ownerNode)?.cssRules;
-    if (!monacoWorkbenchCSSRule) return;
+  const monacoWorkbenchCSSRule = findStyleSheetList(ownerNode)?.cssRules;
+  if (!monacoWorkbenchCSSRule) return;
+  const cssRule = monacoWorkbenchCSSRule[monacoWorkbenchCSSRule.length - 1];
+  if (!(cssRule instanceof CSSStyleRule)) return;
 
-    const cssRule = monacoWorkbenchCSSRule[monacoWorkbenchCSSRule.length - 1];
-    if (!(cssRule instanceof CSSStyleRule)) return;
-    const cssStyle = cssRule.style;
+  foundCssStyle = {
+    readStyle: cssRule.style,
+    writeStyle: monacoWorkbench.style,
+  };
 
-    foundCssStyle = { readStyle: cssStyle, writeStyle: monacoWorkbench.style };
-  }
-
-  if (foundCssStyle !== undefined) {
-    const _foundCssStyle = foundCssStyle;
-    colorChangeListeners.forEach(entry =>
-      entry[1](
-        _foundCssStyle.readStyle.getPropertyValue(entry[0]),
-        _foundCssStyle.writeStyle
-      )
-    );
-  }
+  const _foundCssStyle = foundCssStyle;
+  colorChangeListeners.forEach(entry =>
+    entry[1](
+      _foundCssStyle.readStyle.getPropertyValue(entry[0]),
+      _foundCssStyle.writeStyle
+    )
+  );
 }
