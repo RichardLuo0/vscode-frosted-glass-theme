@@ -1,6 +1,6 @@
 import config from "./config.json" with { type: "json" };
-import { registerColorChangeListener } from "./observeThemeColor";
-import { applyOpacity, css } from "./utils";
+import { registerColorChangeListener } from "./utils/observeThemeColor";
+import { applyOpacity, css } from "./utils/utils";
 import fgtSheet from "./vscode-frosted-glass-theme.css" with { type: "css" };
 
 const { opacity } = config;

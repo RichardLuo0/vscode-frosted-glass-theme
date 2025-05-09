@@ -1,7 +1,8 @@
 import config from "./config.json" with { type: "json" };
-import { loadSvgs, MountSvgTo } from "./loadSvg";
-import { registerColorChangeListener } from "./observeThemeColor";
-import { applyOpacity, css, extractOpacity } from "./utils";
+import { inset, clipPath } from "./utils/clipPathPolyFill";
+import { loadSvgs, MountSvgTo } from "./utils/loadSvg";
+import { registerColorChangeListener } from "./utils/observeThemeColor";
+import { applyOpacity, css, extractOpacity } from "./utils/utils";
 import fgtSheet from "./vscode-frosted-glass-theme.css" with { type: "css" };
 
 const { filter } = config;
@@ -217,3 +218,11 @@ export function applyBackdropFilterOnShadowDOM(
 ) {
   applyBackdropFilterOnEntry(element, menuEntry, mountSvgTo);
 }
+
+// Fix panel Header
+clipPath(
+  css`.pane-body,
+  .pane-body .monaco-list > .monaco-scrollable-element`,
+  inset(-22),
+  "22px"
+);

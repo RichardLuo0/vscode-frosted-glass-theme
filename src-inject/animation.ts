@@ -1,5 +1,6 @@
 import config from "./config.json" with { type: "json" };
-import { css, isKeyInObject } from "./utils";
+import { inset, clipPath } from "./utils/clipPathPolyFill";
+import { css, isKeyInObject } from "./utils/utils";
 import fgtSheet from "./vscode-frosted-glass-theme.css" with { type: "css" };
 
 const { animation } = config;
@@ -43,3 +44,14 @@ for (const key in animation) {
       }
     `);
 }
+
+// Menu Animation
+clipPath(
+  css`.monaco-menu-container,
+  .context-view`,
+  inset(-1, true),
+  "10px"
+);
+
+// Dropdown Animation
+clipPath(css`.select-container > .context-view`, inset(0, true), "0px");

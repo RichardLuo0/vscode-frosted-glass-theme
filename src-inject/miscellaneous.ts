@@ -1,5 +1,5 @@
 import config from "./config.json" with { type: "json" };
-import { css } from "./utils";
+import { css } from "./utils/utils";
 import fgtSheet from "./vscode-frosted-glass-theme.css" with { type: "css" };
 
 const { miscellaneous } = config;

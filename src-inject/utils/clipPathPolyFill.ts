@@ -1,7 +1,7 @@
 import { css, getChromeMainVersion } from "./utils";
-import fgtSheet from "./vscode-frosted-glass-theme.css" with { type: "css" };
+import fgtSheet from "../vscode-frosted-glass-theme.css" with { type: "css" };
 
-function polyfillClipPath(
+export function clipPath(
   selector: string,
   clipPath: string,
   overflowClipMargin: string
@@ -21,25 +21,6 @@ function polyfillClipPath(
     `);
 }
 
-function inset(top: number, unbound: boolean = false) {
+export function inset(top: number, unbound: boolean = false) {
   return `inset(${top}px ${unbound ? "calc(-infinity * 1px) calc(-infinity * 1px)" : "0px 0px"})`;
 }
-
-// Menu Animation
-polyfillClipPath(
-  css`.monaco-menu-container,
-  .context-view`,
-  inset(-1, true),
-  "10px"
-);
-
-// Dropdown Animation
-polyfillClipPath(css`.select-container > .context-view`, inset(0, true), "0px");
-
-// Panel Header
-polyfillClipPath(
-  css`.pane-body,
-  .pane-body .monaco-list > .monaco-scrollable-element`,
-  inset(-22),
-  "22px"
-);

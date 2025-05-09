@@ -1,5 +1,5 @@
 import config from "./config.json" with { type: "json" };
-import { css, isKeyInObject } from "./utils";
+import { css, isKeyInObject } from "./utils/utils";
 import fgtSheet from "./vscode-frosted-glass-theme.css" with { type: "css" };
 
 const { borderRadius } = config;

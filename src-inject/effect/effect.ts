@@ -1,6 +1,6 @@
 import config from "../config.json" with { type: "json" };
 import globalExport from "../globalExport";
-import { css, isKeyInObject } from "../utils";
+import { css, isKeyInObject } from "../utils/utils";
 import fgtSheet from "../vscode-frosted-glass-theme.css" with { type: "css" };
 import { applyFlipEffect } from "./flipEffect";
 import { applyRevealEffect } from "./revealEffect";

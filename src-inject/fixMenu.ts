@@ -1,5 +1,5 @@
-import { applyAndProxy, proxy, proxyAll, useArgs, useRet } from "./proxy";
-import { isHTMLElement } from "./utils";
+import { applyAndProxy, proxy, proxyAll, useArgs, useRet } from "./utils/proxy";
+import { isHTMLElement } from "./utils/utils";
 
 // `position: fixed` will be invalid if `backdrop-filter` or `transform` is set on ancestor.
 // 1. Clone and replace the `div.monaco-action-bar` to keep the layout and style things.

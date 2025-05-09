@@ -1,5 +1,5 @@
 import config from "../config.json" with { type: "json" };
-import { getRelativePos, isHTMLElement } from "../utils";
+import { getRelativePos, isHTMLElement } from "../utils/utils";
 
 const {
   effect: { flipEffect },
