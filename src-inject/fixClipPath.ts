@@ -22,7 +22,7 @@ function polyfillClipPath(
 }
 
 function inset(top: number, unbound: boolean = false) {
-  return `inset(${top}px ${unbound ? "calc(-infinity * 1px) calc(-infinity * 1px))" : "0px 0px"}`;
+  return `inset(${top}px ${unbound ? "calc(-infinity * 1px) calc(-infinity * 1px)" : "0px 0px"})`;
 }
 
 // Menu Animation
