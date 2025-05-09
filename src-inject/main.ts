@@ -112,7 +112,7 @@ proxy(
       newDocument.body,
       "append",
       useHTMLElement(null, monacoWorkbench => {
-        const svgMounted = mountSvgTo(monacoWorkbench);
+        const svgMounted = mountSvgTo(monacoWorkbench, true);
         applyFakeMica(monacoWorkbench, svgMounted);
         applyBackdropFilter(monacoWorkbench, mountTintSvgTo);
         applyEffect(monacoWorkbench);
