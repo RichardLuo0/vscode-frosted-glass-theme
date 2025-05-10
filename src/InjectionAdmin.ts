@@ -45,7 +45,6 @@ export default class InjectionAdmin implements IInjection {
         return;
       }
       const env = {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
         ELECTRON_RUN_AS_NODE: "1",
       };
       sudoPrompt.exec(
