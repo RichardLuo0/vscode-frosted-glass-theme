@@ -92,7 +92,7 @@ async function chooseThemeMod(fgtConfig: WorkspaceConfiguration) {
     )
       .then(
         async res =>
-          (await res.json()) as [{ name: string; download_url: string }]
+          (await res.json()) as { name: string; download_url: string }[]
       )
       .then(
         pathList =>
@@ -126,8 +126,8 @@ export async function setup() {
     title: localize("setup.enableMica"),
   });
   if (select != localize("yes")) return false;
-  fgtConfig.update("fakeMica.enabled", true, true);
 
+  fgtConfig.update("fakeMica.enabled", true, true);
   await chooseWallpaper(fgtConfig);
   await chooseThemeMod(fgtConfig);
 

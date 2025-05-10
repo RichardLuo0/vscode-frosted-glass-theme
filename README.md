@@ -32,6 +32,7 @@ Custom SVG is supported.
 ## Install
 1. Install this extension.
 1. Open command panel, type in `Frosted Glass Theme: Enable`, press enter.
+1. Some canvas based elements have their own background color. Thus you must figure out the color for them and add opacity to them, then add them back to `workbench.colorCustomizations`. The colors are `"editorOverviewRuler.background", "minimap.background", "terminalStickyScroll.background"`. The command `frosted-glass-theme.generateThemeMod` may work but not for certain.
 1. **You can customize this theme in vscode settings.**
 1. **Every time vscode updates, you have to re-run `Frosted Glass Theme: Enable`.**
 
@@ -45,7 +46,7 @@ You need to set `window.titleBarStyle` to `custom` to see the effect. Otherwise 
     "workbench.colorCustomizations": {
       "[One Dark Pro]": {
         "menu.selectionBackground": "#ffffff",
-        // Title bar opacity not work because: https://github.com/microsoft/vscode/blob/444d7a4b35745ed7733c700a8008f55cd659eb1d/src/vs/workbench/browser/parts/titlebar/titlebarPart.ts#L682
+        // Title bar opacity won't work because: https://github.com/microsoft/vscode/blob/444d7a4b35745ed7733c700a8008f55cd659eb1d/src/vs/workbench/browser/parts/titlebar/titlebarPart.ts#L682
         // "titleBar.activeBackground": "#00000000",  
         "editor.background": "#282c3499",
         "editorGutter.background": "#00000000",
@@ -70,7 +71,7 @@ You need to set `window.titleBarStyle` to `custom` to see the effect. Otherwise 
     You can also try the command `frosted-glass-theme.generateThemeMod` to automatically generate a theme, then add the result into `colorCustomizations`.
 * The `frosted-glass-theme.svg` simply loads svg from a url. The generated svg element is static and only use the css variable from `monaco-workbench`. More svgs can be found in `resource` folder.
 * The `frosted-glass-theme.tintSvg` generate different svgs for each key defined in `frosted-glass-theme.filter` and the id on `<filter>` is changed to `id-key`. Inside svg, you can use some special css variables: `--fgt-current-background` representing the element's solid background color, `--fgt-current-opacity` representing opacity.
-* The `frosted-glass-theme.filter` settings is a object that represents the filter to use with each element. The key is defined in `src-inject/acrylic.ts`s' `colorVarList`. The value is of the type:
+* The `frosted-glass-theme.filter` settings is a object that represents the filter to use with each element. The key is defined in `src-inject/backdropFilter.ts`s' `entryList`. The value is of the type:
     ```typescript
     type Filter = {
       filter: string;
@@ -89,10 +90,12 @@ You need to set `window.titleBarStyle` to `custom` to see the effect. Otherwise 
 ## Uninstall
 1. Open command panel, type in "Frosted Glass Theme: Disable", press enter.
 1. Uninstall from the extension panel as usual.
+1. Remove `"workbench.colorCustomizations"` if you want to.
 ## Known Issue
-Since Windows 24H2, Microsoft may have changed the wallpaper location. Follow the steps: 
-1. Create a hard link: `cd $env:AppData\Microsoft\Windows\Themes; cmd /c mklink /H .\TranscodedWallpaper.jpg .\TranscodedWallpaper`.
-1. Change `frosted-glass-theme.fakeMica.url` to `<your user home>\AppData\Roaming\Microsoft\Windows\Themes\TranscodedWallpaper.jpg`.
+* Since Windows 24H2, Microsoft may have changed the wallpaper location. Follow the steps: 
+  1. Create a hard link: `cd $env:AppData\Microsoft\Windows\Themes; cmd /c mklink /H .\TranscodedWallpaper.jpg .\TranscodedWallpaper`.
+  1. Change `frosted-glass-theme.fakeMica.url` to `<your user home>\AppData\Roaming\Microsoft\Windows\Themes\TranscodedWallpaper.jpg`.
+* Editor's font becomes a little bit thinner.
 ## Thanks
 * [be5invis/vscode-custom-css](https://github.com/be5invis/vscode-custom-css)
 ## Disclaimer

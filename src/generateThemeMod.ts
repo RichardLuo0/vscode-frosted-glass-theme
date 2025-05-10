@@ -40,6 +40,9 @@ async function modifyTheme(colors: Record<string, string | undefined>) {
     "tab.activeBorder",
     "welcomePage.tileBackground",
     "welcomePage.tileHoverBackground",
+    // They are for canvas background color
+    "editorOverviewRuler.background",
+    "minimap.background",
   ];
 
   const transparentColorIds = [
@@ -53,6 +56,8 @@ async function modifyTheme(colors: Record<string, string | undefined>) {
     "tab.border",
     "tab.inactiveBackground",
     "terminal.background",
+    // Due to a bug which causes text to be overlapped
+    "terminalStickyScroll.background",
   ];
 
   const opacity = parseFloat(
@@ -64,13 +69,13 @@ async function modifyTheme(colors: Record<string, string | undefined>) {
   const alpha = Math.round(opacity * 255).toString(16);
 
   const newColors: Record<string, string> = {};
-  for (const colorId of colorIds) {
-    const color = colors[colorId] ?? "#ffffffff";
-    newColors[colorId] = color.length === 7 ? color + alpha : color;
+  for (const id of colorIds) {
+    const color = colors[id];
+    if (!color) continue;
+    newColors[id] = color.length === 7 ? color + alpha : color;
   }
-  for (const colorId of transparentColorIds) {
-    newColors[colorId] = "#00000000";
-  }
+  for (const id of transparentColorIds) newColors[id] = "#00000000";
+
   return newColors;
 }
 

@@ -20,6 +20,7 @@
 </span>
 
 ## 预览图
+[![Video](https://img.youtube.com/vi/rpnfE7YDdg4/0.jpg)](https://www.youtube.com/watch?v=rpnfE7YDdg4) \
 ![Animation](image/Animation.gif) \
 ![FakeMica](image/FakeMica.jpg) \
 ![CodeHover](image/CodeHover.jpg) \
@@ -31,10 +32,11 @@
 ## 安装
 1. 安装本扩展。
 1. 打开命令面板，输入`Frosted Glass Theme: Enable`，回车。
+1. 一些基于 Canvas 的元素可能有自己的背景颜色。因此你必须搞清楚他们的颜色并且给他们加上透明度，然后把他们加回 `workbench.colorCustomizations`。这些颜色是 `"editorOverviewRuler.background", "minimap.background", "terminalStickyScroll.background"`。命令 `frosted-glass-theme.generateThemeMod` 也许能正常工作但是不确定。
 1. **你可以在vscode设置中自定义本主题。**
 1. **每次vscode更新，你都必须重新运行`Frosted Glass Theme: Enable`。**
 
-如果你想要用其他扩展加载本主题，或者你更喜欢自己维护`workbench.html`，下载整个`inject` 文件夹，然后引入`inject\vscode-frosted-glass-theme.js` (使用`type="module"`)。然后移除 `workbench.html` 中的 `<meta http-equiv="Content-Security-Policy" ... />` (它会阻止SVG加载)。
+如果你想要用其他扩展加载本主题，或者你更喜欢自己维护 `workbench.html` ，下载整个 `inject` 文件夹，然后引入 `inject\vscode-frosted-glass-theme.js` (带上 `type="module"`)。然后移除 `workbench.html` 中的 `<meta http-equiv="Content-Security-Policy" ... />` (它会阻止SVG加载)。
 ### 对于Linux和MacOS用户
 你需要把 `window.titleBarStyle` 设置为 `custom` 。否则效果很有限。
 ## 自定义
@@ -44,7 +46,7 @@
     "workbench.colorCustomizations": {
      "[One Dark Pro]": {
         "menu.selectionBackground": "#ffffff",
-        // Title bar opacity not work because: https://github.com/microsoft/vscode/blob/444d7a4b35745ed7733c700a8008f55cd659eb1d/src/vs/workbench/browser/parts/titlebar/titlebarPart.ts#L682
+        // Title bar opacity won't work because: https://github.com/microsoft/vscode/blob/444d7a4b35745ed7733c700a8008f55cd659eb1d/src/vs/workbench/browser/parts/titlebar/titlebarPart.ts#L682
         // "titleBar.activeBackground": "#00000000",  
         "editor.background": "#282c3499",
         "editorGutter.background": "#00000000",
@@ -69,7 +71,7 @@
     你也可以试试 `frosted-glass-theme.generateThemeMod` 指令以自动生成一个主题，然后把结果加入到 `colorCustomizations` 中。
 * `frosted-glass-theme.svg` 从url中加载一张svg。产生的svg元素是静态的并且只能使用从 `monaco-workbench` 继承的css变量。你可以在 `resource` 文件夹下找到更多svg。
 * `frosted-glass-theme.tintSvg` 为 `frosted-glass-theme.filter` 中定义的每一个key产生不同的svg，并且 `<filter>` 上的id被改成了 `id-key`。在svg里，你可以使用一些特殊的css变量: `--fgt-current-background` 代表元素的纯色背景颜色, `--fgt-current-opacity` 代表透明度。
-* `frosted-glass-theme.filter` 设置是一个代表每个元素使用的filter的对象。它的key定义在 `src-inject/acrylic.ts` 的 `colorVarList` 中。值类型定义如下：
+* `frosted-glass-theme.filter` 设置是一个代表每个元素使用的filter的对象。它的key定义在 `src-inject/backdropFilter.ts` 的 `entryList` 中。值类型定义如下：
     ```typescript
     type Filter = {
         filter: string;
@@ -86,8 +88,14 @@
 * 你可以通过调用 `window._fgtTheme.registerEffect(key: string, func: (e: Element) => void)` 添加自己的effect。
 * 默认的设定在 `inject/config.json` 中。
 ## 卸载
-* 打开命令面板，输入“Frosted Glass Theme: Disable”，回车。
-* 用扩展面板正常卸载。
+1. 打开命令面板，输入“Frosted Glass Theme: Disable”，回车。
+1. 用扩展面板正常卸载。
+1. 如果你想的话，移除 `"workbench.colorCustomizations"`。
+## 已知问题
+* 从 Windows 24H2 开始, 微软可能改变了壁纸路径。遵循以下步骤： 
+  1. 创建硬链接：`cd $env:AppData\Microsoft\Windows\Themes; cmd /c mklink /H .\TranscodedWallpaper.jpg.\TranscodedWallpaper`。
+  1. 更改 `frosted-glass-theme.fakeMica.url` 到 `<your user home>\AppData\Roaming\Microsoft\Windows\Themes\TranscodedWallpaper.jpg`.
+* 编辑器的字体可能会变细。
 ## 感谢
 * [be5invis/vscode-custom-css](https://github.com/be5invis/vscode-custom-css)
 ## 免责声明
