@@ -52,7 +52,7 @@ if (_extendMenuFocusBackground) {
 
 export function applyEffect(element: HTMLElement | ShadowRoot) {
   element.addEventListener("animationstart", (e: Event | AnimationEvent) => {
-    if (!("animationName" in e)) return;
+    if (!(e instanceof AnimationEvent)) return;
     if (!(e.target instanceof Element)) return;
     if (disableForDisabledItem && e.target.classList.contains("disabled"))
       return;

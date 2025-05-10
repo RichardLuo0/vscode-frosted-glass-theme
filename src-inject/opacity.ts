@@ -24,7 +24,8 @@ const entryList: [string, number][] = [
 ];
 
 entryList.forEach(entry =>
-  registerColorChangeListener(entry[0], (color, style) =>
-    style.setProperty(entry[0], applyOpacity(color, entry[1]))
-  )
+  registerColorChangeListener(foundStyle => {
+    const color = foundStyle.readStyle.getPropertyValue(entry[0]);
+    foundStyle.writeStyle.setProperty(color, applyOpacity(color, entry[1]));
+  })
 );

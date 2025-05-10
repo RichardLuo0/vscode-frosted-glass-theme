@@ -1,23 +1,15 @@
-type ColorChangeListener = (color: string, style: CSSStyleDeclaration) => void;
-const colorChangeListeners: [string, ColorChangeListener][] = [];
+type FoundStyles = {
+  readStyle: CSSStyleDeclaration;
+  writeStyle: CSSStyleDeclaration;
+};
+let foundStyles: FoundStyles | undefined = undefined;
 
-let foundCssStyle:
-  | {
-      readStyle: CSSStyleDeclaration;
-      writeStyle: CSSStyleDeclaration;
-    }
-  | undefined = undefined;
+type ColorChangeListener = (foundCssStyle: FoundStyles) => void;
+const colorChangeListeners: ColorChangeListener[] = [];
 
-export function registerColorChangeListener(
-  variable: string,
-  listener: ColorChangeListener
-) {
-  colorChangeListeners.push([variable, listener]);
-  if (foundCssStyle !== undefined)
-    listener(
-      foundCssStyle.readStyle.getPropertyValue(variable),
-      foundCssStyle.writeStyle
-    );
+export function registerColorChangeListener(listener: ColorChangeListener) {
+  colorChangeListeners.push(listener);
+  if (foundStyles !== undefined) listener(foundStyles);
 }
 
 export function observeThemeColorChange(monacoWorkbench: HTMLElement) {
@@ -55,16 +47,11 @@ function callListeners(ownerNode: Element, monacoWorkbench: HTMLElement) {
   const cssRule = monacoWorkbenchCSSRule[monacoWorkbenchCSSRule.length - 1];
   if (!(cssRule instanceof CSSStyleRule)) return;
 
-  foundCssStyle = {
+  foundStyles = {
     readStyle: cssRule.style,
     writeStyle: monacoWorkbench.style,
   };
 
-  const _foundCssStyle = foundCssStyle;
-  colorChangeListeners.forEach(entry =>
-    entry[1](
-      _foundCssStyle.readStyle.getPropertyValue(entry[0]),
-      _foundCssStyle.writeStyle
-    )
-  );
+  const _foundCssStyle = foundStyles;
+  colorChangeListeners.forEach(listener => listener(_foundCssStyle));
 }

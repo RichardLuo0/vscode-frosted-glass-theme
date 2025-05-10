@@ -8,7 +8,7 @@ import fgtSheet from "./vscode-frosted-glass-theme.css" with { type: "css" };
 const { filter } = config;
 
 // [key, colorVar, cssSelector]
-type Entry = [string, string, string];
+type Entry = [string, string | undefined, string];
 
 const menuEntry: Entry = [
   "menu",
@@ -97,20 +97,14 @@ const entryList: Entry[] = [
     ".select-box-dropdown-list-container, .select-box-details-pane",
   ],
   // Background color is embedded into canvas so can not remove
-  ["minimap", "--fgt-transparent", ".minimap"],
+  ["minimap", undefined, ".minimap"],
   [
     "decorationsOverviewRuler",
-    "--fgt-transparent",
+    undefined,
     ".monaco-editor .decorationsOverviewRuler",
   ],
-  ["terminalOverlay", "--fgt-transparent", ".hover-overlay"],
+  ["terminalOverlay", undefined, ".hover-overlay"],
 ];
-
-fgtSheet.insertRule(css`
-  [role="application"] {
-    --fgt-transparent: transparent;
-  }
-`);
 
 type Filter = {
   filter: string;
@@ -182,18 +176,21 @@ async function applyBackdropFilterOnEntry(
   mountSvgTo: MountSvgTo
 ) {
   const wrapper = document.createElement("div");
-  registerColorChangeListener(entry[1], (color, style) => {
-    const filterOpacity = getFilter(entry[0])?.opacity;
-    if (filterOpacity !== undefined)
-      style.setProperty(
-        `--fgt-${entry[0]}-background`,
-        applyOpacity(color, filterOpacity)
-      );
-    // Bind color to svg
-    const [solid, opacity] = extractOpacity(color, filterOpacity);
-    wrapper.style.setProperty("--fgt-current-background", solid);
-    wrapper.style.setProperty("--fgt-current-opacity", `${opacity * 100}%`);
-  });
+  const colorVar = entry[1];
+  if (colorVar)
+    registerColorChangeListener(foundStyles => {
+      const color = foundStyles.readStyle.getPropertyValue(colorVar);
+      const filterOpacity = getFilter(entry[0])?.opacity;
+      if (filterOpacity !== undefined)
+        foundStyles.writeStyle.setProperty(
+          `--fgt-${entry[0]}-background`,
+          applyOpacity(color, filterOpacity)
+        );
+      // Bind color to svg
+      const [solid, opacity] = extractOpacity(color, filterOpacity);
+      wrapper.style.setProperty("--fgt-current-background", solid);
+      wrapper.style.setProperty("--fgt-current-opacity", `${opacity * 100}%`);
+    });
   await mountSvgTo(wrapper, true);
   wrapper
     .querySelectorAll("filter")
