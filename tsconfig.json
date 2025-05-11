@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": ".tsc",
+  },
+  "references": [
+    {
+      "path": "src"
+    },
+    {
+      "path": "src-inject"
+    },
+    {
+      "path": "src-inject-main"
+    }
+  ],
+}

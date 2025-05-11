@@ -1,19 +1,21 @@
 {
   "compilerOptions": {
+    "composite": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
     "types": [],
     "module": "CommonJS",
     "target": "ESNext",
+    "esModuleInterop": true,
     "lib": [
       "ESNext"
     ],
     "rootDir": ".",
+    "outDir": ".tsc",
     "sourceMap": true,
     "strict": true
   },
   "exclude": [
     "node_modules"
   ],
-  "include": [
-    "common"
-  ]
 }

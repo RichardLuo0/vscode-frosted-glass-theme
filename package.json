@@ -409,7 +409,7 @@
     "vscode:prepublish": "npm run build",
     "build": "npm run lint && node ./build.mjs",
     "debug": "cross-env NODE_ENV=development node ./build.mjs",
-    "lint": "eslint . --ext ts && tsc --noEmit -p src && tsc --noEmit -p src-inject && tsc --noEmit -p src-inject-main",
+    "lint": "eslint . --ext ts && tsc --build",
     "watch": "node ./build.mjs watch",
     "test": "node ./out/test/runTest.js",
     "package": "vsce package"

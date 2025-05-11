@@ -6,10 +6,17 @@
       "node",
       "electron"
     ],
-    "outDir": "../inject",
     "lib": [
       "DOM",
       "ESNext"
     ]
   },
+  "include": [
+    "."
+  ],
+  "references": [
+    {
+      "path": "../common"
+    }
+  ],
 }

@@ -5,6 +5,13 @@
       "node",
       "vscode"
     ],
-    "outDir": "../out",
   },
+  "include": [
+    "."
+  ],
+  "references": [
+    {
+      "path": "../common"
+    }
+  ],
 }

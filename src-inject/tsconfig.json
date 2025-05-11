@@ -2,10 +2,21 @@
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
     "module": "ESNext",
-    "outDir": "../inject",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
     "lib": [
       "DOM",
       "ESNext"
     ]
-  }
+  },
+  "include": [
+    ".",
+    "*.json",
+    "*.css"
+  ],
+  "references": [
+    {
+      "path": "../common"
+    }
+  ],
 }
