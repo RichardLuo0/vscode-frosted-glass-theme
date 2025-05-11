@@ -87,9 +87,11 @@ export async function applyFakeMica(
   if (fakeMica.enabled) {
     await svgMounted;
     element.classList.add("fgt-mica-svg-loaded");
-    window.vscode.ipcRenderer.on("vscode:update-mica", () => {
-      element.style.setProperty("--fgt-mica-x", `${-window.screenX}px`);
-      element.style.setProperty("--fgt-mica-y", `${-window.screenY}px`);
-    });
+    const ownWindow = element.ownerDocument.defaultView;
+    if (ownWindow)
+      ownWindow.vscode.ipcRenderer.on("vscode:update-mica", () => {
+        element.style.setProperty("--fgt-mica-x", `${-ownWindow.screenX}px`);
+        element.style.setProperty("--fgt-mica-y", `${-ownWindow.screenY}px`);
+      });
   }
 }

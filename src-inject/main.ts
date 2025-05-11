@@ -99,10 +99,10 @@ proxy(
 proxy(
   window,
   "open",
-  useRet(newWindow => {
-    if (!newWindow) return newWindow;
-    const global = newWindow as Window & typeof globalThis;
-    const newDocument = newWindow.document;
+  useRet(ownWindow => {
+    if (!ownWindow) return ownWindow;
+    const global = ownWindow as Window & typeof globalThis;
+    const newDocument = ownWindow.document;
     const sheet = new global.CSSStyleSheet();
     for (let i = 0; i < fgtSheet.cssRules.length; i++) {
       sheet.insertRule(fgtSheet.cssRules[i].cssText);
@@ -119,6 +119,6 @@ proxy(
         observeThemeColorChange(monacoWorkbench);
       })
     );
-    return newWindow;
+    return ownWindow;
   })
 );
