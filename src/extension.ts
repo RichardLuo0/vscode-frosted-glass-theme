@@ -58,7 +58,7 @@ export function activate(context: ExtensionContext) {
   const jsPath = "inject/vscode-frosted-glass-theme.js";
   const injection = new ThemeInjection(
     [context.asAbsolutePath(jsPath)],
-    [context.asAbsolutePath("inject/vscode-frosted-glass-theme-main.js")]
+    [context.asAbsolutePath("inject/vscode-frosted-glass-theme-main.mjs")]
   );
 
   const currentVersion: string =

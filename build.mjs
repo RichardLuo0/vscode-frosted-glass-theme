@@ -69,7 +69,7 @@ taskList.push(
     format: "esm",
     external: ["electron"],
     entryPoints: ["src-inject-main/main.ts"],
-    outfile: "inject/vscode-frosted-glass-theme-main.js",
+    outfile: "inject/vscode-frosted-glass-theme-main.mjs",
   })
 );
 
