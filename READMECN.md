@@ -36,7 +36,7 @@
 1. **你可以在vscode设置中自定义本主题。**
 1. **每次vscode更新，你都必须重新运行`Frosted Glass Theme: Enable`。**
 
-如果你想要用其他扩展加载本主题，或者你更喜欢自己维护 `workbench.html` ，下载整个 `inject` 文件夹，然后引入 `inject\vscode-frosted-glass-theme.js` (带上 `type="module"`)。然后移除 `workbench.html` 中的 `<meta http-equiv="Content-Security-Policy" ... />` (它会阻止SVG加载)。
+如果你想要用其他扩展加载本主题，或者你更喜欢自己维护 `workbench.html` ，下载整个 `inject` 文件夹，然后引入 `inject\vscode-frosted-glass-theme.js` (带上 `type="module"`)。然后移除 `workbench.html` 中的 `<meta http-equiv="Content-Security-Policy" ... />` (它会阻止SVG加载)。如果要使 `Fake mica` 具有移动效果，请在 `Microsoft VS Code/resources/app/out/main.js` 文件的开头导入 `inject/vscode-frosted-glass-theme-main.mjs`。
 ### 对于Linux和MacOS用户
 你需要把 `window.titleBarStyle` 设置为 `custom` 。否则效果很有限。
 ## 自定义

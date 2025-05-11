@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.8.20]
+- a8aefad: feat: fake mica can move with window now!!!
+
 ## [0.8.18]
 - 6a5e77a: feat: separate --fgt-current-background and --fgt-current-opacity
 

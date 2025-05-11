@@ -55,7 +55,7 @@
     "statusbarItem": "fgt-revealEffect, fgt-flipEffect",
     "activitybarItem": "fgt-revealEffect, fgt-flipEffect",
     "compositeBarItem": "fgt-revealEffect, fgt-flipEffect",
-    "commandCenter": "fgt-revealEffect",
+    "commandCenter": "fgt-revealEffect, fgt-flipEffect",
     "menubarTitle": "fgt-flipEffect",
     "settingsTreeItem": "",
     "paneHeader": "fgt-revealEffect, fgt-flipEffect"
@@ -88,7 +88,6 @@
     "enabled": false,
     "url": "C:/Windows/Web/Wallpaper/Windows/img0.jpg",
     "filter": "saturate(var(--fgt-saturate)) url(#fgt-mica) var(--fgt-mica-brightness)",
-    "position": "center center / auto no-repeat",
     "titlebarFix": 0.8,
     "editorBackgroundFix": true
   },

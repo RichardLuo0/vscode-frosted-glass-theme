@@ -90,8 +90,16 @@ export async function applyFakeMica(
     const ownWindow = element.ownerDocument.defaultView;
     if (ownWindow)
       ownWindow.vscode.ipcRenderer.on("vscode:update-mica", () => {
-        element.style.setProperty("--fgt-mica-x", `${-ownWindow.screenX}px`);
-        element.style.setProperty("--fgt-mica-y", `${-ownWindow.screenY}px`);
+        const micaX =
+          ownWindow.screenX <= screen.width
+            ? -ownWindow.screenX + "px"
+            : "center";
+        const micaY =
+          ownWindow.screenY <= screen.height
+            ? -ownWindow.screenY + "px"
+            : "center";
+        element.style.setProperty("--fgt-mica-x", micaX);
+        element.style.setProperty("--fgt-mica-y", micaY);
       });
   }
 }
