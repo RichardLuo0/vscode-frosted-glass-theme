@@ -6,7 +6,14 @@ const { fakeMica } = config;
 
 if (fakeMica.enabled) {
   fgtSheet.insertRule(css`
-    [role="application"]::before {
+    .fgt-mica-svg-loaded {
+      --fgt-mica-x: center;
+      --fgt-mica-y: center;
+    }
+  `);
+
+  fgtSheet.insertRule(css`
+    .fgt-mica-svg-loaded::before {
       content: "";
       display: block;
       position: absolute;
@@ -14,14 +21,11 @@ if (fakeMica.enabled) {
       left: 0px;
       width: 100%;
       height: 100%;
-    }
-  `);
-
-  fgtSheet.insertRule(css`
-    .fgt-mica-svg-loaded::before {
       filter: ${fakeMica.filter};
-      background: url("vscode-file://vscode-app/${fakeMica.url}")
-        ${fakeMica.position};
+      background-image: url("vscode-file://vscode-app/${fakeMica.url}");
+      background-size: ${screen.width}px ${screen.height}px;
+      background-repeat: no-repeat;
+      background-position: var(--fgt-mica-x) var(--fgt-mica-y);
     }
   `);
 
@@ -83,5 +87,9 @@ export async function applyFakeMica(
   if (fakeMica.enabled) {
     await svgMounted;
     element.classList.add("fgt-mica-svg-loaded");
+    window.vscode.ipcRenderer.on("vscode:update-mica", () => {
+      element.style.setProperty("--fgt-mica-x", `${-window.screenX}px`);
+      element.style.setProperty("--fgt-mica-y", `${-window.screenY}px`);
+    });
   }
 }

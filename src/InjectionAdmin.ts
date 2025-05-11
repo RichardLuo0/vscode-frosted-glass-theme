@@ -1,8 +1,7 @@
 import sudoPrompt from "@vscode/sudo-prompt";
-import File from "./File";
-import { IInjection } from "./Injection";
 import { localize } from "./localization";
 import { showChoiceMessage } from "./utils";
+import { IInjection } from "./IInjection";
 
 function escape(src: string) {
   return process.platform === "win32"
@@ -21,7 +20,7 @@ function expandEnv(env: { [key: string]: string }): string {
 
 export default class InjectionAdmin implements IInjection {
   constructor(
-    private files: File[],
+    private files: string[],
     private htmlFile: string
   ) {}
 

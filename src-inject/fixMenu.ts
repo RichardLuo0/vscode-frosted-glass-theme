@@ -1,4 +1,5 @@
-import { applyAndProxy, proxy, proxyAll, useArgs, useRet } from "./utils/proxy";
+import { proxy, proxyAll, useArgs, useRet } from "../common/proxy";
+import { applyAndProxyElement } from "./utils/proxy";
 import { isHTMLElement } from "./utils/utils";
 
 // `position: fixed` will be invalid if `backdrop-filter` or `transform` is set on ancestor.
@@ -96,7 +97,7 @@ export function fixMenuBar(gridView: HTMLElement) {
       "#workbench\\.parts\\.titlebar > div > div.titlebar-left"
     );
     if (!titlebar) return;
-    applyAndProxy(titlebar, "menubar", "append", (menuBar: Element) => {
+    applyAndProxyElement(titlebar, "menubar", "append", (menuBar: Element) => {
       const menus = menuBar.querySelectorAll("div.menubar-menu-button");
       menus.forEach(fixMenuButton);
       proxyAll(
@@ -109,21 +110,26 @@ export function fixMenuBar(gridView: HTMLElement) {
   // Compact
   function fixCompat(container: Element | null) {
     if (!container) return;
-    applyAndProxy(container, "menubar", "prepend", (menuBar: Element) => {
-      applyAndProxy(
-        menuBar,
-        "menubar-menu-button",
-        "appendChild",
-        fixMenuButton
-      );
-    });
+    applyAndProxyElement(
+      container,
+      "menubar",
+      "prepend",
+      (menuBar: Element) => {
+        applyAndProxyElement(
+          menuBar,
+          "menubar-menu-button",
+          "appendChild",
+          fixMenuButton
+        );
+      }
+    );
   }
   fixCompat(
     gridView.querySelector("#workbench\\.parts\\.activitybar > div.content")
   );
   const sidebar = gridView.querySelector("#workbench\\.parts\\.sidebar");
   if (sidebar)
-    applyAndProxy(
+    applyAndProxyElement(
       sidebar,
       "composite",
       ["insertBefore", "appendChild"],

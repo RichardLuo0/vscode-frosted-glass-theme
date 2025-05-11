@@ -9,4 +9,7 @@ declare namespace vscode {
       chrome: string;
     };
   };
+  const ipcRenderer: {
+    on(channel: string, listener: (e: any, ...args: any[]) => void): any;
+  };
 }

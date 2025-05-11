@@ -3,10 +3,8 @@
 out/test/**
 src/**
 src-*/**
-.gitignore
-.yarnrc
 vsc-extension-quickstart.md
-**/tsconfig.json
+**/tsconfig.*
 **/.eslintrc.json
 **/*.map
 **/*.ts
@@ -15,8 +13,8 @@ icon/*
 !icon/*.png
 .github
 node_modules/**
-build.*
-.*.json
+*.mjs
+.*
 licenses/**
 theme/**
 TODO.md

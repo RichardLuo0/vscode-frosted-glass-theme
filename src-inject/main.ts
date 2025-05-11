@@ -8,7 +8,7 @@ import { applyFakeMica } from "./fakeMica";
 import { fixContextMenu, fixMenu, fixMenuBar } from "./fixMenu";
 import { loadSvgs } from "./utils/loadSvg";
 import { observeThemeColorChange } from "./utils/observeThemeColor";
-import { proxy, useHTMLElement, useRet } from "./utils/proxy";
+import { proxy, useRet } from "../common/proxy";
 import { css, makeAbsolutePath } from "./utils/utils";
 import fgtSheet from "./vscode-frosted-glass-theme.css" with { type: "css" };
 
@@ -16,6 +16,7 @@ import "./opacity";
 import "./animation";
 import "./borderRadius";
 import "./miscellaneous";
+import { useHTMLElement } from "./utils/proxy";
 
 fgtSheet.insertRule(css`
   [role="application"] {

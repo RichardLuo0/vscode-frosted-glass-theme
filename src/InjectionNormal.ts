@@ -1,138 +1,210 @@
 import fs from "fs";
 import path from "path";
 import { v4 } from "uuid";
-import File from "./File";
-import { IInjection } from "./Injection";
+import { IInjection } from "./IInjection";
 
-export default class InjectionNormal implements IInjection {
-  private base: string;
+interface Patcher {
+  patch(uuid: string, files: string[]): Promise<void>;
+  getId(): Promise<string | undefined>;
+}
 
-  constructor(
-    private files: File[],
-    private htmlFile: string
-  ) {
-    this.base = path.dirname(htmlFile);
+class HtmlPatcher implements Patcher {
+  constructor(private file: string) {}
+
+  async patch(uuid: string, files: string[]) {
+    const injection = this.computeInjectedHTML(files);
+
+    let content = fs.readFileSync(this.file, "utf-8");
+    content = this.clearExistingPatches(content);
+
+    content = content
+      // Remove csp
+      .replace(/<meta\s+http-equiv="Content-Security-Policy"[\s\S]*?\/>/, "")
+      // Replace content
+      .replace(
+        /(<\/html>)/,
+        `<!-- !! VSCODE-FROSTED-GLASS-THEME-SESSION-ID ${uuid} !! -->\n` +
+          `<!-- !! VSCODE-FROSTED-GLASS-THEME-START !! -->\n${injection}\n<!-- !! VSCODE-FROSTED-GLASS-THEME-END !! -->\n</html>`
+      );
+
+    await fs.promises.writeFile(this.file, content, "utf-8");
   }
 
-  public async inject() {
-    const uuidSession = v4();
-    await this.createBackup(uuidSession);
-    await this.performPatch(uuidSession);
-  }
-
-  public async restore() {
-    const backupUuid = await this.getBackupUuid();
-    if (!backupUuid) return;
-    const backupPath = this.backupFilePath(backupUuid);
-    await this.restoreBackup(backupPath);
-    await this.deleteBackupFiles();
-  }
-
-  protected async getBackupUuid() {
-    if (fs.existsSync(this.htmlFile)) {
-      const htmlContent = await fs.promises.readFile(this.htmlFile, "utf-8");
-      const m = htmlContent.match(
+  async getId() {
+    if (fs.existsSync(this.file)) {
+      const content = await fs.promises.readFile(this.file, "utf-8");
+      const m = content.match(
         /<!-- !! VSCODE-FROSTED-GLASS-THEME-SESSION-ID ([0-9a-fA-F-]+) !! -->/
       );
-      if (!m) return null;
-      else return m[1];
+      if (m) return m[1];
     }
+    return undefined;
   }
 
-  protected async createBackup(uuidSession: string) {
-    const backupUuid = await this.getBackupUuid();
-    if (!backupUuid)
-      await fs.promises.copyFile(
-        this.htmlFile,
-        this.backupFilePath(uuidSession)
+  protected clearExistingPatches(content: string) {
+    return content
+      .replace(
+        /<!-- !! VSCODE-FROSTED-GLASS-THEME-START !! -->[\s\S]*?<!-- !! VSCODE-FROSTED-GLASS-THEME-END !! -->\n*/,
+        ""
+      )
+      .replace(
+        /<!-- !! VSCODE-FROSTED-GLASS-THEME-SESSION-ID [\w-]+ !! -->\n*/g,
+        ""
       );
-    else {
-      await fs.promises.rename(
-        this.backupFilePath(backupUuid),
-        this.backupFilePath(uuidSession)
-      );
-    }
   }
 
-  protected async performPatch(uuidSession: string) {
-    let html = fs.readFileSync(this.htmlFile, "utf-8");
-    html = this.clearExistingPatches(html);
-
-    let injectHTML = this.computeInjectedHTML();
-
-    // Remove csp
-    html = html.replace(
-      /<meta\s+http-equiv="Content-Security-Policy"[\s\S]*?\/>/,
-      ""
-    );
-
-    html = html.replace(
-      /(<\/html>)/,
-      `<!-- !! VSCODE-FROSTED-GLASS-THEME-SESSION-ID ${uuidSession} !! -->\n` +
-        "<!-- !! VSCODE-FROSTED-GLASS-THEME-START !! -->\n" +
-        injectHTML +
-        "<!-- !! VSCODE-FROSTED-GLASS-THEME-END !! -->\n</html>"
-    );
-    await fs.promises.writeFile(this.htmlFile, html, "utf-8");
-  }
-
-  protected clearExistingPatches(html: string) {
-    html = html.replace(
-      /<!-- !! VSCODE-FROSTED-GLASS-THEME-START !! -->[\s\S]*?<!-- !! VSCODE-FROSTED-GLASS-THEME-END !! -->\n*/,
-      ""
-    );
-    html = html.replace(
-      /<!-- !! VSCODE-FROSTED-GLASS-THEME-SESSION-ID [\w-]+ !! -->\n*/g,
-      ""
-    );
-    return html;
-  }
-
-  protected computeInjectedHTML() {
+  protected computeInjectedHTML(files: string[]) {
     let res = "";
-    for (const item of this.files) {
+    for (const item of files) {
       const imp = this.computeInjectedHTMLItem(item);
       if (imp) res += imp;
     }
     return res;
   }
 
-  protected computeInjectedHTMLItem(f: File) {
-    if (!f) return "";
-    let url = f.path;
+  protected computeInjectedHTMLItem(url: string) {
     const ext = path.extname(url);
 
     url =
       "vscode-file://vscode-app" +
-      (process.platform === "win32" ? "/" + url : url);
-    url = url.replace(/\\/g, "/");
+      (process.platform === "win32" ? "/" + url : url).replace(/\\/g, "/");
 
     switch (ext) {
       case ".js":
-        return `<script type="module" src="${url}"></script>\n`;
+        return `<script type="module" src="${url}"></script>`;
       case ".css":
-        return `<link rel="stylesheet" href="${url}"/>\n`;
+        return `<link rel="stylesheet" href="${url}"/>`;
       default:
         throw new Error("unknown extension: " + ext);
     }
   }
+}
+
+class JsPatcher implements Patcher {
+  constructor(private file: string) {}
+
+  async patch(uuid: string, files: string[]) {
+    const injection = this.computeInjectedHTML(files);
+
+    let content = fs.readFileSync(this.file, "utf-8");
+    content = this.clearExistingPatches(content);
+
+    content =
+      `//VSCODE-FROSTED-GLASS-THEME-SESSION-ID ${uuid}\n//VSCODE-FROSTED-GLASS-THEME-START\n${injection}\n//VSCODE-FROSTED-GLASS-THEME-END\n` +
+      content;
+
+    await fs.promises.writeFile(this.file, content, "utf-8");
+  }
+
+  async getId() {
+    if (fs.existsSync(this.file)) {
+      const content = await fs.promises.readFile(this.file, "utf-8");
+      const m = content.match(
+        /\/\/VSCODE-FROSTED-GLASS-THEME-SESSION-ID ([0-9a-fA-F-]+)\n/
+      );
+      if (!m) return undefined;
+      else return m[1];
+    }
+    return undefined;
+  }
+
+  protected clearExistingPatches(content: string) {
+    return content
+      .replace(
+        /\/\/VSCODE-FROSTED-GLASS-THEME-START\n[\s\S]*?\/\/VSCODE-FROSTED-GLASS-THEME-END\n/,
+        ""
+      )
+      .replace(/\/\/VSCODE-FROSTED-GLASS-THEME-SESSION-ID [\w-]+\n/g, "");
+  }
+
+  protected computeInjectedHTML(files: string[]) {
+    let res = "";
+    for (const item of files) {
+      const imp = this.computeInjectedHTMLItem(item);
+      if (imp) res += imp;
+    }
+    return res;
+  }
+
+  protected computeInjectedHTMLItem(url: string) {
+    url =
+      "file://" +
+      (process.platform === "win32" ? "/" + url : url).replace(/\\/g, "/");
+    return `import "${url}";`;
+  }
+}
+
+export default class InjectionNormal implements IInjection {
+  private baseDir: string;
+  private patcher: Patcher;
+
+  constructor(
+    private files: string[],
+    private baseFile: string
+  ) {
+    this.baseDir = path.dirname(baseFile);
+    switch (path.extname(baseFile)) {
+      case ".html":
+        this.patcher = new HtmlPatcher(baseFile);
+        break;
+      case ".js":
+        this.patcher = new JsPatcher(baseFile);
+        break;
+      default:
+        throw new Error("Unknown type of file to patch: " + baseFile);
+    }
+  }
+
+  public async inject() {
+    const uuid = v4();
+    await this.createBackup(uuid);
+    await this.performPatch(uuid);
+  }
+
+  public async restore() {
+    const backupUuid = await this.patcher.getId();
+    if (!backupUuid) return;
+    const backupPath = this.backupFilePath(backupUuid);
+    await this.restoreBackup(backupPath);
+    await this.deleteBackupFiles();
+  }
+
+  protected async createBackup(uuid: string) {
+    const backupUuid = await this.patcher.getId();
+    if (!backupUuid)
+      await fs.promises.copyFile(this.baseFile, this.backupFilePath(uuid));
+    else {
+      await fs.promises.rename(
+        this.backupFilePath(backupUuid),
+        this.backupFilePath(uuid)
+      );
+    }
+  }
+
+  protected async performPatch(uuid: string) {
+    this.patcher.patch(uuid, this.files);
+  }
 
   protected async restoreBackup(backupFilePath: string) {
     if (fs.existsSync(backupFilePath)) {
-      await fs.promises.unlink(this.htmlFile);
-      await fs.promises.copyFile(backupFilePath, this.htmlFile);
+      await fs.promises.unlink(this.baseFile);
+      await fs.promises.copyFile(backupFilePath, this.baseFile);
     }
   }
 
   protected async deleteBackupFiles() {
-    const htmlDirItems = fs.readdirSync(this.base);
+    const htmlDirItems = fs.readdirSync(this.baseDir);
     for (const item of htmlDirItems) {
       if (item.endsWith(".bak-frosted-glass"))
-        await fs.promises.unlink(path.join(this.base, item));
+        await fs.promises.unlink(path.join(this.baseDir, item));
     }
   }
 
   protected backupFilePath(uuid: string) {
-    return path.join(this.base, `workbench.${uuid}.bak-frosted-glass`);
+    const ext = path.extname(this.baseFile);
+    return path.join(
+      this.baseDir,
+      `${path.basename(this.baseFile, ext)}.${uuid}.bak-frosted-glass`
+    );
   }
 }

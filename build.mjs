@@ -19,7 +19,7 @@ taskList.push(
 const common = {
   bundle: true,
   platform: "node",
-  target: ["node18"],
+  target: "node20",
   logLevel: "silent",
   minify: !debug,
   legalComments: "none",
@@ -27,7 +27,7 @@ const common = {
   plugins: [minifyLiteralsPlugin(["css"])],
 };
 
-const buildExtensionOptions = {
+const buildExtension = {
   ...common,
   external: ["vscode"],
   entryPoints: ["src/extension.ts"],
@@ -35,12 +35,12 @@ const buildExtensionOptions = {
 };
 if (process.argv.includes("watch")) {
   const ctx = await esbuild.context({
-    ...buildExtensionOptions,
+    ...buildExtension,
     logLevel: "info",
   });
   await ctx.watch();
   console.log("watching...");
-} else build(buildExtensionOptions);
+} else taskList.push(build(buildExtension));
 
 taskList.push(
   build({
@@ -54,13 +54,22 @@ taskList.push(
   build({
     ...common,
     platform: "browser",
-    external: ["vs/base/browser/dompurify/dompurify"],
-    target: ["esnext"],
+    target: "esnext",
     format: "esm",
     loader: { ".css": "copy", ".json": "copy" },
     assetNames: "[name]",
     entryPoints: ["src-inject/main.ts"],
     outfile: "inject/vscode-frosted-glass-theme.js",
+  })
+);
+
+taskList.push(
+  build({
+    ...common,
+    format: "esm",
+    external: ["electron"],
+    entryPoints: ["src-inject-main/main.ts"],
+    outfile: "inject/vscode-frosted-glass-theme-main.js",
   })
 );
 
@@ -145,21 +154,21 @@ async function build(options) {
   if (result.warnings.length == 0 && result.errors.length == 0)
     return options.outfile;
   else {
-    throw (
+    throw new Error(
       options.outfile +
-      "\n" +
-      esbuild
-        .formatMessagesSync(result.warnings, {
-          kind: "warning",
-          color: true,
-        })
-        .join("\n") +
-      esbuild
-        .formatMessagesSync(result.errors, {
-          kind: "error",
-          color: true,
-        })
-        .join("\n")
+        "\n" +
+        esbuild
+          .formatMessagesSync(result.warnings, {
+            kind: "warning",
+            color: true,
+          })
+          .join("\n") +
+        esbuild
+          .formatMessagesSync(result.errors, {
+            kind: "error",
+            color: true,
+          })
+          .join("\n")
     );
   }
 }

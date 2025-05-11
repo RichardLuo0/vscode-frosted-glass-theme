@@ -1,17 +1,65 @@
+import fs from "fs";
 import { readFile } from "fs/promises";
+import { resolve } from "path";
 import { commands, ExtensionContext, Uri, window, workspace } from "vscode";
-import File from "./File";
 import { generateThemeMod as generateThemeModFunc } from "./generateThemeMod";
-import Injection from "./Injection";
 import { localize } from "./localization";
 import { setup as setupFunc } from "./setup";
+import ThemeInjection from "./ThemeInjection";
 import { showChoiceMessage } from "./utils";
+
+class File {
+  static editor = class {
+    private content: string | null = null;
+
+    constructor(private file: File) {}
+
+    loadContent() {
+      if (this.content === null)
+        this.content = fs.readFileSync(this.file.path, "utf-8");
+      return this;
+    }
+
+    replace(
+      searchValue: {
+        [Symbol.replace](string: string, replaceValue: string): string;
+      },
+      replaceValue: string
+    ) {
+      this.loadContent();
+      this.content = this.content!.replace(searchValue, replaceValue);
+      return this;
+    }
+
+    replaceAll(content: string) {
+      this.content = content;
+      return this;
+    }
+
+    apply() {
+      if (this.content !== null)
+        fs.writeFileSync(this.file.path, this.content, "utf-8");
+      this.content = null;
+    }
+  };
+
+  public readonly path: string;
+
+  constructor(path: string) {
+    this.path = resolve(path);
+  }
+
+  editor() {
+    return new File.editor(this);
+  }
+}
 
 export function activate(context: ExtensionContext) {
   const jsPath = "inject/vscode-frosted-glass-theme.js";
-  const cssPath = "inject/vscode-frosted-glass-theme.css";
-  const jsFile = new File(context.asAbsolutePath(jsPath));
-  const injection = new Injection([jsFile]);
+  const injection = new ThemeInjection(
+    [context.asAbsolutePath(jsPath)],
+    [context.asAbsolutePath("inject/vscode-frosted-glass-theme-main.js")]
+  );
 
   const currentVersion: string =
     context.extension.packageJSON.version ?? "0.0.0";
@@ -106,7 +154,12 @@ export function activate(context: ExtensionContext) {
 
   const openCSS = commands.registerCommand("frosted-glass-theme.openCSS", () =>
     workspace
-      .openTextDocument(Uri.joinPath(context.extensionUri, cssPath))
+      .openTextDocument(
+        Uri.joinPath(
+          context.extensionUri,
+          "inject/vscode-frosted-glass-theme.css"
+        )
+      )
       .then(window.showTextDocument)
   );
 

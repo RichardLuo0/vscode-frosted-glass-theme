@@ -373,12 +373,6 @@
             "order": 2,
             "default": "saturate(var(--fgt-saturate)) url(#fgt-mica) var(--fgt-mica-brightness)"
           },
-          "frosted-glass-theme.fakeMica.position": {
-            "type": "string",
-            "description": "The css property used for background.",
-            "order": 3,
-            "default": "center center / auto no-repeat"
-          },
           "frosted-glass-theme.fakeMica.titlebarFix": {
             "type": [
               "number",
@@ -415,12 +409,13 @@
     "vscode:prepublish": "npm run build",
     "build": "npm run lint && node ./build.mjs",
     "debug": "cross-env NODE_ENV=development node ./build.mjs",
-    "lint": "eslint src --ext ts && tsc --noEmit && tsc --noEmit -p src-inject",
+    "lint": "eslint . --ext ts && tsc --noEmit -p src && tsc --noEmit -p src-inject && tsc --noEmit -p src-inject-main",
     "watch": "node ./build.mjs watch",
     "test": "node ./out/test/runTest.js",
     "package": "vsce package"
   },
   "devDependencies": {
+    "@types/electron": "^1.6.12",
     "@types/node": "^22.15.17",
     "@types/uuid": "^10.0.0",
     "@types/vscode": "^1.64.0",

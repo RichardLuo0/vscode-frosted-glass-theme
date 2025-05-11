@@ -24,7 +24,7 @@ export function loadSvgs(svgList: string[]): MountSvgTo {
       const svg = new DOMParser()
         .parseFromString(ttp.createHTML(svgStr), "text/xml")
         .querySelector<SVGElement>("svg");
-      if (!svg) throw res.url + " does not contain a valid svg!";
+      if (!svg) throw new Error(res.url + " does not contain a valid svg!");
       svg.style.position = "absolute";
       svg.style.width = "0px";
       svg.style.height = "0px";
