@@ -55,9 +55,8 @@ class File {
 }
 
 export function activate(context: ExtensionContext) {
-  const jsPath = "inject/vscode-frosted-glass-theme.js";
   const injection = new ThemeInjection(
-    [context.asAbsolutePath(jsPath)],
+    [context.asAbsolutePath("inject/vscode-frosted-glass-theme.js")],
     [context.asAbsolutePath("inject/vscode-frosted-glass-theme-main.mjs")]
   );
 
@@ -77,7 +76,7 @@ export function activate(context: ExtensionContext) {
   }
 
   function updateConfiguration() {
-    new File(context.asAbsolutePath("inject/config.json"))
+    new File(context.asAbsolutePath("config/config.json"))
       .editor()
       .replaceAll(
         JSON.stringify(
@@ -163,19 +162,13 @@ export function activate(context: ExtensionContext) {
       .then(window.showTextDocument)
   );
 
-  const openJS = commands.registerCommand("frosted-glass-theme.openJS", () =>
-    workspace
-      .openTextDocument(Uri.joinPath(context.extensionUri, jsPath))
-      .then(window.showTextDocument)
-  );
-
   const openConfig = commands.registerCommand(
     "frosted-glass-theme.openConfig",
     async () =>
       workspace
         .openTextDocument({
           content: await readFile(
-            context.asAbsolutePath("inject/config.json"),
+            context.asAbsolutePath("config/config.json"),
             "utf-8"
           ),
           language: "json",
@@ -213,7 +206,6 @@ export function activate(context: ExtensionContext) {
     applyConfig,
     setup,
     openCSS,
-    openJS,
     openConfig,
     generateThemeMod,
     onConfigureChanged
