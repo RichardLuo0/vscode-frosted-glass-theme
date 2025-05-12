@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.8.21]
+- d128a3c: feat(fakeMica): you can turn on or off moveWithWindow
+
 ## [0.8.20]
 - a8aefad: feat: fake mica can move with window now!!!
 
