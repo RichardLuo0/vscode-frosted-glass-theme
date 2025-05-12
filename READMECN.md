@@ -86,7 +86,7 @@
     比如，你创建了一张svg，其中包含一个 `<filter>` 的 `id` 为 `fgt-acrylic`，并且你把它添加到了 `tintSvg` 中。然后你就可以设置一个值 `url(#fgt-acrylic-{key})`，那么它就会自动使用元素的背景颜色。
 * The `frosted-glass-theme.animation` 的key定义在 `src-inject/animation.ts` 的 `selectorMap` 中，或者也可以是css选择器。值可以是定义在 `src-inject/vscode-frosted-glass-theme.css` 的 `Animation` 中的css动画或者定义在 `src-inject/effect/effect.ts` 的 `effectMap` 中的effect。然而，effect不会被css timing function影响，他们只是被 `animationstart` 事件触发。
 * 你可以通过调用 `window._fgtTheme.registerEffect(key: string, func: (e: Element) => void)` 添加自己的effect。
-* 默认的设定在 `inject/config.json` 中。
+* 默认的设定在 `config/config.json` 中。
 ## 卸载
 1. 打开命令面板，输入“Frosted Glass Theme: Disable”，回车。
 1. 用扩展面板正常卸载。

@@ -86,7 +86,7 @@ You need to set `window.titleBarStyle` to `custom` to see the effect. Otherwise 
     For example, you created a svg that contains a `<filter>` whose `id` is `fgt-acrylic`, and you add it to `tintSvg`. You can then set a value `url(#fgt-acrylic-{key})`, so it will automatically use that element's background color. 
 * The `frosted-glass-theme.animation`'s key is defined in `src-inject/animation.ts`'s `selectorMap`, or the key can also be css selector. The value can be either css animation defined in `src-inject/vscode-frosted-glass-theme.css`'s `Animation` or effect defined in `src-inject/effect/effect.ts`'s `effectMap`. However, effects are not affected by css timing function, they are just triggered by `animationstart` event.
 * You can add your own effect by calling `window._fgtTheme.registerEffect(key: string, func: (e: Element) => void)`.
-* The default config is in `inject/config.json`.
+* The default config is in `config/config.json`.
 ## Uninstall
 1. Open command panel, type in "Frosted Glass Theme: Disable", press enter.
 1. Uninstall from the extension panel as usual.

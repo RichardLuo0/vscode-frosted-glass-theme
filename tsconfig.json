@@ -4,6 +4,10 @@
     "declaration": true,
     "emitDeclarationOnly": true,
     "outDir": ".tsc",
+    "module": "ESNext",
+    "target": "ESNext",
+    "moduleResolution": "bundler",
+    "esModuleInterop": true,
   },
   "references": [
     {

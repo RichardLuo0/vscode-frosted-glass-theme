@@ -2,7 +2,7 @@ import {
   applyBackdropFilter,
   applyBackdropFilterOnShadowDOM,
 } from "./backdropFilter";
-import config from "./config.json" with { type: "json" };
+import config from "../config/config.json" with { type: "json" };
 import { applyEffect } from "./effect/effect";
 import { applyFakeMica } from "./fakeMica";
 import { fixContextMenu, fixMenu, fixMenuBar } from "./fixMenu";

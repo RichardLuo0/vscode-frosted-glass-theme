@@ -1,4 +1,4 @@
-import config from "./config.json" with { type: "json" };
+import config from "../config/config.json" with { type: "json" };
 import { registerColorChangeListener } from "./utils/observeThemeColor";
 import { applyOpacity, css } from "./utils/utils";
 import fgtSheet from "./vscode-frosted-glass-theme.css" with { type: "css" };

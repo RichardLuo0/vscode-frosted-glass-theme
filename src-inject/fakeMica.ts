@@ -1,4 +1,4 @@
-import config from "./config.json" with { type: "json" };
+import config from "../config/config.json" with { type: "json" };
 import { css } from "./utils/utils";
 import fgtSheet from "./vscode-frosted-glass-theme.css" with { type: "css" };
 
@@ -69,7 +69,7 @@ if (fakeMica.enabled) {
         background-color: var(--vscode-editor-background);
       }
     `);
-    // VScode puts a top margin so that there will be a gap on the top.
+    // VSCode puts a top margin so that there will be a gap on the top.
     // Fix it by replacing with padding.
     fgtSheet.insertRule(css`
       .profiles-editor {
@@ -80,6 +80,18 @@ if (fakeMica.enabled) {
   }
 }
 
+function getMicaX(win: Window) {
+  return win.screenX >= -win.outerWidth && win.screenX <= screen.width
+    ? `${-win.screenX}px`
+    : "center";
+}
+
+function getMicaY(win: Window) {
+  return win.screenY >= -win.outerHeight && win.screenY <= screen.height
+    ? `${-win.screenY}px`
+    : "center";
+}
+
 export async function applyFakeMica(
   element: HTMLElement,
   svgMounted: Promise<void>
@@ -87,19 +99,16 @@ export async function applyFakeMica(
   if (fakeMica.enabled) {
     await svgMounted;
     element.classList.add("fgt-mica-svg-loaded");
-    const ownWindow = element.ownerDocument.defaultView;
-    if (ownWindow)
-      ownWindow.vscode.ipcRenderer.on("vscode:update-mica", () => {
-        const micaX =
-          ownWindow.screenX <= screen.width
-            ? -ownWindow.screenX + "px"
-            : "center";
-        const micaY =
-          ownWindow.screenY <= screen.height
-            ? -ownWindow.screenY + "px"
-            : "center";
-        element.style.setProperty("--fgt-mica-x", micaX);
-        element.style.setProperty("--fgt-mica-y", micaY);
-      });
+    if (fakeMica.moveWithWindow) {
+      const win = element.ownerDocument.defaultView;
+      if (win) {
+        const updateMica = () => {
+          element.style.setProperty("--fgt-mica-x", getMicaX(win));
+          element.style.setProperty("--fgt-mica-y", getMicaY(win));
+        };
+        updateMica();
+        win.vscode.ipcRenderer.on("vscode:update-mica", updateMica);
+      }
+    }
   }
 }

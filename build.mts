@@ -1,4 +1,5 @@
 import * as esbuild from "esbuild";
+import type { BuildOptions } from "esbuild";
 import fs from "fs/promises";
 import { generateLicenseFile } from "generate-license-file";
 import { parseLiterals } from "parse-literals";
@@ -6,20 +7,20 @@ import path from "path";
 
 const debug = process.env["NODE_ENV"] === "development";
 
-const taskList = [];
+const taskList: Promise<string>[] = [];
 
 taskList.push(
   mergeConfiguration(
-    "src-inject/config.schema.json",
-    "src-inject/config.json",
+    "config/config.schema.json",
+    "config/config.json",
     "frosted-glass-theme."
   ).then(() => mergeLicense())
 );
 
-const common = {
+const common: BuildOptions = {
   bundle: true,
   platform: "node",
-  target: "node20",
+  target: "esnext",
   logLevel: "silent",
   minify: !debug,
   legalComments: "none",
@@ -27,7 +28,7 @@ const common = {
   plugins: [minifyLiteralsPlugin(["css"])],
 };
 
-const buildExtension = {
+const buildExtension: BuildOptions = {
   ...common,
   external: ["vscode"],
   entryPoints: ["src/extension.ts"],
@@ -54,7 +55,6 @@ taskList.push(
   build({
     ...common,
     platform: "browser",
-    target: "esnext",
     format: "esm",
     loader: { ".css": "copy", ".json": "copy" },
     assetNames: "[name]",
@@ -67,6 +67,8 @@ taskList.push(
   build({
     ...common,
     format: "esm",
+    loader: { ".json": "copy" },
+    assetNames: "[name]",
     external: ["electron"],
     entryPoints: ["src-inject-main/main.ts"],
     outfile: "inject/vscode-frosted-glass-theme-main.mjs",
@@ -75,7 +77,7 @@ taskList.push(
 
 taskList.push(
   fs
-    .copyFile("src-inject/config.schema.json", "inject/config.schema.json")
+    .copyFile("config/config.schema.json", "inject/config.schema.json")
     .then(() => "inject/config.schema.json")
 );
 
@@ -84,10 +86,19 @@ for (const builtFile of await Promise.all(taskList)) {
   console.log("\u001b[32mDone\u001b[0m\n");
 }
 
-async function mergeConfiguration(schemaFile, defaultFile, prefix) {
-  const schema = JSON.parse(await fs.readFile(schemaFile));
-  const defaultValue = JSON.parse(await fs.readFile(defaultFile));
-  const packageJson = JSON.parse(await fs.readFile("package.json"));
+async function mergeConfiguration(
+  schemaFile: string,
+  defaultFile: string,
+  prefix: string
+) {
+  type Properties = {
+    [k in string]: { type: string; properties: Properties };
+  };
+  const schema = JSON.parse(await fs.readFile(schemaFile, "utf-8")) as {
+    properties: Properties;
+  };
+  const defaultValue = JSON.parse(await fs.readFile(defaultFile, "utf-8"));
+  const packageJson = JSON.parse(await fs.readFile("package.json", "utf-8"));
 
   const configuration = [{ title: "General", properties: {} }];
   for (const [key, prop] of Object.entries(schema.properties)) {
@@ -149,7 +160,7 @@ function minifyLiteralsPlugin(tags) {
   };
 }
 
-async function build(options) {
+async function build(options: BuildOptions) {
   const result = await esbuild.build(options);
   if (result.warnings.length == 0 && result.errors.length == 0)
     return options.outfile;

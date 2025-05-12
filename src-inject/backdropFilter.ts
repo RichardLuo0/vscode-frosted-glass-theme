@@ -1,4 +1,4 @@
-import config from "./config.json" with { type: "json" };
+import config from "../config/config.json" with { type: "json" };
 import { inset, clipPath } from "./utils/clipPathPolyFill";
 import { loadSvgs, MountSvgTo } from "./utils/loadSvg";
 import { registerColorChangeListener } from "./utils/observeThemeColor";

@@ -14,7 +14,9 @@ icon/*
 .github
 node_modules/**
 *.mjs
+*.mts
 .*
 licenses/**
 theme/**
+config/**
 TODO.md

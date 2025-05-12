@@ -1,4 +1,4 @@
-import config from "./config.json" with { type: "json" };
+import config from "../config/config.json" with { type: "json" };
 import { inset, clipPath } from "./utils/clipPathPolyFill";
 import { css, isKeyInObject } from "./utils/utils";
 import fgtSheet from "./vscode-frosted-glass-theme.css" with { type: "css" };

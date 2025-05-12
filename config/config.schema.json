@@ -201,6 +201,11 @@
           "description": "The filter used for background.",
           "order": 2
         },
+        "moveWithWindow": {
+          "type": "boolean",
+          "description": "The mica effect will move with window, creating a parallax effect.",
+          "order": 3
+        },
         "titlebarFix": {
           "type": [
             "number",

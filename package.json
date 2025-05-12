@@ -373,6 +373,12 @@
             "order": 2,
             "default": "saturate(var(--fgt-saturate)) url(#fgt-mica) var(--fgt-mica-brightness)"
           },
+          "frosted-glass-theme.fakeMica.moveWithWindow": {
+            "type": "boolean",
+            "description": "The mica effect will move with window, creating a parallax effect.",
+            "order": 3,
+            "default": true
+          },
           "frosted-glass-theme.fakeMica.titlebarFix": {
             "type": [
               "number",
@@ -407,11 +413,10 @@
   },
   "scripts": {
     "vscode:prepublish": "npm run build",
-    "build": "npm run lint && node ./build.mjs",
-    "debug": "cross-env NODE_ENV=development node ./build.mjs",
+    "build": "npm run lint && node --experimental-strip-types ./build.mts",
+    "debug": "cross-env NODE_ENV=development node --experimental-strip-types ./build.mts",
     "lint": "eslint . --ext ts && tsc --build",
     "watch": "node ./build.mjs watch",
-    "test": "node ./out/test/runTest.js",
     "package": "vsce package"
   },
   "devDependencies": {

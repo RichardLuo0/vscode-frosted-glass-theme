@@ -1,7 +1,7 @@
 {
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
-    "module": "NodeNext",
+    "resolveJsonModule": true,
     "types": [
       "node",
       "electron"
@@ -12,7 +12,8 @@
     ]
   },
   "include": [
-    "."
+    ".",
+    "../config/*.json"
   ],
   "references": [
     {
