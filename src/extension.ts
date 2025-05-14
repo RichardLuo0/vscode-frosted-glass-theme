@@ -76,7 +76,7 @@ export function activate(context: ExtensionContext) {
   }
 
   function updateConfiguration() {
-    new File(context.asAbsolutePath("config/config.json"))
+    new File(context.asAbsolutePath("inject/config.json"))
       .editor()
       .replaceAll(
         JSON.stringify(
@@ -168,7 +168,7 @@ export function activate(context: ExtensionContext) {
       workspace
         .openTextDocument({
           content: await readFile(
-            context.asAbsolutePath("config/config.json"),
+            context.asAbsolutePath("inject/config.json"),
             "utf-8"
           ),
           language: "json",
