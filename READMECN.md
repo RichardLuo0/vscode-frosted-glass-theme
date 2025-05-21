@@ -96,8 +96,22 @@
   1. 创建硬链接：`cd $env:AppData\Microsoft\Windows\Themes; cmd /c mklink /H .\TranscodedWallpaper.jpg.\TranscodedWallpaper`。
   1. 更改 `frosted-glass-theme.fakeMica.url` 到 `<your user home>\AppData\Roaming\Microsoft\Windows\Themes\TranscodedWallpaper.jpg`.
 * 编辑器的字体可能会变细。
+* 如果一些颜色不正确，这也许是因为你的主题用了补色+高透明度。比如，Codemos Modern。你可以尝试使用普通模糊滤镜来代替 acrylic.svg：
+    ```json
+    "frosted-glass-theme.filter": {
+      "sideBarSectionHeader": {
+        "filter": "blur(30px)",
+        "disableBackgroundColor": false
+      },
+      "slider": {
+        "filter": "blur(30px)",
+        "disableBackgroundColor": false
+      },
+    }
+    ```
+    应用并且重启 vscode. key 定义在 `src-inject/backdropFilter.ts` 的 `entryList` 中。
 ## 感谢
 * [be5invis/vscode-custom-css](https://github.com/be5invis/vscode-custom-css)
 ## 免责声明
-本扩展修改了 `vs\code\electron-sandbox\workbench\workbench.html` 来注入文件。风险自负。\
-本扩展在 `vs\code\workbench.*.bak-frosted-glass` 中保留备份，以防出现问题。
+本扩展修改了 `resources\app\out\vs\code\electron-sandbox\workbench\workbench.html` 和 `resources\app\out\main.js` 来注入文件。风险自负。\
+本扩展在 `resources\app\out\vs\code\workbench.*.bak-frosted-glass` 和 `resources\app\out\main.*.bak-frosted-glass` 中保留备份，以防出现问题。

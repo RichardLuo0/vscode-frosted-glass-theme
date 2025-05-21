@@ -71,7 +71,7 @@ You need to set `window.titleBarStyle` to `custom` to see the effect. Otherwise 
     You can also try the command `frosted-glass-theme.generateThemeMod` to automatically generate a theme, then add the result into `colorCustomizations`.
 * The `frosted-glass-theme.svg` simply loads svg from a url. The generated svg element is static and only use the css variable from `monaco-workbench`. More svgs can be found in `resource` folder.
 * The `frosted-glass-theme.tintSvg` generate different svgs for each key defined in `frosted-glass-theme.filter` and the id on `<filter>` is changed to `id-key`. Inside svg, you can use some special css variables: `--fgt-current-background` representing the element's solid background color, `--fgt-current-opacity` representing opacity.
-* The `frosted-glass-theme.filter` settings is a object that represents the filter to use with each element. The key is defined in `src-inject/backdropFilter.ts`s' `entryList`. The value is of the type:
+* The `frosted-glass-theme.filter` settings is a object that represents the filter to use with each element. The keys are defined in `src-inject/backdropFilter.ts`s' `entryList`. The value is of the type:
     ```typescript
     type Filter = {
       filter: string;
@@ -96,8 +96,22 @@ You need to set `window.titleBarStyle` to `custom` to see the effect. Otherwise 
   1. Create a hard link: `cd $env:AppData\Microsoft\Windows\Themes; cmd /c mklink /H .\TranscodedWallpaper.jpg .\TranscodedWallpaper`.
   1. Change `frosted-glass-theme.fakeMica.url` to `<your user home>\AppData\Roaming\Microsoft\Windows\Themes\TranscodedWallpaper.jpg`.
 * Editor's font becomes a little bit thinner.
+* If some colors are not correct, it may be due to that your theme uses a opposite color + high transparency. For example, Codemos Modern. You can try to use normal blur filter instead of acrylic.svg:
+    ```json
+    "frosted-glass-theme.filter": {
+      "sideBarSectionHeader": {
+        "filter": "blur(30px)",
+        "disableBackgroundColor": false
+      },
+      "slider": {
+        "filter": "blur(30px)",
+        "disableBackgroundColor": false
+      },
+    }
+    ```
+    Apply and restart vscode. The keys are defined in `src-inject/backdropFilter.ts`s' `entryList`.
 ## Thanks
 * [be5invis/vscode-custom-css](https://github.com/be5invis/vscode-custom-css)
 ## Disclaimer
-This extension modifies `vs\code\electron-sandbox\workbench\workbench.html` to inject files. So use at your own risk. \
-Also, the extension keeps a backup in `vs\code\workbench.*.bak-frosted-glass` in case anything goes wrong.
+This extension modifies `resources\app\out\vs\code\electron-sandbox\workbench\workbench.html` and `resources\app\out\main.js` to inject files. So use at your own risk. \
+Also, the extension keeps a backup in `resources\app\out\vs\code\workbench.*.bak-frosted-glass` and `resources\app\out\main.*.bak-frosted-glass` in case anything goes wrong.
