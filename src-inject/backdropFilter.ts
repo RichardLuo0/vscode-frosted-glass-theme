@@ -1,6 +1,6 @@
 import config from "../config/config.json" with { type: "json" };
-import { inset, clipPath } from "./utils/clipPathPolyFill";
-import { loadSvgs, MountSvgTo } from "./utils/loadSvg";
+import { clipPath, inset } from "./utils/clipPathPolyFill";
+import { MountSvgTo } from "./utils/loadSvg";
 import { registerColorChangeListener } from "./utils/observeThemeColor";
 import { applyOpacity, css, extractOpacity } from "./utils/utils";
 import fgtSheet from "./vscode-frosted-glass-theme.css" with { type: "css" };
@@ -23,9 +23,9 @@ const entryList: Entry[] = [
     ".monaco-component.multiDiffEditor .header",
   ],
   [
-    "editorHoverWidget",
+    "hover",
     "--vscode-editorHoverWidget-background",
-    ".debug-hover-widget, .monaco-editor-overlaymessage .message",
+    ".debug-hover-widget, .monaco-editor-overlaymessage .message, .monaco-hover",
   ],
   [
     "editorSuggestWidget",
@@ -49,7 +49,6 @@ const entryList: Entry[] = [
     "--vscode-notificationCenterHeader-background",
     ".notifications-center-header",
   ],
-  ["hover", "--vscode-editorHoverWidget-statusBarBackground", ".monaco-hover"],
   [
     "editorStickyScroll",
     "--vscode-editorStickyScroll-background",
