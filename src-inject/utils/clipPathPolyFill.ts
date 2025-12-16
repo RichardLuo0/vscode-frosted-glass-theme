@@ -6,7 +6,10 @@ export function clipPath(
   clipPath: string,
   overflowClipMargin: string
 ) {
-  if (getChromeMainVersion() >= 128)
+  const chromeMainVersion = getChromeMainVersion();
+  // In 142, the `backdrop-filter` won't work if clip-path is set on the parent.
+  // `clip-path` is not available below 128.
+  if (chromeMainVersion != 142 && chromeMainVersion >= 128)
     fgtSheet.insertRule(css`
       ${selector} {
         clip-path: ${clipPath} !important;

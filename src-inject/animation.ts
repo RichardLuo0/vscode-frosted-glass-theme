@@ -46,12 +46,14 @@ for (const key in animation) {
 }
 
 // Menu Animation
-clipPath(
-  css`.monaco-menu-container,
+if (animation["menu"].includes("fgtDropdown"))
+  clipPath(
+    css`.monaco-menu-container,
   .context-view`,
-  inset(-1, true),
-  "10px"
-);
+    inset(-1, true),
+    "10px"
+  );
 
 // Dropdown Animation
-clipPath(css`.select-container > .context-view`, inset(0, true), "0px");
+if (animation["dropdown"].includes("fgtDropdown"))
+  clipPath(css`.select-container > .context-view`, inset(0, true), "0px");

@@ -47,6 +47,7 @@ export const css = (sa: TemplateStringsArray, ...args: any[]) =>
 
 let chromeMainVersion: number | undefined = undefined;
 export function getChromeMainVersion() {
+  if (chromeMainVersion) return chromeMainVersion;
   const mainVerStr = vscode.process.versions.chrome.match(/^\d+/)?.[0];
   return (chromeMainVersion = mainVerStr ? parseInt(mainVerStr, 10) : 0);
 }
