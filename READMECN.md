@@ -94,7 +94,7 @@
 ## 已知问题
 * 从 Windows 24H2 开始, 微软可能改变了壁纸路径。遵循以下步骤： 
   1. 创建硬链接：`cd $env:AppData\Microsoft\Windows\Themes; cmd /c mklink /H .\TranscodedWallpaper.jpg.\TranscodedWallpaper`。
-  1. 更改 `frosted-glass-theme.fakeMica.url` 到 `<your user home>\AppData\Roaming\Microsoft\Windows\Themes\TranscodedWallpaper.jpg`.
+  1. 更改 `frosted-glass-theme.fakeMica.url` 到 `<your user home>/AppData/Roaming/Microsoft/Windows/Themes/TranscodedWallpaper.jpg`.
 * 编辑器的字体可能会变细。
 * 如果一些颜色不正确，这也许是因为你的主题用了补色+高透明度。比如，Codemos Modern。你可以尝试使用普通模糊滤镜来代替 acrylic.svg：
     ```json
