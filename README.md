@@ -94,7 +94,7 @@ You need to set `window.titleBarStyle` to `custom` to see the effect. Otherwise 
 ## Known Issue
 * Since Windows 24H2, Microsoft may have changed the wallpaper location. Follow the steps: 
   1. Create a hard link: `cd $env:AppData\Microsoft\Windows\Themes; cmd /c mklink /H .\TranscodedWallpaper.jpg .\TranscodedWallpaper`.
-  1. Change `frosted-glass-theme.fakeMica.url` to `<your user home>\AppData\Roaming\Microsoft\Windows\Themes\TranscodedWallpaper.jpg`.
+  1. Change `frosted-glass-theme.fakeMica.url` to `<your user home>/AppData/Roaming/Microsoft/Windows/Themes/TranscodedWallpaper.jpg`.
 * Editor's font becomes a little bit thinner.
 * If some colors are not correct, it may be due to that your theme uses a opposite color + high transparency. For example, Codemos Modern. You can try to use normal blur filter instead of acrylic.svg:
     ```json
