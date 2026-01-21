@@ -22,7 +22,8 @@ const selectorMap = {
     ":not(.activitybar, .composite-bar) > .monaco-action-bar .action-label.codicon",
   tab: ".tabs-container > .tab",
   listItem:
-    ":not(.settings-tree-container, .notifications-list-container, .profile-tree) > .monaco-list .monaco-list-row",
+    ":not(.settings-tree-container, .notifications-list-container, .profile-tree, .interactive-list) > .monaco-list .monaco-list-row",
+  interactiveListItem: ".interactive-list > .monaco-list .monaco-list-row",
   statusbarItem:
     ".statusbar-item:not(.has-background-color) > .statusbar-item-label, .statusbar-item.has-background-color",
   activitybarItem: ".activitybar li.action-item:not(:has(> a.separator))",
@@ -45,7 +46,7 @@ for (const key in animation) {
     `);
 }
 
-// Menu Animation
+// Menu dropdown animation
 if (animation["menu"].includes("fgtDropdown"))
   clipPath(
     css`.monaco-menu-container,
@@ -54,6 +55,6 @@ if (animation["menu"].includes("fgtDropdown"))
     "10px"
   );
 
-// Dropdown Animation
+// Dropdown dropdown animation
 if (animation["dropdown"].includes("fgtDropdown"))
   clipPath(css`.select-container > .context-view`, inset(0, true), "0px");
