@@ -18,10 +18,9 @@ if (miscellaneous.progressBarBehindSectionHeader) {
       left: 1px !important;
     }
   `);
-} else {
   fgtSheet.insertRule(css`
-    .pane > .monaco-progress-container {
-      z-index: 20;
+    .pane-header.expanded {
+      z-index: 15;
     }
   `);
 }

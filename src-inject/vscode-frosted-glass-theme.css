@@ -135,40 +135,9 @@ div[widgetid="editor.contrib.resizableContentHoverWidget"] {
 }
 
 /* Pane Header */
-.pane {
-  /* fix the pane header disappearing */
-  overflow: clip !important;
-}
-
 .pane-header.expanded:has(.monaco-dropdown.active) {
   z-index: 2500;
   backdrop-filter: none;
-}
-
-.pane-header.expanded {
-  z-index: 15;
-}
-
-.pane-header {
-  flex-shrink: 0;
-}
-
-.pane-body {
-  pointer-events: none;
-}
-
-.pane-body > * {
-  pointer-events: auto;
-}
-
-.pane-body,
-.pane-body .monaco-list > .monaco-scrollable-element {
-  overflow: visible !important;
-}
-
-.search-view .results,
-.test-explorer-tree {
-  overflow: hidden !important;
 }
 
 /* Cell Title Toolbar */

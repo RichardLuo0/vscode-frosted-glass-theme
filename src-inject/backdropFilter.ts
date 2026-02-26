@@ -214,11 +214,3 @@ export function applyBackdropFilterOnShadowDOM(
 ) {
   applyBackdropFilterOnEntry(element, menuEntry, mountSvgTo);
 }
-
-// Fix panel Header
-clipPath(
-  css`.pane-body,
-  .pane-body .monaco-list > .monaco-scrollable-element`,
-  inset(-22),
-  "22px"
-);
