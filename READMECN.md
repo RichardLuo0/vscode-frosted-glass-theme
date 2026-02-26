@@ -12,7 +12,8 @@
 [English](README.md)
 
 <span style="font-size: 24px;font-weight: bold">
-这是一个侵入式主题，它可以与其他颜色主题一起安装。
+这是一个侵入式主题！
+但是它可以与其他颜色主题一起使用。
 <br>
 安装前请阅读此文档。
 <br>

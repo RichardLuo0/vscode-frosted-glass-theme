@@ -12,7 +12,8 @@ An enhancement to vscode appearance. Major feature includes acrylic effect, mica
 [中文版](READMECN.md)
 
 <span style="font-size: 24px;font-weight: bold">
-This is a intrusive theme. Can work with any other color themes.
+This is a intrusive theme!
+Though it can work with other color themes.
 <br>
 Plz read this document before installation.
 <br>
