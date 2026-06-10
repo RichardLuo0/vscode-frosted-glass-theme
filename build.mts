@@ -128,7 +128,7 @@ async function mergeConfiguration(
   return "package.json";
 }
 
-function minifyLiteralsPlugin(tags: string[]) {
+function minifyLiteralsPlugin(tags: string[]): esbuild.Plugin {
   return {
     name: "minifyLiteralsPlugin",
     setup(build) {
