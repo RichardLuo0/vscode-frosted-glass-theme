@@ -8,7 +8,7 @@
   },
   "publisher": "RichardLuo",
   "description": "Bring frosted glass menu (like windows acrylic or mac os) to your vscode!",
-  "version": "0.8.25",
+  "version": "0.8.26",
   "repository": {
     "type": "git",
     "url": "https://github.com/RichardLuo0/vscode-frosted-glass-theme"
@@ -417,19 +417,19 @@
   },
   "devDependencies": {
     "@types/electron": "^1.6.12",
-    "@types/node": "25.3.1",
+    "@types/node": "25.9.2",
     "@types/vscode": "^1.64.0",
-    "@typescript-eslint/eslint-plugin": "^8.56.1",
-    "@typescript-eslint/parser": "^8.56.1",
-    "@vscode/test-electron": "^2.5.2",
-    "esbuild": "^0.27.3",
-    "eslint": "^10.0.2",
-    "generate-license-file": "^4.1.1",
+    "@typescript-eslint/eslint-plugin": "^8.61.0",
+    "@typescript-eslint/parser": "^8.61.0",
+    "@vscode/test-electron": "^3.0.0",
+    "esbuild": "^0.28.0",
+    "eslint": "^10.4.1",
+    "generate-license-file": "^4.2.1",
     "parse-literals": "^1.2.1",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.3"
   },
   "dependencies": {
     "@vscode/sudo-prompt": "^9.3.2",
-    "uuid": "^13.0.0"
+    "uuid": "^14.0.0"
   }
 }

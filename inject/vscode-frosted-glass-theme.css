@@ -69,9 +69,9 @@
 
 /* Scroll Bar */
 :is(
-    .editor-scrollable > .scrollbar.horizontal > .slider,
-    .monaco-scrollable-element:not(.editor-scrollable) > .scrollbar > .slider
-  ):hover {
+  .editor-scrollable > .scrollbar.horizontal > .slider,
+  .monaco-scrollable-element:not(.editor-scrollable) > .scrollbar > .slider
+):hover {
   background-color: var(--vscode-scrollbarSlider-hoverBackground) !important;
 }
 
@@ -82,6 +82,11 @@
 
 /* Breadcrumbs Picker */
 .monaco-breadcrumbs-picker .monaco-list-rows {
+  background-color: transparent !important;
+}
+
+/* Hover */
+.monaco-resizable-hover {
   background-color: transparent !important;
 }
 
@@ -148,5 +153,10 @@ div[widgetid="editor.contrib.resizableContentHoverWidget"] {
 
 /* Terminal Overlay */
 .xterm-scrollable-element {
+  background-color: transparent !important;
+}
+
+/* Modal Editor Part */
+.modal-editor-part .editor-container {
   background-color: transparent !important;
 }

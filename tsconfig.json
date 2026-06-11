@@ -9,6 +9,11 @@
     "moduleResolution": "bundler",
     "esModuleInterop": true,
   },
+  "include": [
+    "src",
+    "src-inject",
+    "src-inject-main"
+  ],
   "references": [
     {
       "path": "src"
