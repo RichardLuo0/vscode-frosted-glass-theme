@@ -1,5 +1,4 @@
 import config from "../config/config.json" with { type: "json" };
-import { clipPath, inset } from "./utils/clipPathPolyFill";
 import { MountSvgTo } from "./utils/loadSvg";
 import { registerColorChangeListener } from "./utils/observeThemeColor";
 import { applyOpacity, css, extractOpacity } from "./utils/utils";
@@ -38,7 +37,6 @@ const entryList: Entry[] = [
     ".monaco-tree-type-filter",
   ],
   ["quickInput", "--vscode-quickInput-background", ".quick-input-widget"],
-
   [
     "notifications",
     "--vscode-notifications-background",
@@ -95,7 +93,8 @@ const entryList: Entry[] = [
     "--vscode-dropdown-background",
     ".select-box-dropdown-list-container, .select-box-details-pane",
   ],
-  // Background color is embedded into canvas so can not remove
+  ["modalEditorPart", "--vscode-editor-background", ".modal-editor-part"],
+  // For below items, background color is embedded into canvas so can not remove
   ["minimap", undefined, ".minimap"],
   [
     "decorationsOverviewRuler",
