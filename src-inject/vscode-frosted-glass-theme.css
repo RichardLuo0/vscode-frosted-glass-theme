@@ -157,7 +157,6 @@ div[widgetid="editor.contrib.resizableContentHoverWidget"] {
 }
 
 /* Modal Editor Part */
-.modal-editor-part .model-editor-header,
 .modal-editor-part .editor-container {
   background-color: transparent !important;
 }
