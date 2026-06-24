@@ -27,12 +27,14 @@ if (fakeMica.enabled) {
     }
   `);
 
+  // Fix list background
   fgtSheet.insertRule(css`
     .monaco-list-rows {
       background-color: transparent !important;
     }
   `);
 
+  // Fix settings row background
   fgtSheet.insertRule(css`
     .settings-body .monaco-list-row {
       background-color: transparent !important;
@@ -65,6 +67,8 @@ if (fakeMica.enabled) {
         background-color: var(--vscode-editor-background);
       }
     `);
+    // VSCode puts a top margin so that there will be a gap on the top.
+    // Fix it by replacing with padding.
     fgtSheet.insertRule(css`
       .profiles-editor {
         margin: 0 auto 0 !important;
