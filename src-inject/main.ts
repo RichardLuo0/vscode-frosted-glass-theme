@@ -16,6 +16,7 @@ import "./opacity";
 import "./animation";
 import "./borderRadius";
 import "./miscellaneous";
+import { hideCorruptNotifications } from "./hideCorruptNotification";
 import { useHTMLElement } from "./utils/proxy";
 
 fgtSheet.insertRule(css`
@@ -30,6 +31,14 @@ for (const style of config.additionalStyle as string[]) {
   styleElement.setAttribute("type", "text/css");
   styleElement.setAttribute("href", makeAbsolutePath(style));
   document.head.append(styleElement);
+}
+
+if (
+  (config.additionalStyle as string[]).some(path =>
+    path.includes("cursor-hide-corrupt-notification")
+  )
+) {
+  hideCorruptNotifications();
 }
 
 function insertVariables(cssSelector: string, variables: object) {
