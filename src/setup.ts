@@ -1,10 +1,13 @@
+import { readFile } from "fs/promises";
 import path from "path";
 import {
+  ExtensionContext,
   QuickPickItem,
   window,
   workspace,
   WorkspaceConfiguration,
 } from "vscode";
+import { isCursor } from "./host";
 import { localize } from "./localization";
 import { AbsolutePath, listFilesInDir } from "./utils";
 
@@ -19,14 +22,18 @@ function applyThemeMod(
   }
   const colorCustomizationsMod = themeMod["workbench.colorCustomizations"];
   const workbench = workspace.getConfiguration("workbench");
-  workbench.update(
-    "colorCustomizations",
-    Object.assign(
-      workbench.get<object>("colorCustomizations") ?? {},
-      colorCustomizationsMod
-    ),
-    true
-  );
+  if (colorCustomizationsMod) {
+    const existing = {
+      ...(workbench.get<Record<string, unknown>>("colorCustomizations") ?? {}),
+    };
+    const merged = Object.assign(existing, colorCustomizationsMod);
+    if (isCursor()) {
+      for (const key of Object.keys(merged)) {
+        if (key.startsWith("[")) delete merged[key];
+      }
+    }
+    workbench.update("colorCustomizations", merged, true);
+  }
 }
 
 async function chooseWallpaper(fgtConfig: WorkspaceConfiguration) {
@@ -85,42 +92,89 @@ async function chooseWallpaper(fgtConfig: WorkspaceConfiguration) {
   if (url) fgtConfig.update("fakeMica.url", url, true);
 }
 
-async function chooseThemeMod(fgtConfig: WorkspaceConfiguration) {
-  const themeModItems = await window.showQuickPick(
-    fetch(
-      "https://api.github.com/repos/RichardLuo0/vscode-frosted-glass-theme/contents/theme?ref=dev"
+async function loadLocalThemeMods(context: ExtensionContext) {
+  type ThemeModItem = QuickPickItem & { _path?: string };
+  const themeDirs = isCursor()
+    ? ["theme/cursor", "theme"]
+    : ["theme"];
+  const items: ThemeModItem[] = [];
+
+  for (const themeDir of themeDirs) {
+    const absDir = path.join(context.extensionPath, themeDir);
+    try {
+      const files = await listFilesInDir(absDir);
+      for (const file of files.filter(f => f.name.endsWith(".json"))) {
+        items.push({
+          label: isCursor() && themeDir.includes("cursor")
+            ? `${file.name} (Cursor)`
+            : file.name,
+          detail: file.absPath,
+          _path: file.absPath,
+        });
+      }
+    } catch {
+      // theme directory may not exist yet
+    }
+  }
+
+  return items;
+}
+
+async function loadRemoteThemeMods() {
+  type ThemeModItem = QuickPickItem & { _path?: string };
+  return fetch(
+    "https://api.github.com/repos/RichardLuo0/vscode-frosted-glass-theme/contents/theme?ref=dev"
+  )
+    .then(
+      async res =>
+        (await res.json()) as { name: string; download_url: string }[]
     )
-      .then(
-        async res =>
-          (await res.json()) as { name: string; download_url: string }[]
-      )
-      .then(
-        pathList =>
-          pathList.map(p => ({
-            label: p.name,
-            detail: p.download_url,
-            _path: p.download_url,
-          })),
-        () => []
-      ),
+    .then(
+      pathList =>
+        pathList.map(p => ({
+          label: p.name,
+          detail: p.download_url,
+          _path: p.download_url,
+        })),
+      () => [] as ThemeModItem[]
+    );
+}
+
+async function chooseThemeMod(
+  fgtConfig: WorkspaceConfiguration,
+  context: ExtensionContext
+) {
+  const localItems = await loadLocalThemeMods(context);
+  const themeModItems = await window.showQuickPick(
+    isCursor()
+      ? localItems
+      : [
+          ...localItems,
+          ...(await loadRemoteThemeMods()).filter(
+            remote =>
+              !localItems.some(local => local.label === remote.label)
+          ),
+        ],
     {
       title: localize("setup.chooseThemeMod"),
-      placeHolder: localize("setup.chooseThemeModPlaceHolder"),
+      placeHolder: isCursor()
+        ? localize("setup.chooseThemeModPlaceHolderCursor")
+        : localize("setup.chooseThemeModPlaceHolder"),
       canPickMany: true,
     }
   );
   themeModItems?.forEach(async themeModItem => {
-    if (themeModItem._path)
-      applyThemeMod(
-        fgtConfig,
-        (await (await fetch(themeModItem._path)).json()) as {
+    if (!themeModItem._path) return;
+    const themeMod = themeModItem._path.startsWith("http")
+      ? ((await (await fetch(themeModItem._path)).json()) as {
           [key: string]: any;
-        }
-      );
+        })
+      : JSON.parse(await readFile(themeModItem._path, "utf-8"));
+    applyThemeMod(fgtConfig, themeMod);
   });
 }
 
-export async function setup() {
+export async function setup(context: ExtensionContext) {
   const fgtConfig = workspace.getConfiguration("frosted-glass-theme");
   const select = await window.showQuickPick([localize("yes"), localize("no")], {
     title: localize("setup.enableMica"),
@@ -129,7 +183,7 @@ export async function setup() {
 
   fgtConfig.update("fakeMica.enabled", true, true);
   await chooseWallpaper(fgtConfig);
-  await chooseThemeMod(fgtConfig);
+  await chooseThemeMod(fgtConfig, context);
 
   window.showInformationMessage(localize("setup.complete"));
   return true;

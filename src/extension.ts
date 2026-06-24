@@ -2,7 +2,9 @@ import fs from "fs";
 import { readFile } from "fs/promises";
 import { resolve } from "path";
 import { commands, ExtensionContext, Uri, window, workspace } from "vscode";
+import { resolveFakeMicaUrlForInject } from "./fakeMicaUrl";
 import { generateThemeMod as generateThemeModFunc } from "./generateThemeMod";
+import { applyCursorMicaInjectDefaults, getHostId, isCursor } from "./host";
 import { localize } from "./localization";
 import { setup as setupFunc } from "./setup";
 import ThemeInjection from "./ThemeInjection";
@@ -71,16 +73,63 @@ export function activate(context: ExtensionContext) {
     }
   }
 
-  function reloadWindow() {
-    commands.executeCommand("workbench.action.reloadWindow");
+  function restartHost() {
+    if (isCursor()) commands.executeCommand("workbench.action.quit");
+    else commands.executeCommand("workbench.action.reloadWindow");
   }
 
-  function updateConfiguration() {
-    new File(context.asAbsolutePath("inject/config.json"))
+  function restartPromptMessage() {
+    return isCursor() ? localize("restartIdeCursor") : localize("restartIde");
+  }
+
+  function enabledMessage() {
+    return isCursor() ? localize("enabledCursor") : localize("enabled");
+  }
+
+  function appliedMessage() {
+    return isCursor() ? localize("appliedCursor") : localize("applied");
+  }
+
+  async function updateConfiguration() {
+    const configPath = context.asAbsolutePath("inject/config.json");
+    const fgtSettings = JSON.parse(
+      JSON.stringify(
+        workspace.getConfiguration().get<Record<string, unknown>>(
+          "frosted-glass-theme"
+        ) ?? {}
+      )
+    ) as Record<string, any>;
+
+    const fakeMica = fgtSettings.fakeMica as
+      | { enabled?: boolean; url?: string }
+      | undefined;
+    if (fakeMica?.enabled && fakeMica.url) {
+      fakeMica.url = await resolveFakeMicaUrlForInject(
+        fakeMica.url,
+        context.asAbsolutePath("inject")
+      );
+    }
+    applyCursorMicaInjectDefaults(fgtSettings);
+
+    let schema = "./config.schema.json";
+    try {
+      const existing = JSON.parse(await readFile(configPath, "utf-8")) as {
+        $schema?: string;
+      };
+      if (existing.$schema) schema = existing.$schema;
+    } catch {
+      // use default schema path
+    }
+
+    new File(configPath)
       .editor()
       .replaceAll(
         JSON.stringify(
-          workspace.getConfiguration().get("frosted-glass-theme"),
+          {
+            $schema: schema,
+            ...fgtSettings,
+            runtime: { host: getHostId() },
+          },
           null,
           2
         )
@@ -95,13 +144,11 @@ export function activate(context: ExtensionContext) {
         if (context.globalState.get<boolean>("firstTimeSetup", true)) {
           await commands.executeCommand("frosted-glass-theme.setup");
           context.globalState.update("firstTimeSetup", false);
-        } else updateConfiguration();
+        } else await updateConfiguration();
         await injection.inject();
         context.globalState.update("injected", true);
-        if (
-          await showChoiceMessage(localize("enabled"), localize("restartIde"))
-        )
-          reloadWindow();
+        if (await showChoiceMessage(enabledMessage(), restartPromptMessage()))
+          restartHost();
       } catch (e: any) {
         console.error(e);
         window.showErrorMessage(localize("somethingWrong", e));
@@ -116,9 +163,9 @@ export function activate(context: ExtensionContext) {
         await injection.restore();
         context.globalState.update("injected", false);
         if (
-          await showChoiceMessage(localize("disabled"), localize("restartIde"))
+          await showChoiceMessage(localize("disabled"), restartPromptMessage())
         )
-          reloadWindow();
+          restartHost();
       } catch (e: any) {
         console.error(e);
         window.showErrorMessage(localize("somethingWrong", e));
@@ -130,11 +177,11 @@ export function activate(context: ExtensionContext) {
     "frosted-glass-theme.applyConfig",
     async () => {
       try {
-        updateConfiguration();
+        await updateConfiguration();
         if (
-          await showChoiceMessage(localize("applied"), localize("restartIde"))
+          await showChoiceMessage(appliedMessage(), restartPromptMessage())
         )
-          reloadWindow();
+          restartHost();
       } catch (e: any) {
         console.error(e);
         window.showErrorMessage(localize("somethingWrong", e));
@@ -146,7 +193,7 @@ export function activate(context: ExtensionContext) {
     "frosted-glass-theme.setup",
     async () => {
       blockConfigChangedMsg = true;
-      if (await setupFunc()) updateConfiguration();
+      if (await setupFunc(context)) await updateConfiguration();
       blockConfigChangedMsg = false;
     }
   );
