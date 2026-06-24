@@ -1,42 +1,38 @@
 import config from "../config/config.json" with { type: "json" };
+import { resolveFakeMicaBackgroundUrl } from "./utils/fakeMicaUrl";
 import { css } from "./utils/utils";
 import fgtSheet from "./vscode-frosted-glass-theme.css" with { type: "css" };
 
 const { fakeMica } = config;
+const MICA_LAYER_CLASS = "fgt-mica-layer";
 
 if (fakeMica.enabled) {
   fgtSheet.insertRule(css`
     .fgt-mica-svg-loaded {
+      position: relative;
       --fgt-mica-x: center;
       --fgt-mica-y: center;
     }
   `);
 
   fgtSheet.insertRule(css`
-    .fgt-mica-svg-loaded::before {
-      content: "";
-      display: block;
+    .${MICA_LAYER_CLASS} {
       position: absolute;
-      top: 0px;
-      left: 0px;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
-      filter: ${fakeMica.filter};
-      background-image: url("vscode-file://vscode-app/${fakeMica.url}");
-      background-size: ${screen.width}px ${screen.height}px;
-      background-repeat: no-repeat;
-      background-position: var(--fgt-mica-x) var(--fgt-mica-y);
+      pointer-events: none;
+      z-index: 0;
     }
   `);
 
-  // Fix list background
   fgtSheet.insertRule(css`
     .monaco-list-rows {
       background-color: transparent !important;
     }
   `);
 
-  // Fix settings row background
   fgtSheet.insertRule(css`
     .settings-body .monaco-list-row {
       background-color: transparent !important;
@@ -69,8 +65,6 @@ if (fakeMica.enabled) {
         background-color: var(--vscode-editor-background);
       }
     `);
-    // VSCode puts a top margin so that there will be a gap on the top.
-    // Fix it by replacing with padding.
     fgtSheet.insertRule(css`
       .profiles-editor {
         margin: 0 auto 0 !important;
@@ -92,23 +86,51 @@ function getMicaY(win: Window) {
     : "center";
 }
 
+async function loadMicaBackgroundUrl(url: string): Promise<string> {
+  const resolved = resolveFakeMicaBackgroundUrl(url);
+  if (resolved.startsWith("data:")) return resolved;
+  try {
+    const response = await fetch(resolved);
+    if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
+    return URL.createObjectURL(await response.blob());
+  } catch {
+    return resolved;
+  }
+}
+
 export async function applyFakeMica(
   element: HTMLElement,
   svgMounted: Promise<void>
 ) {
-  if (fakeMica.enabled) {
-    await svgMounted;
-    element.classList.add("fgt-mica-svg-loaded");
-    if (fakeMica.moveWithWindow) {
-      const win = element.ownerDocument.defaultView;
-      if (win) {
-        const updateMica = () => {
-          element.style.setProperty("--fgt-mica-x", getMicaX(win));
-          element.style.setProperty("--fgt-mica-y", getMicaY(win));
-        };
-        updateMica();
-        win.vscode.ipcRenderer.on("vscode:update-mica", updateMica);
-      }
+  if (!fakeMica.enabled) return;
+
+  await svgMounted;
+
+  let layer = element.querySelector<HTMLElement>(`.${MICA_LAYER_CLASS}`);
+  if (!layer) {
+    layer = document.createElement("div");
+    layer.className = MICA_LAYER_CLASS;
+    element.prepend(layer);
+  }
+
+  const backgroundUrl = await loadMicaBackgroundUrl(fakeMica.url);
+  layer.style.filter = fakeMica.filter;
+  layer.style.backgroundImage = `url("${backgroundUrl}")`;
+  layer.style.backgroundSize = `${screen.width}px ${screen.height}px`;
+  layer.style.backgroundRepeat = "no-repeat";
+  layer.style.backgroundPosition = `var(--fgt-mica-x) var(--fgt-mica-y)`;
+
+  element.classList.add("fgt-mica-svg-loaded");
+
+  if (fakeMica.moveWithWindow) {
+    const win = element.ownerDocument.defaultView;
+    if (win) {
+      const updateMica = () => {
+        element.style.setProperty("--fgt-mica-x", getMicaX(win));
+        element.style.setProperty("--fgt-mica-y", getMicaY(win));
+      };
+      updateMica();
+      win.vscode.ipcRenderer.on("vscode:update-mica", updateMica);
     }
   }
 }
