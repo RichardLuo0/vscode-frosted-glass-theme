@@ -5,6 +5,7 @@
   "admin": "Run VS Code with admin privileges so the changes can be applied.",
   "enabled": "Frosted glass theme enabled. Restart to take effect. If Code complains about it is corrupted, CLICK DON'T SHOW AGAIN. See README for more detail.",
   "applied": "Changes have been applied. Restart to take effect. If it doesn't work, try restarting manually. See README for more detail.",
+  "appliedCursor": "Changes have been applied. Fully quit & reload to take effect. If it doesn't work, see README for more detail.",
   "configChanged": "Detected config change. Click this button to apply.",
   "disabled": "Frosted glass theme disabled and reverted to default. Restart to take effect.",
   "reenableAfterUpdated": "Frosted glass theme updated. Re-enabling...",
@@ -17,6 +18,9 @@
   "setup.inputWallpaper": "Wallpaper file path",
   "setup.chooseThemeMod": "Choose a theme modification for mica effect to pass through",
   "setup.chooseThemeModPlaceHolder": "If nothing is selected, you need to modify `colorCustomizations` yourself.",
+  "setup.chooseThemeModPlaceHolderCursor": "Choose the Cursor theme mod from theme/cursor.",
   "setup.complete": "Setup complete.",
+  "restartIdeCursor": "Restart Cursor",
+  "enabledCursor": "Frosted glass theme enabled. Fully quit & reload to take effect.",
   "generateThemeMod.opacity": "Opacity"
 }
