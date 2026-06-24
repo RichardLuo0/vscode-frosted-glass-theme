@@ -9,6 +9,7 @@ if (config.fakeMica.enabled && config.fakeMica.moveWithWindow) {
     };
 
     win.on("move", updateMica);
+    win.on("moved", updateMica);
     win.on("unmaximize", updateMica);
   });
 
