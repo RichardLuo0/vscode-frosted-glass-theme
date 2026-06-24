@@ -187,7 +187,12 @@
             "items": {
               "type": "string"
             },
-            "default": []
+            "default": [
+              "./cursor-chat.css",
+              "./cursor-agent-sidebar.css",
+              "./cursor-sidebar-iconbar.css",
+              "./cursor-hide-corrupt-notification.css"
+            ]
           },
           "frosted-glass-theme.animation": {
             "type": "object",

@@ -31,7 +31,12 @@
     "fgt-mica-filter": "brightness(30%)",
     "fgt-revealEffect-lightColor": "#ffffff14"
   },
-  "additionalStyle": [],
+  "additionalStyle": [
+    "./cursor-chat.css",
+    "./cursor-agent-sidebar.css",
+    "./cursor-sidebar-iconbar.css",
+    "./cursor-hide-corrupt-notification.css"
+  ],
   "opacity": {
     "selection": 1,
     "border": 0.4,
