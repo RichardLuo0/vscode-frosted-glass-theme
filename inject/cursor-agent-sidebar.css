@@ -1,0 +1,28 @@
+/*
+ * Indiviually targets the agent sidebar: header, body, footer.
+ * Uses the same backdrop as cursor-chat.css (--fgt-cursor-chat-pane-bg).
+ */
+
+.monaco-workbench .part.unifiedsidebar .agent-sidebar-header,
+.monaco-workbench .part.unifiedsidebar .agent-sidebar-footer {
+  background-color: var(--fgt-cursor-chat-pane-bg) !important;
+}
+
+.monaco-workbench .part.unifiedsidebar .agent-sidebar-body,
+.monaco-workbench
+  .part.unifiedsidebar
+  .agent-sidebar-body
+  > div
+  > div
+  > div:nth-child(1)
+  > div {
+  background-color: var(--fgt-cursor-chat-pane-bg) !important;
+}
+
+/* Strip sideBar.background bleed from wrappers (chat does the same for its shells) */
+.monaco-workbench .part.unifiedsidebar,
+.monaco-workbench .part.unifiedsidebar > div,
+.monaco-workbench .part.unifiedsidebar .agent-sidebar-body > div,
+.monaco-workbench .part.unifiedsidebar .agent-sidebar-body > div > div {
+  background-color: transparent !important;
+}
