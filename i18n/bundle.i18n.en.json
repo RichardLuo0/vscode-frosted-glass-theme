@@ -22,5 +22,6 @@
   "setup.complete": "Setup complete.",
   "restartIdeCursor": "Restart Cursor",
   "enabledCursor": "Frosted glass theme enabled. Fully quit & reload to take effect.",
-  "generateThemeMod.opacity": "Opacity"
+  "generateThemeMod.opacity": "Opacity",
+  "generateThemeMod.themeNotFound": "Could not read the active color theme. Try a theme installed from an extension, or add workbench colors manually."
 }
