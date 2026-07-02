@@ -32,10 +32,7 @@
     "fgt-revealEffect-lightColor": "#ffffff14"
   },
   "additionalStyle": [
-    "./cursor-chat.css",
-    "./cursor-agent-sidebar.css",
-    "./cursor-sidebar-iconbar.css",
-    "./cursor-hide-corrupt-notification.css"
+    "./cursor-targeted-overrides.css"
   ],
   "opacity": {
     "selection": 1,
@@ -100,5 +97,23 @@
   "miscellaneous": {
     "progressBarBehindSectionHeader": false,
     "disableFocusOutline": false
+  },
+  "cursorAdditionalStyle": {
+    "generalMenuBlur": "8px",
+    "quickInputBlur": "8px",
+    "notificationsBlur": "6px",
+    "wordSearchBarBlur": "4px"
+  },
+  "cursor": {
+    "chatPaneBackground": "#11111133",
+    "agentSidebarBackground": "#1f1f1f0D",
+    "sidebarIconBarBackground": "#1f1f1f4d",
+    "sentMessageBubbleBackground": "#00000000",
+    "sentMessageBubbleBlur": "8px",
+    "slashMenuBlur": "8px",
+    "mentionMenuBlur": "8px",
+    "modePickerMenuBlur": "6px",
+    "modelPickerMenuBlur": "6px",
+    "chatRightClickMenuBlur": "4px"
   }
 }

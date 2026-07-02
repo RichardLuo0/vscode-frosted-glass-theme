@@ -20,6 +20,10 @@
             },
             "opacity": {
               "type": "number"
+            },
+            "acrylicBlur": {
+              "type": "number",
+              "description": "Inject runtime: feGaussianBlur stdDeviation for this surface's acrylic SVG (set from cursor.additional.style *Blur on Apply Config)."
             }
           }
         }
@@ -229,6 +233,82 @@
         "disableFocusOutline": {
           "type": "boolean",
           "description": "Remove outline from focused elements."
+        }
+      }
+    },
+    "cursorAdditionalStyle": {
+      "type": "object",
+      "description": "Cursor only. Editable acrylic blur for menubar menus, quick input, notifications, and find bar (Apply Config wires filter.*).",
+      "properties": {
+        "generalMenuBlur": {
+          "type": "string",
+          "description": "Acrylic blur for filter.menu: menubar dropdowns and editor/sidebar context menus (e.g. 12px). Color: menu.background."
+        },
+        "quickInputBlur": {
+          "type": "string",
+          "description": "Acrylic blur on command palette, file search, and remote window picker via filter.quickInput (e.g. 12px). Color: quickInput.background."
+        },
+        "notificationsBlur": {
+          "type": "string",
+          "description": "Acrylic blur for notification toasts, notification center, and list via filter.notifications and filter.notificationToast (e.g. 12px). Color: notifications.background."
+        },
+        "wordSearchBarBlur": {
+          "type": "string",
+          "description": "Acrylic blur on the editor find bar (Ctrl+F) via filter.listFilterWidget (e.g. 12px). Not a workbench.colorCustomizations key."
+        }
+      }
+    },
+    "cursor": {
+      "type": "object",
+      "description": "Cursor only. Panel backgrounds (#RRGGBBAA hex) and backdrop blur for agent chat surfaces.",
+      "properties": {
+        "chatPaneBackground": {
+          "type": "string",
+          "description": "Chat / composer panel background."
+        },
+        "agentSidebarBackground": {
+          "type": "string",
+          "description": "Agent sidebar panel background."
+        },
+        "sidebarIconBarBackground": {
+          "type": "string",
+          "description": "Sidebar icon bar background."
+        },
+        "sentMessageBubbleBackground": {
+          "type": "string",
+          "description": "Background on past sent user message bubbles (#RRGGBBAA hex). Composer input uses input.background."
+        },
+        "sentMessageBubbleBlur": {
+          "type": "string",
+          "description": "Backdrop blur on past sent user message bubbles (e.g. 8px)."
+        },
+        "slashMenuBlur": {
+          "type": "string",
+          "description": "Backdrop blur on the / slash command menu (e.g. 12px). Color and opacity use workbench.colorCustomizations dropdown.background (save)."
+        },
+        "mentionMenuBlur": {
+          "type": "string",
+          "description": "Backdrop blur on the @ mention menu and its side preview flyout (e.g. 12px). Color and opacity use workbench.colorCustomizations dropdown.background (save)."
+        },
+        "composerModeMenuBlur": {
+          "type": "string",
+          "description": "Deprecated. Use modePickerMenuBlur."
+        },
+        "modePickerMenuBlur": {
+          "type": "string",
+          "description": "Backdrop blur on the composer agent/mode picker popup (Agent, Plan, Debug, …). Color uses dropdown.background."
+        },
+        "modelPickerMenuBlur": {
+          "type": "string",
+          "description": "Backdrop blur on the composer model picker popup (e.g. 12px). Color uses dropdown.background."
+        },
+        "chatContextMenuBlur": {
+          "type": "string",
+          "description": "Deprecated. Use chatRightClickMenuBlur."
+        },
+        "chatRightClickMenuBlur": {
+          "type": "string",
+          "description": "Cursor only. Backdrop blur for agent chat message right-click (portaled context-view; not covered by filter.menu). Color: menu.background. Editor/sidebar menus use generalMenuBlur."
         }
       }
     }
