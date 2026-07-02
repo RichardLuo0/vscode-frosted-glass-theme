@@ -4,7 +4,7 @@ import { resolve } from "path";
 import { commands, ExtensionContext, Uri, window, workspace } from "vscode";
 import { resolveFakeMicaUrlForInject } from "./fakeMicaUrl";
 import { generateThemeMod as generateThemeModFunc } from "./generateThemeMod";
-import { applyCursorMicaInjectDefaults, getHostId, isCursor } from "./host";
+import { applyCursorInjectDefaults, getHostId, isCursor } from "./host";
 import { localize } from "./localization";
 import { setup as setupFunc } from "./setup";
 import ThemeInjection from "./ThemeInjection";
@@ -92,11 +92,12 @@ export function activate(context: ExtensionContext) {
 
   async function updateConfiguration() {
     const configPath = context.asAbsolutePath("inject/config.json");
+    const fgtConfig = workspace.getConfiguration("frosted-glass-theme");
     const fgtSettings = JSON.parse(
       JSON.stringify(
-        workspace.getConfiguration().get<Record<string, unknown>>(
-          "frosted-glass-theme"
-        ) ?? {}
+        workspace
+          .getConfiguration()
+          .get<Record<string, unknown>>("frosted-glass-theme") ?? {}
       )
     ) as Record<string, any>;
 
@@ -109,7 +110,7 @@ export function activate(context: ExtensionContext) {
         context.asAbsolutePath("inject")
       );
     }
-    applyCursorMicaInjectDefaults(fgtSettings);
+    applyCursorInjectDefaults(fgtSettings, fgtConfig);
 
     let schema = "./config.schema.json";
     try {
@@ -198,16 +199,30 @@ export function activate(context: ExtensionContext) {
     }
   );
 
-  const openCSS = commands.registerCommand("frosted-glass-theme.openCSS", () =>
-    workspace
-      .openTextDocument(
-        Uri.joinPath(
-          context.extensionUri,
-          "inject/vscode-frosted-glass-theme.css"
-        )
-      )
-      .then(window.showTextDocument)
-  );
+  const openCSS = commands.registerCommand("frosted-glass-theme.openCSS", async () => {
+    const cssPath = isCursor()
+      ? (
+          await window.showQuickPick(
+            [
+              {
+                label: "Cursor targeted overrides",
+                description: "Panel backgrounds, chat menus, quit dialog",
+                path: "inject/cursor-targeted-overrides.css",
+              },
+              {
+                label: "Shared inject styles",
+                description: "Notifications, menus, and shared frosted surfaces",
+                path: "src-inject/vscode-frosted-glass-theme.css",
+              },
+            ],
+            { title: "Frosted Glass Theme: Open CSS" }
+          )
+        )?.path ?? "inject/cursor-targeted-overrides.css"
+      : "inject/vscode-frosted-glass-theme.css";
+    return workspace
+      .openTextDocument(Uri.joinPath(context.extensionUri, cssPath))
+      .then(window.showTextDocument);
+  });
 
   const openConfig = commands.registerCommand(
     "frosted-glass-theme.openConfig",

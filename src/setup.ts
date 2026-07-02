@@ -7,18 +7,51 @@ import {
   workspace,
   WorkspaceConfiguration,
 } from "vscode";
-import { isCursor } from "./host";
+import { isCursor, applyCursorSettingsDefaults } from "./host";
 import { localize } from "./localization";
 import { AbsolutePath, listFilesInDir } from "./utils";
 
-function applyThemeMod(
+async function applyThemeMod(
   fgtConfig: WorkspaceConfiguration,
-  themeMod: { [key: string]: any }
+  themeMod: { [key: string]: unknown }
 ) {
   const prefix = "frosted-glass-theme.";
   for (const key in themeMod) {
-    if (key.startsWith(prefix))
-      fgtConfig.update(key.substring(prefix.length), themeMod[key], true);
+    if (!key.startsWith(prefix)) continue;
+    const settingKey = key.substring(prefix.length);
+    const value = themeMod[key];
+
+    if (
+      settingKey === "cursor.additional.style" &&
+      value &&
+      typeof value === "object" &&
+      !Array.isArray(value)
+    ) {
+      await fgtConfig.update(settingKey, value, true);
+      continue;
+    }
+
+    if (
+      settingKey === "cursor.targetted.overrides" &&
+      value &&
+      typeof value === "object" &&
+      !Array.isArray(value)
+    ) {
+      await fgtConfig.update(settingKey, value, true);
+      continue;
+    }
+
+    if (
+      settingKey === "cursor" &&
+      value &&
+      typeof value === "object" &&
+      !Array.isArray(value)
+    ) {
+      await fgtConfig.update(settingKey, value, true);
+      continue;
+    }
+
+    await fgtConfig.update(settingKey, value, true);
   }
   const colorCustomizationsMod = themeMod["workbench.colorCustomizations"];
   const workbench = workspace.getConfiguration("workbench");
@@ -32,7 +65,7 @@ function applyThemeMod(
         if (key.startsWith("[")) delete merged[key];
       }
     }
-    workbench.update("colorCustomizations", merged, true);
+    await workbench.update("colorCustomizations", merged, true);
   }
 }
 
@@ -89,14 +122,12 @@ async function chooseWallpaper(fgtConfig: WorkspaceConfiguration) {
   const url =
     wallpaper?._path ??
     (await window.showInputBox({ title: localize("setup.inputWallpaper") }));
-  if (url) fgtConfig.update("fakeMica.url", url, true);
+  if (url) await fgtConfig.update("fakeMica.url", url, true);
 }
 
 async function loadLocalThemeMods(context: ExtensionContext) {
   type ThemeModItem = QuickPickItem & { _path?: string };
-  const themeDirs = isCursor()
-    ? ["theme/cursor", "theme"]
-    : ["theme"];
+  const themeDirs = isCursor() ? ["theme/cursor"] : ["theme"];
   const items: ThemeModItem[] = [];
 
   for (const themeDir of themeDirs) {
@@ -105,9 +136,7 @@ async function loadLocalThemeMods(context: ExtensionContext) {
       const files = await listFilesInDir(absDir);
       for (const file of files.filter(f => f.name.endsWith(".json"))) {
         items.push({
-          label: isCursor() && themeDir.includes("cursor")
-            ? `${file.name} (Cursor)`
-            : file.name,
+          label: file.name,
           detail: file.absPath,
           _path: file.absPath,
         });
@@ -163,15 +192,19 @@ async function chooseThemeMod(
       canPickMany: true,
     }
   );
-  themeModItems?.forEach(async themeModItem => {
-    if (!themeModItem._path) return;
-    const themeMod = themeModItem._path.startsWith("http")
-      ? ((await (await fetch(themeModItem._path)).json()) as {
-          [key: string]: any;
-        })
-      : JSON.parse(await readFile(themeModItem._path, "utf-8"));
-    applyThemeMod(fgtConfig, themeMod);
-  });
+  if (!themeModItems?.length) return;
+
+  await Promise.all(
+    themeModItems.map(async themeModItem => {
+      if (!themeModItem._path) return;
+      const themeMod = themeModItem._path.startsWith("http")
+        ? ((await (await fetch(themeModItem._path)).json()) as {
+            [key: string]: unknown;
+          })
+        : JSON.parse(await readFile(themeModItem._path, "utf-8"));
+      await applyThemeMod(fgtConfig, themeMod);
+    })
+  );
 }
 
 export async function setup(context: ExtensionContext) {
@@ -181,8 +214,9 @@ export async function setup(context: ExtensionContext) {
   });
   if (select != localize("yes")) return false;
 
-  fgtConfig.update("fakeMica.enabled", true, true);
+  await fgtConfig.update("fakeMica.enabled", true, true);
   await chooseWallpaper(fgtConfig);
+  if (isCursor()) await applyCursorSettingsDefaults(fgtConfig);
   await chooseThemeMod(fgtConfig, context);
 
   window.showInformationMessage(localize("setup.complete"));

@@ -1,14 +1,56 @@
 import { commands, window, workspace } from "vscode";
+import { isCursor } from "./host";
 import { localize } from "./localization";
+import { resolveActiveThemeColors } from "./themeColors";
+
+const cursorColorIds = [
+  "activityBar.foreground",
+  "activityBar.inactiveForeground",
+  "activityBar.activeBorder",
+  "activityBar.border",
+  "commandCenter.foreground",
+  "commandCenter.border",
+  "commandCenter.activeBorder",
+  "editor.lineHighlightBorder",
+  "editorGroup.border",
+  "menu.selectionForeground",
+  "menu.border",
+  "sideBar.foreground",
+  "sideBar.border",
+  "sideBarSectionHeader.foreground",
+  "list.focusBackground",
+  "statusBar.border",
+  "statusBarItem.remoteForeground",
+  "tree.tableOddRowsBackground",
+];
+
+const cursorOpacityColorIds = [
+  "titleBar.activeBackground",
+  "titleBar.inactiveBackground",
+  "commandCenter.background",
+  "commandCenter.activeBackground",
+  "menubar.selectionBackground",
+  "quickInputList.focusBackground",
+  "statusBarItem.hoverBackground",
+  "scrollbarSlider.background",
+  "scrollbarSlider.hoverBackground",
+];
 
 async function getActiveColorTheme() {
+  if (isCursor()) {
+    const colors = await resolveActiveThemeColors();
+    if (!colors) {
+      window.showErrorMessage(localize("generateThemeMod.themeNotFound"));
+      return;
+    }
+    return { colors };
+  }
+
   await commands.executeCommand("workbench.action.generateColorTheme");
 
   const editor = window.activeTextEditor;
   if (!editor) return;
 
-  // Uncomment lines that are commented so that if we are missing values, we will get the
-  // defaults instead
   const themeText = editor.document.getText().replace(/\/\//g, "");
 
   return JSON.parse(themeText) as {
@@ -23,6 +65,8 @@ async function modifyTheme(colors: Record<string, string | undefined>) {
     "dropdown.background",
     "dropdown.border",
     "editor.background",
+    "editor.selectionBackground",
+    "editor.inactiveSelectionBackground",
     "editor.lineHighlightBackground",
     "editorGroupHeader.tabsBackground",
     "input.background",
@@ -31,6 +75,7 @@ async function modifyTheme(colors: Record<string, string | undefined>) {
     "list.inactiveSelectionBackground",
     "menu.background",
     "panel.background",
+    "quickInput.background",
     "sideBar.background",
     "sideBarSectionHeader.background",
     "sideBarStickyScroll.background",
@@ -40,6 +85,8 @@ async function modifyTheme(colors: Record<string, string | undefined>) {
     "tab.activeBorder",
     "welcomePage.tileBackground",
     "welcomePage.tileHoverBackground",
+    "peekViewTitle.background",
+    "peekViewResult.background",
     // They are for canvas background color
     "editorOverviewRuler.background",
     "minimap.background",
@@ -49,6 +96,9 @@ async function modifyTheme(colors: Record<string, string | undefined>) {
     "breadcrumb.background",
     "editorGutter.background",
     "editorPane.background",
+    "editorStickyScroll.background",
+    "editorStickyScroll.border",
+    "multiDiffEditor.background",
     "multiDiffEditor.headerBackground",
     "notebook.cellEditorBackground",
     "settings.focusedRowBackground",
@@ -56,9 +106,16 @@ async function modifyTheme(colors: Record<string, string | undefined>) {
     "tab.border",
     "tab.inactiveBackground",
     "terminal.background",
-    // Due to a bug which causes text to be overlapped
     "terminalStickyScroll.background",
+    "terminalStickyScroll.border",
+    "list.hoverBackground",
   ];
+
+  const fixedLowAlphaColors: Record<string, string> = {
+    "editorStickyScrollHover.background": "#0000002c",
+    "terminalStickyScrollHover.background": "#0000002c",
+    "statusBarItem.remoteHoverBackground": "#5c5c5c00",
+  };
 
   const opacity = parseFloat(
     (await window.showInputBox({
@@ -68,13 +125,18 @@ async function modifyTheme(colors: Record<string, string | undefined>) {
   );
   const alpha = Math.round(opacity * 255).toString(16);
 
+  const colorIdList = isCursor()
+    ? [...colorIds, ...cursorOpacityColorIds, ...cursorColorIds]
+    : colorIds;
+
   const newColors: Record<string, string> = {};
-  for (const id of colorIds) {
+  for (const id of colorIdList) {
     const color = colors[id];
     if (!color) continue;
     newColors[id] = color.length === 7 ? color + alpha : color;
   }
   for (const id of transparentColorIds) newColors[id] = "#00000000";
+  Object.assign(newColors, fixedLowAlphaColors);
 
   return newColors;
 }
@@ -83,9 +145,24 @@ export async function generateThemeMod() {
   const theme = await getActiveColorTheme();
   if (!theme) return;
 
+  const colors = await modifyTheme(theme.colors);
+
+  if (isCursor()) {
+    const doc = await workspace.openTextDocument({
+      content: JSON.stringify(
+        { "workbench.colorCustomizations": colors },
+        null,
+        2
+      ),
+      language: "json",
+    });
+    await window.showTextDocument(doc);
+    return;
+  }
+
   workspace
     .openTextDocument({
-      content: JSON.stringify(await modifyTheme(theme.colors), null, 2),
+      content: JSON.stringify(colors, null, 2),
       language: "json",
     })
     .then(window.showTextDocument);
