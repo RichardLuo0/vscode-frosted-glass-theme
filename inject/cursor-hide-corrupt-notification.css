@@ -1,5 +1,0 @@
-/*
- * Hide Cursor's "installation appears to be corrupt" notification.
- * DOM removal is handled in hideCorruptNotification.ts (inject JS) — CSS alone
- * cannot collapse the ghost bar when other notifications appear.
- */

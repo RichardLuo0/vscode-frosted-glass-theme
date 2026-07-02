@@ -1,0 +1,327 @@
+/*
+ * Cursor-only UI overrides (panels, chat menus, quit dialog).
+ * Loaded via frosted-glass-theme.additionalStyle when runtime.host is cursor.
+ * Blur keys: frosted-glass-theme.cursor.targetted.overrides.* (Apply Config + full quit).
+ * Colors: workbench.colorCustomizations or cursor.*Background hex keys.
+ */
+
+/* --- notifications (toast / center layering; notificationsBlur in cursor.additional.style) --- */
+
+.notification-toast,
+.notification-toast-container,
+.notifications-center,
+.notifications-list-container,
+.notifications-toasts {
+  contain: none !important;
+  isolation: auto !important;
+}
+
+.notifications-toasts,
+.notification-toast-container {
+  background-color: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+  overflow: hidden !important;
+  border-radius: 4px !important;
+}
+
+.notification-toast {
+  overflow: hidden !important;
+  border-radius: 4px !important;
+  box-shadow: none !important;
+  backdrop-filter: blur(var(--fgt-notifications-blur, 4px)) !important;
+  -webkit-backdrop-filter: blur(var(--fgt-notifications-blur, 4px)) !important;
+  background-color: var(--vscode-notifications-background) !important;
+}
+
+.notification-toast-container,
+.notifications-center {
+  background-color: transparent !important;
+  transition: var(--fgt-transition);
+}
+
+.notifications-list-container .monaco-list-rows,
+.notifications-list-container .monaco-list-row,
+.notification-toast .monaco-list-rows,
+.notification-toast .monaco-list-row,
+.notification-toast-container .monaco-list-rows,
+.notification-toast-container .monaco-list-row {
+  background-color: transparent !important;
+}
+
+/* --- hide corrupt notification (DOM handled in cursor-targeted-overrides.ts) --- */
+
+/* --- chat pane --- */
+/* chatPaneBackground */
+
+.monaco-workbench
+  .part.auxiliarybar
+  .embedded-aux-bar-editor-container
+  .editor-container
+  > div
+  > div
+  > div {
+  background-color: var(--fgt-cursor-chat-pane-background) !important;
+}
+
+.monaco-workbench .part.auxiliarybar .composer-bar.editor {
+  --composer-pane-background: var(--fgt-cursor-chat-pane-background) !important;
+}
+
+.monaco-workbench .part.auxiliarybar .embedded-aux-bar-editor-container,
+.monaco-workbench .part.auxiliarybar .editor-container {
+  background-color: transparent !important;
+}
+
+/* --- agent sidebar --- */
+/* agentSidebarBackground */
+
+.monaco-workbench .part.unifiedsidebar .agent-sidebar-header,
+.monaco-workbench .part.unifiedsidebar .agent-sidebar-footer {
+  background-color: var(--fgt-cursor-agent-sidebar-background) !important;
+}
+
+.monaco-workbench .part.unifiedsidebar .agent-sidebar-body,
+.monaco-workbench
+  .part.unifiedsidebar
+  .agent-sidebar-body
+  > div
+  > div
+  > div:nth-child(1)
+  > div {
+  background-color: var(--fgt-cursor-agent-sidebar-background) !important;
+}
+
+.monaco-workbench .part.unifiedsidebar,
+.monaco-workbench .part.unifiedsidebar > div,
+.monaco-workbench .part.unifiedsidebar .agent-sidebar-body > div,
+.monaco-workbench .part.unifiedsidebar .agent-sidebar-body > div > div {
+  background-color: transparent !important;
+}
+
+/* --- sidebar icon bar --- */
+/* sidebarIconBarBackground */
+
+.monaco-workbench .part.sidebar > div > div > div:nth-child(1) > div > div {
+  background-color: var(--fgt-cursor-sidebar-iconbar-background) !important;
+}
+
+.monaco-workbench .part.sidebar > div > div > div:nth-child(1),
+.monaco-workbench .part.sidebar > div > div > div:nth-child(1) > div {
+  background-color: transparent !important;
+}
+
+/* --- sent message bubbles (past user messages only) --- */
+/* sentMessageBubbleBackground; sentMessageBubbleBlur */
+
+/* collapsed */
+.monaco-workbench
+  .part.auxiliarybar
+  .composer-human-message:has(
+    .aislash-editor-input-readonly[contenteditable="false"]
+  ) {
+  contain: none !important;
+  background: var(--fgt-cursor-sent-message-bubble-background, #00000000) !important;
+  background-color: var(--fgt-cursor-sent-message-bubble-background, #00000000) !important;
+  backdrop-filter: blur(var(--fgt-cursor-sent-message-bubble-blur, 8px));
+  -webkit-backdrop-filter: blur(var(--fgt-cursor-sent-message-bubble-blur, 8px));
+}
+
+/* expanded (paint moves to .ai-input-full-input-box inside message rows) */
+.monaco-workbench
+  .part.auxiliarybar
+  [id^="bubble-"]
+  .composer-human-message-container
+  .ai-input-full-input-box.full-input-box {
+  contain: none !important;
+  background: var(--fgt-cursor-sent-message-bubble-background, #00000000) !important;
+  background-color: var(--fgt-cursor-sent-message-bubble-background, #00000000) !important;
+  backdrop-filter: blur(var(--fgt-cursor-sent-message-bubble-blur, 8px));
+  -webkit-backdrop-filter: blur(var(--fgt-cursor-sent-message-bubble-blur, 8px));
+}
+
+/* --- @ mention menu --- */
+/* mentionMenuBlur; color: dropdown.background */
+
+.typeahead-popover.mentions-menu > div > div[tabindex="0"],
+.typeahead-popover.mentions-menu
+  .flex.flex-col.relative
+  > div:first-child:not([tabindex="0"]) {
+  backdrop-filter: blur(var(--fgt-cursor-mention-menu-blur, 12px));
+  -webkit-backdrop-filter: blur(var(--fgt-cursor-mention-menu-blur, 12px));
+}
+
+.typeahead-popover.mentions-menu
+  .flex.flex-col.relative
+  > div:first-child:not([tabindex="0"]) {
+  background: var(--vscode-dropdown-background) !important;
+  background-color: var(--vscode-dropdown-background) !important;
+}
+
+/* --- mode picker --- */
+/* modePickerMenuBlur; color: dropdown.background */
+
+div[tabindex="0"]:has(.composer-unified-context-menu-item) {
+  contain: none !important;
+  backdrop-filter: blur(var(--fgt-cursor-mode-picker-menu-blur, 12px));
+  -webkit-backdrop-filter: blur(var(--fgt-cursor-mode-picker-menu-blur, 12px));
+}
+
+/* --- model picker --- */
+/* modelPickerMenuBlur; color: dropdown.background */
+
+div[data-testid="model-picker-menu"] {
+  contain: none !important;
+  isolation: auto !important;
+  backdrop-filter: blur(var(--fgt-cursor-model-picker-menu-blur, 12px));
+  -webkit-backdrop-filter: blur(var(--fgt-cursor-model-picker-menu-blur, 12px));
+  background: var(--vscode-dropdown-background) !important;
+  background-color: var(--vscode-dropdown-background) !important;
+}
+
+div[data-testid="model-picker-menu"] .ui-scroll-area__content {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* --- agent chat right-click (bubble, selection, file mention; dev-tools: .monaco-action-bar) --- */
+/* chatRightClickMenuBlur; color: menu.background; scoped via unique menu item aria-labels */
+
+.context-view.monaco-menu-container:has(
+    .action-label[aria-label="Copy Message"]
+  ),
+.context-view.monaco-menu-container:has(
+    .action-label[aria-label="Search with Google"]
+  ),
+.context-view.monaco-menu-container:has(
+    .action-label[aria-label="Add to Chat"]
+  ),
+.context-view.monaco-menu-container:has(
+    .action-label[aria-label="Copy"]
+  ):has(.action-label[aria-label="Select All"]):not(
+    :has(.action-label[aria-label="Cut"])
+  ):not(:has(.action-label[aria-label="Copy Message"])):not(
+    :has(.action-label[aria-label="Search with Google"])
+  ):not(:has(.action-label[aria-label="Add to Chat"])) {
+  contain: none !important;
+  isolation: auto !important;
+}
+
+.context-view.monaco-menu-container:has(
+    .action-label[aria-label="Copy Message"]
+  )
+  .monaco-action-bar,
+.context-view.monaco-menu-container:has(
+    .action-label[aria-label="Copy Message"]
+  )
+  .monaco-menu
+  > div,
+.context-view.monaco-menu-container:has(
+    .action-label[aria-label="Search with Google"]
+  )
+  .monaco-action-bar,
+.context-view.monaco-menu-container:has(
+    .action-label[aria-label="Search with Google"]
+  )
+  .monaco-menu
+  > div,
+.context-view.monaco-menu-container:has(
+    .action-label[aria-label="Add to Chat"]
+  )
+  .monaco-action-bar,
+.context-view.monaco-menu-container:has(
+    .action-label[aria-label="Add to Chat"]
+  )
+  .monaco-menu
+  > div,
+.context-view.monaco-menu-container:has(
+    .action-label[aria-label="Copy"]
+  ):has(.action-label[aria-label="Select All"]):not(
+    :has(.action-label[aria-label="Cut"])
+  ):not(:has(.action-label[aria-label="Copy Message"])):not(
+    :has(.action-label[aria-label="Search with Google"])
+  ):not(:has(.action-label[aria-label="Add to Chat"]))
+  .monaco-action-bar,
+.context-view.monaco-menu-container:has(
+    .action-label[aria-label="Copy"]
+  ):has(.action-label[aria-label="Select All"]):not(
+    :has(.action-label[aria-label="Cut"])
+  ):not(:has(.action-label[aria-label="Copy Message"])):not(
+    :has(.action-label[aria-label="Search with Google"])
+  ):not(:has(.action-label[aria-label="Add to Chat"]))
+  .monaco-menu
+  > div {
+  contain: none !important;
+  isolation: auto !important;
+  backdrop-filter: blur(var(--fgt-cursor-chat-rightclick-menu-blur, 12px)) !important;
+  -webkit-backdrop-filter: blur(
+    var(--fgt-cursor-chat-rightclick-menu-blur, 12px)
+  ) !important;
+  background-color: var(--vscode-menu-background) !important;
+}
+
+.context-view.monaco-menu-container:has(
+    .action-label[aria-label="Copy Message"]
+  )
+  .monaco-scrollable-element,
+.context-view.monaco-menu-container:has(
+    .action-label[aria-label="Search with Google"]
+  )
+  .monaco-scrollable-element,
+.context-view.monaco-menu-container:has(
+    .action-label[aria-label="Add to Chat"]
+  )
+  .monaco-scrollable-element,
+.context-view.monaco-menu-container:has(
+    .action-label[aria-label="Copy"]
+  ):has(.action-label[aria-label="Select All"]):not(
+    :has(.action-label[aria-label="Cut"])
+  ):not(:has(.action-label[aria-label="Copy Message"])):not(
+    :has(.action-label[aria-label="Search with Google"])
+  ):not(:has(.action-label[aria-label="Add to Chat"]))
+  .monaco-scrollable-element {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background-color: transparent !important;
+}
+
+/* --- composer menu row hover (list.hoverBackground) + reveal on focused/selected rows --- */
+
+.ui-menu.ui-slash-menu__content[role="menu"] .ui-menu__row[data-focused="true"],
+[data-testid="model-picker-menu"] .ui-menu__row[data-focused="true"],
+[data-testid="model-picker-menu"] .ui-menu__toggle-row[data-focused="true"] {
+  background-color: var(--vscode-list-hoverBackground) !important;
+}
+
+div[tabindex="0"]:has(.composer-unified-context-menu-item)
+  .composer-unified-context-menu-item[data-is-selected="true"],
+.typeahead-popover.mentions-menu
+  .composer-unified-context-menu-item[data-is-selected="true"] {
+  background-color: var(--vscode-list-hoverBackground) !important;
+}
+
+/* --- quit confirmation --- */
+/* overlay blur/dim fixed in inject; panel: menu.background */
+
+.pretty-dialog-parent-fade-in {
+  contain: none !important;
+  isolation: auto !important;
+  backdrop-filter: blur(var(--fgt-cursor-quit-confirmation-blur, 8px)) !important;
+  -webkit-backdrop-filter: blur(var(--fgt-cursor-quit-confirmation-blur, 8px)) !important;
+  background-color: rgba(
+    0,
+    0,
+    0,
+    var(--fgt-cursor-quit-confirmation-overlay-dim, 0.35)
+  ) !important;
+}
+
+.pretty-dialog-modal {
+  contain: none !important;
+  isolation: auto !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background: color-mix(in srgb, var(--vscode-menu-background) 78%, black) !important;
+  background-color: color-mix(in srgb, var(--vscode-menu-background) 78%, black) !important;
+}
