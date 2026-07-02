@@ -101,7 +101,48 @@ async function mergeConfiguration(
   const packageJson = JSON.parse(await fs.readFile("package.json", "utf-8"));
 
   const configuration = [{ title: "General", properties: {} }];
+  let cursorSection: { title: string; properties: Record<string, unknown> } | null =
+    null;
+  const ensureCursorSection = () => {
+    if (!cursorSection) {
+      cursorSection = { title: "Cursor", properties: {} };
+      configuration.push(cursorSection);
+    }
+    return cursorSection;
+  };
   for (const [key, prop] of Object.entries(schema.properties)) {
+    if (
+      key === "cursorAdditionalStyle" &&
+      prop.type === "object" &&
+      prop.properties
+    ) {
+      ensureCursorSection().properties[prefix + "cursor.additional.style"] = {
+        type: "object",
+        description: prop.description,
+        default: defaultValue[key],
+        properties: Object.fromEntries(
+          Object.entries(prop.properties).map(([subKey, subProp]) => [
+            subKey,
+            { ...subProp },
+          ])
+        ),
+      };
+      continue;
+    }
+    if (key === "cursor" && prop.type === "object" && prop.properties) {
+      ensureCursorSection().properties[prefix + "cursor.targetted.overrides"] = {
+        type: "object",
+        description: prop.description,
+        default: defaultValue[key],
+        properties: Object.fromEntries(
+          Object.entries(prop.properties).map(([subKey, subProp]) => [
+            subKey,
+            { ...subProp },
+          ])
+        ),
+      };
+      continue;
+    }
     if (prop.type == "object" && prop.properties) {
       const title = key
         .replace(/([A-Z])/g, " $1")
