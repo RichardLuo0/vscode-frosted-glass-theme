@@ -14,6 +14,13 @@ const menuEntry: Entry = [
   "--vscode-menu-background",
   ".monaco-menu-container .monaco-scrollable-element",
 ];
+
+const runtime = (config as { runtime?: { host?: string } }).runtime;
+const notificationsSelector =
+  runtime?.host === "cursor"
+    ? ".notifications-list-container, .notifications-center"
+    : ".notifications-list-container";
+
 const entryList: Entry[] = [
   menuEntry,
   [
@@ -40,7 +47,7 @@ const entryList: Entry[] = [
   [
     "notifications",
     "--vscode-notifications-background",
-    ".notifications-list-container",
+    notificationsSelector,
   ],
   [
     "notificationCenterHeader",
@@ -108,6 +115,8 @@ type Filter = {
   filter: string;
   disableBackgroundColor: boolean;
   opacity: number;
+  /** When set, overrides feGaussianBlur stdDeviation in the acrylic SVG for this surface. */
+  acrylicBlur?: number;
 };
 type FilterPart = Partial<Filter>;
 
@@ -190,6 +199,12 @@ async function applyBackdropFilterOnEntry(
       wrapper.style.setProperty("--fgt-current-opacity", `${opacity * 100}%`);
     });
   await mountSvgTo(wrapper, true);
+  const acrylicBlur = getFilter(entry[0])?.acrylicBlur;
+  if (acrylicBlur !== undefined) {
+    wrapper.querySelectorAll("feGaussianBlur").forEach(node => {
+      node.setAttribute("stdDeviation", String(acrylicBlur));
+    });
+  }
   wrapper
     .querySelectorAll("filter")
     .forEach(f => (f.id = f.id + "-" + entry[0]));
