@@ -108,6 +108,7 @@ type Filter = {
   filter: string;
   disableBackgroundColor: boolean;
   opacity: number;
+  customAttrs?: { [selector: string]: { [selector: string]: any } };
 };
 type FilterPart = Partial<Filter>;
 
@@ -190,9 +191,24 @@ async function applyBackdropFilterOnEntry(
       wrapper.style.setProperty("--fgt-current-opacity", `${opacity * 100}%`);
     });
   await mountSvgTo(wrapper, true);
+
+  // Replace id
   wrapper
     .querySelectorAll("filter")
     .forEach(f => (f.id = f.id + "-" + entry[0]));
+
+  // Replace custom attrs
+  const filter = getFilter(entry[0]);
+  const customAttrs = filter?.customAttrs;
+  if (customAttrs) {
+    for (const selector in customAttrs) {
+      const attrMap = customAttrs[selector];
+      wrapper.querySelectorAll(selector).forEach(e => {
+        for (const name in attrMap) e.setAttribute(name, attrMap[name]);
+      });
+    }
+  }
+
   element.appendChild(wrapper);
 }
 

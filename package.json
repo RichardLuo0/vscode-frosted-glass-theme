@@ -109,6 +109,7 @@
                       "object",
                       "null"
                     ],
+                    "description": "Custom attributes to be applied to tint svgs. Key is css selector, value is a map of attributes.",
                     "patternProperties": {
                       ".*": {
                         "type": "object"
