@@ -73,7 +73,7 @@
       },
       {
         "command": "frosted-glass-theme.openConfig",
-        "title": "Frosted Glass Theme: Open Config (readonly)"
+        "title": "Frosted Glass Theme: Open Config"
       },
       {
         "command": "frosted-glass-theme.generateThemeMod",
@@ -103,6 +103,17 @@
                   },
                   "opacity": {
                     "type": "number"
+                  },
+                  "customAttrs": {
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "patternProperties": {
+                      ".*": {
+                        "type": "object"
+                      }
+                    }
                   }
                 }
               }
@@ -111,7 +122,12 @@
               "default": {
                 "filter": "saturate(var(--fgt-saturate)) url(#fgt-acrylic-{key})",
                 "disableBackgroundColor": true,
-                "opacity": 0.4
+                "opacity": 0.4,
+                "customAttrs": {
+                  "feGaussianBlur": {
+                    "stdDeviation": 30
+                  }
+                }
               },
               "minimap": "blur(30px)",
               "decorationsOverviewRuler": "blur(30px)",
@@ -417,19 +433,19 @@
   },
   "devDependencies": {
     "@types/electron": "^1.6.12",
-    "@types/node": "25.9.2",
+    "@types/node": "26.1.0",
     "@types/vscode": "^1.64.0",
-    "@typescript-eslint/eslint-plugin": "^8.61.0",
-    "@typescript-eslint/parser": "^8.61.0",
+    "@typescript-eslint/eslint-plugin": "^8.62.1",
+    "@typescript-eslint/parser": "^8.62.1",
     "@vscode/test-electron": "^3.0.0",
-    "esbuild": "^0.28.0",
-    "eslint": "^10.4.1",
+    "esbuild": "^0.28.1",
+    "eslint": "^10.6.0",
     "generate-license-file": "^4.2.1",
     "parse-literals": "^1.2.1",
     "typescript": "^6.0.3"
   },
   "dependencies": {
     "@vscode/sudo-prompt": "^9.3.2",
-    "uuid": "^14.0.0"
+    "uuid": "^14.0.1"
   }
 }

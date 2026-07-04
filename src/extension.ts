@@ -80,7 +80,10 @@ export function activate(context: ExtensionContext) {
       .editor()
       .replaceAll(
         JSON.stringify(
-          workspace.getConfiguration().get("frosted-glass-theme"),
+          {
+            $schema: "./config.schema.json",
+            ...workspace.getConfiguration().get("frosted-glass-theme"),
+          },
           null,
           2
         )
@@ -166,13 +169,9 @@ export function activate(context: ExtensionContext) {
     "frosted-glass-theme.openConfig",
     async () =>
       workspace
-        .openTextDocument({
-          content: await readFile(
-            context.asAbsolutePath("inject/config.json"),
-            "utf-8"
-          ),
-          language: "json",
-        })
+        .openTextDocument(
+          Uri.joinPath(context.extensionUri, "inject/config.json")
+        )
         .then(window.showTextDocument)
   );
 
