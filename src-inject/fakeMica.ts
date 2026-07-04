@@ -96,6 +96,35 @@ function getMicaY(win: Window) {
     : "center";
 }
 
+function throttle<T extends (...args: any[]) => void>(fn: T, intervalMs = 30) {
+  let intervalId: number = 0;
+  let scheduled = false;
+  let latestArgs: Parameters<T> | null = null;
+
+  const onTick = () => {
+    if (scheduled === false) {
+      clearInterval(intervalId);
+      intervalId = 0;
+      return;
+    }
+    scheduled = false;
+    const callArgs = latestArgs;
+    latestArgs = null;
+    if (callArgs) fn(...callArgs);
+  };
+
+  return (...args: Parameters<T>) => {
+    latestArgs = args;
+    if (scheduled) return;
+    scheduled = true;
+
+    if (intervalId == 0) {
+      onTick();
+      intervalId = setInterval(onTick, intervalMs);
+    }
+  };
+}
+
 export async function applyFakeMica(
   element: HTMLElement,
   svgMounted: Promise<void>
@@ -104,17 +133,18 @@ export async function applyFakeMica(
 
   await svgMounted;
   element.classList.add("fgt-mica-svg-loaded");
-  if (fakeMica.moveWithWindow) {
-    const win = element.ownerDocument.defaultView;
-    if (win) {
-      const updateMica = () => {
-        element.style.setProperty("--fgt-mica-width", `${screen.width}px`);
-        element.style.setProperty("--fgt-mica-height", `${screen.height}px`);
+
+  const win = element.ownerDocument.defaultView;
+  if (win) {
+    const updateMica = () => {
+      element.style.setProperty("--fgt-mica-width", `${screen.width}px`);
+      element.style.setProperty("--fgt-mica-height", `${screen.height}px`);
+      if (fakeMica.moveWithWindow) {
         element.style.setProperty("--fgt-mica-x", getMicaX(win));
         element.style.setProperty("--fgt-mica-y", getMicaY(win));
-      };
-      updateMica();
-      win.vscode.ipcRenderer.on("vscode:update-mica", updateMica);
-    }
+      }
+    };
+    updateMica();
+    win.vscode.ipcRenderer.on("vscode:update-mica", throttle(updateMica));
   }
 }
