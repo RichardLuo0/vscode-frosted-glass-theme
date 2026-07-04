@@ -19,7 +19,10 @@ class HtmlPatcher implements Patcher {
 
     content = content
       // Remove csp
-      .replace(/<meta\s+http-equiv="Content-Security-Policy"[\s\S]*?\/>/, "")
+      .replace(
+        /<meta[^>]*http-equiv=["']Content-Security-Policy["'][^>]*\/>/i,
+        ""
+      )
       // Replace content
       .replace(
         /(<\/html>)/,
