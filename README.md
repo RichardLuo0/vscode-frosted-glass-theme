@@ -20,6 +20,9 @@ Plz read this document before installation.
 Custom SVG is supported.
 </span>
 
+## For Cursor users
+@landnthrn created [this amazing extension](https://github.com/landnthrn/vscode-cursor-frosted-glass-theme) to make it compatible with cursor.
+
 ## Preview
 [![Video](https://img.youtube.com/vi/rpnfE7YDdg4/0.jpg)](https://www.youtube.com/watch?v=rpnfE7YDdg4) \
 ![Animation](image/Animation.gif) \

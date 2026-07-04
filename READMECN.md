@@ -20,6 +20,9 @@
 支持自定义SVG。
 </span>
 
+## Cursor 用户
+@landnthrn 制作了 [这个超棒的拓展](https://github.com/landnthrn/vscode-cursor-frosted-glass-theme)，让本主题也能兼容 Cursor。
+
 ## 预览图
 [![Video](https://img.youtube.com/vi/rpnfE7YDdg4/0.jpg)](https://www.youtube.com/watch?v=rpnfE7YDdg4) \
 ![Animation](image/Animation.gif) \
