@@ -8,21 +8,11 @@
     "target": "ESNext",
     "moduleResolution": "bundler",
     "esModuleInterop": true,
+    "types": [
+      "node",
+    ],
   },
   "include": [
-    "src",
-    "src-inject",
-    "src-inject-main"
-  ],
-  "references": [
-    {
-      "path": "src"
-    },
-    {
-      "path": "src-inject"
-    },
-    {
-      "path": "src-inject-main"
-    }
+    "build.mts",
   ],
 }
