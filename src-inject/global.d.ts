@@ -13,3 +13,8 @@ declare namespace vscode {
     on(channel: string, listener: (e: any, ...args: any[]) => void): any;
   };
 }
+
+declare interface Screen {
+  availLeft?: number;
+  availTop?: number;
+}

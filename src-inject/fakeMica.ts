@@ -7,6 +7,8 @@ const { fakeMica } = config;
 if (fakeMica.enabled) {
   fgtSheet.insertRule(css`
     .fgt-mica-svg-loaded {
+      --fgt-mica-width: ${screen.width}px;
+      --fgt-mica-height: ${screen.height}px;
       --fgt-mica-x: center;
       --fgt-mica-y: center;
     }
@@ -23,7 +25,7 @@ if (fakeMica.enabled) {
       height: 100%;
       filter: ${fakeMica.filter};
       background-image: url("vscode-file://vscode-app/${fakeMica.url}");
-      background-size: ${screen.width}px ${screen.height}px;
+      background-size: var(--fgt-mica-width) var(--fgt-mica-height);
       background-repeat: no-repeat;
       background-position: var(--fgt-mica-x) var(--fgt-mica-y);
     }
@@ -81,14 +83,16 @@ if (fakeMica.enabled) {
 }
 
 function getMicaX(win: Window) {
-  return win.screenX >= -win.outerWidth && win.screenX <= screen.width
-    ? `${-win.screenX}px`
+  const relScreenX = win.screenX - (win.screen.availLeft ?? 0);
+  return relScreenX >= -win.outerWidth && relScreenX <= win.screen.width
+    ? `${-relScreenX}px`
     : "center";
 }
 
 function getMicaY(win: Window) {
-  return win.screenY >= -win.outerHeight && win.screenY <= screen.height
-    ? `${-win.screenY}px`
+  const relScreenY = win.screenY - (win.screen.availTop ?? 0);
+  return relScreenY >= -win.outerHeight && relScreenY <= win.screen.height
+    ? `${-relScreenY}px`
     : "center";
 }
 
@@ -96,19 +100,21 @@ export async function applyFakeMica(
   element: HTMLElement,
   svgMounted: Promise<void>
 ) {
-  if (fakeMica.enabled) {
-    await svgMounted;
-    element.classList.add("fgt-mica-svg-loaded");
-    if (fakeMica.moveWithWindow) {
-      const win = element.ownerDocument.defaultView;
-      if (win) {
-        const updateMica = () => {
-          element.style.setProperty("--fgt-mica-x", getMicaX(win));
-          element.style.setProperty("--fgt-mica-y", getMicaY(win));
-        };
-        updateMica();
-        win.vscode.ipcRenderer.on("vscode:update-mica", updateMica);
-      }
+  if (!fakeMica.enabled) return;
+
+  await svgMounted;
+  element.classList.add("fgt-mica-svg-loaded");
+  if (fakeMica.moveWithWindow) {
+    const win = element.ownerDocument.defaultView;
+    if (win) {
+      const updateMica = () => {
+        element.style.setProperty("--fgt-mica-width", `${screen.width}px`);
+        element.style.setProperty("--fgt-mica-height", `${screen.height}px`);
+        element.style.setProperty("--fgt-mica-x", getMicaX(win));
+        element.style.setProperty("--fgt-mica-y", getMicaY(win));
+      };
+      updateMica();
+      win.vscode.ipcRenderer.on("vscode:update-mica", updateMica);
     }
   }
 }
