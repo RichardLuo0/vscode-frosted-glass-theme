@@ -108,7 +108,7 @@ type Filter = {
   filter: string;
   disableBackgroundColor: boolean;
   opacity: number;
-  customAttrs?: { [selector: string]: { [selector: string]: any } };
+  customAttrs?: { [selector: string]: { [key: string]: any } };
 };
 type FilterPart = Partial<Filter>;
 

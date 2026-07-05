@@ -33,17 +33,24 @@ Custom SVG is supported.
 ![SearchBar](image/SearchBar.jpg) \
 ![CommandPanel](image/CommandPanel.jpg) \
 ![PanelHeader](image/PanelHeader.jpg)
+
 ## Install
 1. Install this extension.
 1. Open command panel, type in `Frosted Glass Theme: Enable`, press enter.
-1. Some canvas based elements have their own background color. Thus you must figure out the color for them and add opacity to them, then add them back to `workbench.colorCustomizations`. The colors are `"editorOverviewRuler.background", "minimap.background", "terminalStickyScroll.background"`. The command `frosted-glass-theme.generateThemeMod` may work but not for certain.
+1. Run `frosted-glass-theme.setup` if you want to enable mica.
+1. If in the last step there is no theme mod for your theme, Run `frosted-glass-theme.generateThemeMod` then add the result to `workbench.colorCustomizations`.
+1. Restart vscode.
 1. **You can customize this theme in vscode settings.**
 1. **Every time vscode updates, you have to re-run `Frosted Glass Theme: Enable`.**
 
+### Advanced install
 If you want to load this theme with other extension or you prefer to maintain the `workbench.html` yourself, download the whole `inject` directory, then import only the `inject\vscode-frosted-glass-theme.js` (with `type="module"`). Then remove the `<meta http-equiv="Content-Security-Policy" ... />` from `workbench.html` (which blocks svg from loading). To make fake mica moving, you must also import `inject/vscode-frosted-glass-theme-main.mjs` at the beginning of `Microsoft VS Code\resources\app\out\main.js`.
+
 ### For Linux and perhaps MacOS user
 You need to set `window.titleBarStyle` to `custom` to see the effect. Otherwise the effect is very limited.
+
 ## Customization
+* Run 'frosted-glass-theme.openConfig' to view all current configurations. All settings in this extension will be merged into this configuration file.
 * The opacity settings will blend into theme colors unless they already have opacity.
 * `Fake mica` is by default turned off. Enable it with `frosted-glass-theme.fakeMica.enabled` setting. You need to change the theme colors as well since this extension does not apply opacity to your theme automatically. Here is an example:
     ```jsonc
@@ -71,8 +78,8 @@ You need to set `window.titleBarStyle` to `custom` to see the effect. Otherwise 
       },
     }
     ```
-    There are more examples in `theme` folder. I welcome everyone to send pull request. \
-    You can also try the command `frosted-glass-theme.generateThemeMod` to automatically generate a theme, then add the result into `colorCustomizations`.
+    There are more examples in `theme` folder. I welcome everyone to send a pull request. \
+    You can also try the command `frosted-glass-theme.generateThemeMod` to automatically generate a theme mod, then add the result to `workbench.colorCustomizations`.
 * The `frosted-glass-theme.svg` simply loads svg from a url. The generated svg element is static and only use the css variable from `monaco-workbench`. More svgs can be found in `resource` folder.
 * The `frosted-glass-theme.tintSvg` generate different svgs for each key defined in `frosted-glass-theme.filter` and the id on `<filter>` is changed to `id-key`. Inside svg, you can use some special css variables: `--fgt-current-background` representing the element's solid background color, `--fgt-current-opacity` representing opacity.
 * The `frosted-glass-theme.filter` settings is a object that represents the filter to use with each element. The keys are defined in `src-inject/backdropFilter.ts`s' `entryList`. The value is of the type:
@@ -81,6 +88,7 @@ You need to set `window.titleBarStyle` to `custom` to see the effect. Otherwise 
       filter: string;
       disableBackgroundColor: boolean;
       opacity: number;
+      customAttrs?: { [selector: string]: { [key: string]: any } };
     };
     type FilterPart = Partial<Filter>;
     const value = string | FilterPart | undefined;
@@ -91,10 +99,12 @@ You need to set `window.titleBarStyle` to `custom` to see the effect. Otherwise 
 * The `frosted-glass-theme.animation`'s key is defined in `src-inject/animation.ts`'s `selectorMap`, or the key can also be css selector. The value can be either css animation defined in `src-inject/vscode-frosted-glass-theme.css`'s `Animation` or effect defined in `src-inject/effect/effect.ts`'s `effectMap`. However, effects are not affected by css timing function, they are just triggered by `animationstart` event.
 * You can add your own effect by calling `window._fgtTheme.registerEffect(key: string, func: (e: Element) => void)`.
 * The default config is in `config/config.json`.
+
 ## Uninstall
 1. Open command panel, type in "Frosted Glass Theme: Disable", press enter.
 1. Uninstall from the extension panel as usual.
 1. Remove `"workbench.colorCustomizations"` if you want to.
+
 ## Known Issue
 * Since Windows 24H2, Microsoft may have changed the wallpaper location. Follow the steps: 
   1. Create a hard link: `cd $env:AppData\Microsoft\Windows\Themes; cmd /c mklink /H .\TranscodedWallpaper.jpg .\TranscodedWallpaper`.
@@ -114,8 +124,10 @@ You need to set `window.titleBarStyle` to `custom` to see the effect. Otherwise 
     }
     ```
     Apply and restart vscode. The keys are defined in `src-inject/backdropFilter.ts`s' `entryList`.
+
 ## Thanks
 * [be5invis/vscode-custom-css](https://github.com/be5invis/vscode-custom-css)
+
 ## Disclaimer
 This extension modifies `resources\app\out\vs\code\electron-sandbox\workbench\workbench.html` and `resources\app\out\main.js` to inject files. So use at your own risk. \
 Also, the extension keeps a backup in `resources\app\out\vs\code\workbench.*.bak-frosted-glass` and `resources\app\out\main.*.bak-frosted-glass` in case anything goes wrong.
