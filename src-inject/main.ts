@@ -81,9 +81,7 @@ proxy(
   Element.prototype,
   "attachShadow",
   useRet(shadowDom => {
-    shadowDom.adoptedStyleSheets.push(
-      ...shadowDom.ownerDocument.adoptedStyleSheets
-    );
+    shadowDom.adoptedStyleSheets.push(fgtSheet);
     applyBackdropFilterOnShadowDOM(shadowDom, mountTintSvgTo);
     applyEffect(shadowDom);
     proxy(
