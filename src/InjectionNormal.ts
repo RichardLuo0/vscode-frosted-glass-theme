@@ -47,11 +47,11 @@ class HtmlPatcher implements Patcher {
   protected clearExistingPatches(content: string) {
     return content
       .replace(
-        /<!-- !! VSCODE-FROSTED-GLASS-THEME-START !! -->[\s\S]*?<!-- !! VSCODE-FROSTED-GLASS-THEME-END !! -->\n*/,
+        /<!-- !! VSCODE-FROSTED-GLASS-THEME-START !! -->[\s\S]*?<!-- !! VSCODE-FROSTED-GLASS-THEME-END !! -->\r?\n*/,
         ""
       )
       .replace(
-        /<!-- !! VSCODE-FROSTED-GLASS-THEME-SESSION-ID [\w-]+ !! -->\n*/g,
+        /<!-- !! VSCODE-FROSTED-GLASS-THEME-SESSION-ID [\w-]+ !! -->\r?\n*/g,
         ""
       );
   }
@@ -103,7 +103,7 @@ class JsPatcher implements Patcher {
     if (fs.existsSync(this.file)) {
       const content = await fs.promises.readFile(this.file, "utf-8");
       const m = content.match(
-        /\/\/VSCODE-FROSTED-GLASS-THEME-SESSION-ID ([0-9a-fA-F-]+)\n/
+        /\/\/VSCODE-FROSTED-GLASS-THEME-SESSION-ID ([0-9a-fA-F-]+)\r?\n/
       );
       if (!m) return undefined;
       else return m[1];
@@ -114,21 +114,24 @@ class JsPatcher implements Patcher {
   protected clearExistingPatches(content: string) {
     return content
       .replace(
-        /\/\/VSCODE-FROSTED-GLASS-THEME-START\n[\s\S]*?\/\/VSCODE-FROSTED-GLASS-THEME-END\n/,
+        /\/\/VSCODE-FROSTED-GLASS-THEME-START\r?\n[\s\S]*?\/\/VSCODE-FROSTED-GLASS-THEME-END\r?\n/,
         ""
       )
-      .replace(/\/\/VSCODE-FROSTED-GLASS-THEME-SESSION-ID [\w-]+\n/g, "");
+      .replace(/\/\/VSCODE-FROSTED-GLASS-THEME-SESSION-ID [\w-]+\r?\n/g, "");
   }
 
   protected computeInjectedJs(files: string[]) {
-    let res = "try {";
+    let res = "try {\n";
     for (const item of files) {
       const imp = this.computeInjectedJsItem(item);
       if (imp) res += imp + "\n";
     }
-    return res + `} catch(err) {
-  console.error('failed to load frosted glass theme: ', err);
-};`;
+    return (
+      res +
+      `} catch(err) {
+  console.error('failed to load frosted glass theme main patch: ', err);
+};\n`
+    );
   }
 
   protected computeInjectedJsItem(url: string) {
