@@ -231,6 +231,15 @@
         }
       }
     },
+    "extensionWebviewHook": {
+      "type": "object",
+      "description": "Hook extensions' webview. Though this will turn off many security options for electron!",
+      "properties": {
+        "GitHub.vscode-pull-request-github": {
+          "type": "boolean"
+        }
+      }
+    },
     "miscellaneous": {
       "type": "object",
       "properties": {

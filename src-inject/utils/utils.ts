@@ -1,5 +1,8 @@
 export function isHTMLElement<T>(a: T): a is HTMLElement & T {
-  return a && a instanceof HTMLElement;
+  if (!(a instanceof Node)) return false;
+  const win = a?.ownerDocument?.defaultView;
+  if (!win) return false;
+  return a && a instanceof win.HTMLElement;
 }
 
 export function isHTMLElementWithClass<T>(

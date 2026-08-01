@@ -408,6 +408,15 @@
         }
       },
       {
+        "title": "Extension Webview Hook",
+        "properties": {
+          "frosted-glass-theme.extensionWebviewHook.GitHub.vscode-pull-request-github": {
+            "type": "boolean",
+            "default": true
+          }
+        }
+      },
+      {
         "title": "Miscellaneous",
         "properties": {
           "frosted-glass-theme.miscellaneous.progressBarBehindSectionHeader": {

@@ -42,3 +42,14 @@ if (config.fakeMica.enabled) {
     });
   }
 }
+
+if (Object.values(config.extensionWebviewHook).some(v => v)) {
+  app.commandLine.appendSwitch("disable-web-security");
+  app.commandLine.appendSwitch("disable-site-isolation-trials");
+  app.commandLine.appendSwitch(
+    "disable-features",
+    "IsolateOrigins,site-per-process,OutOfBlinkCors"
+  );
+  app.commandLine.appendSwitch("disable-blink-features", "OutOfBlinkCors");
+  app.commandLine.appendSwitch("allow-running-insecure-content");
+}

@@ -1,22 +1,24 @@
+import { proxy, useArgs, useRet } from "../common/proxy";
+import config from "../config/config.json" with { type: "json" };
 import {
   applyBackdropFilter,
   applyBackdropFilterOnShadowDOM,
 } from "./backdropFilter";
-import config from "../config/config.json" with { type: "json" };
 import { applyEffect } from "./effect/effect";
+import { hookExtensionWebView } from "./extensionWebviewHook";
 import { applyFakeMica } from "./fakeMica";
 import { fixContextMenu, fixMenu, fixMenuBar } from "./fixMenu";
 import { loadSvgs } from "./utils/loadSvg";
 import { observeThemeColorChange } from "./utils/observeThemeColor";
-import { proxy, useRet } from "../common/proxy";
+import { useHTMLElement } from "./utils/proxy";
 import { css, makeAbsolutePath } from "./utils/utils";
 import fgtSheet from "./vscode-frosted-glass-theme.css" with { type: "css" };
+import { insertVariables } from "./variables";
 
-import "./opacity";
 import "./animation";
 import "./borderRadius";
 import "./miscellaneous";
-import { useHTMLElement } from "./utils/proxy";
+import "./opacity";
 
 fgtSheet.insertRule(css`
   [role="application"] {
@@ -32,19 +34,9 @@ for (const style of config.additionalStyle as string[]) {
   document.head.append(styleElement);
 }
 
-function insertVariables(cssSelector: string, variables: object) {
-  fgtSheet.insertRule(css`
-    ${cssSelector} {
-      ${Object.entries(variables).reduce((total, pair) => {
-        const [key, value] = pair;
-        return total + `--${key}: ${value};`;
-      }, "")}
-    }
-  `);
-}
-
-insertVariables('[role="application"]', config.variable);
+insertVariables(fgtSheet, '[role="application"]', config.variable);
 insertVariables(
+  fgtSheet,
   '[role="application"].vs-dark, [role="application"].hc-black',
   config.variableDark
 );
@@ -118,5 +110,16 @@ proxy(
       })
     );
     return ownWindow;
+  })
+);
+
+proxy(
+  HTMLIFrameElement.prototype,
+  "setAttribute",
+  useArgs(function (qualifiedName: string, value: string) {
+    if (qualifiedName !== "src") return;
+    const extensionId = value.match(/[?&]extensionId=([^&]+)/)?.[1];
+    if (!extensionId) return;
+    hookExtensionWebView(this, extensionId, mountTintSvgTo);
   })
 );

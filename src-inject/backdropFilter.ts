@@ -155,13 +155,20 @@ function getFilter(key: string) {
   return filterMap[key] ?? filterMap.default;
 }
 
+export function getFilterWithKey(key: string) {
+  const filter = getFilter(key);
+  if (!filter) return undefined;
+  const filterCopy = { ...filter };
+  filterCopy.filter = filterCopy.filter.replaceAll("{key}", key);
+  return filterCopy;
+}
+
 entryList.forEach(entry => {
-  const filter = getFilter(entry[0]);
+  const filter = getFilterWithKey(entry[0]);
   if (filter === undefined) return;
-  const filterStr = filter.filter.replaceAll("{key}", entry[0]);
   fgtSheet.insertRule(css`
     ${entry[2]} {
-      backdrop-filter: ${filterStr};
+      backdrop-filter: ${filter.filter};
       background-color: ${filter.disableBackgroundColor
         ? "transparent"
         : `var(--fgt-${entry[0]}-background)`} !important;
@@ -169,10 +176,10 @@ entryList.forEach(entry => {
   `);
 });
 
-async function applyBackdropFilterOnEntry(
+export async function applyBackdropFilterOnEntry(
   element: Node & ParentNode,
   entry: Entry,
-  mountSvgTo: MountSvgTo
+  mountTintSvgTo: MountSvgTo
 ) {
   const wrapper = document.createElement("div");
   const colorVar = entry[1];
@@ -190,7 +197,7 @@ async function applyBackdropFilterOnEntry(
       wrapper.style.setProperty("--fgt-current-background", solid);
       wrapper.style.setProperty("--fgt-current-opacity", `${opacity * 100}%`);
     });
-  await mountSvgTo(wrapper, true);
+  await mountTintSvgTo(wrapper, true);
 
   // Replace id
   wrapper
@@ -214,18 +221,18 @@ async function applyBackdropFilterOnEntry(
 
 export function applyBackdropFilter(
   element: HTMLElement,
-  mountSvgTo: MountSvgTo
+  mountTintSvgTo: MountSvgTo
 ) {
   const wrapper = document.createElement("div");
   entryList.forEach(entry =>
-    applyBackdropFilterOnEntry(wrapper, entry, mountSvgTo)
+    applyBackdropFilterOnEntry(wrapper, entry, mountTintSvgTo)
   );
   element.appendChild(wrapper);
 }
 
 export function applyBackdropFilterOnShadowDOM(
   element: Node & ParentNode,
-  mountSvgTo: MountSvgTo
+  mountTintSvgTo: MountSvgTo
 ) {
-  applyBackdropFilterOnEntry(element, menuEntry, mountSvgTo);
+  applyBackdropFilterOnEntry(element, menuEntry, mountTintSvgTo);
 }
