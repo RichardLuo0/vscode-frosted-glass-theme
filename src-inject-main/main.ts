@@ -1,4 +1,4 @@
-import { app, BrowserWindow, screen } from "electron/main";
+import { app, BrowserWindow, screen } from "electron";
 import { proxy } from "../common/proxy";
 import config from "../config/config.json" with { type: "json" };
 
@@ -43,7 +43,7 @@ if (config.fakeMica.enabled) {
   }
 }
 
-if (Object.values(config.extensionWebviewHook).some(v => v)) {
+if (config.extensionWebviewPatch.length !== 0) {
   app.commandLine.appendSwitch("disable-web-security");
   app.commandLine.appendSwitch("disable-site-isolation-trials");
   app.commandLine.appendSwitch(

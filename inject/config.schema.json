@@ -231,6 +231,18 @@
         }
       }
     },
+    "extensionWebviewPatch": {
+      "type": "array",
+      "markdownDescription": "Patch extensions' webview. Run `frosted-glass-theme.enableExtensionWebviewPatch` before change anything here.",
+      "items": {
+        "type": "string",
+        "enum": [
+          "GitHub.vscode-pull-request-github",
+          "mhutchie.git-graph",
+          "eamodio.gitlens"
+        ]
+      }
+    },
     "miscellaneous": {
       "type": "object",
       "properties": {

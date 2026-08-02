@@ -1,5 +1,6 @@
 import { readdir } from "fs/promises";
 import path from "path";
+import fs from "fs";
 import { window } from "vscode";
 
 export async function showChoiceMessage(
@@ -31,4 +32,49 @@ export async function listFilesInDir(p: string, recursive?: boolean) {
           absPath: path.join(p.parentPath, p.name).replaceAll("\\", "/"),
         }
     );
+}
+
+class FileEditor {
+  private content: string | null = null;
+
+  constructor(private file: File) {}
+
+  private loadContent() {
+    if (this.content === null)
+      this.content = fs.readFileSync(this.file.path, "utf-8");
+  }
+
+  replace(
+    searchValue: {
+      [Symbol.replace](string: string, replaceValue: string): string;
+    },
+    replaceValue: string
+  ) {
+    this.loadContent();
+    this.content = this.content!.replace(searchValue, replaceValue);
+    return this;
+  }
+
+  replaceAll(content: string) {
+    this.content = content;
+    return this;
+  }
+
+  apply() {
+    if (this.content !== null)
+      fs.writeFileSync(this.file.path, this.content, "utf-8");
+    this.content = null;
+  }
+}
+
+export class File {
+  public readonly path: string;
+
+  constructor(pathname: string) {
+    this.path = path.resolve(pathname);
+  }
+
+  editor() {
+    return new FileEditor(this);
+  }
 }

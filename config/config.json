@@ -97,9 +97,7 @@
     "titlebarFix": 0.8,
     "editorBackgroundFix": true
   },
-  "extensionWebviewHook": {
-    "GitHub.vscode-pull-request-github": true
-  },
+  "extensionWebviewPatch": [],
   "miscellaneous": {
     "progressBarBehindSectionHeader": false,
     "disableFocusOutline": false

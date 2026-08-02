@@ -7,9 +7,9 @@ import fgtSheet from "./vscode-frosted-glass-theme.css" with { type: "css" };
 const { filter } = config;
 
 // [key, colorVar, cssSelector]
-type Entry = [string, string | undefined, string];
+export type Entry = [string, string | undefined, string];
 
-const menuEntry: Entry = [
+export const menuEntry: Entry = [
   "menu",
   "--vscode-menu-background",
   ".monaco-menu-container .monaco-scrollable-element",
@@ -163,10 +163,10 @@ export function getFilterWithKey(key: string) {
   return filterCopy;
 }
 
-entryList.forEach(entry => {
+export function applyBackdropFilterOnSheet(sheet: CSSStyleSheet, entry: Entry) {
   const filter = getFilterWithKey(entry[0]);
   if (filter === undefined) return;
-  fgtSheet.insertRule(css`
+  sheet.insertRule(css`
     ${entry[2]} {
       backdrop-filter: ${filter.filter};
       background-color: ${filter.disableBackgroundColor
@@ -174,7 +174,9 @@ entryList.forEach(entry => {
         : `var(--fgt-${entry[0]}-background)`} !important;
     }
   `);
-});
+}
+
+entryList.forEach(entry => applyBackdropFilterOnSheet(fgtSheet, entry));
 
 export async function applyBackdropFilterOnEntry(
   element: Node & ParentNode,
@@ -194,7 +196,10 @@ export async function applyBackdropFilterOnEntry(
         );
       // Bind color to svg
       const [solid, opacity] = extractOpacity(color, filterOpacity);
-      wrapper.style.setProperty("--fgt-current-background", solid);
+      wrapper.style.setProperty(
+        "--fgt-current-background",
+        solid.length === 0 ? `var(${colorVar})` : solid
+      );
       wrapper.style.setProperty("--fgt-current-opacity", `${opacity * 100}%`);
     });
   await mountTintSvgTo(wrapper, true);
@@ -228,11 +233,4 @@ export function applyBackdropFilter(
     applyBackdropFilterOnEntry(wrapper, entry, mountTintSvgTo)
   );
   element.appendChild(wrapper);
-}
-
-export function applyBackdropFilterOnShadowDOM(
-  element: Node & ParentNode,
-  mountTintSvgTo: MountSvgTo
-) {
-  applyBackdropFilterOnEntry(element, menuEntry, mountTintSvgTo);
 }

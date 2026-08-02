@@ -43,6 +43,9 @@ Custom SVG is supported.
 1. **You can customize this theme in vscode settings.**
 1. **Every time vscode updates, you have to re-run `Frosted Glass Theme: Enable`.**
 
+### Optional: enable extension webview patch
+If you need some extension webviews to work better with this theme, you can manually run the command `Frosted Glass Theme: Enable Extension Webview Patch`. This is an opt-in feature and it disables web security for extension webviews, so it has security implications. Only enable it if you trust the relevant extensions and understand the risks.
+
 ### Advanced install
 If you want to load this theme with other extension or you prefer to maintain the `workbench.html` yourself, download the whole `inject` directory, then import only the `inject\vscode-frosted-glass-theme.js` (with `type="module"`). Then remove the `<meta http-equiv="Content-Security-Policy" ... />` from `workbench.html` (which blocks svg from loading). To make fake mica moving, you must also import `inject/vscode-frosted-glass-theme-main.mjs` at the beginning of `Microsoft VS Code\resources\app\out\main.js`.
 

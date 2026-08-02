@@ -34,6 +34,18 @@ export function proxyAll<
   for (const funcName of funcNames) proxy(src, funcName, newFunc);
 }
 
+export function proxyOrDefine<
+  Src extends Record<FuncName, FuncType | undefined>,
+  FuncName extends string,
+  FuncType extends AnyFunction & {
+    _proxied?: boolean;
+  },
+>(src: Src, funcName: FuncName, newFunc: NewFunc<FuncType, Src>) {
+  if (src[funcName] === undefined) src[funcName] = (() => {}) as Src[FuncName];
+  type NewSrc = Record<FuncName, FuncType>;
+  proxy(src as NewSrc, funcName, newFunc as NewFunc<FuncType, NewSrc>);
+}
+
 export function useRet<This, Args extends any[], Ret>(
   f: (this: This, oldRet: Ret, ...args: Args) => Ret
 ) {

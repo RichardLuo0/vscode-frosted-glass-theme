@@ -2,7 +2,8 @@ import { proxy, useArgs, useRet } from "../common/proxy";
 import config from "../config/config.json" with { type: "json" };
 import {
   applyBackdropFilter,
-  applyBackdropFilterOnShadowDOM,
+  applyBackdropFilterOnEntry,
+  menuEntry,
 } from "./backdropFilter";
 import { applyEffect } from "./effect/effect";
 import { hookExtensionWebView } from "./extensionWebviewHook";
@@ -74,7 +75,7 @@ proxy(
   "attachShadow",
   useRet(shadowDom => {
     shadowDom.adoptedStyleSheets.push(fgtSheet);
-    applyBackdropFilterOnShadowDOM(shadowDom, mountTintSvgTo);
+    applyBackdropFilterOnEntry(shadowDom, menuEntry, mountTintSvgTo);
     applyEffect(shadowDom);
     proxy(
       shadowDom,

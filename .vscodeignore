@@ -1,3 +1,6 @@
+.*/**
+*.mjs
+*.mts
 .vscode/**
 .vscode-test/**
 out/test/**
@@ -13,9 +16,6 @@ icon/*
 !icon/*.png
 .github
 node_modules/**
-*.mjs
-*.mts
-.*
 licenses/**
 theme/**
 config/**

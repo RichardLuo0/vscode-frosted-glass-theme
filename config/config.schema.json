@@ -231,13 +231,16 @@
         }
       }
     },
-    "extensionWebviewHook": {
-      "type": "object",
-      "description": "Hook extensions' webview. Though this will turn off many security options for electron!",
-      "properties": {
-        "GitHub.vscode-pull-request-github": {
-          "type": "boolean"
-        }
+    "extensionWebviewPatch": {
+      "type": "array",
+      "markdownDescription": "Patch extensions' webview. Run `frosted-glass-theme.enableExtensionWebviewPatch` before change anything here.",
+      "items": {
+        "type": "string",
+        "enum": [
+          "GitHub.vscode-pull-request-github",
+          "mhutchie.git-graph",
+          "eamodio.gitlens"
+        ]
       }
     },
     "miscellaneous": {

@@ -78,6 +78,10 @@
       {
         "command": "frosted-glass-theme.generateThemeMod",
         "title": "Frosted Glass Theme: Generate Theme Modification"
+      },
+      {
+        "command": "frosted-glass-theme.enableExtensionWebviewPatch",
+        "title": "Frosted Glass Theme: Enable extension webview patch"
       }
     ],
     "configuration": [
@@ -251,6 +255,19 @@
               "suggestWidget": "",
               "tab": "6px 6px 0 0"
             }
+          },
+          "frosted-glass-theme.extensionWebviewPatch": {
+            "type": "array",
+            "markdownDescription": "Patch extensions' webview. Run `frosted-glass-theme.enableExtensionWebviewPatch` before change anything here.",
+            "items": {
+              "type": "string",
+              "enum": [
+                "GitHub.vscode-pull-request-github",
+                "mhutchie.git-graph",
+                "eamodio.gitlens"
+              ]
+            },
+            "default": []
           }
         }
       },
@@ -403,15 +420,6 @@
           "frosted-glass-theme.fakeMica.editorBackgroundFix": {
             "type": "boolean",
             "markdownDescription": "Fix editor overlapping background. Leave `editor-container` as the final color.",
-            "default": true
-          }
-        }
-      },
-      {
-        "title": "Extension Webview Hook",
-        "properties": {
-          "frosted-glass-theme.extensionWebviewHook.GitHub.vscode-pull-request-github": {
-            "type": "boolean",
             "default": true
           }
         }

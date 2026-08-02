@@ -1,58 +1,18 @@
-import fs from "fs";
-import { readFile } from "fs/promises";
-import { resolve } from "path";
-import { commands, ExtensionContext, Uri, window, workspace } from "vscode";
+import path from "path";
+import {
+  commands,
+  ConfigurationTarget,
+  env,
+  ExtensionContext,
+  Uri,
+  window,
+  workspace,
+} from "vscode";
 import { generateThemeMod as generateThemeModFunc } from "./generateThemeMod";
 import { localize } from "./localization";
 import { setup as setupFunc } from "./setup";
 import ThemeInjection from "./ThemeInjection";
-import { showChoiceMessage } from "./utils";
-
-class File {
-  static editor = class {
-    private content: string | null = null;
-
-    constructor(private file: File) {}
-
-    loadContent() {
-      if (this.content === null)
-        this.content = fs.readFileSync(this.file.path, "utf-8");
-      return this;
-    }
-
-    replace(
-      searchValue: {
-        [Symbol.replace](string: string, replaceValue: string): string;
-      },
-      replaceValue: string
-    ) {
-      this.loadContent();
-      this.content = this.content!.replace(searchValue, replaceValue);
-      return this;
-    }
-
-    replaceAll(content: string) {
-      this.content = content;
-      return this;
-    }
-
-    apply() {
-      if (this.content !== null)
-        fs.writeFileSync(this.file.path, this.content, "utf-8");
-      this.content = null;
-    }
-  };
-
-  public readonly path: string;
-
-  constructor(path: string) {
-    this.path = resolve(path);
-  }
-
-  editor() {
-    return new File.editor(this);
-  }
-}
+import { File, showChoiceMessage } from "./utils";
 
 export function activate(context: ExtensionContext) {
   const injection = new ThemeInjection(
@@ -157,9 +117,12 @@ export function activate(context: ExtensionContext) {
   const setup = commands.registerCommand(
     "frosted-glass-theme.setup",
     async () => {
-      blockConfigChangedMsg = true;
-      if (await setupFunc()) updateConfiguration();
-      blockConfigChangedMsg = false;
+      try {
+        blockConfigChangedMsg = true;
+        if (await setupFunc()) updateConfiguration();
+      } finally {
+        blockConfigChangedMsg = false;
+      }
     }
   );
 
@@ -189,22 +152,66 @@ export function activate(context: ExtensionContext) {
     generateThemeModFunc
   );
 
+  const enableExtensionWebviewPatch = commands.registerCommand(
+    "frosted-glass-theme.enableExtensionWebviewPatch",
+    async () => {
+      if (
+        await showChoiceMessage(
+          localize("extensionWebviewPatch.warning"),
+          localize("common.yes")
+        )
+      ) {
+        new File(path.join(env.appRoot, "out", "main.js"))
+          .editor()
+          .replace(
+            /(webPreferences\s*:\s*\{)(?!\s*webSecurity)/,
+            `$1webSecurity: false,`
+          )
+          .apply();
+
+        try {
+          blockConfigChangedMsg = true;
+          const fgtConf = workspace.getConfiguration();
+          const currentPatches = fgtConf.inspect(
+            "frosted-glass-theme.extensionWebviewPatch"
+          )?.globalValue as string[] | undefined;
+          if (!currentPatches || currentPatches.length === 0)
+            await fgtConf.update(
+              "frosted-glass-theme.extensionWebviewPatch",
+              [
+                "GitHub.vscode-pull-request-github",
+                "mhutchie.git-graph",
+                "eamodio.gitlens",
+              ],
+              ConfigurationTarget.Global
+            );
+          commands.executeCommand("frosted-glass-theme.applyConfig");
+        } finally {
+          blockConfigChangedMsg = true;
+        }
+      }
+    }
+  );
+
   let blockConfigChangedMsg = false;
   const onConfigureChanged = workspace.onDidChangeConfiguration(async e => {
     if (
       !blockConfigChangedMsg &&
       e.affectsConfiguration("frosted-glass-theme")
     ) {
-      blockConfigChangedMsg = true;
-      if (
-        await showChoiceMessage(
-          localize("extension.configChanged"),
-          localize("extension.action.applyChanges")
-        )
-      ) {
-        commands.executeCommand("frosted-glass-theme.applyConfig");
+      try {
+        blockConfigChangedMsg = true;
+        if (
+          await showChoiceMessage(
+            localize("extension.configChanged"),
+            localize("extension.action.applyChanges")
+          )
+        ) {
+          commands.executeCommand("frosted-glass-theme.applyConfig");
+        }
+      } finally {
+        blockConfigChangedMsg = false;
       }
-      blockConfigChangedMsg = false;
     }
   });
 
@@ -216,6 +223,7 @@ export function activate(context: ExtensionContext) {
     openCSS,
     openConfig,
     generateThemeMod,
+    enableExtensionWebviewPatch,
     onConfigureChanged
   );
 }

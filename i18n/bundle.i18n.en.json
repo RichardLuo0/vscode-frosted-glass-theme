@@ -9,6 +9,7 @@
   "extension.enabled": "Frosted glass theme enabled. Restart to take effect. If Code complains about it is corrupted, CLICK DON'T SHOW AGAIN. See README for more detail.",
   "extension.reenableAfterUpdated": "Frosted glass theme updated. Re-enabling...",
   "extension.somethingWrong": "Something went wrong: {0}",
+  "extensionWebviewPatch.warning": "Enabling the extension webview patch disables many Electron's security options, posing security risks. Do you want to continue?",
   "generateThemeMod.opacity": "Opacity",
   "injection.action.tryAsAdmin": "Try as Admin",
   "injection.requireAdmin": "Require admin privileges to apply changes.",

@@ -76,9 +76,9 @@ export function applyOpacity(color: string, opacity: number) {
 
 export function extractOpacity(
   color: string,
-  opacity: number | undefined
+  fallbackOpacity: number | undefined
 ): [string, number] {
-  const fallback = opacity ?? 1;
+  const fallback = fallbackOpacity ?? 1;
   color = color.trim();
   if (color.startsWith("#"))
     if (color.length === 9)

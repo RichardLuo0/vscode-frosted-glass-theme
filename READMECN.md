@@ -43,6 +43,9 @@
 1. **你可以在vscode设置中自定义本主题。**
 1. **每次vscode更新，你都必须重新运行`Frosted Glass Theme: Enable`。**
 
+### 可选：启用 extension webview patch
+如果你需要某些扩展的 Webview 在本主题下更好地工作，可以手动运行命令 `Frosted Glass Theme: Enable Extension Webview Patch`。这个功能需要手动开启，并且会禁用扩展 Webview 的 Web Security，因此存在安全风险。只有在你信任相关扩展并清楚风险时才建议启用。
+
 ### 高级安装
 如果你想要用其他扩展加载本主题，或者你更喜欢自己维护 `workbench.html` ，下载整个 `inject` 文件夹，然后引入 `inject\vscode-frosted-glass-theme.js` (带上 `type="module"`)。然后移除 `workbench.html` 中的 `<meta http-equiv="Content-Security-Policy" ... />` (它会阻止SVG加载)。如果要使 `Fake mica` 具有移动效果，请在 `Microsoft VS Code/resources/app/out/main.js` 文件的开头导入 `inject/vscode-frosted-glass-theme-main.mjs`。
 
