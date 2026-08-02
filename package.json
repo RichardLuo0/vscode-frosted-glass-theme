@@ -445,7 +445,7 @@
     "vscode:prepublish": "npm run build",
     "build": "npm run lint && node --experimental-strip-types ./build.mts",
     "debug": "cross-env NODE_ENV=development node --experimental-strip-types ./build.mts",
-    "lint": "eslint . --ext ts && tsc --build",
+    "lint": "eslint . --ext ts && tsc --build --emitDeclarationOnly ./tsconfig.lint.json",
     "watch": "node ./build.mjs watch",
     "package": "vsce package"
   },

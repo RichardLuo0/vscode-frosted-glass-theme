@@ -1,0 +1,17 @@
+{
+  "files": [],
+  "references": [
+    {
+      "path": "./common"
+    },
+    {
+      "path": "./src"
+    },
+    {
+      "path": "./src-inject"
+    },
+    {
+      "path": "./src-inject-main"
+    }
+  ]
+}
