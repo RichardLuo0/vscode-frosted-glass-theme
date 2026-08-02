@@ -34,7 +34,7 @@ export default class Injection implements IInjection {
     try {
       await this.getInjectionImpl().inject();
     } catch (e) {
-      window.showErrorMessage(localize("admin"));
+      window.showErrorMessage(localize("injection.runWithAdmin"));
       throw e;
     }
   }
@@ -43,7 +43,7 @@ export default class Injection implements IInjection {
     try {
       await this.getInjectionImpl().restore();
     } catch (e) {
-      window.showErrorMessage(localize("admin"));
+      window.showErrorMessage(localize("injection.runWithAdmin"));
       throw e;
     }
   }

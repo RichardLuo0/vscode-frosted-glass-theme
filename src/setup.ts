@@ -122,10 +122,13 @@ async function chooseThemeMod(fgtConfig: WorkspaceConfiguration) {
 
 export async function setup() {
   const fgtConfig = workspace.getConfiguration("frosted-glass-theme");
-  const select = await window.showQuickPick([localize("yes"), localize("no")], {
-    title: localize("setup.enableMica"),
-  });
-  if (select != localize("yes")) return false;
+  const select = await window.showQuickPick(
+    [localize("common.yes"), localize("common.no")],
+    {
+      title: localize("setup.enableMica"),
+    }
+  );
+  if (select != localize("common.yes")) return false;
 
   fgtConfig.update("fakeMica.enabled", true, true);
   await chooseWallpaper(fgtConfig);

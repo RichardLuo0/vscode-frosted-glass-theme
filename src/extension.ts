@@ -66,7 +66,7 @@ export function activate(context: ExtensionContext) {
   if (currentVersion !== lastVersion) {
     context.globalState.update("extensionVersion", currentVersion);
     if (context.globalState.get<boolean>("injected")) {
-      window.showInformationMessage(localize("reenableAfterUpdated"));
+      window.showInformationMessage(localize("extension.reenableAfterUpdated"));
       commands.executeCommand("frosted-glass-theme.enableTheme");
     }
   }
@@ -102,12 +102,15 @@ export function activate(context: ExtensionContext) {
         await injection.inject();
         context.globalState.update("injected", true);
         if (
-          await showChoiceMessage(localize("enabled"), localize("restartIde"))
+          await showChoiceMessage(
+            localize("extension.enabled"),
+            localize("extension.action.restartIde")
+          )
         )
           reloadWindow();
       } catch (e: any) {
         console.error(e);
-        window.showErrorMessage(localize("somethingWrong", e));
+        window.showErrorMessage(localize("extension.somethingWrong", e));
       }
     }
   );
@@ -119,12 +122,15 @@ export function activate(context: ExtensionContext) {
         await injection.restore();
         context.globalState.update("injected", false);
         if (
-          await showChoiceMessage(localize("disabled"), localize("restartIde"))
+          await showChoiceMessage(
+            localize("extension.disabled"),
+            localize("extension.action.restartIde")
+          )
         )
           reloadWindow();
       } catch (e: any) {
         console.error(e);
-        window.showErrorMessage(localize("somethingWrong", e));
+        window.showErrorMessage(localize("extension.somethingWrong", e));
       }
     }
   );
@@ -135,12 +141,15 @@ export function activate(context: ExtensionContext) {
       try {
         updateConfiguration();
         if (
-          await showChoiceMessage(localize("applied"), localize("restartIde"))
+          await showChoiceMessage(
+            localize("extension.applied"),
+            localize("extension.action.restartIde")
+          )
         )
           reloadWindow();
       } catch (e: any) {
         console.error(e);
-        window.showErrorMessage(localize("somethingWrong", e));
+        window.showErrorMessage(localize("extension.somethingWrong", e));
       }
     }
   );
@@ -189,8 +198,8 @@ export function activate(context: ExtensionContext) {
       blockConfigChangedMsg = true;
       if (
         await showChoiceMessage(
-          localize("configChanged"),
-          localize("applyChanges")
+          localize("extension.configChanged"),
+          localize("extension.action.applyChanges")
         )
       ) {
         commands.executeCommand("frosted-glass-theme.applyConfig");

@@ -36,8 +36,8 @@ export default class InjectionAdmin implements IInjection {
     return new Promise(async (resolve, reject) => {
       if (
         !(await showChoiceMessage(
-          localize("tryAdminMsg"),
-          localize("tryAsAdmin")
+          localize("injection.requireAdmin"),
+          localize("injection.action.tryAsAdmin")
         ))
       ) {
         reject("user cancelled");
